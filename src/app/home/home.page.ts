@@ -1,24 +1,35 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { IonDatetime, Events } from "@ionic/angular";
+
+import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from "@angular/fire/storage";
 
 import * as addDays from "date-fns/add_days";
 import * as isAfter from 'date-fns/is_after';
 import * as subDays from 'date-fns/sub_days';
+import * as startOfMonth from 'date-fns/start_of_month';
+
 import { ICategory } from '../shared/category.interface';
 import { categories } from '../shared/categories';
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Expense } from './expense.model';
+import { IExpense } from '../shared/expense.interface';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+
   @ViewChild('expenseDate')
   expenseDate: IonDatetime;
-  
-  // expense: IExpense = {
-  expense = {
+
+  cdo = new Date();
+  startOfMonth = startOfMonth(this.cdo);
+
+  expense: IExpense = {
     price: null,
     note: '',
     category: null,
@@ -36,16 +47,31 @@ export class HomePage {
 
   isWorking: boolean = false;
 
+  expCollRef: AngularFirestoreCollection<any> = this.afs.collection(
+    'expense',
+    ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
+  );
+  expenses: Observable<Expense[]>;
+
 
   constructor(
-    private events: Events
-  ){
+    private events: Events,
+    private afs: AngularFirestore,
+    private storage: AngularFireStorage
+  ) {
     Object.assign(this.categories, categories);
+  }
+
+  ngOnInit() {
+    this.expenses = this.expCollRef.valueChanges();
+    this.expenses.subscribe(resp => {
+      console.log(resp);
+      
+    })
   }
 
   public addItem(form: NgForm) {
     this.isWorking = true;
-
     this.events.subscribe('uploading:cancelled', () => {
       this.isWorking = false;
       this.events.unsubscribe('uploading:cancelled');
@@ -116,7 +142,7 @@ export class HomePage {
     if (isAfter(nextDay, new Date())) return;
     this.expenseDate.value = nextDay.toISOString();
   }
-  
+
   public subtractDay() {
     let tempDate = this.expense.date;
     this.expenseDate.value = subDays(tempDate, 1).toISOString();
