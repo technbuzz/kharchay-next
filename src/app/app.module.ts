@@ -1,57 +1,23 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-import { FormsModule } from '@angular/forms';
+import { RouteReuseStrategy } from '@angular/router';
 
-import { AngularFireModule } from "angularfire2";
-import { AngularFirestoreModule } from "angularfire2/firestore";
-import { AngularFireStorageModule } from "angularfire2/storage";
-import { environment } from "../environments/environment";
-import { LaddaModule } from "angular2-ladda";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ComponentsModule } from "../components/components.module";
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-
-
-
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { SettingsProvider } from '../providers/settings/settings';
-import { DirectivesModule } from '../directives/directives.module';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    DirectivesModule,
-    BrowserAnimationsModule,
-    ComponentsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    IonicModule.forRoot(MyApp),
-    LaddaModule.forRoot({
-      style:'expand-right',
-      spinnerColor: 'white'
-
-    })
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SettingsProvider
-  ]
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

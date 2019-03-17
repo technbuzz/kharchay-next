@@ -1,5 +1,0 @@
-<ion-item>
-	<input type="file" name="file" accept="image/*" #fileInput (change)="chooseFile($event)">
-	<small><= 1mb</small>
-</ion-item>
-<img [src]="imgsrc" height="150" *ngIf="selectedFiles" (swipe)="clearSelection($event)">

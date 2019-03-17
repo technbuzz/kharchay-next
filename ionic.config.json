@@ -1,10 +1,5 @@
 {
-  "name": "kharchay",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular",
-  "pro_id": "f307933c",
-  "id": "f307933c",
-  "app_id": ""
+  "name": "kharchay-next-blank",
+  "integrations": {},
+  "type": "angular"
 }
