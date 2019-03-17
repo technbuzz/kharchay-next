@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { IonDatetime, Events } from "@ionic/angular";
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
@@ -7,7 +7,11 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import * as addDays from "date-fns/add_days";
 import * as isAfter from 'date-fns/is_after';
 import * as subDays from 'date-fns/sub_days';
+import * as format from 'date-fns/format';
 import * as startOfMonth from 'date-fns/start_of_month';
+
+import { Flip } from "number-flip";
+
 
 import { ICategory } from '../shared/category.interface';
 import { categories } from '../shared/categories';
@@ -26,7 +30,11 @@ export class HomePage implements OnInit {
   @ViewChild('expenseDate')
   expenseDate: IonDatetime;
 
+  @ViewChild('flip', {read: ElementRef}) private flipTotal: ElementRef;
+
+
   cdo = new Date();
+  currentMonth = format(new Date(), 'MMMM');
   startOfMonth = startOfMonth(this.cdo);
 
   expense: IExpense = {
@@ -46,6 +54,11 @@ export class HomePage implements OnInit {
   dynamicPricing: boolean = true;
 
   isWorking: boolean = false;
+
+  total: number = 0;
+  flipAnim: any = '';
+
+
 
   expCollRef: AngularFirestoreCollection<any> = this.afs.collection(
     'expense',
@@ -68,6 +81,16 @@ export class HomePage implements OnInit {
       console.log(resp);
       
     })
+    this.expenses.subscribe((values) => {
+      new Promise((resolve, reject) => {
+        this.total = values.reduce((prev, current, index, array) => {
+          if(index === array.length - 1) resolve('😎');
+          return prev + Number(current.price);
+        }, 0);
+      }).then(resolve => {
+        this.flip(Math.round(this.total));        
+      }) //Promise
+    })//forEach
   }
 
   public addItem(form: NgForm) {
@@ -125,6 +148,21 @@ export class HomePage implements OnInit {
     this.expense.price = numberPrice.reduce((prev, item) => {
       return prev + Number(item);
     }, 0);
+  }
+
+  flip(to:number){
+    if(!this.flipAnim){
+      this.flipAnim = new Flip({
+        node: this.flipTotal.nativeElement,
+        from: 9999,
+        duration: 3,
+        delay: 3
+      })
+    }
+
+    this.flipAnim.flipTo({
+      to
+    })
   }
 
   populateSubCategory(category: ICategory) {

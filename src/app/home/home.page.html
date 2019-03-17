@@ -70,7 +70,24 @@
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
     <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-    <ion-button margin-right color="secondary" float-end (click)="navCtrl.push('SummaryChartPage')" type="button">Show Chart</ion-button>
+    <ion-button margin-right color="secondary" float-end (click)="navCtrl.push('SummaryChartPage')" type="button">Show
+      Chart</ion-button>
 
   </form>
+
+  <section>
+    <header>
+      <h2 padding-right>{{this.currentMonth}} </h2>
+      <h2 #flip></h2>
+    </header>
+
+    <ion-list>
+        <expense-item 
+        [expense]="item" 
+        (onDelete)="delete($event)"
+        *ngFor="let item of expenses | async"></expense-item>
+       
+      </ion-list>
+  </section>
+
 </ion-content>
