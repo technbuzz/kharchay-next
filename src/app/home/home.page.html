@@ -1,5 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="navCtrl.push('FilterPage')">
+        <ion-icon name="funnel" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="navCtrl.push('SearchPage')">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>
       Kharchay
     </ion-title>
@@ -7,6 +15,14 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <form>
+    <ion-list>
+      <!-- TODO:  <ion-item *ngIf="dynamicPricing else staticPricing"> -->
+      <ion-item>
+        <ion-label position="floating">Price</ion-label>
+        <ion-input required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
+        </ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>
