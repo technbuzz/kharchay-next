@@ -7,25 +7,31 @@ import { NavController } from '@ionic/angular';
   template: `
     <ion-item-sliding >
       <ion-item no-padding [attr.detail-push]="item.imageName" [attr.text-wrap]="item.details ? true : null" (click)="showDetails(item)">
-        <ion-avatar item-start *ngIf="item.imageUrl">
+        <ion-avatar slot="start" *ngIf="item.imageUrl">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>
-        <h2>{{item.price}}</h2>
-        <!-- For backward compatibility -->
-        <ion-badge *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
-        <ng-template #oldTitle>
-          <ion-badge>{{item.category}}</ion-badge>
-        </ng-template>
-        <!-- END For backward compatibility -->
 
-        <ion-badge *ngIf="item?.subCategory" color="danger">{{item?.subCategory}}</ion-badge>
-        <p>{{item.note}}</p>
-        <p item-end>{{item.date | date:"E, MMM d, y"}}</p>
+        <section class="inner-piece">
+          <h3>{{item.price}}</h3>
+          <div>
+            <!-- For backward compatibility -->
+            <ion-badge *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
+            <ng-template #oldTitle>
+              <ion-badge>{{item.category}}</ion-badge>
+            </ng-template>
+            <!-- END For backward compatibility -->
+  
+            <ion-badge *ngIf="item?.subCategory" color="danger">{{item?.subCategory}}</ion-badge>
+          </div>
+          <p class="ion-no-margin">{{item.note}}</p>
+        </section>
+
+        <p slot="end">{{item.date | date:"E, MMM d, y"}}</p>
       </ion-item>
-      <ion-item-options slide="right" *ngIf="!readonly">
-        <button ion-button color="danger" (click)="delete.emit(item)">Delete</button>
-      </ion-item-options>
 
+      <ion-item-options slide="start" *ngIf="!readonly">
+        <ion-item-option color="danger" (click)="delete.emit(item)">Delete</ion-item-option>
+      </ion-item-options>
     </ion-item-sliding>
   `
 })

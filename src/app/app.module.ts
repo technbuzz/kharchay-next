@@ -31,7 +31,7 @@ const config:FirebaseAppConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: FirestoreSettingsToken, useValue: {timestampsInSnapshots: false}},
+    { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

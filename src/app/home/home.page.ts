@@ -94,6 +94,7 @@ export class HomePage implements OnInit {
   }
 
   public addItem(form: NgForm) {
+  
     this.isWorking = true;
     this.events.subscribe('uploading:cancelled', () => {
       this.isWorking = false;
