@@ -15,14 +15,62 @@
 </ion-header>
 
 <ion-content padding>
-  <form>
+  <form (ngSubmit)="addItem(form)" #form="ngForm">
     <ion-list>
-      <!-- TODO:  <ion-item *ngIf="dynamicPricing else staticPricing"> -->
-      <ion-item>
-        <ion-label position="floating">Price</ion-label>
+      <ion-item *ngIf="dynamicPricing else staticPricing">
+        <ion-label>Price</ion-label>
         <ion-input required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
         </ion-input>
       </ion-item>
+      <ng-template #staticPricing>
+        <ion-item>
+          <ion-label>Price</ion-label>
+          <ion-input required type="number" name="price" min="0" [(ngModel)]="expense.price"></ion-input>
+        </ion-item>
+      </ng-template>
+
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime #expenseDate (swipeleft)="subtractDay()" (swiperight)="addDay()" name="date"
+          displayFormat="DDDD MMMM DD" pickerFormat="MMM DD, YYYY HH:mm" [(ngModel)]="expense.date" [max]="maxDate">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Choose Category</ion-label>
+              <ion-select interface="popover" required name="category"
+                (ionChange)="populateSubCategory(expense.category)" [(ngModel)]="expense.category">
+                <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="showSubCategory">
+            <ion-item>
+              <ion-label position="floating">Choose Sub Category</ion-label>
+              <ion-select interface="popover" required name="subCategory" [(ngModel)]="selectedSubCategory">
+                <ion-select-option [value]="subCat" *ngFor="let subCat of subCategories">{{subCat | titlecase}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item>
+        <ion-label position="floating">Note</ion-label>
+        <ion-input type="text" name="note" [(ngModel)]="expense.note"></ion-input>
+      </ion-item>
+
     </ion-list>
+
+
+    <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
+    <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
+    <ion-button margin-right color="secondary" float-end (click)="navCtrl.push('SummaryChartPage')" type="button">Show Chart</ion-button>
+
   </form>
 </ion-content>
