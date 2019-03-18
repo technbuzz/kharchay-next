@@ -15,6 +15,7 @@
 </ion-header>
 
 <ion-content padding>
+
   <form (ngSubmit)="addItem(form)" #form="ngForm">
     <ion-list>
       <ion-item *ngIf="dynamicPricing else staticPricing">
