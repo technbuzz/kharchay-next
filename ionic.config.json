@@ -1,5 +1,7 @@
 {
   "name": "kharchay-next-blank",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Events, Loading, LoadingController, AlertController } from '@ionic/angular';
+import { Events, LoadingController, AlertController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
-import { Subscription } from 'rxjs/Subscription';
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
 
 @Component({
@@ -16,7 +16,7 @@ export class ExpenseImageComponent {
   file: File;
   imgsrc;
   subscriptions: Subscription;
-  loader: Loading;
+  loader: any;
 
   constructor(
     private storage: AngularFireStorage,
@@ -35,12 +35,16 @@ export class ExpenseImageComponent {
         });
         return;
       }
-      this.loader = this.loadingCtrl.create({
-        content: 'Uploading Image, Please wait...'
-      });
-      this.loader.present();
       this.uploadPic();
     });
+  }
+  
+  async presentLoading () {
+    this.loader = this.loadingCtrl.create({
+      message: 'Uploading Image, Please wait...'
+    });
+    await this.loader.present();
+    
   }
 
   chooseFile(event) {
@@ -62,31 +66,35 @@ export class ExpenseImageComponent {
 
   }
 
-  clearSelection(event:SwipeBackGesture){
+  // FIXME: clearSelection(event:SwipeBackGesture){
+  clearSelection(event){
     this.nullify();
     
   }
 
-  uploadPic() {
+  async uploadPic() {
     if (this.selectedFiles.item(0)) {
       const file = this.selectedFiles.item(0);
       const uniqueKey = `pic${Math.floor(Math.random() * 10000)}`;
-      const uploadTask = this.storage.upload(`/receipts/${uniqueKey}`, file);
-
-      this.subscriptions = uploadTask.downloadURL().subscribe(
-        resp => {
-          this.imgsrc = resp;
+      try {
+        const ref = this.storage.ref(`/receipts-next/${uniqueKey}`)
+        const resp = await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
+        // this.imgsrc = ;
+        console.log('resp.downloadURL: ', ref.getDownloadURL());
+        ref.getDownloadURL().subscribe(resp => {
           this.events.publish('uploaded:image', {
             imageName: uniqueKey,
             imageUrl: resp
           });
-          this.loader.dismiss().then(x => this.nullify());
-        },
-        error => {
-          this.handleUploadError();
-          console.log('Upload Task Failed', error);
-        }
-      );
+        })
+        // FIXME: Fix the loading as the below line is throwing error
+        // this.loader.dismiss().then(x => this.nullify());
+      } catch (error) {
+        
+        this.handleUploadError();
+        console.log('Upload Task Failed', error);
+      } 
+      
     }
   }
 
@@ -98,15 +106,18 @@ export class ExpenseImageComponent {
   }
 
   async handleUploadError() {
-    this.loader.dismissAll();
-
-    const alert = this.alertCtrl.create({
+    this.loader && this.loader.dismissAll();
+    await this.presentErrorAlert();
+    this.events.publish('uploading:cancelled');
+  }
+  
+  async presentErrorAlert() {
+    const alert = await this.alertCtrl.create({
       header: 'Error!',
       subHeader: 'Something went wrong',
       buttons: ['Ok']
     });
+
     await alert.present();
-    
-    this.events.publish('uploading:cancelled');
   }
 }
