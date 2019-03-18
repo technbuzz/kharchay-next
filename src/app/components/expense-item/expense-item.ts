@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IExpense } from '../../shared/expense.interface';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'expense-item',
   template: `
     <ion-item-sliding >
-      <ion-item no-padding [attr.detail-push]="item.imageName" [attr.text-wrap]="item.details ? true : null" (click)="showDetails(item)">
+      <ion-item no-padding [attr.detail]="item.imageName" [attr.text-wrap]="item.details ? true : null" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageUrl">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>
@@ -40,12 +41,17 @@ export class ExpenseItemComponent{
   @Input() readonly: boolean = false;
   @Output('onDelete') delete = new EventEmitter();
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController,private router: Router) {
   }
   
   public showDetails(item: IExpense) {
     if (item.imageName) {
-      this.navCtrl.push('DetailsPage', { item });
+      this.router.navigate(['details'], {
+        queryParams: {
+          item: JSON.stringify(item)
+        }
+      })
+      // this.navCtrl.push('DetailsPage', { item });
     } else {
       item.details = !item.details;
     }

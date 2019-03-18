@@ -1,6 +1,7 @@
 import { ICategory } from "./category.interface";
 
 export interface IExpense {
+  id?: number|string,
   price: number,
   note: string,
   category: ICategory,

@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { IonDatetime, Events } from "@ionic/angular";
+import { IonDatetime, Events, AlertController } from "@ionic/angular";
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from "@angular/fire/storage";
@@ -70,6 +70,7 @@ export class HomePage implements OnInit {
   constructor(
     private events: Events,
     private afs: AngularFirestore,
+    private alertCtrl: AlertController,
     private storage: AngularFireStorage
   ) {
     Object.assign(this.categories, categories);
@@ -134,6 +135,37 @@ export class HomePage implements OnInit {
     // component publishes before home component have enough time to subscribe
     // to uploaded:image so event is missed
     this.events.publish('upload:image');
+  }
+
+  public async delete(item: Expense) {
+    // this.expCollRef.doc('yourid').delete();
+    const confirm = await this.alertCtrl.create({
+      subHeader: 'Do you really want to delete',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.expCollRef.doc(item.id).delete();
+            //FIXME: Refactor this subscription
+            if(!item.imageName) return;
+            this.storage
+              .ref(`receipts/${item.imageName}`)
+              .delete()
+              .subscribe(
+                resp => {
+                  console.log('resource deleted', resp);
+                },
+                error => console.log(error)
+              );
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   public calculate() {
