@@ -36,6 +36,7 @@ export class HomePage implements OnInit {
   cdo = new Date();
   currentMonth = format(new Date(), 'MMMM');
   startOfMonth = startOfMonth(this.cdo);
+  maxDate: string;
 
   expense: IExpense = {
     price: null,
@@ -77,6 +78,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.maxDate = this.cdo.toISOString().split('T')[0];
     this.expenses = this.expCollRef.valueChanges();
     this.expenses.subscribe(resp => {
       console.log(resp);

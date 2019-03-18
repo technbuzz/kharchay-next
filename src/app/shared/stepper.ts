@@ -1,22 +1,17 @@
-import addMonths from "date-fns/add_months";
-import subMonths from "date-fns/sub_months";
-import isAfter from "date-fns/is_after";
-import { DateTime } from "ionic-angular";
+import * as addMonths from "date-fns/add_months";
+import * as subMonths from "date-fns/sub_months";
+import * as isAfter from "date-fns/is_after";
+import { IonDatetime } from "@ionic/angular";
 
 export class Stepper {
-
-  constructor(){
-  }
-
-  addMonth(date, element:DateTime){
+  addMonth(date, element:IonDatetime){
     let nextMonth = addMonths(date, 1);
     if(isAfter(nextMonth, new Date())) return;
-    element.setValue(nextMonth.toISOString());
+    element.value = nextMonth.toISOString();
   }
   
-  subMonth(date, element:DateTime){
-    element.setValue(subMonths(date, 1).toISOString());
-    
+  subMonth(date, element:IonDatetime){
+    element.value = subMonths(date, 1).toISOString();
   }
 
 }

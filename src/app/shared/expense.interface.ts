@@ -9,4 +9,5 @@ export interface IExpense {
   details?: boolean,
   imageName: string,
   imageUrl: string
+  subCategory?: ICategory | string
 }
