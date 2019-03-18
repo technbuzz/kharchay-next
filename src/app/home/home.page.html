@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="primary">
-      <ion-button (click)="navCtrl.push('FilterPage')">
+      <ion-button routerLink="filter">
         <ion-icon name="funnel" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button (click)="navCtrl.push('SearchPage')">
+      <ion-button routerLink="/search">
         <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -72,7 +72,7 @@
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
     <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-    <ion-button margin-right color="secondary" float-end (click)="navCtrl.push('SummaryChartPage')" type="button">Show
+    <ion-button margin-right color="secondary" float-end routerLink="summary" type="button">Show
       Chart</ion-button>
 
   </form>
