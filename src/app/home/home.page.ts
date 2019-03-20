@@ -19,6 +19,7 @@ import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Expense } from './expense.model';
 import { IExpense } from '../shared/expense.interface';
+import { throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -84,7 +85,7 @@ export class HomePage implements OnInit {
       console.log(resp);
       
     })
-    this.expenses.subscribe((values) => {
+    this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
       new Promise((resolve, reject) => {
         this.total = values.reduce((prev, current, index, array) => {
           if(index === array.length - 1) resolve('😎');
@@ -118,9 +119,10 @@ export class HomePage implements OnInit {
         .then(docRef => {
           this.resetFields();
           this.isWorking = false;
-          this.expCollRef.doc(docRef.id).update({
-            id: docRef.id
-          })
+          // already happens on cloud function
+          // this.expCollRef.doc(docRef.id).update({
+          //   id: docRef.id
+          // })
 
           this.events.unsubscribe('uploaded:image');
         })

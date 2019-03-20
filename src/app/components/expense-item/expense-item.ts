@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'expense-item',
   template: `
-    <ion-item-sliding >
+    <ion-item-sliding [disabled]="!item.id">
       <ion-item no-padding [attr.detail]="item.imageName" [attr.text-wrap]="item.details ? true : null" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageUrl">
           <img src="./assets/imgs/placeholder.png">
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
         <p slot="end">{{item.date | date:"E, MMM d, y"}}</p>
       </ion-item>
 
-      <ion-item-options slide="start" *ngIf="!readonly">
+      <ion-item-options slide="start" *ngIf="!readonly" >
         <ion-item-option color="danger" (click)="delete.emit(item)">Delete</ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
