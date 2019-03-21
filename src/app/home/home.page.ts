@@ -229,4 +229,8 @@ export class HomePage implements OnInit {
     this.expense.note = '';
   }
 
+  trackByFn(index, item:IExpense){
+    return item.id
+  }
+
 }

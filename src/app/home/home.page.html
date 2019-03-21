@@ -88,7 +88,7 @@
         <expense-item 
         [expense]="item" 
         (onDelete)="delete($event)"
-        *ngFor="let item of expenses | async"></expense-item>
+        *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
        
       </ion-list>
   </section>
