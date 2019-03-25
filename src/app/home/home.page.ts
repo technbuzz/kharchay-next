@@ -133,7 +133,7 @@ export class HomePage implements OnInit {
         });
     });
 
-    //Ideally we should pulish upload:image event and than a image upload
+    // Ideally we should pulish upload:image event and than a image upload
     // should happen and then listen for uploaded:image but in the case
     // when there is no image than every thing happens so fast the image upload
     // component publishes before home component have enough time to subscribe

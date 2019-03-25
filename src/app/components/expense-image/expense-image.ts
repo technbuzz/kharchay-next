@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Events, LoadingController, AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { retryWhen } from 'rxjs/operators';
 
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
 
@@ -35,12 +36,13 @@ export class ExpenseImageComponent {
         });
         return;
       }
+      this.presentLoading()
       this.uploadPic();
     });
   }
   
   async presentLoading () {
-    this.loader = this.loadingCtrl.create({
+    this.loader = await this.loadingCtrl.create({
       message: 'Uploading Image, Please wait...'
     });
     await this.loader.present();
@@ -75,27 +77,41 @@ export class ExpenseImageComponent {
   async uploadPic() {
     if (this.selectedFiles.item(0)) {
       const file = this.selectedFiles.item(0);
-      const uniqueKey = `pic${Math.floor(Math.random() * 10000)}`;
-      try {
-        const ref = this.storage.ref(`/receipts-next/${uniqueKey}`)
-        const resp = await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
-        // this.imgsrc = ;
-        console.log('resp.downloadURL: ', ref.getDownloadURL());
-        ref.getDownloadURL().subscribe(resp => {
-          this.events.publish('uploaded:image', {
-            imageName: uniqueKey,
-            imageUrl: resp
-          });
-        })
-        // FIXME: Fix the loading as the below line is throwing error
-        // this.loader.dismiss().then(x => this.nullify());
-      } catch (error) {
+      const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`;
+      
+      // try {
+      //   const ref = this.storage.ref(`/receipts-next/${uniqueKey}`)
+      //   const resp = await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
+      //   // this.imgsrc = ;
+      //   console.log('resp.downloadURL: ', ref.getDownloadURL());
+      //   ref.getDownloadURL().subscribe(resp => {
+      //     this.events.publish('uploaded:image', {
+      //       imageName: uniqueKey,
+      //       imageUrl: resp
+      //     });
+      //   })
+      //   // FIXME: Fix the loading as the below line is throwing error
+      //   this.loader.dismiss();
+      //   this.loader.onDidDismiss().then(x=>this.nullify())
+      // } catch (error) {
         
-        this.handleUploadError();
-        console.log('Upload Task Failed', error);
-      } 
+      //   this.handleUploadError();
+      //   console.log('Upload Task Failed', error);
+      // } 
       
     }
+  }
+
+  async generateUnique(){
+    const testSet = new Set(['pic5189','pic5222','pic5429']).values();
+    
+    await this.storage.ref('/receipts/pic9999').getMetadata().subscribe(resp => {
+      console.log('pix5189 metadata resp: ', resp);
+      
+    }, error => {
+      console.log(error);
+      
+    })
   }
 
   nullify() {
@@ -106,7 +122,7 @@ export class ExpenseImageComponent {
   }
 
   async handleUploadError() {
-    this.loader && this.loader.dismissAll();
+    this.loader && this.loader.dismiss();
     await this.presentErrorAlert();
     this.events.publish('uploading:cancelled');
   }
