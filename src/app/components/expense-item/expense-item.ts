@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
   selector: 'expense-item',
   template: `
     <ion-item-sliding [disabled]="!item.id">
-      <ion-item no-padding [attr.detail]="item.imageName" [attr.text-wrap]="item.details ? true : null" (click)="showDetails(item)">
+      <ion-item no-padding [attr.detail]="item.imageName" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageUrl">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>
 
-        <section class="inner-piece">
-          <h3>{{item.price}}</h3>
+        <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
+          <h5>{{item.price}}</h5>
           <div>
             <!-- For backward compatibility -->
             <ion-badge *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
