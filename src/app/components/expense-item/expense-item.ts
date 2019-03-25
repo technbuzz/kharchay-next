@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
         </ion-avatar>
 
         <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
-          <h5>{{item.price}}</h5>
+          <small>{{item.date | date:"E, MMM d, y"}}</small>
+
           <div>
             <!-- For backward compatibility -->
             <ion-badge *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
@@ -27,14 +28,22 @@ import { Router } from '@angular/router';
           <p class="ion-no-margin">{{item.note}}</p>
         </section>
 
-        <p slot="end">{{item.date | date:"E, MMM d, y"}}</p>
+        <h3 slot="end">{{item.price}}</h3>
+
       </ion-item>
 
       <ion-item-options slide="start" *ngIf="!readonly" >
         <ion-item-option color="danger" (click)="delete.emit(item)">Delete</ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  `
+  `,
+  styles: [
+    `
+      small {
+        line-height: 2
+      }
+    `
+  ]
 })
 export class ExpenseItemComponent{
   @Input('expense') item: IExpense;

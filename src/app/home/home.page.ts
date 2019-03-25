@@ -33,7 +33,6 @@ export class HomePage implements OnInit {
 
   @ViewChild('flip', {read: ElementRef}) private flipTotal: ElementRef;
 
-
   cdo = new Date();
   currentMonth = format(new Date(), 'MMMM');
   startOfMonth = startOfMonth(this.cdo);
@@ -83,7 +82,6 @@ export class HomePage implements OnInit {
     this.expenses = this.expCollRef.valueChanges();
     this.expenses.subscribe(resp => {
       console.log(resp);
-      
     })
     this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
       new Promise((resolve, reject) => {
