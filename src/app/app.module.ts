@@ -12,6 +12,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
+import { ComponentsModule } from './components/components.module';
 
 const config:FirebaseAppConfig = {
   
@@ -22,6 +23,7 @@ const config:FirebaseAppConfig = {
   entryComponents: [],
   imports: [
     BrowserModule, 
+    ComponentsModule,
     IonicModule.forRoot(), 
     AppRoutingModule, 
     AngularFireModule.initializeApp(environment.firebase), 
