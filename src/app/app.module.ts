@@ -38,4 +38,7 @@ const config:FirebaseAppConfig = {
   ],
   bootstrap: [AppComponent]
 })
+
+
+
 export class AppModule { }
