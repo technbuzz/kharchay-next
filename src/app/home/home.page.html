@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header >
+  <ion-toolbar color="primary" app-stream>
     <ion-buttons slot="primary">
       <ion-button routerLink="/filter">
         <ion-icon name="funnel" slot="icon-only"></ion-icon>
@@ -15,8 +15,7 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding >
   <form (ngSubmit)="addItem(form)" #form="ngForm">
     <ion-list>
       <ion-item *ngIf="dynamicPricing else staticPricing">

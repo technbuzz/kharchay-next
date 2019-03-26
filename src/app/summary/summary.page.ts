@@ -14,8 +14,8 @@ import { PieComponent } from '../components/pie/pie';
   templateUrl: './summary.page.html',
   styleUrls: ['./summary.page.scss'],
 })
-export class SummaryPage  extends Stepper implements OnInit {
-  @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
+export class SummaryPage extends Stepper implements OnInit {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
   month = new Date().toISOString();
   loading: boolean = true;
@@ -27,13 +27,13 @@ export class SummaryPage  extends Stepper implements OnInit {
     private resolver: ComponentFactoryResolver
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.loadBasic()
   }
 
-  loadBasic(){
+  loadBasic() {
     const basicStartMonth = startOfMonth(this.month);
     const basicEndMonth = endOfMonth(this.month);
 
@@ -52,26 +52,26 @@ export class SummaryPage  extends Stepper implements OnInit {
   }
 
   generateDataForChart(values) {
-   
+
     let chartData = []
     let chartLabels = [];
     let grouped;
-    console.log({values});
+    console.log({ values });
 
     // Previously for format like {category:'food'}
     // grouped = lodash.groupBy(values, ('category.title'));
 
     // FIXME: Replace lodash with groupBy rxjs function
     // Backward compat becuse new format is {category:{title:'food'}}
-    grouped = groupBy(values, (item)=>{return item.category.title ? item.category.title : item.category});
-    console.log({grouped});
-    
+    grouped = groupBy(values, (item) => { return item.category.title ? item.category.title : item.category });
+    console.log({ grouped });
+
     forIn(grouped, (value, key, item) => {
       chartLabels.push(key.toUpperCase());
       chartData.push(reduce(
-        value,(sum, n) => {
+        value, (sum, n) => {
           return sum + Number(n.price);
-        },0))
+        }, 0))
     });
 
     this.container.clear();
@@ -79,14 +79,14 @@ export class SummaryPage  extends Stepper implements OnInit {
     const componentRef = this.container.createComponent(factory);
 
     console.log(chartLabels);
-    
+
 
     componentRef.instance.doughnutChartData = chartData;
     componentRef.instance.doughnutChartLabels = chartLabels;
     // componentRef.instance.chartClicked.subscribe((event, item) => {
     //   console.log(event);
     //   console.log(item);
-      
+
     // })
   }
 

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { Expense } from './expense.model';
 import { IExpense } from '../shared/expense.interface';
 import { throttleTime } from 'rxjs/operators';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-home',
@@ -72,12 +73,25 @@ export class HomePage implements OnInit {
     private events: Events,
     private afs: AngularFirestore,
     private alertCtrl: AlertController,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private settingService: SettingsService
   ) {
     Object.assign(this.categories, categories);
   }
 
   ngOnInit() {
+    
+    this.settingService.getConfig().subscribe(initialSettings => {
+      this.dynamicPricing = initialSettings;
+    })
+
+    // dynamicPricing event management
+    this.events.subscribe('dynamic:Pricing', (boolean) => {
+      console.log('dynamicPricing event', boolean);
+      this.dynamicPricing = boolean;
+    })
+
+
     this.maxDate = this.cdo.toISOString().split('T')[0];
     this.expenses = this.expCollRef.valueChanges();
     this.expenses.subscribe(resp => {

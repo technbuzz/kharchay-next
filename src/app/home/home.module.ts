@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { ComponentsModule } from '../components/components.module';
+import { StreamDirective } from '../shared/stream.directive';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { ComponentsModule } from '../components/components.module';
       }
     ])
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, StreamDirective]
 })
 export class HomePageModule {}
