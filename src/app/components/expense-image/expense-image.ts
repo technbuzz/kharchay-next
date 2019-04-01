@@ -79,25 +79,26 @@ export class ExpenseImageComponent {
       const file = this.selectedFiles.item(0);
       const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`;
       
-      // try {
-      //   const ref = this.storage.ref(`/receipts-next/${uniqueKey}`)
-      //   const resp = await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
-      //   // this.imgsrc = ;
-      //   console.log('resp.downloadURL: ', ref.getDownloadURL());
-      //   ref.getDownloadURL().subscribe(resp => {
-      //     this.events.publish('uploaded:image', {
-      //       imageName: uniqueKey,
-      //       imageUrl: resp
-      //     });
-      //   })
-      //   // FIXME: Fix the loading as the below line is throwing error
-      //   this.loader.dismiss();
-      //   this.loader.onDidDismiss().then(x=>this.nullify())
-      // } catch (error) {
+      try {
+        const ref = this.storage.ref(`/receipts-next/${uniqueKey}`)
+        const webPref = this.storage.ref(`/receipts-next/webp${uniqueKey}`)
+        const resp = await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
+        // this.imgsrc = ;
+        console.log('resp.downloadURL: ', ref.getDownloadURL());
+        webPref.getDownloadURL().subscribe(resp => {
+          this.events.publish('uploaded:image', {
+            imageName: `webp${uniqueKey}`,
+            imageUrl: resp
+          });
+        })
+        // FIXME: Fix the loading as the below line is throwing error
+        this.loader.dismiss();
+        this.loader.onDidDismiss().then(x=>this.nullify())
+      } catch (error) {
         
-      //   this.handleUploadError();
-      //   console.log('Upload Task Failed', error);
-      // } 
+        this.handleUploadError();
+        console.log('Upload Task Failed', error);
+      } 
       
     }
   }
