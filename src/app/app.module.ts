@@ -12,8 +12,9 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const config:FirebaseAppConfig = {
   
@@ -30,7 +31,7 @@ const config:FirebaseAppConfig = {
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase), 
     AngularFirestoreModule, 
-    AngularFireStorageModule
+    AngularFireStorageModule, ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
   ],
   providers: [
     StatusBar,
