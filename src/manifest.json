@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "short_name": "app",
-  "theme_color": "#1976d2",
+  "name": "Kharchay Nxt PWA",
+  "short_name": "Kharchay PWA",
+  "theme_color": "#488AFF",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
