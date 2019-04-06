@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Month</ion-label>
+      <ion-datetime 
+      #expenseMonth
+      (ionChange)="loadBasic()" 
+      name="month" 
+      displayFormat="MMM YYYY" 
+      pickerFormat="MMM YYYY" 
+      [(ngModel)]="month" 
+      (swipeRight)="addMonth(month, expenseMonth)"
+      (swipeLeft)="subMonth(month, expenseMonth)"
+      placeholder="Select Month"></ion-datetime>
+    </ion-item>
+  </ion-list>
+
+  <div #container></div>
+</ion-content>

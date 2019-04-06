@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Filter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="searchType">
+    <ion-segment-button value="basic">
+      Basic
+    </ion-segment-button>
+    <ion-segment-button value="advanced">
+      Advanced
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="searchType">
+    <ion-list *ngSwitchCase="'basic'" no-margin>
+      <ion-item>
+        <ion-label floating>Month</ion-label>
+        <ion-datetime #expenseMonth (ionChange)="loadBasic()" name="month" displayFormat="MMM YYYY"
+          pickerFormat="MMM YYYY" (swipeRight)="addMonth(filter.month, expenseMonth)"
+          (swipeLeft)="subMonth(filter.month, expenseMonth)" [(ngModel)]="filter.month"></ion-datetime>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-list *ngSwitchCase="'advanced'" no-margin>
+      <ion-item>
+        <ion-label floating>Start Date</ion-label>
+        <ion-datetime (ionChange)="loadResults({})" name="startDate" displayFormat="MMM DD, YYYY"
+          pickerFormat="MMM DD, YYYY" [(ngModel)]="filter.startDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>End Date</ion-label>
+        <ion-datetime (ionChange)="loadResults({})" name="endDate" displayFormat="MMM DD, YYYY"
+          pickerFormat="MMM DD, YYYY" [(ngModel)]="filter.endDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Choose Category</ion-label>
+        <ion-select interface="popover" required name="category" [(ngModel)]="filter.category" (ionChange)="loadResults({})">
+          <ion-select-option [value]="cat" *ngFor="let cat of categories">
+            {{cat.title | titlecase}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+  <ion-list padding-horizontal>
+      <h4>Total: {{total | number: '2.2-2'}}</h4>
+
+      <expense-item 
+      [expense]="item" 
+      [readonly]="true"
+      *ngFor="let item of expenses$ | async"></expense-item>
+   
+  </ion-list>
+</ion-content>
