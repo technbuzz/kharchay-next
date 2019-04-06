@@ -27,9 +27,9 @@ const config:FirebaseAppConfig = {
     ComponentsModule,
     IonicModule.forRoot(), 
     AppRoutingModule, 
+    AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase), 
     AngularFirestoreModule, 
-    AngularFireAuthModule,
     AngularFireStorageModule
   ],
   providers: [

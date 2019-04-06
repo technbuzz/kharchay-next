@@ -8,7 +8,6 @@ import { HomePage } from './home.page';
 import { ComponentsModule } from '../components/components.module';
 import { StreamDirective } from '../shared/stream.directive';
 
-
 @NgModule({
   imports: [
     CommonModule,
