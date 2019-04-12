@@ -15,18 +15,18 @@
 </ion-header>
 
 
-<ion-content padding >
+<ion-content padding-small >
   <form (ngSubmit)="addItem(form)" #form="ngForm">
     <ion-list>
       <ion-item *ngIf="dynamicPricing else staticPricing">
         <ion-label>Price</ion-label>
-        <ion-input required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
+        <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
         </ion-input>
       </ion-item>
       <ng-template #staticPricing>
         <ion-item>
           <ion-label>Price</ion-label>
-          <ion-input required type="number" name="price" min="0" [(ngModel)]="expense.price"></ion-input>
+          <ion-input slot="end" required inputmode="numeric" name="price" min="0" [(ngModel)]="expense.price"></ion-input>
         </ion-item>
       </ng-template>
 
@@ -39,7 +39,7 @@
 
       <ion-grid no-padding>
         <ion-row>
-          <ion-col>
+          <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
               <ion-label position="floating">Choose Category</ion-label>
               <ion-select interface="popover" required name="category"
@@ -72,13 +72,15 @@
 
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
-    <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-    <ion-button margin-right color="secondary" float-end routerLink="/summary" type="button">Show
-      Chart</ion-button>
+    <div padding-small>
+      <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
+      <ion-button margin-right color="secondary" float-end routerLink="/summary" type="button">Show
+        Chart</ion-button>
+    </div>
 
   </form>
 
-  <section>
+  <section padding-small>
     <header>
       <h2 padding-right>{{this.currentMonth}} </h2>
       <h2 #flip></h2>
