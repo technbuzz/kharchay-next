@@ -13,11 +13,11 @@ ion-grid{
     padding-top: 0;
     padding-bottom:0;
 
-    &:first{
+    &:first-child{
       padding-left: 0;
     }
 
-    &:last{
+    &:last-child{
       padding-right: 0;
     }
   }
