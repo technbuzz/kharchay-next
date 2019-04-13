@@ -9,22 +9,22 @@ import { Router } from '@angular/router';
   template: `
     <ion-item-sliding [disabled]="!item.id">
       <ion-item no-padding [attr.detail]="item.imageName" (click)="showDetails(item)">
-        <ion-avatar slot="start" *ngIf="item.imageUrl">
+        <ion-avatar slot="start" *ngIf="item.imageName">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>
 
         <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
-          <small>{{item.date | date:"E, MMM d, y"}}</small>
+          <small>{{item.date | date:"MMM d"}}</small>
 
           <div>
             <!-- For backward compatibility -->
-            <ion-badge *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
+            <ion-badge color="light" *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
             <ng-template #oldTitle>
               <ion-badge>{{item.category}}</ion-badge>
             </ng-template>
             <!-- END For backward compatibility -->
   
-            <ion-badge *ngIf="item?.subCategory" color="danger">{{item?.subCategory}}</ion-badge>
+            <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory}}</ion-badge>
           </div>
           <p class="ion-no-margin">{{item.note}}</p>
         </section>
@@ -42,6 +42,9 @@ import { Router } from '@angular/router';
     `
       small {
         line-height: 2
+      }
+      ion-badge{
+        margin-right: 5px;
       }
     `
   ]
