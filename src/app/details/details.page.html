@@ -8,7 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+
+  <ng-template #loading>
+    <div class="ion-margin-top" text-center>
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+  
+  <ion-card *ngIf="loaded else loading">
     <img [src]="expense.imageUrl || './assets/imgs/placeholder.png'" imageViewer="expense.imageUrl"/>
     <ion-card-content>
       <ion-card-title>

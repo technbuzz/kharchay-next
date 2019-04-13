@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
           subCategory: this.showSubCategory ? this.selectedSubCategory : null,
           date: new Date(this.expense.date),
           imageName,
-          imageUrl
+          // imageUrl
         })
         .then(docRef => {
           this.resetFields();

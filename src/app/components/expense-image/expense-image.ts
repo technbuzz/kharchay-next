@@ -80,19 +80,19 @@ export class ExpenseImageComponent {
       const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`;
       
       try {
-        const ref = this.storage.ref(`/receipts/${uniqueKey}`)
-        const webPref = this.storage.ref(`/receipts/webp${uniqueKey}`)
-        await this.storage.upload(`/receipts/${uniqueKey}`, file);
+        // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
+        const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
+        await this.storage.upload(`/receipts-next/${uniqueKey}`, file);
         // // this.imgsrc = ;
-        webPref.getDownloadURL().subscribe(resp => {
-          console.log('getDownloadURL', resp);
+        // webPref.getDownloadURL().subscribe(resp => {
+        //   console.log('getDownloadURL', resp);
           this.events.publish('uploaded:image', {
-            imageName: `webp${uniqueKey}`,
-            imageUrl: resp
+            imageName: `opt${uniqueKey}`,
+            // imageUrl: resp
           });
-        }, error => {
-          console.log(error)
-        })
+        // }, error => { 
+        //   console.log(error)
+        // })
         // FIXME: Fix the loading as the below line is throwing error
         this.loader.dismiss();
         this.loader.onDidDismiss().then(x=>this.nullify())
