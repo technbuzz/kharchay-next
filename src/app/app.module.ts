@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { MyHammerConfig } from './shared/hammerConfig';
 
 const config:FirebaseAppConfig = {
   
@@ -37,7 +38,8 @@ const config:FirebaseAppConfig = {
     StatusBar,
     SplashScreen,
     { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}
   ],
   bootstrap: [AppComponent]
 })
