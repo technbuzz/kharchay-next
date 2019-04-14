@@ -17,7 +17,7 @@
 
 <ion-content padding-small >
   <form (ngSubmit)="addItem(form)" #form="ngForm">
-    <ion-list>
+    <ion-list class="ion-no-padding">
       <ion-item *ngIf="dynamicPricing else staticPricing">
         <ion-label>Price</ion-label>
         <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
@@ -72,26 +72,25 @@
 
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
-    <div padding-small>
+    <div padding-small-horizontal>
       <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-      <ion-button margin-right color="secondary" float-end routerLink="/summary" type="button">Show
+      <ion-button margin-right color="secondary" float-end routerLink="/summary" routerDirection="forward" type="button">Show
         Chart</ion-button>
     </div>
 
   </form>
 
-  <section padding>
+  <section padding-horizontal >
     <header>
       <h2>{{this.currentMonth}} </h2>
       <h2 #flip></h2>
     </header>
 
-    <ion-list>
+    <ion-list class="ion-no-padding">
         <expense-item 
         [expense]="item" 
         (onDelete)="delete($event)"
         *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
-       
       </ion-list>
   </section>
 

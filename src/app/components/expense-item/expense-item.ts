@@ -46,6 +46,10 @@ import { Router } from '@angular/router';
       ion-badge{
         margin-right: 5px;
       }
+      ion-item{
+        --inner-padding-top: 0.35rem;
+        --inner-padding-bottom: 0.35rem;
+      }
     `
   ]
 })
