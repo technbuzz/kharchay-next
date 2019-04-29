@@ -23,8 +23,21 @@ export class AppComponent {
       this.statusBar.backgroundColorByHexString("#488AFF");
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-
+      this.registerBroadcast();
     });
+  }
+
+  private registerBroadcast() {
+    debugger
+    window['plugins'].intentShim.registerBroadcastReceiver({
+      filterActions: [
+        'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
+      ]
+    },
+      function (intent) {
+        //  Broadcast received
+        console.log('Received Intent: ' + JSON.stringify(intent.extras));
+      }
+    );
   }
 }
