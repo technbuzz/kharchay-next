@@ -21,6 +21,6 @@ import { StreamDirective } from '../shared/stream.directive';
       }
     ])
   ],
-  declarations: [HomePage, StreamDirective]
+  declarations: [HomePage, StreamDirective],
 })
 export class HomePageModule {}

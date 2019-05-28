@@ -21,6 +21,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="AndroidLaunchMode" value="singleTask" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -83,5 +84,4 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="com-darryncampbell-cordova-plugin-intent" spec="^1.1.6" />
-    <engine name="android" spec="7.1.4" />
 </widget>
