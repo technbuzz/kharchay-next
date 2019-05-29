@@ -1,10 +1,10 @@
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core'
+import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
 import { Events, LoadingController, AlertController } from '@ionic/angular'
 import { Subscription } from 'rxjs'
 import { retryWhen } from 'rxjs/operators'
 import { UtilsService } from 'src/app/services/utils.service'
-import { File as IonicFileService, FileReader as IonicFileReader } from '@ionic-native/file/ngx'
+import { File as IonicFileService, FileReader as IonicFileReader, IFile } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
 
 
@@ -12,12 +12,14 @@ import { FilePath } from '@ionic-native/file-path/ngx'
 
 @Component({
   selector: 'expense-image',
-  templateUrl: 'expense-image.html'
+  templateUrl: 'expense-image.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseImageComponent implements OnInit {
   @ViewChild('fileInput')
-  fileInput: ElementRef
+  fileInput: ElementRef;
   selectedFiles: FileList
+  intentFileReady: boolean = false;
   file: File
   imgsrc
   subscriptions: Subscription
@@ -30,7 +32,8 @@ export class ExpenseImageComponent implements OnInit {
     private alertCtrl: AlertController,
     private utils: UtilsService,
     private fileService: IonicFileService,
-    private filePath: FilePath
+    private filePath: FilePath,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit () {
@@ -44,24 +47,19 @@ export class ExpenseImageComponent implements OnInit {
         return
       }
       this.presentLoading()
-      this.uploadPic()
+      if (this.selectedFiles.item(0)) {
+        this.uploadPic(this.selectedFiles.item(0))
+      }
     })
 
     this.utils.image.subscribe(async (resp:any) => {
       const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM']);
-      const resolvedFSUrl = await this.fileService.resolveLocalFilesystemUrl(resolvedPath);
-      debugger
-
-      this.renderFile(resolvedFSUrl.nativeURL);
-      // this.fileService.readAsDataURL(resolvedFSUrl.nativeURL, 'myFile').then(dataURL => 
-      //   console.log(dataURL)
-      // ).catch(error => {
-      //   console.log(error)
-      // })
-
-
+      const resolvedFSUrl: FileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as FileEntry
+      const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
       
-      console.log(resp)
+      const result = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
+
+      this.renderFile(result)
     })
   }
 
@@ -79,31 +77,20 @@ export class ExpenseImageComponent implements OnInit {
   }
 
   renderFile(file){
-    debugger
     const reader = new FileReader()
 
-
     reader.onloadend = (event) => {
-      if(reader.error){
+      if (reader.error) {
         console.log(reader.error)
       } else {
         this.imgsrc = reader.result
+        this.intentFileReady = true
+        this.cdRef.detectChanges()
         console.log(reader.result)
       }
     }
 
     reader.readAsDataURL(file)
-    
-    // reader.addEventListener('load', x => {
-    //   this.imgsrc = reader.result
-    //   console.log(x)
-
-    // })
-
-    // if(file){
-    //   reader.readAsDataURL(file)
-    // }
-
   }
 
   // FIXME: clearSelection(event:SwipeBackGesture){
@@ -111,35 +98,33 @@ export class ExpenseImageComponent implements OnInit {
     this.nullify()
   }
 
-  async uploadPic() {
-    if (this.selectedFiles.item(0)) {
-      const file = this.selectedFiles.item(0)
-      const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
+  async uploadPic(file) {
+    debugger
+    const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
 
-      try {
-        // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
-        const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
-        await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-        // // this.imgsrc = ;
-        // webPref.getDownloadURL().subscribe(resp => {
-        //   console.log('getDownloadURL', resp);
-          this.events.publish('uploaded:image', {
-            imageName: `opt${uniqueKey}`,
-            // imageUrl: resp
-          })
-        // }, error => { 
-        //   console.log(error)
-        // })
-        // FIXME: Fix the loading as the below line is throwing error
-        this.loader.dismiss()
-        this.loader.onDidDismiss().then(x=>this.nullify())
-      } catch (error) {
+    try {
+      // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
+      const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
+      await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
+      // // this.imgsrc = ;
+      // webPref.getDownloadURL().subscribe(resp => {
+      //   console.log('getDownloadURL', resp);
+        this.events.publish('uploaded:image', {
+          imageName: `opt${uniqueKey}`,
+          // imageUrl: resp
+        })
+      // }, error => { 
+      //   console.log(error)
+      // })
+      // FIXME: Fix the loading as the below line is throwing error
+      this.loader.dismiss()
+      this.loader.onDidDismiss().then(x => this.nullify())
+    } catch (error) {
 
-        this.handleUploadError()
-        console.log('Upload Task Failed', error)
-      }
-
+      this.handleUploadError()
+      console.log('Upload Task Failed', error)
     }
+
   }
 
   async generateUnique(){
