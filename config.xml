@@ -3,7 +3,7 @@
     <name>Kharchay Next</name>
     <description>Personal Expense Mangement app.</description>
     <author email="samiullah.khan.1989@gmail.com" href="http://technbuzz.com/">Samiullah</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://172.17.10.53:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -84,4 +84,6 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="com-darryncampbell-cordova-plugin-intent" spec="^1.1.6" />
+    <allow-navigation href="http://172.17.10.53:8101" sessionid="fda812b4" />
+    <engine name="android" spec="8.0.0" />
 </widget>

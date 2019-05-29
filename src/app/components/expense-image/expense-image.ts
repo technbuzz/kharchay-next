@@ -4,7 +4,7 @@ import { Events, LoadingController, AlertController } from '@ionic/angular'
 import { Subscription } from 'rxjs'
 import { retryWhen } from 'rxjs/operators'
 import { UtilsService } from 'src/app/services/utils.service'
-import { File } from '@ionic-native/file/ngx'
+import { File as IonicFileService, FileReader as IonicFileReader } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
 
 
@@ -29,7 +29,8 @@ export class ExpenseImageComponent implements OnInit {
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private utils: UtilsService,
-    private fileService: FilePath
+    private fileService: IonicFileService,
+    private filePath: FilePath
   ) {}
 
   ngOnInit () {
@@ -46,23 +47,20 @@ export class ExpenseImageComponent implements OnInit {
       this.uploadPic()
     })
 
-    this.utils.image.subscribe((resp:any) => {
+    this.utils.image.subscribe(async (resp:any) => {
+      const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM']);
+      const resolvedFSUrl = await this.fileService.resolveLocalFilesystemUrl(resolvedPath);
       debugger
-      this.fileService.resolveNativePath(resp['android.intent.extra.STREAM']).then(resp => {
-        console.log(resp)
-        
-      }).catch(error => {
-        console.log(error)
-        
-      })
 
-
-      
-      // this.fileService.readAsDataURL(resp['android.intent.extra.STREAM'],'myFile').then(dataURL => 
+      this.renderFile(resolvedFSUrl.nativeURL);
+      // this.fileService.readAsDataURL(resolvedFSUrl.nativeURL, 'myFile').then(dataURL => 
       //   console.log(dataURL)
       // ).catch(error => {
       //   console.log(error)
       // })
+
+
+      
       console.log(resp)
     })
   }
@@ -81,16 +79,30 @@ export class ExpenseImageComponent implements OnInit {
   }
 
   renderFile(file){
+    debugger
     const reader = new FileReader()
-    reader.addEventListener('load', x => {
-      this.imgsrc = reader.result
-      console.log(x)
 
-    })
 
-    if(file){
-      reader.readAsDataURL(file)
+    reader.onloadend = (event) => {
+      if(reader.error){
+        console.log(reader.error)
+      } else {
+        this.imgsrc = reader.result
+        console.log(reader.result)
+      }
     }
+
+    reader.readAsDataURL(file)
+    
+    // reader.addEventListener('load', x => {
+    //   this.imgsrc = reader.result
+    //   console.log(x)
+
+    // })
+
+    // if(file){
+    //   reader.readAsDataURL(file)
+    // }
 
   }
 
