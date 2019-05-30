@@ -40,14 +40,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   ngOnInit () {
     // FIXME: refactor subscription
     this.events.subscribe('upload:image', () => {
-      debugger
-      // if (!this.selectedFiles) {
-      //   this.events.publish('uploaded:image', {
-      //     imageName: null,
-      //     imageUrl: null
-      //   })
-      //   return
-      // }
       if (this.selectedFiles) {
         this.presentLoading()
         this.uploadPic(this.selectedFiles.item(0))
@@ -63,15 +55,20 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     })
 
     this.utils.image.subscribe(async (resp:any) => {
-      const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM'])
-      const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry
+      try {
+        const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM'])
+        const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry
 
-      const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
+        const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
 
-      this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
-      this.imgsrc = await this.renderFile(this.intentBlob)
-      this.intentFileAvailable = true
-      this.cdRef.detectChanges()
+        this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
+        this.imgsrc = await this.renderFile(this.intentBlob)
+        this.intentFileAvailable = true
+        this.cdRef.detectChanges()
+      } catch (error) {
+        console.log(error)
+        
+      }
     })
   }
 
