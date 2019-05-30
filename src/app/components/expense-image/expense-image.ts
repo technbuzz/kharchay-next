@@ -1,10 +1,11 @@
-import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
+import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
 import { Events, LoadingController, AlertController } from '@ionic/angular'
-import { Subscription } from 'rxjs'
+import { Subscription, ReplaySubject } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
+import { skipUntil } from 'rxjs/operators';
 
 
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
@@ -14,15 +15,15 @@ import { FilePath } from '@ionic-native/file-path/ngx'
   templateUrl: 'expense-image.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExpenseImageComponent implements OnInit {
+export class ExpenseImageComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput')
   fileInput: ElementRef;
   selectedFiles: FileList
   intentFileAvailable: boolean = false;
-  intentBlob: Blob;
+  private intentBlob: Blob;
   file: File
   imgsrc
-  subscriptions: Subscription
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   loader: HTMLIonLoadingElement
 
   constructor(
@@ -147,7 +148,6 @@ export class ExpenseImageComponent implements OnInit {
     this.intentFileAvailable = false
     this.imgsrc = null
     this.cdRef.detectChanges()
-    this.subscriptions && this.subscriptions.unsubscribe()
   }
 
   async handleUploadError() {
@@ -164,5 +164,10 @@ export class ExpenseImageComponent implements OnInit {
     })
 
     await alert.present()
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true)
+    this.destroyed$.complete()
   }
 }
