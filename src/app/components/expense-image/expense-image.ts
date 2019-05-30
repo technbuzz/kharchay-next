@@ -23,7 +23,7 @@ export class ExpenseImageComponent implements OnInit {
   file: File
   imgsrc
   subscriptions: Subscription
-  loader: any
+  loader: HTMLIonLoadingElement
 
   constructor(
     private storage: AngularFireStorage,
@@ -40,16 +40,24 @@ export class ExpenseImageComponent implements OnInit {
     // FIXME: refactor subscription
     this.events.subscribe('upload:image', () => {
       debugger
-      if (!this.intentFileAvailable) {
+      // if (!this.selectedFiles) {
+      //   this.events.publish('uploaded:image', {
+      //     imageName: null,
+      //     imageUrl: null
+      //   })
+      //   return
+      // }
+      if (this.selectedFiles) {
+        this.presentLoading()
+        this.uploadPic(this.selectedFiles.item(0))
+      } else if (this.intentFileAvailable) {
+        this.uploadPic(this.intentBlob)
+      } else {
         this.events.publish('uploaded:image', {
           imageName: null,
           imageUrl: null
         })
         return
-      }
-      this.presentLoading()
-      if (this.selectedFiles.item(0)) {
-        this.uploadPic(this.selectedFiles.item(0))
       }
     })
 
@@ -61,6 +69,7 @@ export class ExpenseImageComponent implements OnInit {
 
       this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
       this.imgsrc = await this.renderFile(this.intentBlob)
+      this.intentFileAvailable = true
       this.cdRef.detectChanges()
     })
   }
@@ -70,14 +79,13 @@ export class ExpenseImageComponent implements OnInit {
       message: 'Uploading Image, Please wait...'
     })
     await this.loader.present()
-    
   }
   
   async chooseFile(event) {
     this.selectedFiles = event.target.files
     const DataURL = await this.renderFile(this.selectedFiles.item(0))
     this.imgsrc = DataURL
-    this.cdRef.detectChanges() //might not needed
+    this.cdRef.detectChanges()
   }
 
   renderFile(file): Promise<any> {
@@ -90,9 +98,6 @@ export class ExpenseImageComponent implements OnInit {
           console.log(reader.error)
         } else {
           resolve(reader.result)
-          // this.imgsrc = reader.result
-          // this.intentFileAvailable = true
-          // console.log(reader.result)
         }
       }
 
@@ -135,22 +140,13 @@ export class ExpenseImageComponent implements OnInit {
 
   }
 
-  async generateUnique(){
-    const testSet = new Set(['pic5189','pic5222','pic5429']).values()
-
-    await this.storage.ref('/receipts/pic9999').getMetadata().subscribe(resp => {
-      console.log('pix5189 metadata resp: ', resp)
-    }, error => {
-      console.log(error)
-    })
-  }
-
   nullify() {
     debugger
     this.selectedFiles = null
     this.fileInput.nativeElement.value = ''
     this.intentFileAvailable = false
-    this.imgsrc = ''
+    this.imgsrc = null
+    this.cdRef.detectChanges()
     this.subscriptions && this.subscriptions.unsubscribe()
   }
 
