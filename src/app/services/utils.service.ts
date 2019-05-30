@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { IFile } from '@ionic-native/file/ngx';
+import { IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class UtilsService {
 
   constructor() { }
 
-  convertFileEntryToCordovaFile(fileEntry: FileEntry): Promise<IFile> {
+  convertFileEntryToCordovaFile(fileEntry: IonicFileEntry): Promise<IFile> {
     return new Promise<IFile>((resolve, reject) => {
       fileEntry.file(resolve, reject)
     })

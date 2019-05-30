@@ -2,9 +2,8 @@ import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, Chan
 import { AngularFireStorage } from '@angular/fire/storage'
 import { Events, LoadingController, AlertController } from '@ionic/angular'
 import { Subscription } from 'rxjs'
-import { retryWhen } from 'rxjs/operators'
 import { UtilsService } from 'src/app/services/utils.service'
-import { File as IonicFileService, FileReader as IonicFileReader, IFile } from '@ionic-native/file/ngx'
+import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
 
 
@@ -19,7 +18,8 @@ export class ExpenseImageComponent implements OnInit {
   @ViewChild('fileInput')
   fileInput: ElementRef;
   selectedFiles: FileList
-  intentFileReady: boolean = false;
+  intentFileAvailable: boolean = false;
+  intentBlob: Blob;
   file: File
   imgsrc
   subscriptions: Subscription
@@ -39,7 +39,8 @@ export class ExpenseImageComponent implements OnInit {
   ngOnInit () {
     // FIXME: refactor subscription
     this.events.subscribe('upload:image', () => {
-      if (!this.selectedFiles) {
+      debugger
+      if (!this.intentFileAvailable) {
         this.events.publish('uploaded:image', {
           imageName: null,
           imageUrl: null
@@ -53,13 +54,14 @@ export class ExpenseImageComponent implements OnInit {
     })
 
     this.utils.image.subscribe(async (resp:any) => {
-      const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM']);
-      const resolvedFSUrl: FileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as FileEntry
-      const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
-      
-      const result = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
+      const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM'])
+      const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry
 
-      this.renderFile(result)
+      const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
+
+      this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
+      this.imgsrc = await this.renderFile(this.intentBlob)
+      this.cdRef.detectChanges()
     })
   }
 
@@ -68,29 +70,35 @@ export class ExpenseImageComponent implements OnInit {
       message: 'Uploading Image, Please wait...'
     })
     await this.loader.present()
-
+    
   }
-
-  chooseFile(event) {
+  
+  async chooseFile(event) {
     this.selectedFiles = event.target.files
-    this.renderFile(this.selectedFiles.item(0))
+    const DataURL = await this.renderFile(this.selectedFiles.item(0))
+    this.imgsrc = DataURL
+    this.cdRef.detectChanges() //might not needed
   }
 
-  renderFile(file){
+  renderFile(file): Promise<any> {
     const reader = new FileReader()
 
-    reader.onloadend = (event) => {
-      if (reader.error) {
-        console.log(reader.error)
-      } else {
-        this.imgsrc = reader.result
-        this.intentFileReady = true
-        this.cdRef.detectChanges()
-        console.log(reader.result)
+    return new Promise((resolve, reject) => {
+      reader.onloadend = (event) => {
+        if (reader.error) {
+          reject(reader.error)
+          console.log(reader.error)
+        } else {
+          resolve(reader.result)
+          // this.imgsrc = reader.result
+          // this.intentFileAvailable = true
+          // console.log(reader.result)
+        }
       }
-    }
 
-    reader.readAsDataURL(file)
+      reader.readAsDataURL(file)
+    })
+
   }
 
   // FIXME: clearSelection(event:SwipeBackGesture){
@@ -138,8 +146,10 @@ export class ExpenseImageComponent implements OnInit {
   }
 
   nullify() {
+    debugger
     this.selectedFiles = null
     this.fileInput.nativeElement.value = ''
+    this.intentFileAvailable = false
     this.imgsrc = ''
     this.subscriptions && this.subscriptions.unsubscribe()
   }

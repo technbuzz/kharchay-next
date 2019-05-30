@@ -53,14 +53,14 @@ import { Router } from '@angular/router';
     `
   ]
 })
-export class ExpenseItemComponent{
+export class ExpenseItemComponent {
   @Input('expense') item: IExpense;
   @Input() readonly: boolean = false;
   @Output('onDelete') delete = new EventEmitter();
 
   constructor(private navCtrl: NavController,private router: Router) {
   }
-  
+ 
   public showDetails(item: IExpense) {
     if (item.imageName) {
       this.router.navigate(['details'], {

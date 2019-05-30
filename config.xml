@@ -86,5 +86,5 @@
     <plugin name="com-darryncampbell-cordova-plugin-intent" spec="^1.1.6" />
     <allow-navigation href="http://172.17.10.53:8101" sessionid="fda812b4" />
     <engine name="android" spec="8.0.0" />
-    <allow-navigation href="http://192.168.1.148:8100" sessionid="a091f452" />
+    <allow-navigation href="http://192.168.1.148:8100" sessionid="6e3b5ae3" />
 </widget>
