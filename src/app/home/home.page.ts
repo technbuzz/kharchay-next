@@ -198,6 +198,12 @@ export class HomePage implements OnInit {
     }, 0)
   }
 
+  public calcVat() {
+    const vatPercentage = this.expense.price * 0.05;
+    debugger
+    this.expense.price = Math.round(vatPercentage) + this.expense.price
+  }
+
   flip (to: number) {
     if (!this.flipAnim) {
       this.flipAnim = new Flip({

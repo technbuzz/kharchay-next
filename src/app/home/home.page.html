@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="primary" app-stream>
     <ion-buttons slot="primary">
       <ion-button routerLink="/filter">
@@ -15,18 +15,39 @@
 </ion-header>
 
 
-<ion-content padding-small >
+<ion-content padding-small>
   <form (ngSubmit)="addItem(form)" #form="ngForm">
     <ion-list class="ion-no-padding">
-      <ion-item *ngIf="dynamicPricing else staticPricing">
+      <!-- <ion-item *ngIf="dynamicPricing else staticPricing">
         <ion-label>Price</ion-label>
         <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0" [(ngModel)]="expense.price">
         </ion-input>
-      </ion-item>
+      </ion-item> -->
+
+      <ng-template [ngIf]="dynamicPricing" [ngIfElse]="staticPricing">
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col size="10">
+              <ion-item>
+                <ion-label>Price</ion-label>
+                <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0"
+                  [(ngModel)]="expense.price">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-button class="ion-margin-top" size="small" color="light" (click)="calcVat()">Vat</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ng-template>
+
       <ng-template #staticPricing>
         <ion-item>
           <ion-label>Price</ion-label>
-          <ion-input slot="end" required inputmode="numeric" name="price" min="0" [(ngModel)]="expense.price"></ion-input>
+          <ion-input slot="end" required inputmode="numeric" name="price" min="0" [(ngModel)]="expense.price">
+          </ion-input>
         </ion-item>
       </ng-template>
 
@@ -74,24 +95,23 @@
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
     <div padding-small-horizontal>
       <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-      <ion-button margin-right color="secondary" float-end routerLink="/summary" routerDirection="forward" type="button">Show
+      <ion-button margin-right color="secondary" float-end routerLink="/summary" routerDirection="forward"
+        type="button">Show
         Chart</ion-button>
     </div>
 
   </form>
 
-  <section padding-horizontal >
+  <section padding-horizontal>
     <header>
       <h2>{{this.currentMonth}} </h2>
       <h2 #flip></h2>
     </header>
 
     <ion-list class="ion-no-padding">
-        <expense-item 
-        [expense]="item" 
-        (onDelete)="delete($event)"
+      <expense-item [expense]="item" (onDelete)="delete($event)"
         *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
-      </ion-list>
+    </ion-list>
   </section>
 
 </ion-content>
