@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
 import { ComponentsModule } from '../components/components.module';
 import { StreamDirective } from '../shared/stream.directive';
+import { DynamicPriceComponent } from './dynamic-price.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { StreamDirective } from '../shared/stream.directive';
       }
     ])
   ],
-  declarations: [HomePage, StreamDirective],
+  declarations: [HomePage, StreamDirective, DynamicPriceComponent],
 })
 export class HomePageModule {}

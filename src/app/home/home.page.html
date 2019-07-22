@@ -25,22 +25,8 @@
       </ion-item> -->
 
       <ng-template [ngIf]="dynamicPricing" [ngIfElse]="staticPricing">
-        <ion-grid no-padding>
-          <ion-row>
-            <ion-col size="10">
-              <ion-item>
-                <ion-label>Price</ion-label>
-                <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0"
-                  [(ngModel)]="expense.price">
-                </ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-button margin-top-small size="small" color="light" (click)="calcVat()">Vat</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
+        <dynamic-price [price]="expense.price" (onCalculate)="dynamicHandler($event)"></dynamic-price>
+        <!-- <dynamic-price [price]="expense.price"></dynamic-price> -->
       </ng-template>
 
       <ng-template #staticPricing>

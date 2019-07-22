@@ -109,6 +109,10 @@ export class HomePage implements OnInit {
 
   }
 
+  public dynamicHandler (price:any):void {
+    this.expense.price = price
+  }
+
   public addItem(form: NgForm) {
     this.isWorking = true
     this.events.subscribe('uploading:cancelled', () => {
@@ -181,27 +185,6 @@ export class HomePage implements OnInit {
       ]
     })
     confirm.present()
-  }
-
-  public calculate() {
-    if (!this.expense.price) return
-
-    const price = this.expense.price.toString().split('+')
-    // convert string to numbers
-    const numberPrice = price.map(item => {
-      return parseFloat(item)
-    })
-
-    // calculate prices
-    this.expense.price = numberPrice.reduce((prev, item) => {
-      return prev + Number(item)
-    }, 0)
-  }
-
-  public calcVat() {
-    const price = Number(this.expense.price);
-    const vatPercentage = price * 0.05;
-    this.expense.price = parseFloat(vatPercentage.toFixed(2)) + price
   }
 
   flip (to: number) {
