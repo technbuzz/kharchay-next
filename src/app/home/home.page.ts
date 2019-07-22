@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core'
+import { Component, ViewChild, OnInit, ElementRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'
 import { IonDatetime, Events, AlertController } from '@ionic/angular'
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore'
@@ -21,6 +21,7 @@ import { Expense } from './expense.model'
 import { IExpense } from '../shared/expense.interface'
 import { throttleTime } from 'rxjs/operators'
 import { SettingsService } from '../services/settings.service'
+import { DynamicPriceComponent } from './dynamic-price.component';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class HomePage implements OnInit {
   expenseDate: IonDatetime
 
   @ViewChild('flip', {read: ElementRef}) private flipTotal: ElementRef
+  @ViewChild('dynamicPricingSlot', {read: ViewContainerRef}) private dynamicPricingSlot: ViewContainerRef
 
   cdo = new Date()
   currentMonth = format(new Date(), 'MMMM')
@@ -75,7 +77,8 @@ export class HomePage implements OnInit {
     private afs: AngularFirestore,
     private alertCtrl: AlertController,
     private storage: AngularFireStorage,
-    private settingService: SettingsService
+    private settingService: SettingsService,
+    private resolver: ComponentFactoryResolver
   ) {
     Object.assign(this.categories, categories)
   }
@@ -88,6 +91,14 @@ export class HomePage implements OnInit {
 
     // dynamicPricing event management
     this.events.subscribe('dynamic:Pricing', (boolean) => {
+      debugger
+      if(boolean) {
+        const factory = this.resolver.resolveComponentFactory(DynamicPriceComponent)
+        const componentRef = this.dynamicPricingSlot.createComponent(factory)
+
+        componentRef.instance.price = this.expense.price
+        componentRef.instance.onCalculate.subscribe(ev => this.dynamicHandler(ev))
+      }
       console.log('dynamicPricing event', boolean)
       this.dynamicPricing = boolean
     })
@@ -232,16 +243,4 @@ export class HomePage implements OnInit {
   trackByFn(index, item: IExpense) {
     return item.id
   }
-
-  // startMap(){
-  //   this.webIntent.startActivity({
-  //     action: window['plugins'].intentShim.ACTION_VIEW,
-  //     url: 'geo:0,0?q=London'
-  //   }).then(resp => {
-  //     console.log(resp);
-      
-  //   }).catch(error => (console.log(error)))
-  // }
-
-
 }

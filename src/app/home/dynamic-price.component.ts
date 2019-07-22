@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
       <ion-row>
         <ion-col size="10">
           <ion-item>
-            <ion-label>Pricezz</ion-label>
+            <ion-label>Price</ion-label>
             <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0"
               [(ngModel)]="price">
             </ion-input>

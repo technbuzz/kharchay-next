@@ -24,6 +24,8 @@
         </ion-input>
       </ion-item> -->
 
+      <div #dynamicPricingSlot></div>
+
       <ng-template [ngIf]="dynamicPricing" [ngIfElse]="staticPricing">
         <dynamic-price [price]="expense.price" (onCalculate)="dynamicHandler($event)"></dynamic-price>
         <!-- <dynamic-price [price]="expense.price"></dynamic-price> -->

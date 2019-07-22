@@ -23,5 +23,6 @@ import { DynamicPriceComponent } from './dynamic-price.component';
     ])
   ],
   declarations: [HomePage, StreamDirective, DynamicPriceComponent],
+  entryComponents: [DynamicPriceComponent]
 })
 export class HomePageModule {}
