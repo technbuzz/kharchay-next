@@ -30,6 +30,30 @@ export class DynamicPriceComponent implements OnInit {
 
   ngOnInit() {}
 
+  
+  advCalculate(input){
+    const str = '2+2+2'
+  const availableOperators = ['+','-']
+  const operators = [];
+  // operators.map(o => {
+  //   input.includes(0)
+  // })
+  
+  for(let i=0; i<availableOperators.length; i++){
+    const o = availableOperators[i]
+    if(input.includes(o)){
+      operators.push(o)
+    } else {
+      continue
+    }
+  }
+
+  return operators
+  // if(!input.includes('-')){
+  //   return input.toString().split('+')
+  // }
+}
+
   public calculate() {
     if (!this.price) return
 
@@ -44,7 +68,7 @@ export class DynamicPriceComponent implements OnInit {
       return prev + Number(item)
     }, 0)
 
-    this.onCalculate.emit(this.price);
+    this.onCalculate.emit(isNaN(this.price) ? '' : this.price);
   }
   
   public calcVat() {
@@ -54,5 +78,7 @@ export class DynamicPriceComponent implements OnInit {
 
     this.onCalculate.emit(this.price);
   }
+
+
 
 }
