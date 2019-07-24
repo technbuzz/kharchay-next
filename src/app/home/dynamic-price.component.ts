@@ -48,7 +48,7 @@ export class DynamicPriceComponent implements OnInit {
     }
 
     if(operators.length > 1) {
-
+      //TODO: No solution yet, hint is to use tokenization
     } else {
       const operands = input.split(operators[0])
       this.reduceCalculation(operands, operators[0])
@@ -56,7 +56,6 @@ export class DynamicPriceComponent implements OnInit {
   }
 
   public reduceCalculation(operands:any[], operator:string) {
-    // debugger
     // convert string to numbers
     const numberPrice = operands.map(item => {
       return parseFloat(item)
