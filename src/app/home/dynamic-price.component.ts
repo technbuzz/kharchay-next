@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
         <ion-col size="10">
           <ion-item>
             <ion-label>Price</ion-label>
-            <ion-input slot="end" required type="text" name="price" (ionBlur)="calculate()" min="0"
+            <ion-input slot="end" required type="text" name="price" (ionBlur)="advCalculate(price)" min="0"
               [(ngModel)]="price">
             </ion-input>
           </ion-item>
@@ -29,44 +29,63 @@ export class DynamicPriceComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-
   
-  advCalculate(input){
-    const str = '2+2+2'
-  const availableOperators = ['+','-']
-  const operators = [];
-  // operators.map(o => {
-  //   input.includes(0)
-  // })
-  
-  for(let i=0; i<availableOperators.length; i++){
-    const o = availableOperators[i]
-    if(input.includes(o)){
-      operators.push(o)
-    } else {
-      continue
+  advCalculate(input:string){
+    if (!input) return
+    // const str = '2+2+2'
+    const availableOperators = ['+','-']
+    const operators = [];
+    // operators.map(o => {
+    //   input.includes(0)
+    // })
+    
+    for(let i=0; i<availableOperators.length; i++){
+      const o = availableOperators[i]
+      if(input.includes(o)){
+        operators.push(o)
+      } else {
+        continue
+      }
     }
+
+    if(operators.length > 1) {
+
+    } else {
+      const operands = input.split(operators[0])
+      this.reduceCalculation(operands, operators[0])
+    }
+
+    return operators
+    // if(!input.includes('-')){
+    //   return input.toString().split('+')
+    // }
   }
 
-  return operators
-  // if(!input.includes('-')){
-  //   return input.toString().split('+')
-  // }
-}
-
-  public calculate() {
-    if (!this.price) return
-
-    const price = this.price.toString().split('+')
+  public reduceCalculation(operands:any[], operator:string) {
+    // debugger
     // convert string to numbers
-    const numberPrice = price.map(item => {
+    const numberPrice = operands.map(item => {
       return parseFloat(item)
     })
 
+    switch (operator) {
+      case '+':
+        this.price = numberPrice.reduce((prev, item) => {
+          return prev + Number(item)
+        }, 0)
+        break;
+        
+        case '-':
+          this.price = numberPrice.sort((a,b) => b-a).reduce((prev, item) => {
+          return prev - Number(item)
+        })
+        break;
+    
+      default:
+        break;
+    }
+
     // calculate prices
-    this.price = numberPrice.reduce((prev, item) => {
-      return prev + Number(item)
-    }, 0)
 
     this.onCalculate.emit(isNaN(this.price) ? '' : this.price);
   }
