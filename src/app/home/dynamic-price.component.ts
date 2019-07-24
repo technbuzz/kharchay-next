@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+enum Operators {
+  add = '+',
+  subtract = '-'
+}
 @Component({
   selector: 'dynamic-price',
   template: `
@@ -8,7 +11,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
         <ion-col size="10">
           <ion-item>
             <ion-label>Price</ion-label>
-            <ion-input slot="end" required type="text" name="price" (ionBlur)="advCalculate(price)" min="0"
+            <ion-input slot="end" required type="text" name="price" (ionBlur)="initCalculation(price)" min="0"
               [(ngModel)]="price">
             </ion-input>
           </ion-item>
@@ -30,14 +33,10 @@ export class DynamicPriceComponent implements OnInit {
 
   ngOnInit() {}
   
-  advCalculate(input:string){
+  initCalculation(input:string){
     if (!input) return
-    // const str = '2+2+2'
     const availableOperators = ['+','-']
     const operators = [];
-    // operators.map(o => {
-    //   input.includes(0)
-    // })
     
     for(let i=0; i<availableOperators.length; i++){
       const o = availableOperators[i]
@@ -54,11 +53,6 @@ export class DynamicPriceComponent implements OnInit {
       const operands = input.split(operators[0])
       this.reduceCalculation(operands, operators[0])
     }
-
-    return operators
-    // if(!input.includes('-')){
-    //   return input.toString().split('+')
-    // }
   }
 
   public reduceCalculation(operands:any[], operator:string) {
@@ -69,13 +63,13 @@ export class DynamicPriceComponent implements OnInit {
     })
 
     switch (operator) {
-      case '+':
+      case Operators.add:
         this.price = numberPrice.reduce((prev, item) => {
           return prev + Number(item)
         }, 0)
         break;
         
-        case '-':
+        case Operators.subtract:
           this.price = numberPrice.sort((a,b) => b-a).reduce((prev, item) => {
           return prev - Number(item)
         })
@@ -84,8 +78,6 @@ export class DynamicPriceComponent implements OnInit {
       default:
         break;
     }
-
-    // calculate prices
 
     this.onCalculate.emit(isNaN(this.price) ? '' : this.price);
   }
