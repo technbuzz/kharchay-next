@@ -33,7 +33,7 @@ export class DynamicPriceComponent implements OnInit {
 
   ngOnInit() {}
   
-  initCalculation(input:string){
+  initCalculation(input:any){
     if (!input) return
     const availableOperators = ['+','-']
     const operators = [];

@@ -119,6 +119,7 @@ export class HomePage implements OnInit {
     })
 
     this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
+      console.log('event received:uploaded:image: ');
       this.expCollRef
         .add({
           price: this.expense.price,
