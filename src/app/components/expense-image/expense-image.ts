@@ -1,11 +1,11 @@
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
 import { Events, LoadingController, AlertController } from '@ionic/angular'
-import { Subscription, ReplaySubject, Observable } from 'rxjs'
+import { Subscription, ReplaySubject } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
-import { skipUntil, finalize } from 'rxjs/operators';
+import { skipUntil } from 'rxjs/operators';
 
 
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
@@ -25,8 +25,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   imgsrc
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   loader: HTMLIonLoadingElement
-  uploadPercent: Observable<number>;
-  downloadURL: Observable<any>;
 
   constructor(
     private storage: AngularFireStorage,
@@ -76,8 +74,7 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   async presentLoading () {
     this.loader = await this.loadingCtrl.create({
-      message: 'Uploading Image, Please wait...',
-      spinner: 'bubbles'
+      message: 'Uploading Image, Please wait...'
     })
     await this.loader.present()
   }
@@ -113,25 +110,13 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   }
 
   async uploadPic(file) {
-    // debugger
+    debugger
     const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
 
-    // try {
+    try {
       // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
       const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
-      const filePath = `/receipts-next/${uniqueKey}`
-      const fileRef = this.storage.ref(filePath)
-      // const task = this.storage.upload(`/receipts-next/${uniqueKey}`, file);
-      // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-      const task =  this.storage.upload(filePath, file);
-      this.uploadPercent = task.percentageChanges();
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL()
-          console.log('Finalized')
-        })
-      ).subscribe()
-      //https://github.com/angular/angularfire2/blob/master/docs/storage/storage.md
+      await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
       // // this.imgsrc = ;
       // webPref.getDownloadURL().subscribe(resp => {
       //   console.log('getDownloadURL', resp);
@@ -145,48 +130,16 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
       // FIXME: Fix the loading as the below line is throwing error
       this.loader.dismiss()
       this.loader.onDidDismiss().then(x => this.nullify())
-    // } catch (error) {
+    } catch (error) {
 
-    //   this.handleUploadError()
-    //   console.log('Upload Task Failed', error)
-    // }
+      this.handleUploadError()
+      console.log('Upload Task Failed', error)
+    }
 
   }
-  // async uploadPic(file) {
-  //   // debugger
-  //   const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
-
-  //   try {
-  //     // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
-  //     const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
-  //     // const task = this.storage.upload(`/receipts-next/${uniqueKey}`, file);
-  //     // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-  //     await this.storage.upload(`/receipts-next/${uniqueKey}`, file).percentageChanges().subscribe(resp => {
-  //       console.log('percentChanges', resp)
-  //     })
-
-  //     // // this.imgsrc = ;
-  //     // webPref.getDownloadURL().subscribe(resp => {
-  //     //   console.log('getDownloadURL', resp);
-  //       this.events.publish('uploaded:image', {
-  //         imageName: `opt${uniqueKey}`,
-  //         // imageUrl: resp
-  //       })
-  //     // }, error => { 
-  //     //   console.log(error)
-  //     // })
-  //     // FIXME: Fix the loading as the below line is throwing error
-  //     this.loader.dismiss()
-  //     this.loader.onDidDismiss().then(x => this.nullify())
-  //   } catch (error) {
-
-  //     this.handleUploadError()
-  //     console.log('Upload Task Failed', error)
-  //   }
-
-  // }
 
   nullify() {
+    debugger
     this.selectedFiles = null
     this.fileInput.nativeElement.value = ''
     this.intentFileAvailable = false
