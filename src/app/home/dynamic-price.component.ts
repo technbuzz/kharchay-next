@@ -7,8 +7,8 @@ enum Operators {
   selector: 'dynamic-price',
   template: `
     <ion-grid no-padding>
-      <ion-row>
-        <ion-col size="10">
+      <ion-row class="ion-justify-content-between ion-align-items-end">
+        <ion-col size="9">
           <ion-item>
             <ion-label>Price</ion-label>
             <ion-input slot="end" required type="text" name="price" (ionBlur)="initCalculation(price)" min="0"
