@@ -59,7 +59,7 @@
     "@angular/compiler": "~7.2.2",
     "@angular/compiler-cli": "~7.2.2",
     "@angular/language-service": "~7.2.2",
-    "@ionic/angular-toolkit": "~1.4.0",
+    "@ionic/angular-toolkit": "^2.0.0",
     "@ionic/lab": "2.0.1",
     "@types/cordova": "0.0.34",
     "@types/cordova-plugin-file": "^4.3.2",
