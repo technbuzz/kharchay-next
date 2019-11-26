@@ -29,10 +29,10 @@ import { SettingsService } from '../services/settings.service'
 })
 export class HomePage implements OnInit {
 
-  @ViewChild('expenseDate')
+  @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime
 
-  @ViewChild('flip', {read: ElementRef}) private flipTotal: ElementRef
+  @ViewChild('flip', { read: ElementRef, static: true }) private flipTotal: ElementRef
   
   cdo = new Date()
   currentMonth = format(new Date(), 'MMMM')

@@ -15,7 +15,7 @@ import { PieComponent } from '../components/pie/pie';
   styleUrls: ['./summary.page.scss'],
 })
 export class SummaryPage extends Stepper implements OnInit {
-  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
 
   month = new Date().toISOString();
   loading: boolean = true;

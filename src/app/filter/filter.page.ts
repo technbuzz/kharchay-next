@@ -15,7 +15,7 @@ import { categories } from '../shared/categories';
 })
 export class FilterPage extends Stepper implements OnInit {
 
-  @ViewChild(IonDatetime) expenseMonth: IonDatetime;
+  @ViewChild(IonDatetime, { static: false }) expenseMonth: IonDatetime;
   categories: any = [];
 
   searchType: string = 'basic';
