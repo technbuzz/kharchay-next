@@ -81,29 +81,29 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
 
-    this.settingService.getConfig().subscribe(initialSettings => {
-      this.dynamicPricing = initialSettings
-    })
+    // this.settingService.getConfig().subscribe(initialSettings => {
+    //   this.dynamicPricing = initialSettings
+    // })
 
-    // dynamicPricing event management
-    this.events.subscribe('dynamic:Pricing', (boolean) => {
-      this.dynamicPricing = boolean
-    })
+    // // dynamicPricing event management
+    // this.events.subscribe('dynamic:Pricing', (boolean) => {
+    //   this.dynamicPricing = boolean
+    // })
 
 
-    this.maxDate = this.cdo.toISOString().split('T')[0]
-    this.expenses = this.expCollRef.valueChanges()
+    // this.maxDate = this.cdo.toISOString().split('T')[0]
+    // this.expenses = this.expCollRef.valueChanges()
 
-    this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
-      new Promise((resolve, reject) => {
-        this.total = values.reduce((prev, current, index, array) => {
-          if(index === array.length - 1) resolve('😎')
-          return prev + Number(current.price)
-        }, 0)
-      }).then(resolve => {
-        this.flip(Math.round(this.total))
-      }) // Promise
-    })// forEach
+    // this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
+    //   new Promise((resolve, reject) => {
+    //     this.total = values.reduce((prev, current, index, array) => {
+    //       if(index === array.length - 1) resolve('😎')
+    //       return prev + Number(current.price)
+    //     }, 0)
+    //   }).then(resolve => {
+    //     this.flip(Math.round(this.total))
+    //   }) // Promise
+    // })// forEach
 
   }
 
