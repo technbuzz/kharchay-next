@@ -28,6 +28,7 @@ export class AppComponent {
       this.statusBar.styleDefault()
       this.splashScreen.hide()
       this.registerBroadcast()
+      this.handleBackButton()
     })
   }
 
@@ -46,6 +47,16 @@ export class AppComponent {
     }
 
     this.handleIntent()
+  }
+
+  private handleBackButton() {
+    if (this.platform.is('android')) {
+      this.platform.backButton.subscribe(() => {
+        if (window.location.pathname.includes('home')) {
+          navigator['app'].exitApp()
+        }
+      })
+    }
   }
 
   handleIntent () {
