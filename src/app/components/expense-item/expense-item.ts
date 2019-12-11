@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'expense-item',
   template: `
     <ion-item-sliding [disabled]="!item.id">
-      <ion-item no-padding [attr.detail]="item.imageName" (click)="showDetails(item)">
+      <ion-item class="ion-no-padding" [attr.detail]="item.imageName" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageName">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>

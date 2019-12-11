@@ -44,7 +44,7 @@
         </ion-datetime>
       </ion-item>
 
-      <ion-grid no-padding>
+      <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
@@ -81,14 +81,14 @@
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
     <div padding-small-horizontal>
       <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-      <ion-button margin-right color="secondary" float-end routerLink="/summary" routerDirection="forward"
+      <ion-button margin-right color="secondary" class="ion-float-end" routerLink="/summary" routerDirection="forward"
         type="button">Show
         Chart</ion-button>
     </div>
 
   </form>
 
-  <section padding-horizontal>
+  <section class="ion-padding-horizontal">
     <header>
       <h2>{{this.currentMonth}} </h2>
       <h2 #flip></h2>

@@ -6,7 +6,7 @@ enum Operators {
 @Component({
   selector: 'dynamic-price',
   template: `
-    <ion-grid no-padding>
+    <ion-grid class="ion-no-padding">
       <ion-row class="ion-justify-content-between ion-align-items-end">
         <ion-col size="9">
           <ion-item>
