@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core'
-import { IonDatetime, Events, AlertController } from '@ionic/angular'
+import { IonDatetime, Events, AlertController, LoadingController } from '@ionic/angular'
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
@@ -75,20 +75,21 @@ export class HomePage implements OnInit {
     private alertCtrl: AlertController,
     private storage: AngularFireStorage,
     private settingService: SettingsService,
+    private loadingCtrl: LoadingController
   ) {
     Object.assign(this.categories, categories)
   }
 
   ngOnInit() {
 
-    // this.settingService.getConfig().subscribe(initialSettings => {
-    //   this.dynamicPricing = initialSettings
-    // })
+    this.settingService.getConfig().subscribe(initialSettings => {
+      this.dynamicPricing = initialSettings
+    })
 
-    // // dynamicPricing event management
-    // this.events.subscribe('dynamic:Pricing', (boolean) => {
-    //   this.dynamicPricing = boolean
-    // })
+    // dynamicPricing event management
+    this.events.subscribe('dynamic:Pricing', (boolean) => {
+      this.dynamicPricing = boolean
+    })
 
 
     // this.maxDate = this.cdo.toISOString().split('T')[0]
@@ -153,6 +154,14 @@ export class HomePage implements OnInit {
     // component publishes before home component have enough time to subscribe
     // to uploaded:image so event is missed
     this.events.publish('upload:image')
+  }
+
+  async presentLoading () {
+    const loader = await this.loadingCtrl.create({
+      message: 'Uploading Image, Please wait...',
+      cssClass: 'custom-loading'
+    })
+    await loader.present()
   }
 
   public async delete(item: Expense) {
