@@ -1,0 +1,15 @@
+.beating{
+  animation: beating 1s ease-in-out infinite alternate both;
+}
+
+@keyframes beating {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}

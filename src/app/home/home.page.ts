@@ -67,6 +67,7 @@ export class HomePage implements OnInit {
     ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
   )
   expenses: Observable<Expense[]>
+  recurringExpenses = []
 
 
   constructor(
@@ -106,6 +107,7 @@ export class HomePage implements OnInit {
     // })// forEach
 
   }
+
 
   public dynamicHandler (price:any):void {
     this.expense.price = price

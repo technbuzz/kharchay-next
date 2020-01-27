@@ -1,0 +1,17 @@
+<ion-slides pager="true">
+  <ion-slide *ngFor="let exp of expenses">
+    <ion-card class="ion-text-start" style="border-radius: 15px">
+      <ion-card-header>
+        <ion-card-title>{{ exp.price }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        {{ exp.note }}
+      </ion-card-content>
+
+      <footer>
+        <ion-button expand="full" class="ion-no-margin" [class.beating]="loading">Confirm {{ exp.price | currency:'AED' }}</ion-button>
+      </footer>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
