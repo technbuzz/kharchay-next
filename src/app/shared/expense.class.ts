@@ -1,20 +1,21 @@
 import { IExpense } from './expense.interface';
 import { ICategory } from './category.interface';
 
-export class Task implements IExpense {
+export class Expense implements IExpense {
 
-  date = new Date()
+  date: Date = null
   price: number
   note: string
   imageName: string
-  imageUrl: string
   category: ICategory
+  subCategory?: ICategory
 
-  constructor(price, note, imageName, imageUrl, category) {
+  constructor(price, note, imageName, category, date, subCategory? ) {
     this.price = price 
     this.note = note
     this.imageName = imageName
-    this.imageUrl = imageUrl
     this.category = category
+    this.date = new Date(date)
+    this.subCategory = subCategory
   }
 }

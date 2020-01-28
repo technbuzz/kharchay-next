@@ -102,7 +102,7 @@
 
   <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
     <h2>Incoming Expenses</h2>
-    <recurring></recurring>
+    <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>
   </section>
 
 </ion-content>

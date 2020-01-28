@@ -8,6 +8,6 @@ export interface IExpense {
   date: Date|any,
   details?: boolean,
   imageName: string,
-  imageUrl: string
+  imageUrl?: string
   subCategory?: ICategory | string
 }
