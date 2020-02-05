@@ -3,7 +3,7 @@ import { startOfMonth, endOfMonth, isBefore } from 'date-fns';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ToastController, IonDatetime } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Expense } from '../home/expense.model';
+import { BaseExpense } from '../home/expense-base.model';
 import { Stepper } from '../shared/stepper';
 import { categories } from '../shared/categories';
 
@@ -27,7 +27,7 @@ export class FilterPage extends Stepper implements OnInit {
   };
 
   
-  expenses$: Observable<Expense[]>;
+  expenses$: Observable<BaseExpense[]>;
   expRef: AngularFirestoreCollection<any>;
   total: number = 0;
 

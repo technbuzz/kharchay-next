@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core'
-import { IonDatetime, Events, AlertController, LoadingController } from '@ionic/angular'
+import { IonDatetime, Events, AlertController, LoadingController, IonSelect } from '@ionic/angular'
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
@@ -10,17 +10,17 @@ import * as subDays from 'date-fns/sub_days'
 import * as format from 'date-fns/format'
 import * as startOfMonth from 'date-fns/start_of_month'
 
-import { Flip } from 'number-flip'
 
 
 import { ICategory } from '../shared/category.interface'
 import { categories } from '../shared/categories'
 import { NgForm } from '@angular/forms'
 import { Observable } from 'rxjs'
-import { Expense } from './expense.model'
+import { BaseExpense } from './expense-base.model'
 import { IExpense } from '../shared/expense.interface'
 import { throttleTime } from 'rxjs/operators'
 import { SettingsService } from '../services/settings.service'
+import { Expense } from '../shared/expense.class'
 
 @Component({
   selector: 'app-home',
@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
   @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime
 
-  @ViewChild('flip', { read: ElementRef, static: true }) private flipTotal: ElementRef
+  @ViewChild(IonSelect, {static: true}) select: IonSelect;
   
   cdo = new Date()
   currentMonth = format(new Date(), 'MMMM')
@@ -45,11 +45,13 @@ export class HomePage implements OnInit {
     category: null,
     date: new Date().toISOString(),
     imageName: '',
-    imageUrl: ''
+    imageUrl: '',
+    fixed: null
   }
 
   categories = []
   showSubCategory: Boolean = false
+  recurringLoading: boolean = false
   selectedSubCategory: ''
   subCategories: ICategory
 
@@ -58,7 +60,6 @@ export class HomePage implements OnInit {
   isWorking: Boolean = false
 
   total: number = 0
-  flipAnim: any = ''
 
 
 
@@ -67,6 +68,8 @@ export class HomePage implements OnInit {
     ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
   )
   expenses: Observable<Expense[]>
+  recurringExpenses = [];
+  reccuringExpenseId: string = null;
 
 
   constructor(
@@ -91,69 +94,75 @@ export class HomePage implements OnInit {
       this.dynamicPricing = boolean
     })
 
+    this.checkRecurring()
 
-    // this.maxDate = this.cdo.toISOString().split('T')[0]
-    // this.expenses = this.expCollRef.valueChanges()
 
-    // this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
-    //   new Promise((resolve, reject) => {
-    //     this.total = values.reduce((prev, current, index, array) => {
-    //       if(index === array.length - 1) resolve('😎')
-    //       return prev + Number(current.price)
-    //     }, 0)
-    //   }).then(resolve => {
-    //     this.flip(Math.round(this.total))
-    //   }) // Promise
-    // })// forEach
+    this.maxDate = this.cdo.toISOString().split('T')[0]
+    this.expenses = this.expCollRef.valueChanges()
+
+    this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
+      new Promise((resolve, reject) => {
+        this.total = values.reduce((prev, current, index, array) => {
+          if(index === array.length - 1) resolve('😎')
+          return prev + Number(current.price)
+        }, 0)
+      }) // Promise
+    })// forEach
 
   }
+
 
   public dynamicHandler (price:any):void {
     this.expense.price = price
   }
 
-  public addItem(form: NgForm) {
-    this.isWorking = true
-    this.events.subscribe('uploading:cancelled', () => {
-      this.isWorking = false
-      this.events.unsubscribe('uploading:cancelled')
-    })
+  public addItem(form: NgForm, expense:IExpense) {
+    return new Promise((resolve, reject) => {
+      
+      const newExpense = expense || this.expense
+      this.isWorking = true
+      this.events.subscribe('uploading:cancelled', () => {
+        this.isWorking = false
+        this.events.unsubscribe('uploading:cancelled')
+      })
+  
+      this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
+        console.log('event received:uploaded:image: ');
+        const expenseInstance = new Expense(newExpense.price, newExpense.note, imageName, newExpense.category, newExpense.date, 
+          this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
+        )
 
-    this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
-      console.log('event received:uploaded:image: ');
-      this.expCollRef
-        .add({
-          price: this.expense.price,
-          note: this.expense.note,
-          category: this.expense.category,
-          subCategory: this.showSubCategory ? this.selectedSubCategory : null,
-          date: new Date(this.expense.date),
-          imageName,
-          // imageUrl
-        })
+        
+        this.expCollRef
+        .add({...expenseInstance})
         .then(docRef => {
           this.resetFields()
           this.isWorking = false
           // already happens on cloud function
           // this.expCollRef.doc(docRef.id).update({
-          //   id: docRef.id
-          // })
-
-          this.events.unsubscribe('uploaded:image')
-        })
-        .catch(err => {
-          this.isWorking = false
-          console.log(err)
-          this.events.unsubscribe('uploaded:image')
-        })
+            //   id: docRef.id
+            // })
+            resolve(docRef)
+            if(this.reccuringExpenseId) {
+              this.events.publish('recurringTaskAdded')
+            }
+            this.events.unsubscribe('uploaded:image')
+          })
+          .catch(err => {
+            reject(err)
+            this.isWorking = false
+            console.log(err)
+            this.events.unsubscribe('uploaded:image')
+          })
+      })
+  
+      // Ideally we should pulish upload:image event and than a image upload
+      // should happen and then listen for uploaded:image but in the case
+      // when there is no image than every thing happens so fast the image upload
+      // component publishes before home component have enough time to subscribe
+      // to uploaded:image so event is missed
+      this.events.publish('upload:image')
     })
-
-    // Ideally we should pulish upload:image event and than a image upload
-    // should happen and then listen for uploaded:image but in the case
-    // when there is no image than every thing happens so fast the image upload
-    // component publishes before home component have enough time to subscribe
-    // to uploaded:image so event is missed
-    this.events.publish('upload:image')
   }
 
   async presentLoading () {
@@ -176,6 +185,7 @@ export class HomePage implements OnInit {
           text: 'Yes',
           handler: () => {
 
+            // @ts-ignore
             this.expCollRef.doc(item.id).delete()
             //FIXME: Refactor this subscription
             if(!item.imageName) return
@@ -195,21 +205,6 @@ export class HomePage implements OnInit {
     confirm.present()
   }
 
-  flip (to: number) {
-    if (!this.flipAnim) {
-      this.flipAnim = new Flip({
-        node: this.flipTotal.nativeElement,
-        from: 9999,
-        duration: 3,
-        delay: 3
-      })
-    }
-
-    this.flipAnim.flipTo({
-      to
-    })
-  }
-
   populateSubCategory(category: ICategory) {
     if (category.hasOwnProperty('subCategory') && category.subCategory) {
       this.subCategories = category.subCategory
@@ -217,6 +212,64 @@ export class HomePage implements OnInit {
     } else {
       this.showSubCategory = false
     }
+  }
+
+  checkRecurring() {
+    this.afs.collection('tasks').valueChanges().subscribe(resp => {
+      console.log(resp);
+      this.recurringExpenses = resp
+    })
+  }
+
+  addRecurring(item:IExpense) {
+    this.recurringLoading = true;
+
+    if(item.fixed) {
+      this.addItem(undefined, item).then(resp => {
+        this.recurringLoading = false;
+        this.deleteRecurring(item.id)
+      })  
+    } else {
+
+      this.expense = {...item}
+      this.select.open();
+      this.reccuringExpenseId = item.id;
+      
+      this.events.subscribe('recurringTaskAdded', _ => {
+        this.deleteRecurring(item.id).finally(() => {
+          this.recurringLoading = false;
+          this.reccuringExpenseId = null
+        })
+      })
+    }
+  }
+
+  deleteRecurring(id:string): Promise<void>{
+    return this.afs.collection('tasks').doc(id).delete()
+  }
+
+  addTasks() {
+    const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null), 
+      this.showSubCategory ? this.selectedSubCategory : null, true
+    )
+
+    debugger
+    console.log(expenseInstance);
+    console.log({...expenseInstance});
+    
+    
+
+    this.afs.collection('recurring').add(
+      {...expenseInstance}
+    ).then(resp => {
+      console.log(resp);
+      
+    }).catch(error => {
+      console.log(error);
+      
+    })
+
+
   }
 
   public addDay() {

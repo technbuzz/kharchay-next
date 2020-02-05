@@ -49,7 +49,7 @@
           <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
               <ion-label position="floating">Choose Category</ion-label>
-              <ion-select interface="popover" required name="category"
+              <ion-select interface="popover" required name="category" 
                 (ionChange)="populateSubCategory(expense.category)" [(ngModel)]="expense.category">
                 <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
                 </ion-select-option>
@@ -75,6 +75,8 @@
 
       <expense-image></expense-image>
 
+      <!-- <button (click)="addTasks()">Add Recurring</button> -->
+
     </ion-list>
 
 
@@ -90,15 +92,19 @@
   </form>
 
   <section class="ion-padding-horizontal">
-    <header>
+    <!-- <header>
       <h2>{{this.currentMonth}} </h2>
-      <h2 #flip></h2>
-    </header>
+    </header> -->
 
     <ion-list class="ion-no-padding">
       <expense-item [expense]="item" (onDelete)="delete($event)"
         *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
     </ion-list>
+  </section>
+
+  <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
+    <h2>Incoming Expenses</h2>
+    <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>
   </section>
 
 </ion-content>
