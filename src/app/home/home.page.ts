@@ -69,7 +69,8 @@ export class HomePage implements OnInit {
     ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
   )
   expenses: Observable<Expense[]>
-  recurringExpenses = []
+  recurringExpenses = [];
+  reccuringExpenseId: string = null;
 
 
   constructor(
@@ -143,6 +144,9 @@ export class HomePage implements OnInit {
             //   id: docRef.id
             // })
             resolve(docRef)
+            if(!this.reccuringExpenseId) {
+              this.events.publish('recurringTaskAdded')
+            }
             this.events.unsubscribe('uploaded:image')
           })
           .catch(err => {
@@ -227,11 +231,49 @@ export class HomePage implements OnInit {
 
   addRecurring(item:IExpense) {
     this.recurringLoading = true;
-    setTimeout(() => {
+
+    if(item.fixed) {
       this.addItem(undefined, item).then(resp => {
         this.recurringLoading = false;
+        this.deleteRecurring(item.id)
       })  
-    }, 1000);
+    } else {
+      this.expense = {...item}
+      this.reccuringExpenseId = item.id;
+      this.events.subscribe('reccuringExpenseId', _ => {
+        this.deleteRecurring(item.id).finally(() => {
+          this.reccuringExpenseId = null
+        })
+      })
+    }
+  }
+
+  deleteRecurring(id:string): Promise<void>{
+    return this.afs.collection('tasks').doc(id).delete()
+  }
+
+  addTasks() {
+    const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null), 
+      this.showSubCategory ? this.selectedSubCategory : null, true
+    )
+
+    debugger
+    console.log(expenseInstance);
+    console.log({...expenseInstance});
+    
+    
+
+    this.afs.collection('recurring').add(
+      {...expenseInstance}
+    ).then(resp => {
+      console.log(resp);
+      
+    }).catch(error => {
+      console.log(error);
+      
+    })
+
+
   }
 
   public addDay() {

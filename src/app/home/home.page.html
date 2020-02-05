@@ -75,6 +75,8 @@
 
       <expense-image></expense-image>
 
+      <button (click)="addTasks()">Add Recurring</button>
+
     </ion-list>
 
 
@@ -89,10 +91,10 @@
   </form>
 
   <section class="ion-padding-horizontal">
-    <header>
+    <!-- <header>
       <h2>{{this.currentMonth}} </h2>
       <h2 #flip></h2>
-    </header>
+    </header> -->
 
     <ion-list class="ion-no-padding">
       <expense-item [expense]="item" (onDelete)="delete($event)"
