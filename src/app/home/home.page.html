@@ -49,7 +49,7 @@
           <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
               <ion-label position="floating">Choose Category</ion-label>
-              <ion-select interface="popover" required name="category"
+              <ion-select interface="popover" required name="category" 
                 (ionChange)="populateSubCategory(expense.category)" [(ngModel)]="expense.category">
                 <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
                 </ion-select-option>
@@ -75,7 +75,7 @@
 
       <expense-image></expense-image>
 
-      <button (click)="addTasks()">Add Recurring</button>
+      <!-- <button (click)="addTasks()">Add Recurring</button> -->
 
     </ion-list>
 

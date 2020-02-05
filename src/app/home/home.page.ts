@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core'
-import { IonDatetime, Events, AlertController } from '@ionic/angular'
+import { IonDatetime, Events, AlertController, IonSelect } from '@ionic/angular'
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
@@ -33,6 +33,8 @@ export class HomePage implements OnInit {
   @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime
 
+  @ViewChild(IonSelect, {static: true}) select: IonSelect;
+
   @ViewChild('flip', { read: ElementRef, static: true }) private flipTotal: ElementRef
   
   cdo = new Date()
@@ -46,7 +48,8 @@ export class HomePage implements OnInit {
     category: null,
     date: new Date().toISOString(),
     imageName: '',
-    imageUrl: ''
+    imageUrl: '',
+    fixed: null
   }
 
   categories = []
@@ -107,7 +110,7 @@ export class HomePage implements OnInit {
           return prev + Number(current.price)
         }, 0)
       }).then(resolve => {
-        this.flip(Math.round(this.total))
+        // this.flip(Math.round(this.total))
       }) // Promise
     })// forEach
 
@@ -131,20 +134,21 @@ export class HomePage implements OnInit {
       this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
         console.log('event received:uploaded:image: ');
         const expenseInstance = new Expense(newExpense.price, newExpense.note, imageName, newExpense.category, newExpense.date, 
-          this.showSubCategory ? this.selectedSubCategory : null
+          this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
         )
+
         
         this.expCollRef
-          .add({...expenseInstance})
-          .then(docRef => {
-            this.resetFields()
-            this.isWorking = false
-            // already happens on cloud function
-            // this.expCollRef.doc(docRef.id).update({
+        .add({...expenseInstance})
+        .then(docRef => {
+          this.resetFields()
+          this.isWorking = false
+          // already happens on cloud function
+          // this.expCollRef.doc(docRef.id).update({
             //   id: docRef.id
             // })
             resolve(docRef)
-            if(!this.reccuringExpenseId) {
+            if(this.reccuringExpenseId) {
               this.events.publish('recurringTaskAdded')
             }
             this.events.unsubscribe('uploaded:image')
@@ -198,20 +202,20 @@ export class HomePage implements OnInit {
     confirm.present()
   }
 
-  flip (to: number) {
-    if (!this.flipAnim) {
-      this.flipAnim = new Flip({
-        node: this.flipTotal.nativeElement,
-        from: 9999,
-        duration: 3,
-        delay: 3
-      })
-    }
+  // flip (to: number) {
+  //   if (!this.flipAnim) {
+  //     this.flipAnim = new Flip({
+  //       node: this.flipTotal.nativeElement,
+  //       from: 9999,
+  //       duration: 3,
+  //       delay: 3
+  //     })
+  //   }
 
-    this.flipAnim.flipTo({
-      to
-    })
-  }
+  //   this.flipAnim.flipTo({
+  //     to
+  //   })
+  // }
 
   populateSubCategory(category: ICategory) {
     if (category.hasOwnProperty('subCategory') && category.subCategory) {
@@ -238,10 +242,14 @@ export class HomePage implements OnInit {
         this.deleteRecurring(item.id)
       })  
     } else {
+
       this.expense = {...item}
+      this.select.open();
       this.reccuringExpenseId = item.id;
-      this.events.subscribe('reccuringExpenseId', _ => {
+      
+      this.events.subscribe('recurringTaskAdded', _ => {
         this.deleteRecurring(item.id).finally(() => {
+          this.recurringLoading = false;
           this.reccuringExpenseId = null
         })
       })
