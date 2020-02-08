@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IExpense } from '../../shared/expense.interface';
-import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { IExpense } from '../../shared/expense.interface'
+import { NavController } from '@ionic/angular'
+import { Router } from '@angular/router'
 
 
 @Component({
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
               <ion-badge>{{item.category}}</ion-badge>
             </ng-template>
             <!-- END For backward compatibility -->
-  
+
             <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory}}</ion-badge>
           </div>
           <p class="ion-no-margin">{{item.note}}</p>
@@ -55,9 +55,9 @@ import { Router } from '@angular/router';
   ]
 })
 export class ExpenseItemComponent {
-  @Input('expense') item: IExpense;
-  @Input() readonly: boolean = false;
-  @Output('onDelete') delete = new EventEmitter();
+  @Input('expense') item: IExpense
+  @Input() readonly: boolean = false
+  @Output('onDelete') delete = new EventEmitter()
 
   constructor(private navCtrl: NavController,private router: Router) {
   }
@@ -71,7 +71,7 @@ export class ExpenseItemComponent {
       })
       // this.navCtrl.push('DetailsPage', { item });
     } else {
-      item.details = !item.details;
+      item.details = !item.details
     }
   }
 }

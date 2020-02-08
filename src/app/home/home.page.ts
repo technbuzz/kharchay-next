@@ -59,7 +59,7 @@ export class HomePage implements OnInit {
 
   isWorking: Boolean = false
 
-  total: number = 0
+  total: any;
 
 
 
@@ -96,18 +96,17 @@ export class HomePage implements OnInit {
 
     this.checkRecurring()
 
+    // this.maxDate = this.cdo.toISOString().split('T')[0]
+    // this.expenses = this.expCollRef.valueChanges()
 
-    this.maxDate = this.cdo.toISOString().split('T')[0]
-    this.expenses = this.expCollRef.valueChanges()
-
-    this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
-      new Promise((resolve, reject) => {
-        this.total = values.reduce((prev, current, index, array) => {
-          if(index === array.length - 1) resolve('😎')
-          return prev + Number(current.price)
-        }, 0)
-      }) // Promise
-    })// forEach
+    // this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
+    //   new Promise((resolve, reject) => {
+    //     this.total = values.reduce((prev, current, index, array) => {
+    //       if(index === array.length - 1) resolve('😎')
+    //       return prev + Number(current.price)
+    //     }, 0)
+    //   }) // Promise
+    // })// forEach
 
   }
 
@@ -118,7 +117,7 @@ export class HomePage implements OnInit {
 
   public addItem(form: NgForm, expense:IExpense) {
     return new Promise((resolve, reject) => {
-      
+
       const newExpense = expense || this.expense
       this.isWorking = true
       this.events.subscribe('uploading:cancelled', () => {

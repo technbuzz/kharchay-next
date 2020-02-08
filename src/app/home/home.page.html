@@ -91,17 +91,22 @@
 
   </form>
 
-  <section class="ion-padding-horizontal">
-    <!-- <header>
+  
+  <!-- List all the expense of this month -->
+  <!-- <section class="ion-padding-horizontal">
+    <header>
       <h2>{{this.currentMonth}} </h2>
-    </header> -->
+      <h2>{{this.total }}</h2>
+    </header>
 
     <ion-list class="ion-no-padding">
       <expense-item [expense]="item" (onDelete)="delete($event)"
         *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
     </ion-list>
-  </section>
+  </section> -->
 
+
+  <!-- List all the recurring expense -->
   <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
     <h2>Incoming Expenses</h2>
     <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>
