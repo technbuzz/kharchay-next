@@ -21,7 +21,3 @@ export class Expense implements IExpense {
     this.fixed = fixed
   }
 }
-
-
-const newTask = new Expense(0, 'FEWA bill for the month of', null, { title: 'bills'}, null, null, false);
-console.log(newTask);

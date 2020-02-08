@@ -6,6 +6,7 @@ import { Observable } from 'rxjs'
 import { BaseExpense } from '../home/expense-base.model'
 import { Stepper } from '../shared/stepper'
 import { categories } from '../shared/categories'
+import { map } from 'rxjs/operators'
 
 
 @Component({
@@ -39,7 +40,6 @@ export class FilterPage extends Stepper implements OnInit {
 
   ngOnInit() {
     this.loadBasic()
-
   }
 
   public loadBasic() {
@@ -92,7 +92,16 @@ export class FilterPage extends Stepper implements OnInit {
   }
 
   findTotal() {
-    this.expenses$ = this.expRef.valueChanges()
+    this.expenses$ = this.expRef.valueChanges().
+      pipe(map(value => {
+        return value.map(item => {
+          return {
+            ...item,
+            date: item.date.toDate()
+          }
+        })
+      }))
+
     this.expenses$.forEach(values => {
       this.total = values.reduce((prev, current) => {
         return prev + Number(current.price)

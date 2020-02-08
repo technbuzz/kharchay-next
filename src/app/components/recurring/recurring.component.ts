@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IExpense } from 'src/app/shared/expense.interface';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { IExpense } from 'src/app/shared/expense.interface'
 
 @Component({
   selector: 'recurring',
@@ -8,8 +8,8 @@ import { IExpense } from 'src/app/shared/expense.interface';
 })
 export class RecurringComponent implements OnInit {
 
-  @Input() loading:boolean = false;
-  @Input() expenses:IExpense[]
+  @Input() loading: boolean = false
+  @Input() expenses: IExpense[]
   @Output() confirmExpense = new EventEmitter()
 
   constructor() { }
@@ -17,8 +17,8 @@ export class RecurringComponent implements OnInit {
   ngOnInit() {}
 
   submit(item: IExpense) {
-    if(this.loading) {
-      return  
+    if (this.loading) {
+      return
     }
     this.confirmExpense.emit(item)
   }

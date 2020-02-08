@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
   @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime
 
-  @ViewChild(IonSelect, {static: true}) select: IonSelect;
+  @ViewChild(IonSelect, {static: true}) select: IonSelect
   
   cdo = new Date()
   currentMonth = format(new Date(), 'MMMM')
@@ -59,7 +59,7 @@ export class HomePage implements OnInit {
 
   isWorking: Boolean = false
 
-  total: any;
+  total: any
 
 
 
@@ -68,8 +68,8 @@ export class HomePage implements OnInit {
     ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
   )
   expenses: Observable<Expense[]>
-  recurringExpenses = [];
-  reccuringExpenseId: string = null;
+  recurringExpenses = []
+  reccuringExpenseId: string = null
 
 
   constructor(
@@ -111,11 +111,11 @@ export class HomePage implements OnInit {
   }
 
 
-  public dynamicHandler (price:any):void {
+  public dynamicHandler (price: any): void {
     this.expense.price = price
   }
 
-  public addItem(form: NgForm, expense:IExpense) {
+  public addItem(form: NgForm, expense: IExpense) {
     return new Promise((resolve, reject) => {
 
       const newExpense = expense || this.expense
@@ -126,12 +126,10 @@ export class HomePage implements OnInit {
       })
   
       this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
-        console.log('event received:uploaded:image: ');
+        console.log('event received:uploaded:image: ')
         const expenseInstance = new Expense(newExpense.price, newExpense.note, imageName, newExpense.category, newExpense.date, 
           this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
         )
-
-        
         this.expCollRef
         .add({...expenseInstance})
         .then(docRef => {
@@ -154,7 +152,6 @@ export class HomePage implements OnInit {
             this.events.unsubscribe('uploaded:image')
           })
       })
-  
       // Ideally we should pulish upload:image event and than a image upload
       // should happen and then listen for uploaded:image but in the case
       // when there is no image than every thing happens so fast the image upload
@@ -186,7 +183,7 @@ export class HomePage implements OnInit {
 
             // @ts-ignore
             this.expCollRef.doc(item.id).delete()
-            //FIXME: Refactor this subscription
+            // FIXME: Refactor this subscription
             if(!item.imageName) return
             this.storage
               .ref(`receipts/${item.imageName}`)
@@ -214,29 +211,36 @@ export class HomePage implements OnInit {
   }
 
   checkRecurring() {
-    this.afs.collection('tasks').valueChanges().subscribe(resp => {
-      console.log(resp);
-      this.recurringExpenses = resp
+    this.afs.collection('tasks').valueChanges()
+
+    .subscribe(resp => {
+      console.log(resp)
+      this.recurringExpenses = resp.map((item: IExpense) => {
+        return {
+          ...item,
+          date: item.date.toDate()
+        }
+      })
     })
   }
 
   addRecurring(item:IExpense) {
-    this.recurringLoading = true;
+    this.recurringLoading = true
 
     if(item.fixed) {
       this.addItem(undefined, item).then(resp => {
-        this.recurringLoading = false;
+        this.recurringLoading = false
         this.deleteRecurring(item.id)
       })  
     } else {
 
       this.expense = {...item}
-      this.select.open();
-      this.reccuringExpenseId = item.id;
+      this.select.open()
+      this.reccuringExpenseId = item.id
       
       this.events.subscribe('recurringTaskAdded', _ => {
         this.deleteRecurring(item.id).finally(() => {
-          this.recurringLoading = false;
+          this.recurringLoading = false
           this.reccuringExpenseId = null
         })
       })
@@ -252,20 +256,15 @@ export class HomePage implements OnInit {
       this.showSubCategory ? this.selectedSubCategory : null, true
     )
 
-    debugger
-    console.log(expenseInstance);
-    console.log({...expenseInstance});
-    
-    
+    console.log(expenseInstance)
+    console.log({...expenseInstance})
 
     this.afs.collection('recurring').add(
       {...expenseInstance}
     ).then(resp => {
-      console.log(resp);
-      
+      console.log(resp)
     }).catch(error => {
-      console.log(error);
-      
+      console.log(error)
     })
 
 
