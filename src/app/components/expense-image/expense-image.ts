@@ -26,6 +26,9 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   loader: HTMLIonLoadingElement
   uploadPercent: Observable<number>;
 
+  downloadURL: Observable<string>;
+
+
   constructor(
     private storage: AngularFireStorage,
     public events: Events,
@@ -129,14 +132,15 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
         // imageUrl: resp
       })
 
-    task.snapshotChanges().pipe(
-        finalize(() => {})
-    ).subscribe(resp => {
-      console.log('Done uploading');
+
+      // get notified when the download URL is available
+      task.snapshotChanges().pipe(
+        finalize(() => { 
+          this.loader && this.loader.dismiss()
+        })
+      ).subscribe();
       
-      this.loader && this.loader.dismiss()
       this.loader && this.loader.onDidDismiss().then(x => this.nullify())  
-    });
 
     } catch (error) {
 
