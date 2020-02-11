@@ -2,8 +2,7 @@
 	<input type="file" name="file" accept="image/*" #fileInput (change)="chooseFile($event)">
 	<small slot="end"><= 1mb</small>
 </ion-item>
-<pre *ngIf="uploadPercent|async as percent">{{ percent }}</pre>
-<pre>{{downloadURL | async | json}}</pre>
+<p>{{uploadPercent | async }}</p>
 <img [src]="imgsrc" height="150" *ngIf="imgsrc" (swipe)="clearSelection($event)">
 
 

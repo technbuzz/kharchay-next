@@ -5,8 +5,7 @@ import { Subscription, ReplaySubject, Observable } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
-import { skipUntil, finalize } from 'rxjs/operators';
-
+import { finalize } from 'rxjs/operators'
 
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
 
@@ -26,7 +25,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   loader: HTMLIonLoadingElement
   uploadPercent: Observable<number>;
-  downloadURL: Observable<any>;
 
   constructor(
     private storage: AngularFireStorage,
@@ -41,9 +39,9 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   ngOnInit () {
     // FIXME: refactor subscription
-    this.events.subscribe('upload:image', () => {
+    this.events.subscribe('upload:image', async () => {
       if (this.selectedFiles) {
-        this.presentLoading()
+        await this.presentLoading()
         this.uploadPic(this.selectedFiles.item(0))
       } else if (this.intentFileAvailable) {
         this.uploadPic(this.intentBlob)
@@ -113,78 +111,40 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   }
 
   async uploadPic(file) {
-    // debugger
     const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
 
-    // try {
+    try {
       // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
       const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
       const filePath = `/receipts-next/${uniqueKey}`
       const fileRef = this.storage.ref(filePath)
       // const task = this.storage.upload(`/receipts-next/${uniqueKey}`, file);
       // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-      const task =  this.storage.upload(filePath, file);
-      this.uploadPercent = task.percentageChanges();
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          this.downloadURL = fileRef.getDownloadURL()
-          console.log('Finalized')
-        })
-      ).subscribe()
-      //https://github.com/angular/angularfire2/blob/master/docs/storage/storage.md
-      // // this.imgsrc = ;
-      // webPref.getDownloadURL().subscribe(resp => {
-      //   console.log('getDownloadURL', resp);
-        this.events.publish('uploaded:image', {
-          imageName: `opt${uniqueKey}`,
-          // imageUrl: resp
-        })
-      // }, error => { 
-      //   console.log(error)
-      // })
-      // FIXME: Fix the loading as the below line is throwing error
-      this.loader.dismiss()
-      this.loader.onDidDismiss().then(x => this.nullify())
-    // } catch (error) {
+      const task = this.storage.upload(filePath, file);
 
-    //   this.handleUploadError()
-    //   console.log('Upload Task Failed', error)
-    // }
+      this.uploadPercent = task.percentageChanges();
+
+      this.events.publish('uploaded:image', {
+        imageName: `opt${uniqueKey}`,
+        // imageUrl: resp
+      })
+
+    task.snapshotChanges().pipe(
+        finalize(() => {})
+    ).subscribe(resp => {
+      console.log('Done uploading');
+      
+      this.loader && this.loader.dismiss()
+      this.loader && this.loader.onDidDismiss().then(x => this.nullify())  
+    });
+
+    } catch (error) {
+
+      this.handleUploadError()
+      console.log('Upload Task Failed', error)
+    }
 
   }
-  // async uploadPic(file) {
-  //   // debugger
-  //   const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`
-
-  //   try {
-  //     // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
-  //     const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`)
-  //     // const task = this.storage.upload(`/receipts-next/${uniqueKey}`, file);
-  //     // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-  //     await this.storage.upload(`/receipts-next/${uniqueKey}`, file).percentageChanges().subscribe(resp => {
-  //       console.log('percentChanges', resp)
-  //     })
-
-  //     // // this.imgsrc = ;
-  //     // webPref.getDownloadURL().subscribe(resp => {
-  //     //   console.log('getDownloadURL', resp);
-  //       this.events.publish('uploaded:image', {
-  //         imageName: `opt${uniqueKey}`,
-  //         // imageUrl: resp
-  //       })
-  //     // }, error => { 
-  //     //   console.log(error)
-  //     // })
-  //     // FIXME: Fix the loading as the below line is throwing error
-  //     this.loader.dismiss()
-  //     this.loader.onDidDismiss().then(x => this.nullify())
-  //   } catch (error) {
-
-  //     this.handleUploadError()
-  //     console.log('Upload Task Failed', error)
-  //   }
-
-  // }
 
   nullify() {
     this.selectedFiles = null
