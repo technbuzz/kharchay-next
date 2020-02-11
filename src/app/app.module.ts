@@ -34,7 +34,7 @@ const config:FirebaseAppConfig = {
     IonicModule.forRoot(), 
     AppRoutingModule, 
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebase), 
+    AngularFireModule.initializeApp(environment.firbase), 
     AngularFirestoreModule, 
     AngularFireStorageModule, ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
   ],
