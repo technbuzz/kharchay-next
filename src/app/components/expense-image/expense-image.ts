@@ -16,7 +16,7 @@ import { skipUntil, finalize } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpenseImageComponent implements OnInit, OnDestroy {
-  @ViewChild('fileInput')
+  @ViewChild('fileInput', { static: true })
   fileInput: ElementRef;
   selectedFiles: FileList
   intentFileAvailable: boolean = false;

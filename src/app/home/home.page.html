@@ -16,7 +16,7 @@
 
 
 <ion-content padding-small>
-  <form (ngSubmit)="addItem(form)" #form="ngForm">
+  <form (ngSubmit)="addItem(form, null)" #form="ngForm">
     <ion-list class="ion-no-padding">
       <!-- <ion-item *ngIf="dynamicPricing else staticPricing">
         <ion-label>Price</ion-label>
@@ -44,12 +44,12 @@
         </ion-datetime>
       </ion-item>
 
-      <ion-grid no-padding>
+      <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
               <ion-label position="floating">Choose Category</ion-label>
-              <ion-select interface="popover" required name="category"
+              <ion-select interface="popover" required name="category" 
                 (ionChange)="populateSubCategory(expense.category)" [(ngModel)]="expense.category">
                 <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
                 </ion-select-option>
@@ -75,29 +75,41 @@
 
       <expense-image></expense-image>
 
+      <!-- <button (click)="addTasks()">Add Recurring</button> -->
+
     </ion-list>
 
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
     <div padding-small-horizontal>
       <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-      <ion-button margin-right color="secondary" float-end routerLink="/summary" routerDirection="forward"
+      <ion-button margin-right color="secondary" class="ion-float-end" routerLink="/summary" routerDirection="forward"
         type="button">Show
         Chart</ion-button>
+      <!-- <ion-button margin-right color="secondary" class="ion-float-end" type="button" (click)="presentLoading()">Show Chart</ion-button> -->
     </div>
 
   </form>
 
-  <section padding-horizontal>
+  
+  <!-- List all the expense of this month -->
+  <!-- <section class="ion-padding-horizontal">
     <header>
       <h2>{{this.currentMonth}} </h2>
-      <h2 #flip></h2>
+      <h2>{{this.total }}</h2>
     </header>
 
     <ion-list class="ion-no-padding">
       <expense-item [expense]="item" (onDelete)="delete($event)"
         *ngFor="let item of expenses | async; trackBy:trackByFn"></expense-item>
     </ion-list>
+  </section> -->
+
+
+  <!-- List all the recurring expense -->
+  <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
+    <h2>Incoming Expenses</h2>
+    <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>
   </section>
 
 </ion-content>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolve
 import { Stepper } from '../shared/stepper';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Expense } from '../home/expense.model';
+import { BaseExpense } from '../home/expense-base.model';
 
 
 import { groupBy, forIn, reduce } from "lodash";
@@ -15,13 +15,13 @@ import { PieComponent } from '../components/pie/pie';
   styleUrls: ['./summary.page.scss'],
 })
 export class SummaryPage extends Stepper implements OnInit {
-  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
 
   month = new Date().toISOString();
   loading: boolean = true;
   total: number = 0;
   expRef: AngularFirestoreCollection<any>;
-  expenses$: Observable<Expense[]>;
+  expenses$: Observable<BaseExpense[]>;
   constructor(
     private afs: AngularFirestore,
     private resolver: ComponentFactoryResolver

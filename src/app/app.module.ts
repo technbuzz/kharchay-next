@@ -44,7 +44,7 @@ const config:FirebaseAppConfig = {
     WebIntent,
     File,
     FilePath,
-    { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
+    // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}
   ],

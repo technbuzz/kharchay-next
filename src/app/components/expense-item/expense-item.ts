@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IExpense } from '../../shared/expense.interface';
-import { NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { IExpense } from '../../shared/expense.interface'
+import { NavController } from '@ionic/angular'
+import { Router } from '@angular/router'
 
 
 @Component({
   selector: 'expense-item',
   template: `
     <ion-item-sliding [disabled]="!item.id">
-      <ion-item no-padding [attr.detail]="item.imageName" (click)="showDetails(item)">
+      <ion-item class="ion-no-padding" [attr.detail]="item.imageName" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageName">
           <img src="./assets/imgs/placeholder.png">
         </ion-avatar>
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
               <ion-badge>{{item.category}}</ion-badge>
             </ng-template>
             <!-- END For backward compatibility -->
-  
+
             <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory}}</ion-badge>
           </div>
           <p class="ion-no-margin">{{item.note}}</p>
@@ -45,6 +45,7 @@ import { Router } from '@angular/router';
       }
       ion-badge{
         margin-right: 5px;
+        font-weight: normal;
       }
       ion-item{
         --inner-padding-top: 0.35rem;
@@ -54,9 +55,9 @@ import { Router } from '@angular/router';
   ]
 })
 export class ExpenseItemComponent {
-  @Input('expense') item: IExpense;
-  @Input() readonly: boolean = false;
-  @Output('onDelete') delete = new EventEmitter();
+  @Input('expense') item: IExpense
+  @Input() readonly: boolean = false
+  @Output('onDelete') delete = new EventEmitter()
 
   constructor(private navCtrl: NavController,private router: Router) {
   }
@@ -70,7 +71,7 @@ export class ExpenseItemComponent {
       })
       // this.navCtrl.push('DetailsPage', { item });
     } else {
-      item.details = !item.details;
+      item.details = !item.details
     }
   }
 }
