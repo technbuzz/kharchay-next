@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
 import { Events, LoadingController, AlertController } from '@ionic/angular'
-import { Subscription, ReplaySubject, Observable } from 'rxjs'
+import { ReplaySubject, Observable } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
@@ -24,7 +24,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   imgsrc
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   loader: HTMLIonLoadingElement
-  uploadPercent: Observable<number>;
 
   downloadURL: Observable<string>;
 
@@ -78,7 +77,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   async presentLoading () {
     this.loader = await this.loadingCtrl.create({
       message: 'Uploading Image, Please wait...',
-      spinner: 'bubbles'
+      spinner: 'bubbles',
+      cssClass: 'loading-upload-image'
     })
     await this.loader.present()
   }
@@ -105,7 +105,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
       reader.readAsDataURL(file)
     })
-
   }
 
   // FIXME: clearSelection(event:SwipeBackGesture){
@@ -125,7 +124,9 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
       // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
       const task = this.storage.upload(filePath, file);
 
-      this.uploadPercent = task.percentageChanges();
+      task.percentageChanges().subscribe(resp => {
+        this.loader.style.setProperty("--percent-uploaded", `${resp.toFixed()}%`)
+      })
 
       this.events.publish('uploaded:image', {
         imageName: `opt${uniqueKey}`,
