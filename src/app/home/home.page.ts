@@ -96,24 +96,24 @@ export class HomePage implements OnInit {
 
     this.checkRecurring()
 
-    this.maxDate = this.cdo.toISOString().split('T')[0]
-    this.expenses = this.expCollRef.valueChanges().pipe(map(array => {
-      return array.map(item => {
-        return {
-          ...item,
-          date: item.date.toDate()
-        }
-      })
-    }))
+    // this.maxDate = this.cdo.toISOString().split('T')[0]
+    // this.expenses = this.expCollRef.valueChanges().pipe(map(array => {
+    //   return array.map(item => {
+    //     return {
+    //       ...item,
+    //       date: item.date.toDate()
+    //     }
+    //   })
+    // }))
 
-    this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
-      new Promise((resolve, reject) => {
-        this.total = values.reduce((prev, current, index, array) => {
-          if(index === array.length - 1) resolve('😎')
-          return prev + Number(current.price)
-        }, 0)
-      }) // Promise
-    })// forEach
+    // this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
+    //   new Promise((resolve, reject) => {
+    //     this.total = values.reduce((prev, current, index, array) => {
+    //       if(index === array.length - 1) resolve('😎')
+    //       return prev + Number(current.price)
+    //     }, 0)
+    //   }) // Promise
+    // })// forEach
 
   }
 
