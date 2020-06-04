@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators'
 })
 export class FilterPage extends Stepper implements OnInit {
 
-  @ViewChild(IonDatetime, { static: false }) expenseMonth: IonDatetime
+  @ViewChild(IonDatetime) expenseMonth: IonDatetime
   categories: any = []
 
   searchType: string = 'basic'
