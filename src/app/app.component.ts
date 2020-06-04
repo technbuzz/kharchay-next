@@ -67,4 +67,15 @@ export class AppComponent {
       console.log(error)
     })
   }
+
+  registerShortcuts() {
+    if (this.platform.is('cordova')) {
+      // @ts-ignore
+      window.plugins.Shortcuts.supportsDynamic(supported => {
+        console.log('supported: Dynamic ', supported);
+      }, error => {
+        console.log('error: ', error);
+      })
+    }
+  }
 }
