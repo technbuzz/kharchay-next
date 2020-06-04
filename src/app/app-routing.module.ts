@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-  { path: 'details', loadChildren: './details/details.module#DetailsPageModule' },
-  { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
-  { path: 'filter', loadChildren: './filter/filter.module#FilterPageModule' },
-  { path: 'summary', loadChildren: './summary/summary.module#SummaryPageModule' },
-  { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
+  { path: 'details', loadChildren: () => import('./details/details.module').then(m => m.DetailsPageModule) },
+  { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule) },
+  { path: 'filter', loadChildren: () => import('./filter/filter.module').then(m => m.FilterPageModule) },
+  { path: 'summary', loadChildren: () => import('./summary/summary.module').then(m => m.SummaryPageModule) },
+  { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsPageModule) },
 ];
 
 @NgModule({
