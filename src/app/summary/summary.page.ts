@@ -65,15 +65,16 @@ export class SummaryPage extends Stepper implements OnInit {
     // Backward compat becuse new format is {category:{title:'food'}}
     grouped = groupBy(values, (item) => { return item.category.title ? item.category.title : item.category });
     console.log({ grouped });
-
+    
     forIn(grouped, (value, key, item) => {
       chartLabels.push(key.toUpperCase());
       chartData.push(reduce(
         value, (sum, n) => {
           return sum + Number(n.price);
         }, 0))
-    });
-
+      });
+      
+    console.log({ grouped });
     this.container.clear();
     const factory = this.resolver.resolveComponentFactory(PieComponent);
     const componentRef = this.container.createComponent(factory);
@@ -83,11 +84,6 @@ export class SummaryPage extends Stepper implements OnInit {
 
     componentRef.instance.doughnutChartData = chartData;
     componentRef.instance.doughnutChartLabels = chartLabels;
-    // componentRef.instance.chartClicked.subscribe((event, item) => {
-    //   console.log(event);
-    //   console.log(item);
-
-    // })
   }
 
 }

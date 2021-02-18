@@ -37,7 +37,6 @@
     "body-parser": "^1.18.3",
     "chart.js": "^2.8.0",
     "com-darryncampbell-cordova-plugin-intent": "^2.0.0",
-    "cordova-android": "^8.1.0",
     "cordova-plugin-file": "6.0.1",
     "cordova-plugin-filepath": "1.5.5",
     "core-js": "^2.5.4",
@@ -102,8 +101,6 @@
       "cordova-plugin-filepath": {},
       "com-darryncampbell-cordova-plugin-intent": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
