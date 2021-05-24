@@ -15,10 +15,11 @@ import * as startOfMonth from 'date-fns/start_of_month'
 import { ICategory } from '../shared/category.interface'
 import { categories } from '../shared/categories'
 import { NgForm } from '@angular/forms'
-import { Observable } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { IExpense } from '../shared/expense.interface'
 import { SettingsService } from '../services/settings.service'
 import { Expense } from '../shared/expense.class'
+import { ImageService } from '../services/image.service'
 
 @Component({
   selector: 'app-home',
@@ -58,7 +59,7 @@ export class HomePage implements OnInit {
   isWorking: Boolean = false
 
   total: any
-
+  uploadedSubscription: Subscription;
 
 
   expCollRef: AngularFirestoreCollection<any> = this.afs.collection(
@@ -76,7 +77,8 @@ export class HomePage implements OnInit {
     private alertCtrl: AlertController,
     private storage: AngularFireStorage,
     private settingService: SettingsService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private imageService: ImageService
   ) {
     Object.assign(this.categories, categories)
   }
@@ -130,9 +132,9 @@ export class HomePage implements OnInit {
         this.events.unsubscribe('uploading:cancelled')
       })
   
-      this.events.subscribe('uploaded:image', ({ imageName, imageUrl }) => {
+      this.uploadedSubscription = this.imageService.uploaded$.subscribe(resp => {
         console.log('event received:uploaded:image: ')
-        const expenseInstance = new Expense(newExpense.price, newExpense.note, imageName, newExpense.category, newExpense.date, 
+        const expenseInstance = new Expense(newExpense.price, newExpense.note, resp.imageName, newExpense.category, newExpense.date, 
           this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
         )
         this.expCollRef
@@ -148,13 +150,13 @@ export class HomePage implements OnInit {
             if(this.reccuringExpenseId) {
               this.events.publish('recurringTaskAdded')
             }
-            this.events.unsubscribe('uploaded:image')
+            this.uploadedSubscription.unsubscribe()
           })
           .catch(err => {
             reject(err)
             this.isWorking = false
             console.log(err)
-            this.events.unsubscribe('uploaded:image')
+            this.uploadedSubscription.unsubscribe()
           })
       })
       // Ideally we should pulish upload:image event and than a image upload

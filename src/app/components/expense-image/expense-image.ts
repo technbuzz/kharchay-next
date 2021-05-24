@@ -6,6 +6,7 @@ import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
 import { FilePath } from '@ionic-native/file-path/ngx'
 import { finalize } from 'rxjs/operators'
+import { ImageService } from 'src/app/services/image.service'
 
 // import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
 
@@ -36,7 +37,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     private utils: UtilsService,
     private fileService: IonicFileService,
     private filePath: FilePath,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private imageService: ImageService
   ) {}
 
   ngOnInit () {
@@ -48,7 +50,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
       } else if (this.intentFileAvailable) {
         this.uploadPic(this.intentBlob)
       } else {
-        this.events.publish('uploaded:image', {
+
+        this.imageService.setUploaded({
           imageName: null,
           imageUrl: null
         })
@@ -128,9 +131,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
         this.loader.style.setProperty("--percent-uploaded", `${resp.toFixed()}%`)
       })
 
-      this.events.publish('uploaded:image', {
+      this.imageService.setUploaded({
         imageName: `opt${uniqueKey}`,
-        // imageUrl: resp
       })
 
 
