@@ -13,7 +13,9 @@ export class SettingsService {
 
   private key: string = 'kharchay-configs'
 
-  inputBS = new BehaviorSubject(false)
+
+  private inputBS = new BehaviorSubject(false)
+  inputBS$ = this.inputBS.asObservable()
   private config: ISettings
 
   constructor() {
@@ -30,6 +32,10 @@ export class SettingsService {
 
   getConfig(): Observable<boolean> {
     return this.inputBS.asObservable()
+  }
+
+  updateConfig(value:boolean) {
+    this.inputBS.next(value)
   }
 
   setConfig(newConfig) {

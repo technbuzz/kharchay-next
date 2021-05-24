@@ -7,6 +7,7 @@ import { PieComponent } from './pie/pie'
 import { ChartsModule } from "ng2-charts"
 import { RecurringComponent } from './recurring/recurring.component'
 
+
 @NgModule({
   declarations: [ExpenseItemComponent, ExpenseImageComponent, PieComponent, RecurringComponent],
   imports: [

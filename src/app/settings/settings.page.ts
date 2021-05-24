@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
-import { Events, AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
 import { AngularFireAuth } from "@angular/fire/auth";
-import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class SettingsPage implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private events: Events,
     private afAuth: AngularFireAuth,
     public alertController: AlertController,
     private authService: AuthService,
@@ -43,10 +41,8 @@ export class SettingsPage implements OnInit {
   }
 
   updateTextMode() {
-    this.settingsService.inputBS.next(this.dynamicPricing);
-
-    // FIXME: Can't we stop using event here but Subjects only
-    this.events.publish('dynamic:Pricing', this.dynamicPricing);
+    this.settingsService.updateConfig(this.dynamicPricing)
+    
     // update localstorage
     this.settingsService.setConfig({ dynamicPricing: this.dynamicPricing });
   }

@@ -88,7 +88,7 @@ export class HomePage implements OnInit {
     })
 
     // dynamicPricing event management
-    this.events.subscribe('dynamic:Pricing', (boolean) => {
+    this.settingService.inputBS$.subscribe( boolean => {
       this.dynamicPricing = boolean
     })
 
