@@ -164,7 +164,7 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   async handleUploadError() {
     this.loader && this.loader.dismiss()
     await this.presentErrorAlert()
-    this.events.publish('uploading:cancelled')
+    this.imageService.setCancelled(true)
   }
   
   async presentErrorAlert() {
