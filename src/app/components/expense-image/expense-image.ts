@@ -43,7 +43,7 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   ngOnInit () {
     // FIXME: refactor subscription
-    this.events.subscribe('upload:image', async () => {
+    this.imageService.upload$.subscribe(async x => {
       if (this.selectedFiles) {
         await this.presentLoading()
         this.uploadPic(this.selectedFiles.item(0))

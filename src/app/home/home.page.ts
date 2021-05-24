@@ -164,7 +164,7 @@ export class HomePage implements OnInit {
       // when there is no image than every thing happens so fast the image upload
       // component publishes before home component have enough time to subscribe
       // to uploaded:image so event is missed
-      this.events.publish('upload:image')
+      this.imageService.setUpload(true)
     })
   }
 

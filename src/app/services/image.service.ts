@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
-  uploadedSubject = new Subject();
-  uploaded$: Observable<any> = this.uploadedSubject.asObservable()
+  private uploadedSubject = new Subject();
+  uploaded$ = this.uploadedSubject.asObservable()
+
+  private uploadSubject = new Subject();
+  upload$ = this.uploadSubject.asObservable()
   constructor() { }
 
   setUploaded(value) {
     this.uploadedSubject.next(value)
+  }
+
+  setUpload(value) {
+    this.uploadSubject.next(value)
   }
 }
