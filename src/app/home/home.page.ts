@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core'
-import { IonDatetime, Events, AlertController, LoadingController, IonSelect } from '@ionic/angular'
+import { IonDatetime, AlertController, LoadingController, IonSelect } from '@ionic/angular'
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
@@ -74,7 +74,6 @@ export class HomePage implements OnInit {
 
 
   constructor(
-    private events: Events,
     private afs: AngularFirestore,
     private alertCtrl: AlertController,
     private storage: AngularFireStorage,

@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
-import { Events, LoadingController, AlertController } from '@ionic/angular'
+import { LoadingController, AlertController } from '@ionic/angular'
 import { ReplaySubject, Observable } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
@@ -31,7 +31,6 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   constructor(
     private storage: AngularFireStorage,
-    public events: Events,
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private utils: UtilsService,
