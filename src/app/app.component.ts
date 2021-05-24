@@ -1,9 +1,7 @@
 import { Component } from '@angular/core'
+// import { WebIntent } from '@ionic-native/web-intent/ngx'
 
 import { Platform } from '@ionic/angular'
-import { SplashScreen } from '@ionic-native/splash-screen/ngx'
-import { StatusBar } from '@ionic-native/status-bar/ngx'
-import { WebIntent } from '@ionic-native/web-intent/ngx'
 import { UtilsService } from './services/utils.service'
 
 
@@ -14,9 +12,7 @@ import { UtilsService } from './services/utils.service'
 export class AppComponent {
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private webIntent: WebIntent,
+    // private webIntent: WebIntent,
     private utils: UtilsService
   ) {
     this.initializeApp()
@@ -24,30 +20,27 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.backgroundColorByHexString('#488AFF')
-      this.statusBar.styleDefault()
-      this.splashScreen.hide()
-      this.registerBroadcast()
+      // this.registerBroadcast()
       this.handleBackButton()
     })
   }
 
-  private registerBroadcast() {
-    if (this.platform.is('cordova')) {
-      window['plugins'].intentShim.registerBroadcastReceiver({
-        filterActions: [
-          'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
-        ]
-      },
-        function (intent) {
-          //  Broadcast received
-          console.log('Received Intent: ' + JSON.stringify(intent.extras))
-        }
-      )
-    }
+  // private registerBroadcast() {
+  //   if (this.platform.is('cordova')) {
+  //     window['plugins'].intentShim.registerBroadcastReceiver({
+  //       filterActions: [
+  //         'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
+  //       ]
+  //     },
+  //       function (intent) {
+  //         //  Broadcast received
+  //         console.log('Received Intent: ' + JSON.stringify(intent.extras))
+  //       }
+  //     )
+  //   }
 
-    this.handleIntent()
-  }
+  //   this.handleIntent()
+  // }
 
   private handleBackButton() {
     if (this.platform.is('android')) {
@@ -59,23 +52,25 @@ export class AppComponent {
     }
   }
 
-  handleIntent () {
-    this.webIntent.onIntent().subscribe(intent => {
-      this.utils.image.next(intent.extras)
-      console.log(intent)
-    }, error => {
-      console.log(error)
-    })
-  }
+  // handleIntent () {
+  //   this.webIntent.onIntent().subscribe(intent => {
+  //     this.utils.image.next(intent.extras)
+  //     console.log(intent)
+  //   }, error => {
+  //     console.log(error)
+  //   })
+  // }
 
-  registerShortcuts() {
-    if (this.platform.is('cordova')) {
-      // @ts-ignore
-      window.plugins.Shortcuts.supportsDynamic(supported => {
-        console.log('supported: Dynamic ', supported);
-      }, error => {
-        console.log('error: ', error);
-      })
-    }
-  }
+  // registerShortcuts() {
+  //   if (this.platform.is('cordova')) {
+  //     // @ts-ignore
+  //     window.plugins.Shortcuts.supportsDynamic(supported => {
+  //       console.log('supported: Dynamic ', supported);
+  //     }, error => {
+  //       console.log('error: ', error);
+  //     })
+  //   }
+  // }
 }
+
+

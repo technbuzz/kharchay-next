@@ -3,8 +3,8 @@ import { AngularFireStorage } from '@angular/fire/storage'
 import { LoadingController, AlertController } from '@ionic/angular'
 import { ReplaySubject, Observable } from 'rxjs'
 import { UtilsService } from 'src/app/services/utils.service'
-import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
-import { FilePath } from '@ionic-native/file-path/ngx'
+// import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx'
+// import { FilePath } from '@ionic-native/file-path/ngx'
 import { finalize } from 'rxjs/operators'
 import { ImageService } from 'src/app/services/image.service'
 
@@ -21,7 +21,7 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   selectedFiles: FileList
   intentFileAvailable: boolean = false;
   private intentBlob: Blob;
-  file: File
+  // file: File
   imgsrc
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1)
   loader: HTMLIonLoadingElement
@@ -34,8 +34,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private utils: UtilsService,
-    private fileService: IonicFileService,
-    private filePath: FilePath,
+    // private fileService: IonicFileService,
+    // private filePath: FilePath,
     private cdRef: ChangeDetectorRef,
     private imageService: ImageService
   ) {}
@@ -58,22 +58,22 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
       }
     })
 
-    this.utils.image.subscribe(async (resp:any) => {
-      try {
-        const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM'])
-        const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry
+    // this.utils.image.subscribe(async (resp:any) => {
+    //   try {
+    //     const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM'])
+    //     const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry
 
-        const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
+    //     const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl)
 
-        this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
-        this.imgsrc = await this.renderFile(this.intentBlob)
-        this.intentFileAvailable = true
-        this.cdRef.detectChanges()
-      } catch (error) {
-        console.log(error)
+    //     this.intentBlob = await this.utils.convertCordovaFileToJavascriptFile(cordovaFile)
+    //     this.imgsrc = await this.renderFile(this.intentBlob)
+    //     this.intentFileAvailable = true
+    //     this.cdRef.detectChanges()
+    //   } catch (error) {
+    //     console.log(error)
         
-      }
-    })
+    //   }
+    // })
   }
 
   async presentLoading () {

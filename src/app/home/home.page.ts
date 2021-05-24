@@ -134,7 +134,7 @@ export class HomePage implements OnInit {
         tap(_ => this.isWorking = false)
       ).subscribe()
   
-      this.uploadedSubscription = this.imageService.uploaded$.subscribe(resp => {
+      this.uploadedSubscription = this.imageService.uploaded$.subscribe((resp: any) => {
         console.log('event received:uploaded:image: ')
         const expenseInstance = new Expense(newExpense.price, newExpense.note, resp.imageName, newExpense.category, newExpense.date, 
           this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed

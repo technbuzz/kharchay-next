@@ -3,8 +3,6 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser'
 import { RouteReuseStrategy } from '@angular/router'
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular'
-import { SplashScreen } from '@ionic-native/splash-screen/ngx'
-import { StatusBar } from '@ionic-native/status-bar/ngx'
 import { AngularFireModule, FirebaseAppConfig } from '@angular/fire'
 import { AngularFirestoreModule } from '@angular/fire/firestore'
 import { AngularFireStorageModule } from '@angular/fire/storage'
@@ -16,9 +14,9 @@ import { ComponentsModule } from './components/components.module'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
 import { MyHammerConfig } from './shared/hammerConfig'
-import { WebIntent } from '@ionic-native/web-intent/ngx'
-import { File } from '@ionic-native/file/ngx'
-import { FilePath } from '@ionic-native/file-path/ngx'
+// import { WebIntent } from '@ionic-native/web-intent/ngx'
+// import { File } from '@ionic-native/file/ngx'
+// import { FilePath } from '@ionic-native/file-path/ngx'
 
 
 const config:FirebaseAppConfig = {
@@ -39,11 +37,9 @@ const config:FirebaseAppConfig = {
     AngularFireStorageModule, ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    WebIntent,
-    File,
-    FilePath,
+    // WebIntent,
+    // File,
+    // FilePath,
     // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}

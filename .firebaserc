@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "kharchay-95809": {
+      "hosting": {
+        "app": [
+          "kharchay-95809"
+        ]
+      }
+    }
+  }
+}

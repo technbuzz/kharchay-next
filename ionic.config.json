@@ -1,7 +1,6 @@
 {
-  "name": "kharchay-nxt",
+  "name": "kharchay-next",
   "integrations": {
-    "cordova": {},
     "capacitor": {}
   },
   "type": "angular"
