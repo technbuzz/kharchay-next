@@ -10,6 +10,9 @@ export class ImageService {
 
   private uploadSubject = new Subject();
   upload$ = this.uploadSubject.asObservable()
+  
+  private cancelled = new Subject();
+  cancelled$ = this.cancelled.asObservable()
   constructor() { }
 
   setUploaded(value) {
@@ -18,5 +21,9 @@ export class ImageService {
 
   setUpload(value) {
     this.uploadSubject.next(value)
+  }
+
+  setCancelled(value) {
+    this.cancelled.next(value)
   }
 }

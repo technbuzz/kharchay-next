@@ -6,7 +6,8 @@ import { IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx';
   providedIn: 'root'
 })
 export class UtilsService {
-
+  private recurringTask = new Subject()
+  recurringTask$ = this.recurringTask.asObservable()
   image = new Subject()
 
   constructor() { }
@@ -33,6 +34,10 @@ export class UtilsService {
 
       reader.readAsArrayBuffer(cordovaFile);
     })
+  }
+
+  setRecurring(value) {
+    this.recurringTask.next(value)
   }
 
   

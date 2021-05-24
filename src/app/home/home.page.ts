@@ -20,6 +20,8 @@ import { IExpense } from '../shared/expense.interface'
 import { SettingsService } from '../services/settings.service'
 import { Expense } from '../shared/expense.class'
 import { ImageService } from '../services/image.service'
+import { take, takeUntil, tap } from 'rxjs/operators'
+import { UtilsService } from '../services/utils.service'
 
 @Component({
   selector: 'app-home',
@@ -78,7 +80,8 @@ export class HomePage implements OnInit {
     private storage: AngularFireStorage,
     private settingService: SettingsService,
     private loadingCtrl: LoadingController,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private utilService: UtilsService
   ) {
     Object.assign(this.categories, categories)
   }
@@ -127,10 +130,10 @@ export class HomePage implements OnInit {
 
       const newExpense = expense || this.expense
       this.isWorking = true
-      this.events.subscribe('uploading:cancelled', () => {
-        this.isWorking = false
-        this.events.unsubscribe('uploading:cancelled')
-      })
+      this.imageService.cancelled$.pipe(
+        take(1),
+        tap(_ => this.isWorking = false)
+      ).subscribe()
   
       this.uploadedSubscription = this.imageService.uploaded$.subscribe(resp => {
         console.log('event received:uploaded:image: ')
@@ -148,7 +151,7 @@ export class HomePage implements OnInit {
             // })
             resolve(docRef)
             if(this.reccuringExpenseId) {
-              this.events.publish('recurringTaskAdded')
+              this.utilService.setRecurring(true)
             }
             this.uploadedSubscription.unsubscribe()
           })
@@ -245,7 +248,9 @@ export class HomePage implements OnInit {
       this.select.open()
       this.reccuringExpenseId = item.id
       
-      this.events.subscribe('recurringTaskAdded', _ => {
+      this.utilService.recurringTask$
+      .pipe(take(1))
+      .subscribe(resp => {
         this.deleteRecurring(item.id).finally(() => {
           this.recurringLoading = false
           this.reccuringExpenseId = null
