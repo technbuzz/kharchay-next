@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "kharchay-next",
+  "appId": "com.app.kharchayNext",
+  "appName": "Kharchay Next",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

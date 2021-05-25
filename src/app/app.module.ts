@@ -15,8 +15,8 @@ import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
 import { MyHammerConfig } from './shared/hammerConfig'
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
-// import { File } from '@ionic-native/file/ngx'
-// import { FilePath } from '@ionic-native/file-path/ngx'
+import { File } from '@ionic-native/file/ngx'
+import { FilePath } from '@ionic-native/file-path/ngx'
 
 
 const config:FirebaseAppConfig = {
@@ -38,8 +38,8 @@ const config:FirebaseAppConfig = {
   ],
   providers: [
     // WebIntent,
-    // File,
-    // FilePath,
+    File,
+    FilePath,
     // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}
