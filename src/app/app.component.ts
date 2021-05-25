@@ -1,8 +1,8 @@
-import { Component } from '@angular/core'
+import { Component } from '@angular/core';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
-import { Platform } from '@ionic/angular'
-import { UtilsService } from './services/utils.service'
+import { Platform } from '@ionic/angular';
+import { UtilsService } from './services/utils.service';
 
 
 @Component({
@@ -15,14 +15,14 @@ export class AppComponent {
     // private webIntent: WebIntent,
     private utils: UtilsService
   ) {
-    this.initializeApp()
+    this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       // this.registerBroadcast()
-      this.handleBackButton()
-    })
+      this.handleBackButton();
+    });
   }
 
   // private registerBroadcast() {
@@ -46,9 +46,9 @@ export class AppComponent {
     if (this.platform.is('android')) {
       this.platform.backButton.subscribe(() => {
         if (window.location.pathname.includes('home')) {
-          navigator['app'].exitApp()
+          navigator.app.exitApp();
         }
-      })
+      });
     }
   }
 
