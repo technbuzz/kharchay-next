@@ -31,3 +31,7 @@ npm-debug.log*
 /www
 /android
 /src/environments
+/resources/android/icon
+/resources/android/splash
+/resources/ios/icon
+/resources/ios/splash
