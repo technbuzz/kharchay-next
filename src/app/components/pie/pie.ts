@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ChartType } from 'chart.js';
 @Component({
   selector: 'pie',
   templateUrl: 'pie.html',
@@ -10,10 +11,10 @@ export class PieComponent {
   @Input('doughnutChartData') doughnutChartData: number[];
 
   @Output()
-  chartClicked = new EventEmitter(); 
+  chartClicked = new EventEmitter();
 
 
-  public doughnutChartType: string = 'doughnut';
+  public doughnutChartType: ChartType = 'doughnut';
   donutOptions: any = {
     legend: {
       display: true,
@@ -24,12 +25,12 @@ export class PieComponent {
     },
     // onClick: function(e){
     //   console.log('donutOptions', e);
-      
+
     //   const element = this.getElementAtEvent(e);
     //   console.log(element[0]);
     //   const element1 = this.getSegmentsAtEvent(e);
     //   console.log(element1[0]);
-      
+
     // }
   };
 

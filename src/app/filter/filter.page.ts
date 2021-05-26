@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { startOfMonth, endOfMonth, isBefore } from 'date-fns'
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore'
-import { IonDatetime } from '@ionic/angular'
-import { Observable } from 'rxjs'
-import { BaseExpense } from '../home/expense-base.model'
-import { Stepper } from '../shared/stepper'
-import { categories } from '../shared/categories'
-import { map } from 'rxjs/operators'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { startOfMonth, endOfMonth, isBefore } from 'date-fns';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { IonDatetime } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { BaseExpense } from '../home/expense-base.model';
+import { Stepper } from '../shared/stepper';
+import { categories } from '../shared/categories';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -16,57 +16,57 @@ import { map } from 'rxjs/operators'
 })
 export class FilterPage extends Stepper implements OnInit {
 
-  @ViewChild(IonDatetime) expenseMonth: IonDatetime
-  categories: any = []
+  @ViewChild(IonDatetime) expenseMonth: IonDatetime;
+  categories: any = [];
 
-  searchType: string = 'basic'
+  searchType = 'basic';
   filter = {
     startDate: '',
     endDate: '',
     category: '',
     month: new Date().toISOString()
-  }
+  };
 
-  expenses$: Observable<BaseExpense[]>
-  expRef: AngularFirestoreCollection<any>
-  total: number = 0
+  expenses$: Observable<BaseExpense[]>;
+  expRef: AngularFirestoreCollection<any>;
+  total = 0;
 
 
   constructor(private afs: AngularFirestore) {
-    super()
-    Object.assign(this.categories, categories)
+    super();
+    Object.assign(this.categories, categories);
 
    }
 
   ngOnInit() {
-    this.loadBasic()
+    this.loadBasic();
   }
 
   public loadBasic() {
-    const basicStartMonth = startOfMonth(this.filter.month)
-    const basicEndMonth = endOfMonth(this.filter.month)
+    const basicStartMonth = startOfMonth(this.filter.month);
+    const basicEndMonth = endOfMonth(this.filter.month);
 
-    this.loadResults({startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString()})
+    this.loadResults({startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString()});
 
     this.expRef = this.afs.collection('expense', ref =>
       ref
         .where('date', '>=', basicStartMonth)
         .where('date', '<=', basicEndMonth)
-    )
+    );
 
     // Finding Total
-    this.findTotal()
+    this.findTotal();
   }
 
   public loadResults({startDate, endDate}) {
 
     if (startDate && endDate) {
-      this.filter.startDate = startDate
-      this.filter.endDate = endDate
+      this.filter.startDate = startDate;
+      this.filter.endDate = endDate;
     }
 
     if (!this.filter.startDate || !this.filter.endDate || !this.filter.category) {
-      return
+      return;
     }
 
     if (isBefore(this.filter.endDate, this.filter.startDate)) {
@@ -76,7 +76,7 @@ export class FilterPage extends Stepper implements OnInit {
       //   showCloseButton: true
       // }).present();
 
-      return
+      return;
     }
 
 
@@ -85,28 +85,22 @@ export class FilterPage extends Stepper implements OnInit {
         .where('date', '>=', new Date(this.filter.startDate))
         .where('date', '<=', new Date(this.filter.endDate))
         .where('category', '==', this.filter.category)
-    )
+    );
 
     // Finding Total
-    this.findTotal()
+    this.findTotal();
   }
 
   findTotal() {
     this.expenses$ = this.expRef.valueChanges().
-      pipe(map(value => {
-        return value.map(item => {
-          return {
+      pipe(map(value => value.map(item => ({
             ...item,
             date: item.date.toDate()
-          }
-        })
-      }))
+          }))));
 
     this.expenses$.forEach(values => {
-      this.total = values.reduce((prev, current) => {
-        return prev + Number(current.price)
-      }, 0)
-    })
+      this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
+    });
   }
 
 }
