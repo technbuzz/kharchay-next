@@ -1,6 +1,6 @@
 {
   "name": "kharchay-next",
-  "version": "1.6.0",
+  "version": "1.1.6",
   "author": "Samiullah Khan",
   "homepage": "https://technbuzz.com/",
   "scripts": {
@@ -77,5 +77,5 @@
     "inquirer-autocomplete-prompt": "^1.0.1",
     "open": "^7.0.3"
   },
-  "description": "An Ionic project"
+  "description": "An Expense Management App"
 }

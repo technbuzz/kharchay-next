@@ -21,7 +21,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       // this.registerBroadcast()
-      this.handleBackButton();
+      // this.handleBackButton();
     });
   }
 
@@ -42,15 +42,15 @@ export class AppComponent {
   //   this.handleIntent()
   // }
 
-  private handleBackButton() {
-    if (this.platform.is('android')) {
-      this.platform.backButton.subscribe(() => {
-        if (window.location.pathname.includes('home')) {
-          navigator.app.exitApp();
-        }
-      });
-    }
-  }
+  // private handleBackButton() {
+  //   if (this.platform.is('android')) {
+  //     this.platform.backButton.subscribe(() => {
+  //       if (window.location.pathname.includes('home')) {
+  //         navigator.app.exitApp();
+  //       }
+  //     });
+  //   }
+  // }
 
   // handleIntent () {
   //   this.webIntent.onIntent().subscribe(intent => {
