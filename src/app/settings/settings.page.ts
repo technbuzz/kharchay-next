@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -11,8 +12,9 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./settings.page.scss']
 })
 export class SettingsPage implements OnInit {
-  dynamicPricing: boolean = false;
-  loggedIn: boolean = false;
+  dynamicPricing = false;
+  loggedIn = false;
+  loggedIn$: Observable<any>;
   loading: any = null;
 
   constructor(
@@ -22,7 +24,6 @@ export class SettingsPage implements OnInit {
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController
-    
   ) {}
 
   ngOnInit() {
@@ -30,19 +31,12 @@ export class SettingsPage implements OnInit {
       this.dynamicPricing = resp;
     });
 
-    this.afAuth.authState.subscribe(resp => {
-      if(resp){
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false
-      }
-      console.log('resp: ', resp);
-    })
+    this.loggedIn$ = this.afAuth.authState;
   }
 
   updateTextMode() {
-    this.settingsService.updateConfig(this.dynamicPricing)
-    
+    this.settingsService.updateConfig(this.dynamicPricing);
+
     // update localstorage
     this.settingsService.setConfig({ dynamicPricing: this.dynamicPricing });
   }
@@ -78,23 +72,23 @@ export class SettingsPage implements OnInit {
 
             console.log('Confirm Ok', params);
             const {email,password} = params;
-            if(!email || !password) return
+            if(!email || !password) {return;}
             this.presentLoading();
             this.authService.signInWithEmail(params)
               .then(resp => {
                 console.log(resp);
               }).catch(error => {
                 console.log(error);
-                this.presentToast()
+                this.presentToast();
               }).finally(() => {
                 this.loading.dismiss();
-              })
+              });
           }
         }
       ]
-    })
+    });
 
-    await alert.present()
+    await alert.present();
   }
 
   async presentLoading() {
@@ -103,9 +97,9 @@ export class SettingsPage implements OnInit {
       translucent: true
     });
     return await this.loading.present();
-    
+
   }
-  
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Something Not Right 😓 Please try again',
@@ -115,8 +109,8 @@ export class SettingsPage implements OnInit {
     toast.present();
   }
 
-  
+
   logout(){
-    this.authService.logout()
+    this.authService.logout();
   }
 }

@@ -58,11 +58,11 @@ export class FilterPage extends Stepper implements OnInit {
     this.findTotal();
   }
 
-  public loadResults({startDate, endDate}) {
-
-    if (startDate && endDate) {
-      this.filter.startDate = startDate;
-      this.filter.endDate = endDate;
+  public loadResults(event = null) {
+    // Remove following lines after tesing
+    if (event.startDate && event.endDate) {
+      this.filter.startDate = event.startDate;
+      this.filter.endDate = event.endDate;
     }
 
     if (!this.filter.startDate || !this.filter.endDate || !this.filter.category) {

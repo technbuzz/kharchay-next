@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core'
-import { IExpense } from '../../shared/expense.interface'
-import { NavController } from '@ionic/angular'
-import { Router } from '@angular/router'
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IExpense } from '../../shared/expense.interface';
+import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -55,23 +55,23 @@ import { Router } from '@angular/router'
   ]
 })
 export class ExpenseItemComponent {
-  @Input('expense') item: IExpense
-  @Input() readonly: boolean = false
-  @Output('onDelete') delete = new EventEmitter()
+  @Input('expense') item: IExpense;
+  @Input() readonly = false;
+  @Output('onDelete') delete = new EventEmitter();
 
   constructor(private navCtrl: NavController,private router: Router) {
   }
- 
+
   public showDetails(item: IExpense) {
     if (item.imageName) {
       this.router.navigate(['details'], {
         queryParams: {
           item: JSON.stringify(item)
         }
-      })
+      });
       // this.navCtrl.push('DetailsPage', { item });
     } else {
-      item.details = !item.details
+      item.details = !item.details;
     }
   }
 }

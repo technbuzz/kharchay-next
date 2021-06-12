@@ -19,7 +19,8 @@
     </ion-item>
     <ion-item>
       <ion-label>Login Status</ion-label>
-      <ion-button *ngIf="loggedIn; else loggedOut" slot="end" (click)="logout()"
+      <!-- <ion-button *ngIf="loggedIn; else loggedOut" slot="end" (click)="logout()" -->
+      <ion-button *ngIf="(loggedIn$  | async); else loggedOut" slot="end" (click)="logout()"
         >Logout</ion-button
       >
 

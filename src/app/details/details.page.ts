@@ -11,19 +11,19 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class DetailsPage implements OnInit {
 
   expense: IExpense;
-  loaded: boolean = false;
+  loaded = false;
 
   constructor(private route: ActivatedRoute,
     private storage: AngularFireStorage) { }
 
   ngOnInit() {
-    this.expense  = JSON.parse(this.route.snapshot.queryParamMap.get('item'))
+    this.expense  = JSON.parse(this.route.snapshot.queryParamMap.get('item'));
     this.storage.ref(`/receipts/${this.expense.imageName}`).getDownloadURL().subscribe(resp => {
       this.expense.imageUrl = resp;
       this.loaded = true;
-    })
+    });
   }
 
-  
+
 
 }

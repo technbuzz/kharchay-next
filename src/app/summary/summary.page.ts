@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 
 
-import { groupBy, forIn, reduce } from "lodash";
+import { groupBy, forIn, reduce } from 'lodash';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { PieComponent } from '../components/pie/pie';
 
@@ -18,8 +18,8 @@ export class SummaryPage extends Stepper implements OnInit {
   @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
 
   month = new Date().toISOString();
-  loading: boolean = true;
-  total: number = 0;
+  loading = true;
+  total = 0;
   expRef: AngularFirestoreCollection<any>;
   expenses$: Observable<BaseExpense[]>;
   constructor(
@@ -30,7 +30,7 @@ export class SummaryPage extends Stepper implements OnInit {
   }
 
   ngOnInit() {
-    this.loadBasic()
+    this.loadBasic();
   }
 
   loadBasic() {
@@ -53,8 +53,8 @@ export class SummaryPage extends Stepper implements OnInit {
 
   generateDataForChart(values) {
 
-    let chartData = []
-    let chartLabels = [];
+    const chartData = [];
+    const chartLabels = [];
     let grouped;
     console.log({ values });
 
@@ -63,15 +63,13 @@ export class SummaryPage extends Stepper implements OnInit {
 
     // FIXME: Replace lodash with groupBy rxjs function
     // Backward compat becuse new format is {category:{title:'food'}}
-    grouped = groupBy(values, (item) => { return item.category.title ? item.category.title : item.category });
+    grouped = groupBy(values, (item) => item.category.title ? item.category.title : item.category);
     console.log({ grouped });
 
     forIn(grouped, (value, key, item) => {
       chartLabels.push(key.toUpperCase());
       chartData.push(reduce(
-        value, (sum, n) => {
-          return sum + Number(n.price);
-        }, 0))
+        value, (sum, n) => sum + Number(n.price), 0));
     });
 
     this.container.clear();
