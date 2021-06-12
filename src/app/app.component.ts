@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
 import { Platform } from '@ionic/angular';
@@ -12,9 +13,13 @@ import { UtilsService } from './services/utils.service';
 export class AppComponent {
   constructor(
     private platform: Platform,
+    private afAuth: AngularFireAuth,
     // private webIntent: WebIntent,
     private utils: UtilsService
   ) {
+    this.afAuth.authState.subscribe(c => {
+      console.log(c);
+    });
     this.initializeApp();
   }
 
