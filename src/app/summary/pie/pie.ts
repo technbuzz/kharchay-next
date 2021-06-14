@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
-declare var Chartist: any;
+declare let Chartist: any;
 
 @Component({
   selector: 'pie',
@@ -31,13 +31,13 @@ export class PieComponent implements OnInit{
       donutSolid: true,
       startAngle: 270,
       showLabel: true,
-      labelPosition: "outside"
+      labelPosition: 'outside'
     });
   }
 
-  toggle (item) {
-    const index = this.doughnutChartLabels.indexOf(item)
-    const result = this.doughnutChartLabels.splice(index, 1)
+  toggle(item) {
+    const index = this.doughnutChartLabels.indexOf(item);
+    const result = this.doughnutChartLabels.splice(index, 1);
     console.log('result: ', result);
     console.log('this.doughnutChartLabels: ', this.doughnutChartLabels);
   }
