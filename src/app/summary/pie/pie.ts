@@ -25,13 +25,22 @@ export class PieComponent implements OnInit{
       series: this.doughnutChartData
     };
 
-    new Chartist.Pie('.ct-chart', this.dataSet, {
+    const chart = new Chartist.Pie('.ct-chart', this.dataSet, {
       donut:true,
       donutWidth: 60,
       donutSolid: true,
       startAngle: 270,
-      showLabel: true
+      showLabel: true,
+      labelPosition: "outside"
     });
+    console.log('chart: ', chart);
 
+  }
+
+  toggle (item) {
+    const index = this.doughnutChartLabels.indexOf(item)
+    const result = this.doughnutChartLabels.splice(index, 1)
+    console.log('result: ', result);
+    console.log('this.doughnutChartLabels: ', this.doughnutChartLabels);
   }
 }

@@ -1,4 +1,7 @@
 <div style="display: block">
+  <ul>
+    <li *ngFor="let label of doughnutChartLabels" (click)="toggle(label)">{{ label }}</li>
+  </ul>
   <div class="ct-chart ct-perfect-fourth"></div>
 
-  </div>
+</div>

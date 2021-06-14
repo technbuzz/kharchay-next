@@ -80,18 +80,8 @@ export class SummaryPage extends Stepper implements OnInit {
     const factory = this.resolver.resolveComponentFactory(PieComponent);
     const componentRef = this.container.createComponent(factory);
 
-
-
-
     componentRef.instance.doughnutChartData = chartData;
-    console.log('chartData: ', chartData);
     componentRef.instance.doughnutChartLabels = chartLabels;
-    console.log('chartLabels: ', chartLabels);
-    // componentRef.instance.chartClicked.subscribe((event, item) => {
-    //
-    //
-
-    // })
   }
 
 }
