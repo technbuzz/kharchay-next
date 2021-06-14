@@ -4,7 +4,7 @@ import { IonDatetime, AlertController, LoadingController, IonSelect } from '@ion
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
-import * as addDays from 'date-fns/add_days';
+import addDays from 'date-fns/add_days';
 import * as isAfter from 'date-fns/is_after';
 import * as subDays from 'date-fns/sub_days';
 import * as format from 'date-fns/format';
