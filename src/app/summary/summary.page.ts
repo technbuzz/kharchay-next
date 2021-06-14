@@ -11,7 +11,7 @@ import forIn  from 'lodash-es/forIn';
 import reduce from 'lodash-es/reduce';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
-import { PieComponent } from '../components/pie/pie';
+import { PieComponent } from './pie/pie';
 
 @Component({
   selector: 'app-summary',
@@ -84,7 +84,9 @@ export class SummaryPage extends Stepper implements OnInit {
 
 
     componentRef.instance.doughnutChartData = chartData;
+    console.log('chartData: ', chartData);
     componentRef.instance.doughnutChartLabels = chartLabels;
+    console.log('chartLabels: ', chartLabels);
     // componentRef.instance.chartClicked.subscribe((event, item) => {
     //
     //

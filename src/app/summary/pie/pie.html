@@ -1,12 +1,13 @@
 <div style="display: block">
-      
-  <canvas baseChart
+  <div #charts id="chart" appDonut [data]="dataSet"></div>
+
+  <!-- <canvas baseChart
     
     [data]="doughnutChartData" 
     [options]="donutOptions"
     [labels]="doughnutChartLabels" 
     [chartType]="doughnutChartType" 
-  ></canvas>
+  ></canvas> -->
   </div>
 
   <!-- (chartHover)="chartHovered($event)"

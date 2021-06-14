@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { SummaryPage } from './summary.page';
+import { PieComponent } from './pie/pie';
+import { DonutDirective } from './donut.directive';
 
 const routes: Routes = [
   {
@@ -21,6 +23,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SummaryPage]
+  declarations: [SummaryPage, PieComponent, DonutDirective],
 })
 export class SummaryPageModule {}
