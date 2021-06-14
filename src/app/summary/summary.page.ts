@@ -9,7 +9,8 @@ import { BaseExpense } from '../home/expense-base.model';
 import groupBy from 'lodash-es/groupBy';
 import forIn  from 'lodash-es/forIn';
 import reduce from 'lodash-es/reduce';
-import { startOfMonth, endOfMonth } from 'date-fns';
+import startOfMonth from 'date-fns/esm/startOfMonth';
+import endOfMonth from 'date-fns/esm/endOfMonth';
 import { PieComponent } from '../components/pie/pie';
 
 @Component({
@@ -37,8 +38,8 @@ export class SummaryPage extends Stepper implements OnInit {
   }
 
   loadBasic() {
-    const basicStartMonth = startOfMonth(this.month);
-    const basicEndMonth = endOfMonth(this.month);
+    const basicStartMonth = startOfMonth(new Date(this.month));
+    const basicEndMonth = endOfMonth(new Date(this.month));
 
     this.loading = true;
     this.expRef = this.afs.collection('expense', ref =>
@@ -59,7 +60,7 @@ export class SummaryPage extends Stepper implements OnInit {
     const chartData = [];
     const chartLabels = [];
     let grouped;
-    
+
 
     // Previously for format like {category:'food'}
     // grouped = lodash.groupBy(values, ('category.title'));
@@ -67,7 +68,7 @@ export class SummaryPage extends Stepper implements OnInit {
     // FIXME: Replace lodash with groupBy rxjs function
     // Backward compat becuse new format is {category:{title:'food'}}
     grouped = groupBy(values, (item) => item.category.title ? item.category.title : item.category);
-    
+
 
     forIn(grouped, (value, key, item) => {
       chartLabels.push(key.toUpperCase());
@@ -79,14 +80,14 @@ export class SummaryPage extends Stepper implements OnInit {
     const factory = this.resolver.resolveComponentFactory(PieComponent);
     const componentRef = this.container.createComponent(factory);
 
-    
+
 
 
     componentRef.instance.doughnutChartData = chartData;
     componentRef.instance.doughnutChartLabels = chartLabels;
     // componentRef.instance.chartClicked.subscribe((event, item) => {
-    //   
-    //   
+    //
+    //
 
     // })
   }

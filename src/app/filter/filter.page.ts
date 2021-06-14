@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { startOfMonth, endOfMonth, isBefore } from 'date-fns';
+import startOfMonth from 'date-fns/esm/startOfMonth';
+import endOfMonth from 'date-fns/esm/endOfMonth';
+import isBefore from 'date-fns/esm/isBefore';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { IonDatetime } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -43,8 +45,8 @@ export class FilterPage extends Stepper implements OnInit {
   }
 
   public loadBasic() {
-    const basicStartMonth = startOfMonth(this.filter.month);
-    const basicEndMonth = endOfMonth(this.filter.month);
+    const basicStartMonth = startOfMonth(new Date(this.filter.month));
+    const basicEndMonth = endOfMonth(new Date(this.filter.month));
 
     this.loadResults({startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString()});
 
@@ -69,7 +71,7 @@ export class FilterPage extends Stepper implements OnInit {
       return;
     }
 
-    if (isBefore(this.filter.endDate, this.filter.startDate)) {
+    if (isBefore(new Date(this.filter.endDate), new Date(this.filter.startDate))) {
       // this.toastCtrl.create({
       //   message: 'Note: Start Date cannot be set in the future.',
       //   position: 'bottom',
