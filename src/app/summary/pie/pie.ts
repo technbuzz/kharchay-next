@@ -33,8 +33,6 @@ export class PieComponent implements OnInit{
       showLabel: true,
       labelPosition: "outside"
     });
-    console.log('chart: ', chart);
-
   }
 
   toggle (item) {
