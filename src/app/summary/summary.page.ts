@@ -6,6 +6,7 @@ import { BaseExpense } from '../home/expense-base.model';
 
 
 import { groupBy, forIn, reduce } from 'lodash';
+// import { group  } from 'lodash-es';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { PieComponent } from '../components/pie/pie';
 

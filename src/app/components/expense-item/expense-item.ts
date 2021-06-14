@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IExpense } from '../../shared/expense.interface';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { mapCategory, mapSubCategory } from 'src/app/shared/categories';
 
 
 @Component({
@@ -17,14 +18,8 @@ import { Router } from '@angular/router';
           <small>{{item.date | date:"MMM d"}}</small>
 
           <div>
-            <!-- For backward compatibility -->
-            <ion-badge color="light" *ngIf="item.category.title else oldTitle">{{item.category.title}}</ion-badge>
-            <ng-template #oldTitle>
-              <ion-badge>{{item.category}}</ion-badge>
-            </ng-template>
-            <!-- END For backward compatibility -->
-
-            <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory}}</ion-badge>
+            <ion-badge color="light" *ngIf="item.category">{{item.category.title}}</ion-badge>
+            <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory.title}}</ion-badge>
           </div>
           <p class="ion-no-margin">{{item.note}}</p>
         </section>
@@ -54,12 +49,18 @@ import { Router } from '@angular/router';
     `
   ]
 })
-export class ExpenseItemComponent {
+export class ExpenseItemComponent implements OnInit {
   @Input('expense') item: IExpense;
   @Input() readonly = false;
   @Output('onDelete') delete = new EventEmitter();
 
-  constructor(private navCtrl: NavController,private router: Router) {
+  constructor(private navCtrl: NavController, private router: Router) {
+  }
+
+  ngOnInit () {
+    this.item = mapCategory(this.item)
+    this.item = mapSubCategory(this.item)
+
   }
 
   public showDetails(item: IExpense) {

@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
   showSubCategory = false;
   recurringLoading = false;
   selectedSubCategory: '';
-  subCategories: ICategory;
+  subCategories: ICategory[];
 
   dynamicPricing = true;
 

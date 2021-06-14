@@ -60,7 +60,7 @@
             <ion-item>
               <ion-label position="floating">Choose Sub Category</ion-label>
               <ion-select interface="popover" required name="subCategory" [(ngModel)]="selectedSubCategory">
-                <ion-select-option [value]="subCat" *ngFor="let subCat of subCategories">{{subCat | titlecase}}
+                <ion-select-option [value]="subCat" *ngFor="let subCat of subCategories">{{subCat.title| titlecase}}
                 </ion-select-option>
               </ion-select>
             </ion-item>

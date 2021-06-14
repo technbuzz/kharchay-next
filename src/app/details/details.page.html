@@ -22,15 +22,9 @@
         <h1>
           {{expense.price}}
         </h1>
-
-        <!-- For backward compatibility -->
-        <ion-badge *ngIf="expense.category.title else oldTitle">{{expense.category.title}}</ion-badge>
-        <ng-template #oldTitle>
-          <ion-badge>{{expense.category}}</ion-badge>
-        </ng-template>
-        <!-- END For backward compatibility -->
-
-        <ion-badge *ngIf="expense?.subCategory" color="danger">{{expense?.subCategory}}</ion-badge>
+        
+        <ion-badge *ngIf="expense.category">{{expense.category.title}}</ion-badge>
+        <ion-badge *ngIf="expense?.subCategory" color="danger">{{expense?.subCategory.title}}</ion-badge>
 
         </ion-card-title>
       <p>
