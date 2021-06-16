@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { MyHammerConfig } from './shared/hammerConfig';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 import { File } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -41,8 +40,7 @@ const config: FirebaseAppConfig = {
     File,
     FilePath,
     // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig}
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })

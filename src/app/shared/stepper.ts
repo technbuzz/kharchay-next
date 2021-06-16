@@ -5,13 +5,13 @@ import { IonDatetime } from '@ionic/angular';
 
 export class Stepper {
   addMonth(date, element: IonDatetime){
-    const nextMonth = addMonths(date, 1);
+    const nextMonth = addMonths(new Date(date), 1);
     if(isAfter(nextMonth, new Date())) {return;}
     element.value = nextMonth.toISOString();
   }
 
   subMonth(date, element: IonDatetime){
-    element.value = subMonths(date, 1).toISOString();
+    element.value = subMonths(new Date(date), 1).toISOString();
   }
 
 }

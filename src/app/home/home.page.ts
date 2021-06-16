@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController } from '@ionic/angular';
+import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem } from '@ionic/angular';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -30,6 +30,7 @@ import { UtilsService } from '../services/utils.service';
 })
 export class HomePage implements OnInit {
 
+  @ViewChild('dateItem') dateItem: any;
   @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime;
 
@@ -125,8 +126,9 @@ export class HomePage implements OnInit {
   }
 
   ngAfterViewInit () {
+    
     const gesture = this.gestureCtrl.create({
-      el: this.gestureTest.nativeElement,
+      el: this.dateItem.el,
       gestureName: 'move',
       onEnd: detail => {
         const type = detail.type;
@@ -134,9 +136,9 @@ export class HomePage implements OnInit {
         const deltaX = detail.deltaX;
         const velocityX = detail.velocityX;
         if (deltaX > 0) {
-          console.log('Next Day');
+          this.addDay()
         } else {
-          console.log('Previous Day');
+          this.subtractDay()
 
         }
 
@@ -307,14 +309,14 @@ export class HomePage implements OnInit {
   }
 
   public addDay() {
-    const tempDate = this.expense.date;
+    const tempDate = new Date(this.expense.date);
     const nextDay = addDays(tempDate, 1);
     if (isAfter(nextDay, new Date())) {return;}
     this.expenseDate.value = nextDay.toISOString();
   }
 
   public subtractDay() {
-    const tempDate = this.expense.date;
+    const tempDate = new Date(this.expense.date);
     this.expenseDate.value = subDays(tempDate, 1).toISOString();
     console.log(this.expense.date);
   }

@@ -12,14 +12,18 @@ import reduce from 'lodash-es/reduce';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import { PieComponent } from './pie/pie';
+import { GestureController, IonDatetime } from '@ionic/angular';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.page.html',
   styleUrls: ['./summary.page.scss'],
 })
-export class SummaryPage extends Stepper implements OnInit {
+export class SummaryPage extends Stepper implements OnInit{
   @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
+  @ViewChild('dateItem') dateItem: any;
+  @ViewChild('expenseMonth', { static: true })
+  expenseMonth: IonDatetime;
 
   month = new Date().toISOString();
   loading = true;
@@ -28,13 +32,36 @@ export class SummaryPage extends Stepper implements OnInit {
   expenses$: Observable<BaseExpense[]>;
   constructor(
     private afs: AngularFirestore,
-    private resolver: ComponentFactoryResolver
+    private resolver: ComponentFactoryResolver,
+    private gestureCtrl: GestureController
   ) {
     super();
   }
 
   ngOnInit() {
     this.loadBasic();
+  }
+
+  ngAfterViewInit() {
+    const gesture = this.gestureCtrl.create({
+      el: this.dateItem.el,
+      gestureName: 'move',
+      onEnd: detail => {
+        const type = detail.type;
+        const currentX = detail.currentX;
+        const deltaX = detail.deltaX;
+        const velocityX = detail.velocityX;
+        if (deltaX > 0) {
+          this.addMonth(this.month, this.expenseMonth)
+        } else {
+          this.subMonth(this.month, this.expenseMonth)
+
+        }
+
+      }
+    })
+
+    gesture.enable()
   }
 
   loadBasic() {

@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <ion-item #dateItem>
       <ion-label stacked>Month</ion-label>
       <ion-datetime 
       #expenseMonth
@@ -18,8 +18,6 @@
       displayFormat="MMM YYYY" 
       pickerFormat="MMM YYYY" 
       [(ngModel)]="month" 
-      (swipeRight)="addMonth(month, expenseMonth)"
-      (swipeLeft)="subMonth(month, expenseMonth)"
       placeholder="Select Month"></ion-datetime>
     </ion-item>
   </ion-list>
