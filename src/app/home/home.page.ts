@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { IonDatetime, AlertController, LoadingController, IonSelect } from '@ionic/angular';
+import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController } from '@ionic/angular';
 
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -34,6 +34,8 @@ export class HomePage implements OnInit {
   expenseDate: IonDatetime;
 
   @ViewChild(IonSelect, {static: true}) select: IonSelect;
+
+  @ViewChild('gestureTest') gestureTest: ElementRef;
 
   cdo = new Date();
   currentMonth = format(new Date(), 'MMMM');
@@ -80,7 +82,8 @@ export class HomePage implements OnInit {
     private settingService: SettingsService,
     private loadingCtrl: LoadingController,
     private imageService: ImageService,
-    private utilService: UtilsService
+    private utilService: UtilsService,
+    private gestureCtrl: GestureController
   ) {
     Object.assign(this.categories, categories);
   }
@@ -97,6 +100,8 @@ export class HomePage implements OnInit {
     });
 
     this.checkRecurring();
+
+ 
 
     // this.maxDate = this.cdo.toISOString().split('T')[0]
     // this.expenses = this.expCollRef.valueChanges().pipe(map(array => {
@@ -117,6 +122,28 @@ export class HomePage implements OnInit {
     //   }) // Promise
     // })// forEach
 
+  }
+
+  ngAfterViewInit () {
+    const gesture = this.gestureCtrl.create({
+      el: this.gestureTest.nativeElement,
+      gestureName: 'move',
+      onEnd: detail => {
+        const type = detail.type;
+        const currentX = detail.currentX;
+        const deltaX = detail.deltaX;
+        const velocityX = detail.velocityX;
+        if (deltaX > 0) {
+          console.log('Next Day');
+        } else {
+          console.log('Previous Day');
+
+        }
+
+      }
+    })
+
+    gesture.enable()
   }
 
 
