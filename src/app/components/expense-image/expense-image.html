@@ -4,7 +4,7 @@
 		<small slot="end"><= 1mb</small>
 	</ion-item>
 	<ion-item *ngIf="imgsrc" >
-		<img [src]="imgsrc" height="150" (swipe)="clearSelection($event)">
+		<img #img [src]="imgsrc" height="150">
 	</ion-item>
 </ion-list>
 

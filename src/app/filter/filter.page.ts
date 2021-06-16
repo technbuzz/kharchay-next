@@ -3,7 +3,7 @@ import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import isBefore from 'date-fns/esm/isBefore';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { IonDatetime } from '@ionic/angular';
+import { GestureController, IonDatetime } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 import { Stepper } from '../shared/stepper';
@@ -19,6 +19,8 @@ import { map } from 'rxjs/operators';
 export class FilterPage extends Stepper implements OnInit {
 
   @ViewChild(IonDatetime) expenseMonth: IonDatetime;
+  @ViewChild('dateItem') dateItem: any;
+
   categories: any = [];
 
   searchType = 'basic';
@@ -34,7 +36,7 @@ export class FilterPage extends Stepper implements OnInit {
   total = 0;
 
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private gestureCtrl: GestureController) {
     super();
     Object.assign(this.categories, categories);
 
@@ -42,6 +44,28 @@ export class FilterPage extends Stepper implements OnInit {
 
   ngOnInit() {
     this.loadBasic();
+  }
+
+  ngAfterViewInit() {
+    const gesture = this.gestureCtrl.create({
+      el: this.dateItem.el,
+      gestureName: 'move',
+      onEnd: detail => {
+        const type = detail.type;
+        const currentX = detail.currentX;
+        const deltaX = detail.deltaX;
+        const velocityX = detail.velocityX;
+        if (deltaX > 0) {
+          this.addMonth(this.filter.month, this.expenseMonth)
+        } else {
+          this.subMonth(this.filter.month, this.expenseMonth)
+
+        }
+
+      }
+    })
+
+    gesture.enable()
   }
 
   public loadBasic() {

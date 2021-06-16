@@ -19,11 +19,10 @@
 
   <div [ngSwitch]="searchType">
     <ion-list *ngSwitchCase="'basic'" class="ion-no-margin">
-      <ion-item>
+      <ion-item #dateItem>
         <ion-label floating>Month</ion-label>
         <ion-datetime #expenseMonth (ionChange)="loadBasic()" name="month" displayFormat="MMM YYYY"
-          pickerFormat="MMM YYYY" (swipeRight)="addMonth(filter.month, expenseMonth)"
-          (swipeLeft)="subMonth(filter.month, expenseMonth)" [(ngModel)]="filter.month"></ion-datetime>
+          pickerFormat="MMM YYYY" [(ngModel)]="filter.month"></ion-datetime>
       </ion-item>
     </ion-list>
 

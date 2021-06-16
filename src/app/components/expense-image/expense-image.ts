@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, GestureController } from '@ionic/angular';
 import { ReplaySubject, Observable } from 'rxjs';
 import { UtilsService } from 'src/app/services/utils.service';
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx';
@@ -8,7 +8,6 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { finalize } from 'rxjs/operators';
 import { ImageService } from 'src/app/services/image.service';
 
-// import { SwipeBackGesture } from 'ionic-angular/navigation/swipe-back';
 
 @Component({
   selector: 'expense-image',
@@ -18,6 +17,9 @@ import { ImageService } from 'src/app/services/image.service';
 export class ExpenseImageComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: true })
   fileInput: ElementRef;
+
+  @ViewChild('img') img: any;
+
   selectedFiles: FileList;
   intentFileAvailable = false;
   private intentBlob: Blob;
@@ -37,7 +39,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     private fileService: IonicFileService,
     private filePath: FilePath,
     private cdRef: ChangeDetectorRef,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private gestureCtrl: GestureController
   ) {}
 
   ngOnInit() {
@@ -74,6 +77,27 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
       }
     });
+  }
+
+  ngAfterViewInit() {
+    console.log('this.img.el: ', this.img.el);
+
+    // FIXME: Doesn't work with ngIf
+    const gesture = this.gestureCtrl.create({
+      el: this.img.el,
+      gestureName: 'move',
+      onEnd: detail => {
+        const type = detail.type;
+        const currentX = detail.currentX;
+        const deltaX = detail.deltaX;
+        const velocityX = detail.velocityX;
+        if (deltaX < 0) {
+          this.nullify()
+        }
+      }
+    })
+
+    gesture.enable()
   }
 
   async presentLoading() {
