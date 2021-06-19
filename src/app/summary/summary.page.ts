@@ -25,6 +25,9 @@ export class SummaryPage extends Stepper implements OnInit{
   @ViewChild('expenseMonth', { static: true })
   expenseMonth: IonDatetime;
 
+  chartData: number[]
+  chartLabels: string[]
+
   month = new Date().toISOString();
   loading = true;
   total = 0;
@@ -84,8 +87,10 @@ export class SummaryPage extends Stepper implements OnInit{
 
   generateDataForChart(values) {
 
-    const chartData = [];
-    const chartLabels = [];
+    // const chartData = [];
+    // const chartLabels = [];
+    this.chartData = [];
+    this.chartLabels = [];
     let grouped;
 
 
@@ -96,19 +101,19 @@ export class SummaryPage extends Stepper implements OnInit{
     // Backward compat becuse new format is {category:{title:'food'}}
     grouped = groupBy(values, (item) => item.category.title ? item.category.title : item.category);
 
-
     forIn(grouped, (value, key, item) => {
-      chartLabels.push(key.toUpperCase());
-      chartData.push(reduce(
-        value, (sum, n) => sum + Number(n.price), 0));
+      this.chartLabels.push(key.toUpperCase());
+      this.chartData.push(reduce(
+        value, (sum, n) => sum + Number(n.price), 0)
+      );
     });
 
-    this.container.clear();
-    const factory = this.resolver.resolveComponentFactory(PieComponent);
-    const componentRef = this.container.createComponent(factory);
+    // this.container.clear();
+    // const factory = this.resolver.resolveComponentFactory(PieComponent);
+    // const componentRef = this.container.createComponent(factory);
 
-    componentRef.instance.doughnutChartData = chartData;
-    componentRef.instance.doughnutChartLabels = chartLabels;
+    // componentRef.instance.doughnutChartData = chartData;
+    // componentRef.instance.doughnutChartLabels = chartLabels;
   }
 
 }

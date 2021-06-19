@@ -1,7 +1,36 @@
 <div style="display: block">
-  <ul>
-    <li *ngFor="let label of doughnutChartLabels" (click)="toggle(label)">{{ label }}</li>
+  <ul [ngStyle]="{fontSize: '14px'}">
+    <li *ngFor="let label of labels" (click)="toggle(label)">{{ label }}</li>
   </ul>
-  <div class="ct-chart ct-perfect-fourth"></div>
+  <!-- <div class="ct-chart ct-perfect-fourth"></div> -->
 
 </div>
+
+<svg viewBox="0 0 20 20">
+  <g>
+    <circle r="10" cx='10' cy='10' fill="white">
+  </circle>
+    <circle r="5" cx='10' cy='10' fill="transparent" *ngFor="let slice of slices; index as i"
+      [attr.stroke]="slice.color" 
+      stroke-width="3"
+      [attr.stroke-dasharray]="calcSlice(slice)"
+      [attr.transform]="calcStartAngle(slice.startAngle, i)"
+      >
+    </circle>
+    <!-- <circle r="5" cx='10' cy='10' fill="transparent"
+    stroke="chocolate" 
+    stroke-width="3"
+    [attr.stroke-dasharray]="calcSlice(30)"
+    >
+  </circle>
+    <circle r="5" cx='10' cy='10' fill="transparent"
+    stroke="steelblue" 
+    stroke-width="3"
+    [attr.stroke-dasharray]="calcSlice(10)"
+    >
+  </circle> -->
+  
+</g>
+</svg>
+<!-- transform="rotate(-90) translate(-20px)" -->
+      <!-- stroke-dasharray="calc(30 * 31.42/100) 31.42" -->
