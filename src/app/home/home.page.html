@@ -107,7 +107,6 @@
 
 
   <!-- List all the recurring expense -->
-  <h2 #gestureTest>Gesture Test</h2>
   <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
     <h2>Incoming Expenses</h2>
     <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>

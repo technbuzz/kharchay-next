@@ -5,11 +5,12 @@
   "homepage": "https://technbuzz.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -- --hmr",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "build:droid": "ng build --prod && npx cap sync android && npx cap open android",
     "explore": "source-map-explorer www/**/*.js --no-border-checks"
   },
   "private": true,

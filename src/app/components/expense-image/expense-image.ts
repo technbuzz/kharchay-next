@@ -80,24 +80,23 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    console.log('this.img.el: ', this.img.el);
 
     // FIXME: Doesn't work with ngIf
-    const gesture = this.gestureCtrl.create({
-      el: this.img.el,
-      gestureName: 'move',
-      onEnd: detail => {
-        const type = detail.type;
-        const currentX = detail.currentX;
-        const deltaX = detail.deltaX;
-        const velocityX = detail.velocityX;
-        if (deltaX < 0) {
-          this.nullify()
-        }
-      }
-    })
+    // const gesture = this.gestureCtrl.create({
+    //   el: this.img.el,
+    //   gestureName: 'move',
+    //   onEnd: detail => {
+    //     const type = detail.type;
+    //     const currentX = detail.currentX;
+    //     const deltaX = detail.deltaX;
+    //     const velocityX = detail.velocityX;
+    //     if (deltaX < 0) {
+    //       this.nullify()
+    //     }
+    //   }
+    // })
 
-    gesture.enable()
+    // gesture.enable()
   }
 
   async presentLoading() {
