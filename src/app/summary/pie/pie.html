@@ -2,8 +2,6 @@
   <ul [ngStyle]="{fontSize: '14px'}">
     <li *ngFor="let label of labels" (click)="toggle(label)">{{ label }}</li>
   </ul>
-  <!-- <div class="ct-chart ct-perfect-fourth"></div> -->
-
 </div>
 
 <svg viewBox="0 0 20 20">
@@ -16,20 +14,7 @@
       [attr.stroke-dasharray]="calcSlice(slice)"
       [attr.transform]="calcStartAngle(slice.startAngle, i)"
       >
-    </circle>
-    <!-- <circle r="5" cx='10' cy='10' fill="transparent"
-    stroke="chocolate" 
-    stroke-width="3"
-    [attr.stroke-dasharray]="calcSlice(30)"
-    >
-  </circle>
-    <circle r="5" cx='10' cy='10' fill="transparent"
-    stroke="steelblue" 
-    stroke-width="3"
-    [attr.stroke-dasharray]="calcSlice(10)"
-    >
-  </circle> -->
-  
+    </circle>  
 </g>
 </svg>
 <!-- transform="rotate(-90) translate(-20px)" -->

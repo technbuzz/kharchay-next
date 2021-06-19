@@ -34,11 +34,9 @@
             ],
             "styles": [
               "src/theme/variables.scss",
-              "src/global.scss",
-              "node_modules/chartist/dist/chartist.min.css"
+              "src/global.scss"
             ],
             "scripts": [
-              "node_modules/chartist/dist/chartist.min.js"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"

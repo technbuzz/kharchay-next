@@ -1,6 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit, SimpleChange } from '@angular/core';
-
-declare let Chartist: any;
+import { Component, Input, ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 
 interface Slice {
   color: string;
@@ -14,42 +12,16 @@ interface Slice {
   styleUrls: ['pie.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PieComponent implements OnInit{
+export class PieComponent {
 
   @Input('labels') labels: string[];
   @Input('data') data: number[];
 
   colors: string[] = ['tomato', 'chocolate', 'steelblue', 'rebeccapurple', 'teal','deeppink', 'indigo']
   prevAngle: number = 0;
-  public dataSet = {
-    labels: ['a','b','c'],
-    series: [1,2,3]
-  };
   slices: Slice[];
 
   constructor() {}
-
-  ngOnInit() {
-    
-    this.dataSet = {
-      labels: this.labels,
-      series: this.data
-    };
-
-    // this.zone.run(() => {
-    //   const chart = new Chartist.Pie('.ct-chart', this.dataSet, {
-    //     donut:true,
-    //     donutWidth: 60,
-    //     donutSolid: true,
-    //     startAngle: 270,
-    //     showLabel: true,
-    //     labelPosition: 'outside'
-    //   });
-
-    //   console.log('chart: ', chart);
-    // })
-
-  }
 
   ngOnChanges (changes) {
     const { data, labels }:{data:SimpleChange, labels:SimpleChange} = changes
