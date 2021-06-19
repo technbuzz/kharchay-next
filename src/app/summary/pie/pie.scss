@@ -1,5 +1,15 @@
 svg{
-  border: 2px dashed black;
-  width: 400px;
-  height: 400px;
+  max-width: 100%;
+}
+
+ul {
+  display: flex;
+  list-style-type: none;
+  padding-left: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  li {
+    margin-right: 1rem;
+    line-height: 1.5;
+  }
 }

@@ -1,21 +1,18 @@
-<div style="display: block">
-  <ul [ngStyle]="{fontSize: '14px'}">
-    <li *ngFor="let label of labels" (click)="toggle(label)">{{ label }}</li>
-  </ul>
-</div>
-
 <svg viewBox="0 0 20 20">
   <g>
     <circle r="10" cx='10' cy='10' fill="white">
-  </circle>
+    </circle>
     <circle r="5" cx='10' cy='10' fill="transparent" *ngFor="let slice of slices; index as i"
-      [attr.stroke]="slice.color" 
-      stroke-width="3"
-      [attr.stroke-dasharray]="calcSlice(slice)"
-      [attr.transform]="calcStartAngle(slice.startAngle, i)"
-      >
-    </circle>  
+    [attr.stroke]="slice.color" 
+    stroke-width="3"
+    [attr.stroke-dasharray]="calcSlice(slice)"
+    [attr.transform]="calcStartAngle(slice.startAngle, i)"
+    >
+  </circle>  
 </g>
 </svg>
-<!-- transform="rotate(-90) translate(-20px)" -->
-      <!-- stroke-dasharray="calc(30 * 31.42/100) 31.42" -->
+<ul>
+  <li *ngFor="let slice of slices" (click)="toggle(slice.label)">
+    <span [ngStyle]="{color: slice.color}">{{ slice.label }}</span>
+  </li>
+</ul>

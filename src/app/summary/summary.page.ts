@@ -11,7 +11,6 @@ import forIn  from 'lodash-es/forIn';
 import reduce from 'lodash-es/reduce';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
-import { PieComponent } from './pie/pie';
 import { GestureController, IonDatetime } from '@ionic/angular';
 
 @Component({
@@ -25,8 +24,8 @@ export class SummaryPage extends Stepper implements OnInit{
   @ViewChild('expenseMonth', { static: true })
   expenseMonth: IonDatetime;
 
-  chartData: number[]
-  chartLabels: string[]
+  chartData: number[] = []
+  chartLabels: string[] = []
 
   month = new Date().toISOString();
   loading = true;
@@ -35,7 +34,6 @@ export class SummaryPage extends Stepper implements OnInit{
   expenses$: Observable<BaseExpense[]>;
   constructor(
     private afs: AngularFirestore,
-    private resolver: ComponentFactoryResolver,
     private gestureCtrl: GestureController
   ) {
     super();
@@ -87,8 +85,6 @@ export class SummaryPage extends Stepper implements OnInit{
 
   generateDataForChart(values) {
 
-    // const chartData = [];
-    // const chartLabels = [];
     this.chartData = [];
     this.chartLabels = [];
     let grouped;
@@ -108,12 +104,6 @@ export class SummaryPage extends Stepper implements OnInit{
       );
     });
 
-    // this.container.clear();
-    // const factory = this.resolver.resolveComponentFactory(PieComponent);
-    // const componentRef = this.container.createComponent(factory);
-
-    // componentRef.instance.doughnutChartData = chartData;
-    // componentRef.instance.doughnutChartLabels = chartLabels;
   }
 
 }

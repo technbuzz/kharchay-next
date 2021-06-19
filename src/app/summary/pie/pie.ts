@@ -3,6 +3,7 @@ import { Component, Input, ChangeDetectionStrategy, SimpleChange } from '@angula
 interface Slice {
   color: string;
   value: number;
+  label: string;
   startAngle: number;
 }
 
@@ -17,42 +18,34 @@ export class PieComponent {
   @Input('labels') labels: string[];
   @Input('data') data: number[];
 
-  colors: string[] = ['tomato', 'chocolate', 'steelblue', 'rebeccapurple', 'teal','deeppink', 'indigo']
+  colors: string[] = ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold','#FF6384', 'indigo','#FFC234']
   prevAngle: number = 0;
   slices: Slice[];
 
   constructor() {}
 
   ngOnChanges (changes) {
+    console.log('changes: ', changes);
     const { data, labels }:{data:SimpleChange, labels:SimpleChange} = changes
-    if (!data.currentValue) return
-    const total = data && data.currentValue.reduce((a,b) => a + b)
-    this.slices = data.currentValue.map((item, i) => {
-      return { 
+    if (data.currentValue && data.currentValue.length) {
+      const total = data.currentValue.reduce((a,b) => a + b)
+      this.slices = data.currentValue.map((item, i) => ({ 
         value: item / total, 
         color: this.colors[i],
+        label: labels.currentValue[i],
         startAngle: (item / total)* 360
-      }
-    })
-    console.log('total: ', total);
-    console.log('percentages: ', this.slices);
-    
+      }))
+      
+    }
   }
 
   calcSlice (percent:Slice): string {
     // circumference formula 2PIr
-    console.log(percent, `${percent.value * 31.42 } 31.42`)
     return `${percent.value * 31.42 } 31.42`
   }
 
   calcStartAngle (angle: number, index: number): string {
-    let result = ''
-    // if (index === 0) {
-    //   result = 'rotate(0 10 10)'
-    // } else {
-      result = `rotate(${this.prevAngle} 10 10)`
-    // }
-
+    const result = `rotate(${this.prevAngle} 10 10)`
     this.prevAngle += angle
     return result;
   }
@@ -60,7 +53,5 @@ export class PieComponent {
   toggle(item) {
     const index = this.labels.indexOf(item);
     const result = this.labels.splice(index, 1);
-    console.log('result: ', result);
-    console.log('this.doughnutChartLabels: ', this.labels);
   }
 }
