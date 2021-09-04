@@ -28,16 +28,16 @@
     "@ionic-native/core": "^5.33.0",
     "@ionic-native/file": "^5.33.0",
     "@ionic-native/file-path": "^5.33.0",
-    "@ionic/angular": "^5.5.2",
+    "@ionic/angular": "^5.7.0",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-filepath": "^1.6.0",
-    "date-fns": "^2.22.1",
+    "date-fns": "^2.23.0",
     "firebase": "^9.0.0",
     "lodash-es": "^4.17.21",
+    "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.4",
-    "rxfire": "^6.0.0"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/architect": "^0.1200.0",
