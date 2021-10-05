@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { Auth, signInWithEmailAndPassword} from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) { }
+  constructor(private auth: Auth) { }
 
-  signInWithEmail(cradentials:{email:string;password:string}){
+  async signInWithEmail(cradentials: {email: string;password: string}){
     console.log('Sign in with email');
-    return this.afAuth.signInWithEmailAndPassword(cradentials.email, cradentials.password);
+    return await signInWithEmailAndPassword(this.auth, cradentials.email, cradentials.password);
   }
 
   logout(){
-    return this.afAuth.signOut()
+    return this.auth.signOut();
   }
 }

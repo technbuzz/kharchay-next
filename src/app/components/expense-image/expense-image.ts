@@ -1,11 +1,11 @@
-import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
+import { Component, ElementRef, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { LoadingController, AlertController, GestureController } from '@ionic/angular';
 import { ReplaySubject, Observable } from 'rxjs';
 import { UtilsService } from 'src/app/services/utils.service';
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-import { finalize } from 'rxjs/operators';
 import { ImageService } from 'src/app/services/image.service';
 
 
@@ -14,7 +14,11 @@ import { ImageService } from 'src/app/services/image.service';
   templateUrl: 'expense-image.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExpenseImageComponent implements OnInit, OnDestroy {
+export class ExpenseImageComponent implements
+  OnInit,
+  AfterViewInit,
+  OnDestroy
+{
   @ViewChild('fileInput', { static: true })
   fileInput: ElementRef;
 
@@ -22,17 +26,18 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   selectedFiles: FileList;
   intentFileAvailable = false;
-  private intentBlob: Blob;
   file: File;
   imgsrc;
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   loader: HTMLIonLoadingElement;
-
   downloadURL: Observable<string>;
+
+  private intentBlob: Blob;
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
 
 
   constructor(
-    private storage: AngularFireStorage,
+    private storage: Storage,
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private utils: UtilsService,
@@ -64,7 +69,7 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     this.utils.image.subscribe(async (resp: any) => {
       try {
         const resolvedPath = await this.filePath.resolveNativePath(resp['android.intent.extra.STREAM']);
-        const resolvedFSUrl: IonicFileEntry = await <unknown>this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry;
+        const resolvedFSUrl: IonicFileEntry = await this.fileService.resolveLocalFilesystemUrl(resolvedPath) as IonicFileEntry;
 
         const cordovaFile: IFile = await this.utils.convertFileEntryToCordovaFile(resolvedFSUrl);
 
@@ -110,8 +115,8 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
   async chooseFile(event) {
     this.selectedFiles = event.target.files;
-    const DataURL = await this.renderFile(this.selectedFiles.item(0));
-    this.imgsrc = DataURL;
+    const dataURL = await this.renderFile(this.selectedFiles.item(0));
+    this.imgsrc = dataURL;
     this.cdRef.detectChanges();
   }
 
@@ -141,17 +146,35 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
     const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`;
 
     try {
-      // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
-      const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`);
+      // // const ref = this.storage.ref(`/receipts/${uniqueKey}`)
+      // const webPref = this.storage.ref(`/receipts/opt${uniqueKey}`);
+      const webPref = ref(this.storage, `/receipts/opt${uniqueKey}`);
       const filePath = `/receipts-next/${uniqueKey}`;
-      const fileRef = this.storage.ref(filePath);
+      // const fileRef = this.storage.ref(filePath);
+      const fileRef = ref(this.storage, filePath);
       // const task = this.storage.upload(`/receipts-next/${uniqueKey}`, file);
       // await this.storage.upload(`/receipts-next/${uniqueKey}`, file)
-      const task = this.storage.upload(filePath, file);
+      const task = uploadBytesResumable(fileRef, file);
+      // const task = this.storage.upload(filePath, file);
+      task.on('state_changed',
+        snapshot => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.loader.style.setProperty('--percent-uploaded', `${progress.toFixed()}%`);
+        },
+        error => {
+          this.handleUploadError();
+          console.log('Upload Task Failed', error);
+        },
 
-      task.percentageChanges().subscribe(resp => {
-        this.loader.style.setProperty('--percent-uploaded', `${resp.toFixed()}%`);
-      });
+        () => {
+          getDownloadURL(task.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+          });
+        }
+      );
+      // task.percentageChanges().subscribe(resp => {
+      //   this.loader.style.setProperty('--percent-uploaded', `${resp.toFixed()}%`);
+      // });
 
       this.imageService.setUploaded({
         imageName: `opt${uniqueKey}`,
@@ -159,13 +182,15 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
 
 
       // get notified when the download URL is available
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          this.loader && this.loader.dismiss();
-        })
-      ).subscribe();
+      // task.snapshotChanges().pipe(
+      //   finalize(() => {
+      //     this.loader && this.loader.dismiss();
+      //   })
+      // ).subscribe();
 
-      this.loader && this.loader.onDidDismiss().then(x => this.nullify());
+      if(this.loader)  {
+        this.loader.onDidDismiss().then(x => this.nullify());
+      };
 
     } catch (error) {
 
@@ -184,7 +209,9 @@ export class ExpenseImageComponent implements OnInit, OnDestroy {
   }
 
   async handleUploadError() {
-    this.loader && this.loader.dismiss();
+    if(this.loader) {
+      this.loader.dismiss();
+    }
     await this.presentErrorAlert();
     this.imageService.setCancelled(true);
   }

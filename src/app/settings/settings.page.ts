@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Auth, getAuth } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
+import { authState } from 'rxfire/auth';
+import { traceUntilFirst } from '@angular/fire/performance';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +22,7 @@ export class SettingsPage implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private afAuth: AngularFireAuth,
+    @Optional() private afAuth: Auth,
     public alertController: AlertController,
     private authService: AuthService,
     private loadingController: LoadingController,
@@ -31,7 +34,13 @@ export class SettingsPage implements OnInit {
       this.dynamicPricing = resp;
     });
 
-    this.loggedIn$ = this.afAuth.authState;
+    const auth = getAuth();
+
+    // this.loggedIn$ = this.afAuth.authState;
+    this.loggedIn$ = authState(this.afAuth).pipe(
+      traceUntilFirst('auth'),
+      map(u => !!u)
+    );
   }
 
   updateTextMode() {

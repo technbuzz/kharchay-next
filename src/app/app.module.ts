@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { AngularFireModule, FirebaseAppConfig } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { FirestoreModule, getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage, StorageModule } from '@angular/fire/storage';
+import { AuthModule, getAuth, provideAuth } from '@angular/fire/auth';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,10 +18,6 @@ import { File } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 
 
-const config: FirebaseAppConfig = {
-
-};
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -30,10 +26,14 @@ const config: FirebaseAppConfig = {
     ComponentsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireStorageModule, ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
+    // AuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    // FirestoreModule,
+    // StorageModule,
+    ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
   ],
   providers: [
     // WebIntent,

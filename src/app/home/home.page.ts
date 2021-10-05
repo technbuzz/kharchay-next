@@ -1,15 +1,15 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem } from '@ionic/angular';
 
-import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
+import{ addDoc, collection, doc, collectionData, Firestore } from '@angular/fire/firestore';
+import{ firestoreInstance$, getFirestore, collectionChanges, deleteDoc } from '@angular/fire/firestore';
+// import { AngularFireStorage, getStorage, Storage, ref,  } from '@angular/fire/storage';
 
 import addDays from 'date-fns/esm/addDays';
 import isAfter from 'date-fns/esm/isAfter';
 import subDays from 'date-fns/esm/subDays';
 import format from 'date-fns/esm/format';
 import startOfMonth from 'date-fns/esm/startOfMonth';
-
 
 
 import { ICategory } from '../shared/category.interface';
@@ -20,15 +20,16 @@ import { IExpense } from '../shared/expense.interface';
 import { SettingsService } from '../services/settings.service';
 import { Expense } from '../shared/expense.class';
 import { ImageService } from '../services/image.service';
-import { take, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, first, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { UtilsService } from '../services/utils.service';
+import { deleteObject } from '@firebase/storage';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
 
   @ViewChild('dateItem') dateItem: any;
   @ViewChild('expenseDate', { static: true })
@@ -42,6 +43,8 @@ export class HomePage implements OnInit {
   currentMonth = format(new Date(), 'MMMM');
   startOfMonth = startOfMonth(this.cdo);
   maxDate: string;
+
+  app = getFirestore().app;
 
   expense: IExpense = {
     price: null,
@@ -66,20 +69,24 @@ export class HomePage implements OnInit {
   total: any;
   uploadedSubscription: Subscription;
 
-
-  expCollRef: AngularFirestoreCollection<any> = this.afs.collection(
-    'expense',
-    ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
+  expCollRef = firestoreInstance$.pipe(
+    first(),
+    concatMap(firestore => collectionData(collection(firestore, 'expense')))
   );
+  // expCollRef: AngularFirestoreCollection<any> = this.afs.collection(
+  //   'expense',
+  //   ref => ref.orderBy('date', 'desc').where('date', '>=', this.startOfMonth)
+  // );
   expenses: Observable<Expense[]>;
   recurringExpenses = [];
   reccuringExpenseId: string = null;
 
 
   constructor(
-    private afs: AngularFirestore,
+    // private afs: AngularFirestore,
     private alertCtrl: AlertController,
-    private storage: AngularFireStorage,
+    // private storage: Storage,
+    private firestore: Firestore,
     private settingService: SettingsService,
     private loadingCtrl: LoadingController,
     private imageService: ImageService,
@@ -102,7 +109,7 @@ export class HomePage implements OnInit {
 
     this.checkRecurring();
 
- 
+
 
     // this.maxDate = this.cdo.toISOString().split('T')[0]
     // this.expenses = this.expCollRef.valueChanges().pipe(map(array => {
@@ -125,8 +132,8 @@ export class HomePage implements OnInit {
 
   }
 
-  ngAfterViewInit () {
-    
+  ngAfterViewInit() {
+
     const gesture = this.gestureCtrl.create({
       el: this.dateItem.el,
       gestureName: 'move',
@@ -136,16 +143,14 @@ export class HomePage implements OnInit {
         const deltaX = detail.deltaX;
         const velocityX = detail.velocityX;
         if (deltaX > 0) {
-          this.addDay()
+          this.addDay();
         } else {
-          this.subtractDay()
-
+          this.subtractDay();
         }
-
       }
-    })
+    });
 
-    gesture.enable()
+    gesture.enable();
   }
 
 
@@ -153,8 +158,8 @@ export class HomePage implements OnInit {
     this.expense.price = price;
   }
 
-  public addItem(form: NgForm, expense: IExpense) {
-    return new Promise((resolve, reject) => {
+ public async addItem(form: NgForm, expense: IExpense) {
+    return new Promise(async (resolve, reject) => {
 
       const newExpense = expense || this.expense;
       this.isWorking = true;
@@ -163,32 +168,39 @@ export class HomePage implements OnInit {
         tap(_ => this.isWorking = false)
       ).subscribe();
 
-      this.uploadedSubscription = this.imageService.uploaded$.subscribe((resp: any) => {
+      this.uploadedSubscription = this.imageService.uploaded$.subscribe( async (resp: any) => {
         console.log('event received:uploaded:image: ');
         const expenseInstance = new Expense(newExpense.price, newExpense.note, resp.imageName, newExpense.category, newExpense.date,
           this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
-        );
-        this.expCollRef
-        .add({...expenseInstance})
-        .then(docRef => {
-          this.resetFields();
-          this.isWorking = false;
-          // already happens on cloud function
-          // this.expCollRef.doc(docRef.id).update({
-            //   id: docRef.id
-            // })
-            resolve(docRef);
-            if(this.reccuringExpenseId) {
-              this.utilService.setRecurring(true);
-            }
-            this.uploadedSubscription.unsubscribe();
-          })
-          .catch(err => {
-            reject(err);
-            this.isWorking = false;
-            console.log(err);
-            this.uploadedSubscription.unsubscribe();
-          });
+          );
+        const ref = await addDoc(collection(this.firestore, 'expense'), expenseInstance);
+        console.log('ref: ', ref.id);
+        this.resetFields();
+        this.isWorking = false;
+        if(this.recurringExpenses) {
+          this.utilService.setRecurring(true);
+        }
+        this.uploadedSubscription.unsubscribe();
+        // this.expCollRef.pipe(
+        //   switchMap()
+        // )
+        // .add({...expenseInstance})
+        // .then(docRef => {
+        //   this.resetFields();
+        //   this.isWorking = false;
+        //   // setting id happend on cloud function
+        //     resolve(docRef);
+        //     if(this.reccuringExpenseId) {
+        //       this.utilService.setRecurring(true);
+        //     }
+        //     this.uploadedSubscription.unsubscribe();
+        //   })
+        //   .catch(err => {
+        //     reject(err);
+        //     this.isWorking = false;
+        //     console.log(err);
+        //     this.uploadedSubscription.unsubscribe();
+        //   });
       });
       // Ideally we should pulish upload:image event and than a image upload
       // should happen and then listen for uploaded:image but in the case
@@ -217,22 +229,7 @@ export class HomePage implements OnInit {
         },
         {
           text: 'Yes',
-          handler: () => {
-
-            // @ts-ignore
-            this.expCollRef.doc(item.id).delete();
-            // FIXME: Refactor this subscription
-            if(!item.imageName) {return;}
-            this.storage
-              .ref(`receipts/${item.imageName}`)
-              .delete()
-              .subscribe(
-                resp => {
-                  console.log('resource deleted', resp);
-                },
-                error => console.log(error)
-              );
-          }
+          handler: () => this.deleteResource(item)
         }
       ]
     });
@@ -249,8 +246,8 @@ export class HomePage implements OnInit {
   }
 
   checkRecurring() {
-    this.afs.collection('tasks').valueChanges()
-
+    collectionData(collection(this.firestore, 'tasks'))
+    // this.afs.collection('tasks').valueChanges()
     .subscribe(resp => {
       console.log(resp);
       this.recurringExpenses = resp.map((item: IExpense) => ({
@@ -258,6 +255,25 @@ export class HomePage implements OnInit {
           date: item.date.toDate()
         }));
     });
+  }
+
+  async deleteResource(item) {
+    // FIXME: below is broken code kindly fix it
+    // await deleteDoc(doc(item.id));
+    // this.expCollRef.doc(item.id).delete();
+    // FIXME: Refactor this subscription
+    // if(!item.imageName) {return;}
+    // const imagesRef = ref(this.storage, `receipts/${item.imageName}`);
+    // deleteObject(imagesRef).then()
+    // this.storage
+      // .ref(`receipts/${item.imageName}`)
+      // .delete()
+      // .subscribe(
+      //   resp => {
+      //     console.log('resource deleted', resp);
+      //   },
+      //   error => console.log(error)
+      // );
   }
 
   addRecurring(item: IExpense) {
@@ -286,26 +302,21 @@ export class HomePage implements OnInit {
   }
 
   deleteRecurring(id: string): Promise<void>{
-    return this.afs.collection('tasks').doc(id).delete();
+    return deleteDoc(doc(this.firestore, `tasks${id}`));
+    // return this.afs.collection('tasks').doc(id).delete();
   }
 
-  addTasks() {
+  async addTasks() {
     const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
       this.showSubCategory ? this.selectedSubCategory : null, true
     );
 
-    console.log(expenseInstance);
-    console.log({...expenseInstance});
-
-    this.afs.collection('recurring').add(
-      {...expenseInstance}
-    ).then(resp => {
-      console.log(resp);
-    }).catch(error => {
-      console.log(error);
-    });
-
-
+    try {
+      const response = await addDoc(collection(this.firestore, 'recurring'), {...expenseInstance});
+      console.log('response: ', response);
+    } catch (error) {
+      console.log('error: ', error);
+    }
   }
 
   public addDay() {

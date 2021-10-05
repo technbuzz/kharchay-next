@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Component, OnDestroy, Optional } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { traceUntilFirst } from '@angular/fire/performance';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
 import { Platform } from '@ionic/angular';
+import { authState } from 'rxfire/auth';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UtilsService } from './services/utils.service';
 
 
@@ -10,16 +14,27 @@ import { UtilsService } from './services/utils.service';
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+
+  private readonly userDesposible!: Subscription;
+
+
   constructor(
     private platform: Platform,
-    private afAuth: AngularFireAuth,
+    @Optional() private afAuth: Auth,
     // private webIntent: WebIntent,
     private utils: UtilsService
   ) {
-    this.afAuth.authState.subscribe(c => {
-      console.log(c);
+
+    this.userDesposible = authState(this.afAuth).pipe(
+      traceUntilFirst('auth'),
+      map(u => !!u)
+    ).subscribe(isLoggedIn => {
+      console.log('isLoggedIn: ', isLoggedIn);
     });
+    // this.afAuth.authState.subscribe(c => {
+    //   console.log(c);
+    // });
     this.initializeApp();
   }
 
@@ -28,6 +43,10 @@ export class AppComponent {
       // this.registerBroadcast()
       // this.handleBackButton();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userDesposible.unsubscribe();
   }
 
   // private registerBroadcast() {

@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import isBefore from 'date-fns/esm/isBefore';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { collection, collectionData, Firestore, where } from '@angular/fire/firestore';
 import { GestureController, IonDatetime } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 import { Stepper } from '../shared/stepper';
 import { categories } from '../shared/categories';
 import { map } from 'rxjs/operators';
+import { query } from '@firebase/firestore';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './filter.page.html',
   styleUrls: ['./filter.page.scss'],
 })
-export class FilterPage extends Stepper implements OnInit {
+export class FilterPage extends Stepper implements OnInit, AfterViewInit {
 
   @ViewChild(IonDatetime) expenseMonth: IonDatetime;
   @ViewChild('dateItem') dateItem: any;
@@ -32,11 +33,11 @@ export class FilterPage extends Stepper implements OnInit {
   };
 
   expenses$: Observable<BaseExpense[]>;
-  expRef: AngularFirestoreCollection<any>;
+  expRef: any;
   total = 0;
 
 
-  constructor(private afs: AngularFirestore, private gestureCtrl: GestureController) {
+  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
     super();
     Object.assign(this.categories, categories);
 
@@ -56,16 +57,16 @@ export class FilterPage extends Stepper implements OnInit {
         const deltaX = detail.deltaX;
         const velocityX = detail.velocityX;
         if (deltaX > 0) {
-          this.addMonth(this.filter.month, this.expenseMonth)
+          this.addMonth(this.filter.month, this.expenseMonth);
         } else {
-          this.subMonth(this.filter.month, this.expenseMonth)
+          this.subMonth(this.filter.month, this.expenseMonth);
 
         }
 
       }
-    })
+    });
 
-    gesture.enable()
+    gesture.enable();
   }
 
   public loadBasic() {
@@ -74,11 +75,17 @@ export class FilterPage extends Stepper implements OnInit {
 
     this.loadResults({startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString()});
 
-    this.expRef = this.afs.collection('expense', ref =>
-      ref
-        .where('date', '>=', basicStartMonth)
-        .where('date', '<=', basicEndMonth)
+    const ref = collection(this.afs, 'expense');
+    this.expRef = query(ref,
+      where('date', '>=', basicStartMonth),
+      where('date', '<=', basicEndMonth)
     );
+
+    // this.expRef = this.afs.collection('expense', ref =>
+    //   ref
+    //     .where('date', '>=', basicStartMonth)
+    //     .where('date', '<=', basicEndMonth)
+    // );
 
     // Finding Total
     this.findTotal();
@@ -86,7 +93,7 @@ export class FilterPage extends Stepper implements OnInit {
 
   public loadResults(event = null) {
     // Remove following lines after tesing
-    if (event.startDate && event.endDate) {
+    if (event && event.startDate && event.endDate) {
       this.filter.startDate = event.startDate;
       this.filter.endDate = event.endDate;
     }
@@ -105,28 +112,45 @@ export class FilterPage extends Stepper implements OnInit {
       return;
     }
 
-
-    this.expRef = this.afs.collection('expense', ref =>
-      ref
-        .where('date', '>=', new Date(this.filter.startDate))
-        .where('date', '<=', new Date(this.filter.endDate))
-        .where('category', '==', this.filter.category)
+    const ref = collection(this.afs, 'expense');
+    this.expRef = query(ref,
+      where('date', '>=', new Date(this.filter.startDate)),
+      where('date', '<=', new Date(this.filter.endDate)),
+      where('category', '==', this.filter.category)
     );
+
+
+
+    // this.expRef = this.afs.collection('expense', ref =>
+    //   ref
+    //     .where('date', '>=', new Date(this.filter.startDate))
+    //     .where('date', '<=', new Date(this.filter.endDate))
+    //     .where('category', '==', this.filter.category)
+    // );
 
     // Finding Total
     this.findTotal();
   }
 
   findTotal() {
-    this.expenses$ = this.expRef.valueChanges().
-      pipe(map(value => value.map(item => ({
+    this.expenses$ = collectionData(this.expRef)
+      .pipe(map(value => value.map(item => ({
             ...item,
             date: item.date.toDate()
-          }))));
+          })))) as Observable<BaseExpense[]>;
 
     this.expenses$.forEach(values => {
       this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
     });
+    // this.expenses$ = this.expRef.valueChanges().
+    //   pipe(map(value => value.map(item => ({
+    //         ...item,
+    //         date: item.date.toDate()
+    //       }))));
+
+    // this.expenses$.forEach(values => {
+    //   this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
+    // });
   }
 
 }

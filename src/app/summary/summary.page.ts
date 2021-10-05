@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterViewInit } from '@angular/core';
 import { Stepper } from '../shared/stepper';
-import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { collection, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 
@@ -12,28 +12,31 @@ import reduce from 'lodash-es/reduce';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import { GestureController, IonDatetime } from '@ionic/angular';
+import { collectionData } from 'rxfire/firestore';
+import { CollectionReference, DocumentData, query, where } from '@firebase/firestore';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.page.html',
   styleUrls: ['./summary.page.scss'],
 })
-export class SummaryPage extends Stepper implements OnInit{
+export class SummaryPage extends Stepper implements OnInit, AfterViewInit {
   @ViewChild('container', { read: ViewContainerRef, static: true }) container: ViewContainerRef;
   @ViewChild('dateItem') dateItem: any;
   @ViewChild('expenseMonth', { static: true })
   expenseMonth: IonDatetime;
 
-  chartData: number[] = []
-  chartLabels: string[] = []
+  chartData: number[] = [];
+  chartLabels: string[] = [];
 
   month = new Date().toISOString();
   loading = true;
   total = 0;
-  expRef: AngularFirestoreCollection<any>;
-  expenses$: Observable<BaseExpense[]>;
+  expRef: CollectionReference<any>;
+
+  expenses$: Observable<DocumentData[]>;
   constructor(
-    private afs: AngularFirestore,
+    private afs: Firestore,
     private gestureCtrl: GestureController
   ) {
     super();
@@ -53,16 +56,14 @@ export class SummaryPage extends Stepper implements OnInit{
         const deltaX = detail.deltaX;
         const velocityX = detail.velocityX;
         if (deltaX > 0) {
-          this.addMonth(this.month, this.expenseMonth)
+          this.addMonth(this.month, this.expenseMonth);
         } else {
-          this.subMonth(this.month, this.expenseMonth)
-
+          this.subMonth(this.month, this.expenseMonth);
         }
-
       }
-    })
+    });
 
-    gesture.enable()
+    gesture.enable();
   }
 
   loadBasic() {
@@ -70,14 +71,18 @@ export class SummaryPage extends Stepper implements OnInit{
     const basicEndMonth = endOfMonth(new Date(this.month));
 
     this.loading = true;
-    this.expRef = this.afs.collection('expense', ref =>
-      ref
-        .where('date', '>=', basicStartMonth)
-        .where('date', '<=', basicEndMonth)
-    );
+    const expensesRef = collection(this.afs, 'expense');
+    const expensesQuery = query(expensesRef, where('date', '>=', basicStartMonth),where('date', '<=', basicEndMonth));
+
+    // this.expRef = collection(this.afs, 'expense', ref =>
+    //   ref
+    //     .where('date', '>=', basicStartMonth)
+    //     .where('date', '<=', basicEndMonth)
+    // );
 
     // Finding Total
-    this.expenses$ = this.expRef.valueChanges();
+    this.expenses$ = collectionData(expensesQuery);
+    // this.expenses$ = this.expRef.valueChanges();
     this.expenses$.forEach(values => {
       this.generateDataForChart(values);
     });

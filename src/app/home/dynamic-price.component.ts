@@ -22,7 +22,7 @@ enum Operators {
       </ion-row>
   </ion-grid>
   `,
-  styles: [''],
+  styles: [],
 })
 export class DynamicPriceComponent implements OnInit {
 
@@ -32,59 +32,53 @@ export class DynamicPriceComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
-  
-  initCalculation(input:any){
-    if (!input) return
-    const availableOperators = ['+','-']
+
+  initCalculation(input: any){
+    if (!input) {return;}
+    const availableOperators = ['+','-'];
     const operators = [];
-    
+
     for(let i=0; i<availableOperators.length; i++){
-      const o = availableOperators[i]
+      const o = availableOperators[i];
       if(input.includes(o)){
-        operators.push(o)
+        operators.push(o);
       } else {
-        continue
+        continue;
       }
     }
 
     if(operators.length > 1) {
       //TODO: No solution yet, hint is to use tokenization
     } else {
-      const operands = input.split(operators[0])
-      this.reduceCalculation(operands, operators[0])
+      const operands = input.split(operators[0]);
+      this.reduceCalculation(operands, operators[0]);
     }
   }
 
-  public reduceCalculation(operands:any[], operator:string) {
+  public reduceCalculation(operands: any[], operator: string) {
     // convert string to numbers
-    const numberPrice = operands.map(item => {
-      return parseFloat(item)
-    })
+    const numberPrice = operands.map(item => parseFloat(item));
 
     switch (operator) {
       case Operators.add:
-        this.price = numberPrice.reduce((prev, item) => {
-          return prev + Number(item)
-        }, 0)
+        this.price = numberPrice.reduce((prev, item) => prev + Number(item), 0);
         break;
-        
+
         case Operators.subtract:
-          this.price = numberPrice.sort((a,b) => b-a).reduce((prev, item) => {
-          return prev - Number(item)
-        })
+          this.price = numberPrice.sort((a,b) => b-a).reduce((prev, item) => prev - Number(item));
         break;
-    
+
       default:
         break;
     }
 
     this.onCalculate.emit(isNaN(this.price) ? '' : this.price);
   }
-  
+
   public calcVat() {
     const price = Number(this.price);
     const vatPercentage = price * 0.05;
-    this.price = parseFloat(vatPercentage.toFixed(2)) + price
+    this.price = parseFloat(vatPercentage.toFixed(2)) + price;
 
     this.onCalculate.emit(this.price);
   }
