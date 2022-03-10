@@ -10,19 +10,18 @@ import { StreamDirective } from '../shared/stream.directive';
 import { DynamicPriceComponent } from './dynamic-price.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ComponentsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: HomePage
-      }
-    ])
-  ],
-  declarations: [HomePage, StreamDirective, DynamicPriceComponent],
-  entryComponents: [DynamicPriceComponent]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ComponentsModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: HomePage
+            }
+        ])
+    ],
+    declarations: [HomePage, StreamDirective, DynamicPriceComponent]
 })
 export class HomePageModule {}

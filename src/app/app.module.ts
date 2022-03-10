@@ -19,30 +19,29 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    ComponentsModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    // AuthModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    // FirestoreModule,
-    // StorageModule,
-    ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
-  ],
-  providers: [
-    // WebIntent,
-    File,
-    FilePath,
-    // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        ComponentsModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        // AuthModule,
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
+        provideFirestore(() => getFirestore()),
+        provideStorage(() => getStorage()),
+        // FirestoreModule,
+        // StorageModule,
+        ServiceWorkerModule.register('sw-master.js', { enabled: environment.production })
+    ],
+    providers: [
+        // WebIntent,
+        File,
+        FilePath,
+        // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    ],
+    bootstrap: [AppComponent]
 })
 
 

@@ -7,12 +7,11 @@ import { RecurringComponent } from './recurring/recurring.component';
 
 
 @NgModule({
-  declarations: [ExpenseItemComponent, ExpenseImageComponent, RecurringComponent],
-  imports: [
-    CommonModule,
-    IonicModule
-  ],
-  exports: [ExpenseItemComponent, ExpenseImageComponent, RecurringComponent],
-  entryComponents: []
+    declarations: [ExpenseItemComponent, ExpenseImageComponent, RecurringComponent],
+    imports: [
+        CommonModule,
+        IonicModule
+    ],
+    exports: [ExpenseItemComponent, ExpenseImageComponent, RecurringComponent]
 })
 export class ComponentsModule { }
