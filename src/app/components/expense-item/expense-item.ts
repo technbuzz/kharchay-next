@@ -45,7 +45,6 @@ import { mapCategory, mapSubCategory } from 'src/app/shared/categories';
       ion-item{
         --inner-padding-top: 0.35rem;
         --inner-padding-bottom: 0.35rem;
-        filter: blur(5px)
       }
     `
   ]

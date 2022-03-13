@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item #dateItem>
+    <!-- <ion-item #dateItem>
       <ion-label stacked>Month</ion-label>
       <ion-datetime 
       #expenseMonth
@@ -19,6 +19,29 @@
       pickerFormat="MMM YYYY" 
       [(ngModel)]="month" 
       placeholder="Select Month"></ion-datetime>
+    </ion-item> -->
+
+    <ion-item #dateItem>
+      <ion-label stacked>Month</ion-label>
+      <ion-label>{{ month | date : 'MMMM y'}}</ion-label>
+      <!-- <ion-input [value]="expense.date"></ion-input> -->
+      <ion-button fill="clear" id="open-date-input-2">
+        <ion-icon icon="calendar"></ion-icon>
+      </ion-button>
+      <ion-popover trigger="open-date-input-2" show-backdrop="false">
+        <ng-template>
+          <ion-datetime
+            #expenseDate
+            presentation="month-year"
+            name="month"
+            showClearButton="true"
+            showDefaultButtons="true"
+            [(ngModel)]="month"
+            (ionChange)="loadBasic()"
+          >
+        </ion-datetime>
+        </ng-template>
+      </ion-popover>
     </ion-item>
   </ion-list>
 

@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem } from '@ionic/angular';
 
-import{ addDoc, collection, doc, collectionData, Firestore } from '@angular/fire/firestore';
-import{ firestoreInstance$, getFirestore, collectionChanges, deleteDoc } from '@angular/fire/firestore';
+import { addDoc, collection, doc, collectionData, Firestore } from '@angular/fire/firestore';
+import { firestoreInstance$, getFirestore, collectionChanges, deleteDoc } from '@angular/fire/firestore';
 // import { AngularFireStorage, getStorage, Storage, ref,  } from '@angular/fire/storage';
 
 import addDays from 'date-fns/esm/addDays';
@@ -23,6 +23,7 @@ import { ImageService } from '../services/image.service';
 import { concatMap, first, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { UtilsService } from '../services/utils.service';
 import { deleteObject } from '@firebase/storage';
+import { formatISO, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-home',
@@ -35,14 +36,15 @@ export class HomePage implements OnInit, AfterViewInit {
   @ViewChild('expenseDate', { static: true })
   expenseDate: IonDatetime;
 
-  @ViewChild(IonSelect, {static: true}) select: IonSelect;
+
+  @ViewChild(IonSelect, { static: true }) select: IonSelect;
 
   @ViewChild('gestureTest') gestureTest: ElementRef;
 
   cdo = new Date();
   currentMonth = format(new Date(), 'MMMM');
   startOfMonth = startOfMonth(this.cdo);
-  maxDate: string;
+  maxDate = formatISO(new Date());
 
   app = getFirestore().app;
 
@@ -50,7 +52,7 @@ export class HomePage implements OnInit, AfterViewInit {
     price: null,
     note: '',
     category: null,
-    date: new Date().toISOString(),
+    date: formatISO(new Date()),
     imageName: '',
     imageUrl: '',
     fixed: null
@@ -103,32 +105,11 @@ export class HomePage implements OnInit, AfterViewInit {
     });
 
     // dynamicPricing event management
-    this.settingService.inputBS$.subscribe( config => {
+    this.settingService.inputBS$.subscribe(config => {
       this.dynamicPricing = config;
     });
 
     this.checkRecurring();
-
-
-
-    // this.maxDate = this.cdo.toISOString().split('T')[0]
-    // this.expenses = this.expCollRef.valueChanges().pipe(map(array => {
-    //   return array.map(item => {
-    //     return {
-    //       ...item,
-    //       date: item.date.toDate()
-    //     }
-    //   })
-    // }))
-
-    // this.expenses.pipe(throttleTime(1500)).subscribe((values) => {
-    //   new Promise((resolve, reject) => {
-    //     this.total = values.reduce((prev, current, index, array) => {
-    //       if(index === array.length - 1) resolve('😎')
-    //       return prev + Number(current.price)
-    //     }, 0)
-    //   }) // Promise
-    // })// forEach
 
   }
 
@@ -153,12 +134,17 @@ export class HomePage implements OnInit, AfterViewInit {
     gesture.enable();
   }
 
+  formatDate(event: any) {
+    // console.log('value: ', value);
+    this.expense.date = format(parseISO(event.detail.value), 'MMM dd yyyy');
+  }
+
 
   public dynamicHandler(price: any): void {
     this.expense.price = price;
   }
 
- public async addItem(form: NgForm, expense: IExpense) {
+  public async addItem(form: NgForm, expense: IExpense) {
     return new Promise(async (resolve, reject) => {
 
       const newExpense = expense || this.expense;
@@ -168,39 +154,19 @@ export class HomePage implements OnInit, AfterViewInit {
         tap(_ => this.isWorking = false)
       ).subscribe();
 
-      this.uploadedSubscription = this.imageService.uploaded$.subscribe( async (resp: any) => {
+      this.uploadedSubscription = this.imageService.uploaded$.subscribe(async (resp: any) => {
         console.log('event received:uploaded:image: ');
         const expenseInstance = new Expense(newExpense.price, newExpense.note, resp.imageName, newExpense.category, newExpense.date,
           this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
-          );
-        const ref = await addDoc(collection(this.firestore, 'expense'), expenseInstance);
+        );
+        const ref = await addDoc(collection(this.firestore, 'expense'), {...expenseInstance});
         console.log('ref: ', ref.id);
         this.resetFields();
         this.isWorking = false;
-        if(this.recurringExpenses) {
+        if (this.recurringExpenses) {
           this.utilService.setRecurring(true);
         }
         this.uploadedSubscription.unsubscribe();
-        // this.expCollRef.pipe(
-        //   switchMap()
-        // )
-        // .add({...expenseInstance})
-        // .then(docRef => {
-        //   this.resetFields();
-        //   this.isWorking = false;
-        //   // setting id happend on cloud function
-        //     resolve(docRef);
-        //     if(this.reccuringExpenseId) {
-        //       this.utilService.setRecurring(true);
-        //     }
-        //     this.uploadedSubscription.unsubscribe();
-        //   })
-        //   .catch(err => {
-        //     reject(err);
-        //     this.isWorking = false;
-        //     console.log(err);
-        //     this.uploadedSubscription.unsubscribe();
-        //   });
       });
       // Ideally we should pulish upload:image event and than a image upload
       // should happen and then listen for uploaded:image but in the case
@@ -247,14 +213,13 @@ export class HomePage implements OnInit, AfterViewInit {
 
   checkRecurring() {
     collectionData(collection(this.firestore, 'tasks'))
-    // this.afs.collection('tasks').valueChanges()
-    .subscribe(resp => {
-      console.log(resp);
-      this.recurringExpenses = resp.map((item: IExpense) => ({
+      // this.afs.collection('tasks').valueChanges()
+      .subscribe(resp => {
+        this.recurringExpenses = resp.map((item: IExpense) => ({
           ...item,
           date: item.date.toDate()
         }));
-    });
+      });
   }
 
   async deleteResource(item) {
@@ -266,42 +231,42 @@ export class HomePage implements OnInit, AfterViewInit {
     // const imagesRef = ref(this.storage, `receipts/${item.imageName}`);
     // deleteObject(imagesRef).then()
     // this.storage
-      // .ref(`receipts/${item.imageName}`)
-      // .delete()
-      // .subscribe(
-      //   resp => {
-      //     console.log('resource deleted', resp);
-      //   },
-      //   error => console.log(error)
-      // );
+    // .ref(`receipts/${item.imageName}`)
+    // .delete()
+    // .subscribe(
+    //   resp => {
+    //     console.log('resource deleted', resp);
+    //   },
+    //   error => console.log(error)
+    // );
   }
 
   addRecurring(item: IExpense) {
     this.recurringLoading = true;
 
-    if(item.fixed) {
+    if (item.fixed) {
       this.addItem(undefined, item).then(resp => {
         this.recurringLoading = false;
         this.deleteRecurring(item.id);
       });
     } else {
 
-      this.expense = {...item};
+      this.expense = { ...item };
       this.select.open();
       this.reccuringExpenseId = item.id;
 
       this.utilService.recurringTask$
-      .pipe(take(1))
-      .subscribe(resp => {
-        this.deleteRecurring(item.id).finally(() => {
-          this.recurringLoading = false;
-          this.reccuringExpenseId = null;
+        .pipe(take(1))
+        .subscribe(resp => {
+          this.deleteRecurring(item.id).finally(() => {
+            this.recurringLoading = false;
+            this.reccuringExpenseId = null;
+          });
         });
-      });
     }
   }
 
-  deleteRecurring(id: string): Promise<void>{
+  deleteRecurring(id: string): Promise<void> {
     return deleteDoc(doc(this.firestore, `tasks${id}`));
     // return this.afs.collection('tasks').doc(id).delete();
   }
@@ -312,7 +277,7 @@ export class HomePage implements OnInit, AfterViewInit {
     );
 
     try {
-      const response = await addDoc(collection(this.firestore, 'recurring'), {...expenseInstance});
+      const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
       console.log('response: ', response);
     } catch (error) {
       console.log('error: ', error);
@@ -322,12 +287,13 @@ export class HomePage implements OnInit, AfterViewInit {
   public addDay() {
     const tempDate = new Date(this.expense.date);
     const nextDay = addDays(tempDate, 1);
-    if (isAfter(nextDay, new Date())) {return;}
+    if (isAfter(nextDay, new Date())) { return; }
     this.expenseDate.value = nextDay.toISOString();
   }
 
   public subtractDay() {
     const tempDate = new Date(this.expense.date);
+    console.log('this.expenseDate: ', this.expenseDate);
     this.expenseDate.value = subDays(tempDate, 1).toISOString();
     console.log(this.expense.date);
   }
