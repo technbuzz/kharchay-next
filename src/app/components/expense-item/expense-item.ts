@@ -11,7 +11,7 @@ import { mapCategory, mapSubCategory } from 'src/app/shared/categories';
     <ion-item-sliding [disabled]="!item.id">
       <ion-item class="ion-no-padding" [attr.detail]="item.imageName" (click)="showDetails(item)">
         <ion-avatar slot="start" *ngIf="item.imageName">
-          <img src="./assets/imgs/placeholder.png">
+          <img src="./assets/imgs/placeholder.jpg">
         </ion-avatar>
 
         <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
