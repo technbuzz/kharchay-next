@@ -37,23 +37,14 @@
         </ion-item>
       </ng-template>
 
-      <!-- <ion-item #dateItem>
-        <ion-label>Date</ion-label>
-        <ion-datetime #expenseDate name="date" displayFormat="DDDD MMMM DD" 
-        pickerFormat="MMM DD, YYYY HH:mm" [(ngModel)]="expense.date" [max]="maxDate">
-        </ion-datetime>
-      </ion-item> -->
-
       <ion-item #dateItem>
         <ion-label>{{ expense.date | date }}</ion-label>
-        <!-- <ion-input [value]="expense.date"></ion-input> -->
         <ion-button fill="clear" id="open-date-input-2">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>
         <ion-popover trigger="open-date-input-2" show-backdrop="false">
           <ng-template>
             <ion-datetime
-              #expenseDate
               presentation="date"
               name="date"
               showClearButton="true"
@@ -103,16 +94,16 @@
 
 
     <!-- TODO: <button margin-left type="submit" [disabled]="form.invalid" [ladda]="isWorking" ion-button color="primary">Add</button> -->
-    <div padding-small-horizontal>
-      <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
-      <ion-button margin-right color="secondary" class="ion-float-end" routerLink="/summary" routerDirection="forward"
-        type="button">Show
-        Chart</ion-button>
-      <!-- <ion-button margin-right color="secondary" class="ion-float-end" type="button" (click)="presentLoading()">Show Chart</ion-button> -->
-    </div>
-
+    
   </form>
-
+  
+  <div class="ion-padding-horizontal">
+    <ion-button margin-left type="submit" [disabled]="form.invalid" color="primary">Add</ion-button>
+    <ion-button margin-right color="secondary" class="ion-float-end" routerLink="/summary" routerDirection="forward"
+      type="button">Show
+      Chart</ion-button>
+    <!-- <ion-button margin-right color="secondary" class="ion-float-end" type="button" (click)="presentLoading()">Show Chart</ion-button> -->
+  </div>
   
   <!-- List all the expense of this month -->
   <!-- <section class="ion-padding-horizontal">
