@@ -4,14 +4,14 @@ import isAfter from 'date-fns/esm/isAfter';
 import { IonDatetime } from '@ionic/angular';
 
 export class Stepper {
-  addMonth(date, element: IonDatetime){
+  addMonth(date): string{
     const nextMonth = addMonths(new Date(date), 1);
     if(isAfter(nextMonth, new Date())) {return;}
-    element.value = nextMonth.toISOString();
+    return nextMonth.toISOString();
   }
 
-  subMonth(date, element: IonDatetime){
-    element.value = subMonths(new Date(date), 1).toISOString();
+  subMonth(date): string {
+    return subMonths(new Date(date), 1).toISOString();
   }
 
 }
