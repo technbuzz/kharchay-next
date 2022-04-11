@@ -1,5 +1,5 @@
-import { Component, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
-import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem } from '@ionic/angular';
+import { Component, ViewChild, OnInit, ElementRef, AfterViewInit, ContentChild } from '@angular/core';
+import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem, IonPopover } from '@ionic/angular';
 
 import { addDoc, collection, doc, collectionData, Firestore } from '@angular/fire/firestore';
 import { firestoreInstance$, getFirestore, collectionChanges, deleteDoc } from '@angular/fire/firestore';
@@ -33,12 +33,9 @@ import { formatISO, parseISO } from 'date-fns';
 export class HomePage implements OnInit, AfterViewInit {
 
   @ViewChild('dateItem') dateItem: any;
-  @ViewChild('expenseDate', { static: true })
-  expenseDate: IonDatetime;
-
-
+  @ViewChild(IonDatetime) datetime: IonDatetime;
+  @ViewChild(IonPopover) popover: IonPopover;
   @ViewChild(IonSelect, { static: true }) select: IonSelect;
-
   @ViewChild('gestureTest') gestureTest: ElementRef;
 
   cdo = new Date();
@@ -284,17 +281,19 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   }
 
-  public addDay() {
+  public async addDay() {
     const tempDate = new Date(this.expense.date);
     const nextDay = addDays(tempDate, 1);
     if (isAfter(nextDay, new Date())) { return; }
-    this.expenseDate.value = nextDay.toISOString();
+    await this.popover.present();
+    this.expense.date = nextDay.toISOString();
+    this.datetime.confirm()
+    this.popover.dismiss()
   }
 
   public subtractDay() {
     const tempDate = new Date(this.expense.date);
-    console.log('this.expenseDate: ', this.expenseDate);
-    this.expenseDate.value = subDays(tempDate, 1).toISOString();
+    // this.expenseDate.value = subDays(tempDate, 1).toISOString();
     console.log(this.expense.date);
   }
 
