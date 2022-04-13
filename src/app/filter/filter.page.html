@@ -28,10 +28,10 @@
       <ion-item #dateItem>
         <ion-label>{{ filter.month | date : 'MMMM y'}}</ion-label>
         <!-- <ion-input [value]="expense.date"></ion-input> -->
-        <ion-button fill="clear" id="open-date-input-2">
+        <ion-button fill="clear" id="open-date-month">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>
-        <ion-popover trigger="open-date-input-2" show-backdrop="false">
+        <ion-popover trigger="open-date-month" show-backdrop="false">
           <ng-template>
             <ion-datetime
               #expenseMonth
@@ -58,10 +58,10 @@
       <ion-item>
         <ion-label>Start Date</ion-label>
         <ion-label>{{ filter.startDate | date : 'MMMM d, y'}}</ion-label>
-        <ion-button fill="clear" id="startDate">
+        <ion-button fill="clear" id="open-date-start">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>
-        <ion-popover trigger="startDate" show-backdrop="false">
+        <ion-popover trigger="open-date-start" show-backdrop="false">
           <ng-template>
             <ion-datetime
               #expenseDate
@@ -85,10 +85,10 @@
         <ion-label>End Date</ion-label>
         <ion-label>{{ filter.endDate | date : 'MMMM d, y'}}</ion-label>
 
-        <ion-button fill="clear" id="endDate">
+        <ion-button fill="clear" id="open-date-end">
           <ion-icon icon="calendar"></ion-icon>
         </ion-button>
-        <ion-popover trigger="endDate" show-backdrop="false">
+        <ion-popover trigger="open-date-end" show-backdrop="false">
           <ng-template>
             <ion-datetime
               #expenseDate
