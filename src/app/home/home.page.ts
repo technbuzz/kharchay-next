@@ -1,29 +1,25 @@
-import { Component, ViewChild, OnInit, ElementRef, AfterViewInit, ContentChild } from '@angular/core';
-import { IonDatetime, AlertController, LoadingController, IonSelect, Gesture, GestureController, IonItem, IonPopover } from '@ionic/angular';
-
-import { addDoc, collection, doc, collectionData, Firestore } from '@angular/fire/firestore';
-import { firestoreInstance$, getFirestore, collectionChanges, deleteDoc } from '@angular/fire/firestore';
-// import { AngularFireStorage, getStorage, Storage, ref,  } from '@angular/fire/storage';
-
-import addDays from 'date-fns/esm/addDays';
-import isAfter from 'date-fns/esm/isAfter';
-import subDays from 'date-fns/esm/subDays';
-import format from 'date-fns/esm/format';
-import startOfMonth from 'date-fns/esm/startOfMonth';
-
-
-import { ICategory } from '../shared/category.interface';
-import { categories } from '../shared/categories';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, firestoreInstance$, getFirestore } from '@angular/fire/firestore';
 import { NgForm } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { IExpense } from '../shared/expense.interface';
-import { SettingsService } from '../services/settings.service';
-import { Expense } from '../shared/expense.class';
-import { ImageService } from '../services/image.service';
-import { concatMap, first, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import { UtilsService } from '../services/utils.service';
-import { deleteObject } from '@firebase/storage';
+import { AlertController, GestureController, IonDatetime, IonSelect, LoadingController } from '@ionic/angular';
 import { formatISO, parseISO } from 'date-fns';
+// import { AngularFireStorage, getStorage, Storage, ref,  } from '@angular/fire/storage';
+import addDays from 'date-fns/esm/addDays';
+import format from 'date-fns/esm/format';
+import isAfter from 'date-fns/esm/isAfter';
+import startOfMonth from 'date-fns/esm/startOfMonth';
+import { Observable, Subscription } from 'rxjs';
+import { concatMap, first, take, tap } from 'rxjs/operators';
+import { ImageService } from '../services/image.service';
+import { SettingsService } from '../services/settings.service';
+import { UtilsService } from '../services/utils.service';
+import { categories } from '../shared/categories';
+import { ICategory } from '../shared/category.interface';
+import { Expense } from '../shared/expense.class';
+import { IExpense } from '../shared/expense.interface';
+
+
+
 
 @Component({
   selector: 'app-home',
@@ -34,7 +30,6 @@ export class HomePage implements OnInit, AfterViewInit {
 
   @ViewChild('dateItem') dateItem: any;
   @ViewChild(IonDatetime) datetime: IonDatetime;
-  @ViewChild(IonPopover) popover: IonPopover;
   @ViewChild(IonSelect, { static: true }) select: IonSelect;
   @ViewChild('gestureTest') gestureTest: ElementRef;
 
@@ -285,16 +280,12 @@ export class HomePage implements OnInit, AfterViewInit {
     const tempDate = new Date(this.expense.date);
     const nextDay = addDays(tempDate, 1);
     if (isAfter(nextDay, new Date())) { return; }
-    await this.popover.present();
     this.expense.date = nextDay.toISOString();
-    this.datetime.confirm()
-    this.popover.dismiss()
   }
 
   public subtractDay() {
     const tempDate = new Date(this.expense.date);
     // this.expenseDate.value = subDays(tempDate, 1).toISOString();
-    console.log(this.expense.date);
   }
 
   resetFields() {
@@ -306,3 +297,4 @@ export class HomePage implements OnInit, AfterViewInit {
     return item.id;
   }
 }
+// 304 lines
