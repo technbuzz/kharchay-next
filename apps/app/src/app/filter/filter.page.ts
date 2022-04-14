@@ -19,8 +19,12 @@ import { query } from '@firebase/firestore';
 })
 export class FilterPage extends Stepper implements OnInit, AfterViewInit {
 
-  @ViewChild(IonDatetime) expenseMonth: IonDatetime;
-  @ViewChild('dateItem') dateItem: any;
+  // @ViewChild(IonDatetime) expenseMonth: IonDatetime;
+  // @ViewChild('dateItem') dateItem: any;
+  // @ViewChild('expenseMonth') datetime: IonDatetime;
+  @ViewChild(IonDatetime, { static: true }) datetime: IonDatetime;
+
+
 
   categories: any = [];
 
@@ -48,25 +52,27 @@ export class FilterPage extends Stepper implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const gesture = this.gestureCtrl.create({
-      el: this.dateItem.el,
-      gestureName: 'move',
-      onEnd: detail => {
-        const type = detail.type;
-        const currentX = detail.currentX;
-        const deltaX = detail.deltaX;
-        const velocityX = detail.velocityX;
-        if (deltaX > 0) {
-          this.addMonth(this.filter.month, this.expenseMonth);
-        } else {
-          this.subMonth(this.filter.month, this.expenseMonth);
+    // const gesture = this.gestureCtrl.create({
+    //   el: this.dateItem.el,
+    //   gestureName: 'move',
+    //   onEnd: detail => {
+    //     const type = detail.type;
+    //     const currentX = detail.currentX;
+    //     const deltaX = detail.deltaX;
+    //     const velocityX = detail.velocityX;
+    //     if (deltaX > 0) {
+    //       this.filter.month = this.addMonth(this.filter.month);
+    //       // this.addMonth(this.filter.month, this.dateItem.el);
+    //     } else {
+    //       this.filter.month = this.subMonth(this.filter.month);
+    //       // this.subMonth(this.filter.month, this.dateItem.el);
 
-        }
+    //     }
 
-      }
-    });
-
-    gesture.enable();
+    //   }
+    // });
+    console.log('expensemonth', this.datetime)
+    // gesture.enable();
   }
 
   public loadBasic() {

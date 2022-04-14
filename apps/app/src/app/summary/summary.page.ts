@@ -56,9 +56,9 @@ export class SummaryPage extends Stepper implements OnInit, AfterViewInit {
         const deltaX = detail.deltaX;
         const velocityX = detail.velocityX;
         if (deltaX > 0) {
-          this.addMonth(this.month, this.expenseMonth);
+          // this.addMonth(this.month, this.expenseMonth);
         } else {
-          this.subMonth(this.month, this.expenseMonth);
+          // this.subMonth(this.month, this.expenseMonth);
         }
       }
     });

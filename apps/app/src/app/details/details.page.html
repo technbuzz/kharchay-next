@@ -15,8 +15,9 @@
     </div>
   </ng-template>
   
-  <ion-card *ngIf="loaded else loading">
-    <img [src]="expense.imageUrl || './assets/imgs/placeholder.png'" imageViewer="expense.imageUrl"/>
+  <ion-card *ngIf="imgUrl$ | async as url" >
+    <img [src]="url" imageViewer="expense.imageUrl"/>
+    <!-- <img [src]="expense.imageUrl || './assets/imgs/placeholder.png'" imageViewer="expense.imageUrl"/> -->
     <ion-card-content>
       <ion-card-title>
         <h1>
