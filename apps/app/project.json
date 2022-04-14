@@ -1,0 +1,169 @@
+{
+  "root": "apps/app",
+  "sourceRoot": "apps/app/src",
+  "projectType": "application",
+  "prefix": "app",
+  "generators": {},
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/apps/app",
+        "index": "apps/app/src/index.html",
+        "main": "apps/app/src/main.ts",
+        "polyfills": "apps/app/src/polyfills.ts",
+        "tsConfig": "apps/app/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/app/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/ionicons/dist/ionicons/svg",
+            "output": "./svg"
+          },
+          "apps/app/src/manifest.webmanifest"
+        ],
+        "styles": [
+          "apps/app/src/theme/variables.scss",
+          "apps/app/src/global.scss"
+        ],
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "ngsw-config.json",
+        "aot": false,
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/app/src/environments/environment.ts",
+              "with": "apps/app/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": {
+            "styles": true,
+            "scripts": true,
+            "hidden": true,
+            "vendor": true
+          },
+          "namedChunks": false,
+          "aot": true,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            }
+          ]
+        },
+        "ci": {
+          "progress": false
+        }
+      },
+      "defaultConfiguration": ""
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "app:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "app:build:production"
+        },
+        "ci": {}
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "app:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "apps/app/src/test.ts",
+        "polyfills": "apps/app/src/polyfills.ts",
+        "tsConfig": "apps/app/tsconfig.spec.json",
+        "karmaConfig": "apps/app/karma.conf.js",
+        "styles": [],
+        "scripts": [],
+        "assets": [
+          {
+            "glob": "favicon.ico",
+            "input": "apps/app/src/",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/app/src/assets",
+            "output": "/assets"
+          },
+          "apps/app/src/manifest.webmanifest"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "progress": false,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "src/**/*.ts",
+          "src/**/*.html"
+        ],
+        "tsConfig": [
+          "apps/app/tsconfig.app.json",
+          "apps/app/tsconfig.spec.json"
+        ]
+      }
+    },
+    "ionic-cordova-build": {
+      "executor": "@ionic/angular-toolkit:cordova-build",
+      "options": {
+        "browserTarget": "app:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "app:build:production"
+        }
+      }
+    },
+    "ionic-cordova-serve": {
+      "executor": "@ionic/angular-toolkit:cordova-serve",
+      "options": {
+        "cordovaBuildTarget": "app:ionic-cordova-build",
+        "devServerTarget": "app:serve"
+      },
+      "configurations": {
+        "production": {
+          "cordovaBuildTarget": "app:ionic-cordova-build:production",
+          "devServerTarget": "app:serve:production"
+        }
+      }
+    },
+    "deploy": {
+      "executor": "@angular/fire:deploy",
+      "options": {}
+    }
+  }
+}

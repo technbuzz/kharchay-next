@@ -4,14 +4,15 @@
   "author": "Samiullah Khan",
   "homepage": "https://technbuzz.com/",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve -- --hmr",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:droid": "ng build --configuration production && npx cap sync android && npx cap open android",
-    "explore": "source-map-explorer www/**/*.js --no-border-checks"
+    "ng": "nx",
+    "start": "nx serve -- --hmr",
+    "build": "nx build",
+    "test": "nx test",
+    "lint": "nx lint",
+    "e2e": "nx e2e",
+    "build:droid": "nx build --configuration production && npx cap sync android && npx cap open android",
+    "explore": "source-map-explorer www/**/*.js --no-border-checks",
+    "postinstall": "node ./decorate-angular-cli.js"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,7 @@
     "@ionic-native/file": "^5.36.0",
     "@ionic-native/file-path": "^5.36.0",
     "@ionic/angular": "^6.0.11",
+    "@nrwl/angular": "^13.10.2",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-filepath": "^1.6.0",
     "date-fns": "^2.28.0",
@@ -68,7 +70,10 @@
     "open": "^7.0.3",
     "source-map-explorer": "^2.5.2",
     "ts-node": "~8.3.0",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "@nrwl/workspace": "13.10.2",
+    "nx": "13.10.2",
+    "prettier": "^2.5.1"
   },
   "description": "An Expense Management App"
 }

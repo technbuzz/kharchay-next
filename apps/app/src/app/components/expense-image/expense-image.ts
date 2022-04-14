@@ -3,11 +3,10 @@ import { ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { LoadingController, AlertController, GestureController } from '@ionic/angular';
 import { ReplaySubject, Observable } from 'rxjs';
-import { UtilsService } from 'src/app/services/utils.service';
+import { UtilsService } from "../../services/utils.service";
 import { File as IonicFileService, FileReader as IonicFileReader, IFile, FileEntry as IonicFileEntry } from '@ionic-native/file/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
-import { ImageService } from 'src/app/services/image.service';
-
+import { ImageService  } from "../../services/image.service";
 
 @Component({
   selector: 'expense-image',

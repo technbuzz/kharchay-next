@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { IExpense } from '../../shared/expense.interface';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { mapCategory, mapSubCategory } from 'src/app/shared/categories';
+import { mapCategory, mapSubCategory } from '../../shared/categories';
 
 
 @Component({
