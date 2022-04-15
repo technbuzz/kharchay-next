@@ -1,0 +1,28 @@
+{
+  "root": "apps/kharchay-e2e",
+  "sourceRoot": "apps/kharchay-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/kharchay-e2e/cypress.json",
+        "devServerTarget": "kharchay:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "kharchay:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/kharchay-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["kharchay"]
+}

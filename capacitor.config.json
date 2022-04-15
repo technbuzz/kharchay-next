@@ -3,7 +3,7 @@
   "appName": "Kharchay Next",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www",
+  "webDir": "dist/apps/kharchay",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

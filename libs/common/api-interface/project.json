@@ -1,0 +1,23 @@
+{
+  "root": "libs/common/api-interface",
+  "sourceRoot": "libs/common/api-interface/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/common/api-interface/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/common/api-interface"],
+      "options": {
+        "jestConfig": "libs/common/api-interface/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["util"]
+}

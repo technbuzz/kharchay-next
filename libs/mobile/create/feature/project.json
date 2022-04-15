@@ -1,0 +1,70 @@
+{
+  "projectType": "library",
+  "root": "libs/mobile/create/feature",
+  "sourceRoot": "libs/mobile/create/feature/src",
+  "prefix": "kh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mobile/create/feature"],
+      "options": {
+        "jestConfig": "libs/mobile/create/feature/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mobile/create/feature/src/**/*.ts",
+          "libs/mobile/create/feature/src/**/*.html"
+        ]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/mobile/create/feature/.storybook"
+        },
+        "projectBuildConfig": "mobile-create-feature:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/mobile-create-feature",
+        "config": {
+          "configFolder": "libs/mobile/create/feature/.storybook"
+        },
+        "projectBuildConfig": "mobile-create-feature:build-storybook",
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
+        "assets": [
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/ionicons/dist/ionicons/svg",
+            "output": "./svg"
+          }
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

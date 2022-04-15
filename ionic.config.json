@@ -1,7 +1,0 @@
-{
-  "name": "Kharchay Next",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}

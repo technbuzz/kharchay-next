@@ -1,7 +1,11 @@
 {
-  "npmScope": "app",
+  "npmScope": "kh",
   "affected": {
     "defaultBase": "master"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "npm"
   },
   "implicitDependencies": {
     "package.json": {
@@ -18,7 +22,8 @@
           "build",
           "lint",
           "test",
-          "e2e"
+          "e2e",
+          "build-storybook"
         ]
       }
     }
@@ -31,16 +36,20 @@
       }
     ]
   },
-  "cli": {
-    "defaultCollection": "@ionic/angular-toolkit"
-  },
   "generators": {
-    "@ionic/angular-toolkit:component": {
-      "styleext": "scss"
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
-    "@ionic/angular-toolkit:page": {
-      "styleext": "scss"
+    "@nrwl/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   },
-  "defaultProject": "app"
+  "defaultProject": "kharchay"
 }

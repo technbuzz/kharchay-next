@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/mobile/create/data-access",
+  "sourceRoot": "libs/mobile/create/data-access/src",
+  "prefix": "kh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mobile/create/data-access"],
+      "options": {
+        "jestConfig": "libs/mobile/create/data-access/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mobile/create/data-access/src/**/*.ts",
+          "libs/mobile/create/data-access/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["data-access"]
+}
