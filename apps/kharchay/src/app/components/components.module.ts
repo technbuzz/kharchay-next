@@ -4,6 +4,7 @@ import { ExpenseItemComponent } from './expense-item/expense-item';
 import { IonicModule } from '@ionic/angular';
 import { ExpenseImageComponent } from './expense-image/expense-image';
 import { RecurringComponent } from './recurring/recurring.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({

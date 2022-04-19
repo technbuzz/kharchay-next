@@ -1,67 +1,22 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, firestoreInstance$, getFirestore } from '@angular/fire/firestore';
-import { NgForm } from '@angular/forms';
-import { AlertController, GestureController, IonDatetime, IonSelect, LoadingController } from '@ionic/angular';
-import { formatISO, parseISO } from 'date-fns';
-// import { AngularFireStorage, getStorage, Storage, ref,  } from '@angular/fire/storage';
-import addDays from 'date-fns/esm/addDays';
-import format from 'date-fns/esm/format';
-import isAfter from 'date-fns/esm/isAfter';
-import startOfMonth from 'date-fns/esm/startOfMonth';
-import { Observable, Subscription } from 'rxjs';
-import { concatMap, first, take, tap } from 'rxjs/operators';
-import { ImageService } from '../services/image.service';
+import { Component, OnInit } from '@angular/core';
+import { collection, collectionData, deleteDoc, doc, Firestore, firestoreInstance$, getFirestore } from '@angular/fire/firestore';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { concatMap, first, take } from 'rxjs/operators';
 import { SettingsService } from '../services/settings.service';
 import { UtilsService } from '../services/utils.service';
-import { categories } from '../shared/categories';
-import { ICategory } from '../shared/category.interface';
 import { Expense } from '../shared/expense.class';
 import { IExpense } from '../shared/expense.interface';
 
-
-
-
 @Component({
-  selector: 'app-home',
+  selector: 'kh-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, AfterViewInit {
-
-  @ViewChild('dateItem') dateItem: any;
-  @ViewChild(IonDatetime) datetime!: IonDatetime;
-  @ViewChild(IonSelect, { static: true }) select!: IonSelect;
-  @ViewChild('gestureTest') gestureTest!: ElementRef;
-
-  cdo = new Date();
-  currentMonth = format(new Date(), 'MMMM');
-  startOfMonth = startOfMonth(this.cdo);
-  maxDate = formatISO(new Date());
-
+export class HomePage implements OnInit {
   app = getFirestore().app;
-
-  expense: any = {
-    price: null,
-    note: '',
-    category: null,
-    date: formatISO(new Date()),
-    imageName: '',
-    imageUrl: '',
-    fixed: null
-  };
-
-  categories: any[] = [];
-  showSubCategory = false;
   recurringLoading = false;
-  selectedSubCategory!: '';
-  subCategories!: ICategory[];
-
   dynamicPricing = true;
-
-  isWorking = false;
-
-  total: any;
-  uploadedSubscription!: Subscription;
 
   expCollRef = firestoreInstance$.pipe(
     first(),
@@ -73,17 +28,12 @@ export class HomePage implements OnInit, AfterViewInit {
 
 
   constructor(
-    // private afs: AngularFirestore,
     private alertCtrl: AlertController,
-    // private storage: Storage,
     private firestore: Firestore,
     private settingService: SettingsService,
     private loadingCtrl: LoadingController,
-    private imageService: ImageService,
     private utilService: UtilsService,
-    private gestureCtrl: GestureController
   ) {
-    Object.assign(this.categories, categories);
   }
 
   ngOnInit() {
@@ -101,70 +51,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit() {
-
-    const gesture = this.gestureCtrl.create({
-      el: this.dateItem.el,
-      gestureName: 'move',
-      onEnd: detail => {
-        const type = detail.type;
-        const currentX = detail.currentX;
-        const deltaX = detail.deltaX;
-        const velocityX = detail.velocityX;
-        if (deltaX > 0) {
-          this.addDay();
-        } else {
-          this.subtractDay();
-        }
-      }
-    });
-
-    gesture.enable();
-  }
-
-  formatDate(event: any) {
-    // console.log('value: ', value);
-    this.expense.date = format(parseISO(event.detail.value), 'MMM dd yyyy');
-  }
-
 
   public dynamicHandler(price: any): void {
-    this.expense.price = price;
-  }
-
-  public async addItem(form: NgForm, expense: IExpense | undefined) {
-    return new Promise((resolve, reject) => {
-      const newExpense = expense || this.expense;
-      this.isWorking = true;
-      this.imageService.cancelled$.pipe(
-        take(1),
-        tap(_ => this.isWorking = false)
-      ).subscribe();
-
-      this.uploadedSubscription = this.imageService.uploaded$.subscribe(async (resp: any) => {
-        console.log('event received:uploaded:image: ');
-        // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const expenseInstance = new Expense(newExpense.price, newExpense.note, resp.imageName, newExpense.category, newExpense.date,
-          this.showSubCategory ? this.selectedSubCategory : null, newExpense.fixed
-        );
-        const ref = await addDoc(collection(this.firestore, 'expense'), {...expenseInstance});
-        console.log('ref: ', ref.id);
-        this.resetFields();
-        this.isWorking = false;
-        if (this.recurringExpenses) {
-          this.utilService.setRecurring(true);
-        }
-        this.uploadedSubscription.unsubscribe();
-      });
-      // Ideally we should pulish upload:image event and than a image upload
-      // should happen and then listen for uploaded:image but in the case
-      // when there is no image than every thing happens so fast the image upload
-      // component publishes before home component have enough time to subscribe
-      // to uploaded:image so event is missed
-      this.imageService.setUpload(true);
-    });
+    // this.expense.price = price;
   }
 
   async presentLoading() {
@@ -193,17 +82,6 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
 
-// FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-  populateSubCategory(category: ICategory) {
-    if (category.subCategory && category.subCategory) {
-      this.subCategories = category.subCategory;
-      this.showSubCategory = true;
-    } else {
-      this.showSubCategory = false;
-    }
-  }
 
   checkRecurring() {
     collectionData(collection(this.firestore, 'tasks'))
@@ -254,8 +132,8 @@ export class HomePage implements OnInit, AfterViewInit {
       });
     } else {
 
-      this.expense = { ...item };
-      this.select.open();
+      // this.expense = { ...item };
+      // this.select.open();
       this.reccuringExpenseId = item.id;
 
       this.utilService.recurringTask$
@@ -284,34 +162,18 @@ export class HomePage implements OnInit, AfterViewInit {
     // FIXME:
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-    const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
-      this.showSubCategory ? this.selectedSubCategory : null, true
-    );
+    // const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
+      // this.showSubCategory ? this.selectedSubCategory : null, true
+    // );
 
-    try {
-      const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
-      console.log('response: ', response);
-    } catch (error) {
-      console.log('error: ', error);
-    }
+    // try {
+      // const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
+      // console.log('response: ', response);
+    // } catch (error) {
+      // console.log('error: ', error);
+    // }
   }
 
-  public async addDay() {
-    const tempDate = new Date(this.expense.date);
-    const nextDay = addDays(tempDate, 1);
-    if (isAfter(nextDay, new Date())) { return; }
-    this.expense.date = nextDay.toISOString();
-  }
-
-  public subtractDay() {
-    const tempDate = new Date(this.expense.date);
-    // this.expenseDate.value = subDays(tempDate, 1).toISOString();
-  }
-
-  resetFields() {
-    this.expense.price = null;
-    this.expense.note = '';
-  }
 
   trackByFn(index:any, item: IExpense) {
     return item.id;

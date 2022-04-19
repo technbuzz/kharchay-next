@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { CreateService } from '@kh/mobile/create/data-access';
 import formatISO from 'date-fns/formatISO';
@@ -13,17 +14,22 @@ import formatISO from 'date-fns/formatISO';
 export class CreateComponent {
 
   form = this.fb.group({
-    price: '',
-    date: formatISO(new Date()),
-    category: '',
+    price: ['', Validators.required],
+    date: [formatISO(new Date()), Validators.required],
+    category: ['', Validators.required],
     subCategory: null,
-    note: '',
+    note: ['', Validators.required],
     imageName: '',
     fixed: null
   })
 
   image!: { dataURL: string, blob: Blob }
-  constructor(private fb: FormBuilder, private service: CreateService, private loadingCtrl: LoadingController) {
+  constructor(
+    private fb: FormBuilder, 
+    private service: CreateService, 
+    private loadingCtrl: LoadingController,
+    private router: Router
+  ) {
   }
 
   grabImage(event: { dataURL:string, blob: Blob }) {
@@ -31,9 +37,9 @@ export class CreateComponent {
   }
 
   async addEntry() {
-    if (this.image.dataURL) {
-      const loader = await this.presentLoading()
-      const { task, imageName } = this.service.uploadFile(this.image.blob);
+    if (this.image.dataURL) { 
+      const loader = await this.presentLoading() 
+      const { task, imageName } = this.service.uploadFile(this.image.blob); 
       await task;
       loader.dismiss();
       this.addDoc(imageName)
@@ -41,6 +47,8 @@ export class CreateComponent {
     
     this.addDoc()
     this.form.reset();
+    this.router.navigate(['home'])
+    
   }
   
   private async addDoc(imageName = '') {
