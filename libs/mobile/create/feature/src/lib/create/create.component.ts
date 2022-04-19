@@ -37,23 +37,23 @@ export class CreateComponent {
   }
 
   async addEntry() {
-    if (this.image.dataURL) { 
+    if (this.image?.dataURL) { 
       const loader = await this.presentLoading() 
       const { task, imageName } = this.service.uploadFile(this.image.blob); 
       await task;
       loader.dismiss();
-      this.addDoc(imageName)
+      await this.addDoc(imageName)
+    } else {
+      await this.addDoc()
     }
     
-    this.addDoc()
     this.form.reset();
     this.router.navigate(['home'])
-    
   }
   
-  private async addDoc(imageName = '') {
+  private addDoc(imageName = '') {
     const { date } = this.form.value
-    const response = await this.service.add({
+    return this.service.add({
       ...this.form.value,
       imageName: imageName,
       date: new Date(date)

@@ -14,8 +14,8 @@ import { ComponentsModule } from './components/components.module';
 // import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
-import { File } from '@ionic-native/file/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
+// import { File } from '@ionic-native/file/ngx';
+// import { FilePath } from '@ionic-native/file-path/ngx';
 
 
 @NgModule({
@@ -36,8 +36,8 @@ import { FilePath } from '@ionic-native/file-path/ngx';
   ],
   providers: [
     // WebIntent,
-    File,
-    FilePath,
+    // File,
+    // FilePath,
     // { provide: FirestoreSettingsToken, useValue: { timestampsInSnapshots: false }},
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

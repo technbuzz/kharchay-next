@@ -3,7 +3,7 @@
     <ion-list class="ion-no-padding">
       <ion-item>
         <ion-label>Price</ion-label>
-        <ion-input slot="end" required inputmode="numeric" formControlName="price" min="0">
+        <ion-input slot="end" inputmode="numeric" formControlName="price" min="0">
         </ion-input>
       </ion-item>
 
@@ -31,8 +31,7 @@
           <ion-col [size]="showSubCategory === true ? '5' : '12'">
             <ion-item>
               <ion-label position="floating">Choose Category</ion-label>
-              <ion-select interface="popover" required 
-                (ionChange)="populateSubCategory($event)" formControlName="category">
+              <ion-select interface="popover" (ionChange)="populateSubCategory($event)" formControlName="category">
                 <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
                 </ion-select-option>
               </ion-select>
@@ -41,7 +40,7 @@
           <ion-col *ngIf="showSubCategory">
             <ion-item>
               <ion-label position="floating">Choose Sub Category</ion-label>
-              <ion-select interface="popover" required formControlName="subCategory">
+              <ion-select interface="popover" formControlName="subCategory">
                 <ion-select-option [value]="subCat" *ngFor="let subCat of subCategories">{{subCat.title| titlecase}}
                 </ion-select-option>
               </ion-select>
