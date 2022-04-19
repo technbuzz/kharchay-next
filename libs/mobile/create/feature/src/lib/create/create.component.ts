@@ -37,16 +37,19 @@ export class CreateComponent {
   }
 
   async addEntry() {
-    if (this.image?.dataURL) { 
-      const loader = await this.presentLoading() 
+    const loader = await this.presentLoading() 
+    if (this.image?.dataURL) {
+      loader.message = 'Uploading Image, Please wait...'; 
       const { task, imageName } = this.service.uploadFile(this.image.blob); 
       await task;
-      loader.dismiss();
+      loader.message = 'Adding Expense, Please wait...'; 
       await this.addDoc(imageName)
     } else {
+      loader.message = 'Adding Expense, Please wait...'; 
       await this.addDoc()
     }
     
+    loader.dismiss();
     this.form.reset();
     this.router.navigate(['home'])
   }
@@ -62,7 +65,7 @@ export class CreateComponent {
   
   async presentLoading() {
     const loader = await this.loadingCtrl.create({
-      message: 'Uploading Image, Please wait...',
+      message: 'Loading, Please wait...',
       spinner: 'bubbles',
       cssClass: 'loading-upload-image'
     });
