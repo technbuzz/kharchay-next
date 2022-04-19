@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, deleteDoc, doc, Firestore, firestoreInstance$, getFirestore } from '@angular/fire/firestore';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { IExpense } from '@kh/common/api-interface';
 import { Observable } from 'rxjs';
-import { concatMap, first, take } from 'rxjs/operators';
+import { concatMap, first } from 'rxjs/operators';
 import { SettingsService } from '../services/settings.service';
-import { UtilsService } from '../services/utils.service';
-import { Expense } from '../shared/expense.class';
-import { IExpense } from '../shared/expense.interface';
 
 @Component({
   selector: 'kh-home',
@@ -22,7 +20,7 @@ export class HomePage implements OnInit {
     first(),
     concatMap(firestore => collectionData(collection(firestore, 'expense')))
   );
-  expenses!: Observable<Expense[]>;
+  expenses!: Observable<IExpense[]>;
   recurringExpenses = [];
   reccuringExpenseId: string|undefined = undefined;
 
@@ -32,7 +30,6 @@ export class HomePage implements OnInit {
     private firestore: Firestore,
     private settingService: SettingsService,
     private loadingCtrl: LoadingController,
-    private utilService: UtilsService,
   ) {
   }
 
@@ -64,7 +61,7 @@ export class HomePage implements OnInit {
     await loader.present();
   }
 
-  public async delete(item: Expense) {
+  public async delete(item: IExpense) {
     // this.expCollRef.doc('yourid').delete();
     const confirm = await this.alertCtrl.create({
       subHeader: 'Do you really want to delete',
@@ -136,20 +133,13 @@ export class HomePage implements OnInit {
       // this.select.open();
       this.reccuringExpenseId = item.id;
 
-      this.utilService.recurringTask$
-        .pipe(take(1))
-        .subscribe(resp => {
-          // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-          this.deleteRecurring(item.id).finally(() => {
-            this.recurringLoading = false;
-            // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-            this.reccuringExpenseId = null;
-          });
-        });
+    //   this.deleteRecurring(item.id).finally(() => {
+    //     this.recurringLoading = false;
+    //     // FIXME:
+    // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // // @ts-ignore
+    //     this.reccuringExpenseId = null;
+    //   });
     }
   }
 

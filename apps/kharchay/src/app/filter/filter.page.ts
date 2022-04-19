@@ -13,7 +13,7 @@ import { query } from '@firebase/firestore';
 
 
 @Component({
-  selector: 'app-filter',
+  selector: 'kh-filter',
   templateUrl: './filter.page.html',
   styleUrls: ['./filter.page.scss'],
 })

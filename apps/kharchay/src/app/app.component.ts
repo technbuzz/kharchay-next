@@ -7,11 +7,10 @@ import { Platform } from '@ionic/angular';
 import { authState } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UtilsService } from './services/utils.service';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'kh-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnDestroy {
@@ -23,7 +22,6 @@ export class AppComponent implements OnDestroy {
     private platform: Platform,
     @Optional() private afAuth: Auth,
     // private webIntent: WebIntent,
-    private utils: UtilsService
   ) {
 
     this.userDesposible = authState(this.afAuth).pipe(

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IExpense } from '../shared/expense.interface';
 import { ref, Storage } from '@angular/fire/storage';
 import { mapCategory, mapSubCategory } from '../shared/categories';
 import { from, Observable } from 'rxjs';
@@ -8,12 +7,13 @@ import { traceUntilFirst } from '@angular/fire/performance';
 import { getDownloadURL } from '@firebase/storage';
 import { keepUnstableUntilFirst } from '@angular/fire';
 import { startWith, tap } from 'rxjs/operators';
+import { IExpense } from '@kh/common/api-interface';
 
 const TRANSPARENT_PNG
   = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
 @Component({
-  selector: 'app-details',
+  selector: 'kh-details',
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss'],
 })

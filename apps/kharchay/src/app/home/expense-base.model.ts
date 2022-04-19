@@ -1,4 +1,4 @@
-import { IExpense } from '../shared/expense.interface';
+import { IExpense } from "@kh/common/api-interface";
 
 export interface BaseExpense extends IExpense {
   id?: string,

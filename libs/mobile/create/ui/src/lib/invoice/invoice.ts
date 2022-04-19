@@ -86,7 +86,6 @@ export class InvoiceComponent implements AfterViewInit {
     }
     await this.presentErrorAlert();
     // bring me back
-    // this.imageService.setCancelled(true);
   }
 
   async presentErrorAlert() {

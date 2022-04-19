@@ -1,4 +1,4 @@
-import { IExpense } from './expense.interface';
+import { IExpense } from "@kh/common/api-interface";
 
 export const categories = [
   { title: 'bills' },

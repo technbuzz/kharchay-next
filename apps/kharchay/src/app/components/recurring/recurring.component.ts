@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { IExpense } from '../../shared/expense.interface'
+import { IExpense } from '@kh/common/api-interface'
 
 @Component({
   selector: 'recurring',
