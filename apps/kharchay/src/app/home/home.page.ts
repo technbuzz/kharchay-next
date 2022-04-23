@@ -29,7 +29,6 @@ export class HomePage implements OnInit {
     private alertCtrl: AlertController,
     private firestore: Firestore,
     private settingService: SettingsService,
-    private loadingCtrl: LoadingController,
   ) {
   }
 
@@ -46,19 +45,6 @@ export class HomePage implements OnInit {
 
     this.checkRecurring();
 
-  }
-
-
-  public dynamicHandler(price: any): void {
-    // this.expense.price = price;
-  }
-
-  async presentLoading() {
-    const loader = await this.loadingCtrl.create({
-      message: 'Uploading Image, Please wait...',
-      cssClass: 'custom-loading'
-    });
-    await loader.present();
   }
 
   public async delete(item: IExpense) {
@@ -145,7 +131,6 @@ export class HomePage implements OnInit {
 
   deleteRecurring(id: string): Promise<void> {
     return deleteDoc(doc(this.firestore, `tasks${id}`));
-    // return this.afs.collection('tasks').doc(id).delete();
   }
 
   async addTasks() {

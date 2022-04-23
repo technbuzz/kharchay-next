@@ -19,11 +19,6 @@
 
   <div [ngSwitch]="searchType">
     <ion-list *ngSwitchCase="'basic'" class="ion-no-margin">
-      <!-- <ion-item #dateItem>
-        <ion-label floating>Month</ion-label>
-        <ion-datetime #expenseMonth (ionChange)="loadBasic()" name="month" displayFormat="MMM YYYY"
-          pickerFormat="MMM YYYY" [(ngModel)]="filter.month"></ion-datetime>
-      </ion-item> -->
 
       <ion-item #dateItem>
         <ion-label>{{ filter.month | date : 'MMMM y'}}</ion-label>
@@ -50,11 +45,6 @@
 
 
     <ion-list *ngSwitchCase="'advanced'" class="ion-no-margin">
-      <!-- <ion-item>
-        <ion-label floating>Start Date</ion-label>
-        <ion-datetime (ionChange)="loadResults()" name="startDate" displayFormat="MMM DD, YYYY"
-          pickerFormat="MMM DD, YYYY" [(ngModel)]="filter.startDate"></ion-datetime>
-      </ion-item> -->
       <ion-item>
         <ion-label>Start Date</ion-label>
         <ion-label>{{ filter.startDate | date : 'MMMM d, y'}}</ion-label>
@@ -76,11 +66,6 @@
           </ng-template>
         </ion-popover>
       </ion-item>
-      <!-- <ion-item>
-        <ion-label floating>End Date</ion-label>
-        <ion-datetime (ionChange)="loadResults()" name="endDate" displayFormat="MMM DD, YYYY"
-          pickerFormat="MMM DD, YYYY" [(ngModel)]="filter.endDate"></ion-datetime>
-      </ion-item> -->
       <ion-item>
         <ion-label>End Date</ion-label>
         <ion-label>{{ filter.endDate | date : 'MMMM d, y'}}</ion-label>

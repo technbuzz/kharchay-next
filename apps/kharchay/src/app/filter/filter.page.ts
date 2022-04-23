@@ -1,15 +1,15 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import startOfMonth from 'date-fns/esm/startOfMonth';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { collection, collectionData, Firestore, where } from '@angular/fire/firestore';
+import { query } from '@firebase/firestore';
+import { IonDatetime } from '@ionic/angular';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import isBefore from 'date-fns/esm/isBefore';
-import { collection, collectionData, Firestore, where } from '@angular/fire/firestore';
-import { GestureController, IonDatetime } from '@ionic/angular';
+import startOfMonth from 'date-fns/esm/startOfMonth';
 import { Observable } from 'rxjs';
-import { BaseExpense } from '../home/expense-base.model';
-import { Stepper } from '../shared/stepper';
-import { categories } from '../shared/categories';
 import { map } from 'rxjs/operators';
-import { query } from '@firebase/firestore';
+import { BaseExpense } from '../home/expense-base.model';
+import { categories } from '../shared/categories';
+import { Stepper } from '../shared/stepper';
 
 
 @Component({
@@ -17,14 +17,9 @@ import { query } from '@firebase/firestore';
   templateUrl: './filter.page.html',
   styleUrls: ['./filter.page.scss'],
 })
-export class FilterPage extends Stepper implements OnInit, AfterViewInit {
+export class FilterPage extends Stepper implements OnInit{
 
-  // @ViewChild(IonDatetime) expenseMonth: IonDatetime;
-  // @ViewChild('dateItem') dateItem: any;
-  // @ViewChild('expenseMonth') datetime: IonDatetime;
   @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
-
-
 
   categories: any = [];
 
@@ -41,38 +36,13 @@ export class FilterPage extends Stepper implements OnInit, AfterViewInit {
   total = 0;
 
 
-  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
+  constructor(private afs: Firestore) {
     super();
     Object.assign(this.categories, categories);
-
    }
 
   ngOnInit() {
     this.loadBasic();
-  }
-
-  ngAfterViewInit() {
-    // const gesture = this.gestureCtrl.create({
-    //   el: this.dateItem.el,
-    //   gestureName: 'move',
-    //   onEnd: detail => {
-    //     const type = detail.type;
-    //     const currentX = detail.currentX;
-    //     const deltaX = detail.deltaX;
-    //     const velocityX = detail.velocityX;
-    //     if (deltaX > 0) {
-    //       this.filter.month = this.addMonth(this.filter.month);
-    //       // this.addMonth(this.filter.month, this.dateItem.el);
-    //     } else {
-    //       this.filter.month = this.subMonth(this.filter.month);
-    //       // this.subMonth(this.filter.month, this.dateItem.el);
-
-    //     }
-
-    //   }
-    // });
-    console.log('expensemonth', this.datetime)
-    // gesture.enable();
   }
 
   public loadBasic() {
@@ -87,11 +57,6 @@ export class FilterPage extends Stepper implements OnInit, AfterViewInit {
       where('date', '<=', basicEndMonth)
     );
 
-    // this.expRef = this.afs.collection('expense', ref =>
-    //   ref
-    //     .where('date', '>=', basicStartMonth)
-    //     .where('date', '<=', basicEndMonth)
-    // );
 
     // Finding Total
     this.findTotal();
@@ -124,17 +89,6 @@ export class FilterPage extends Stepper implements OnInit, AfterViewInit {
       where('date', '<=', new Date(this.filter.endDate)),
       where('category', '==', this.filter.category)
     );
-
-
-
-    // this.expRef = this.afs.collection('expense', ref =>
-    //   ref
-    //     .where('date', '>=', new Date(this.filter.startDate))
-    //     .where('date', '<=', new Date(this.filter.endDate))
-    //     .where('category', '==', this.filter.category)
-    // );
-
-    // Finding Total
     this.findTotal();
   }
 
@@ -148,15 +102,6 @@ export class FilterPage extends Stepper implements OnInit, AfterViewInit {
     this.expenses$.forEach(values => {
       this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
     });
-    // this.expenses$ = this.expRef.valueChanges().
-    //   pipe(map(value => value.map(item => ({
-    //         ...item,
-    //         date: item.date.toDate()
-    //       }))));
-
-    // this.expenses$.forEach(values => {
-    //   this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
-    // });
   }
 
 }
