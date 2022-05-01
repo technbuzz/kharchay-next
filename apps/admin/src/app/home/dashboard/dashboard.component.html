@@ -1,0 +1,44 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav">
+    <button color="primary" mat-button routerLink="/home" >Home</button>
+    <button color="primary" mat-button routerLink="/home/recurring" >Recurring</button>
+    <button color="primary" mat-button routerLink="/home/events" >Events</button>
+    <button color="primary" mat-button routerLink="/home/reports" >Reports</button>
+    <button color="primary" mat-button (click)="logout()">Logout</button>
+
+  </mat-drawer>
+
+  <div class="sidenav-content">
+
+    <mat-toolbar color="primary">
+      
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <span>{{ title | async }}</span>
+
+        <span class="spacer"></span>
+
+      </mat-toolbar-row>
+
+    </mat-toolbar>
+
+    <div *ngIf="querying$ | async as loading">
+      <mat-progress-bar  mode="indeterminate"></mat-progress-bar>
+    </div>
+
+
+    <ul class="breadcrumbs">
+      <li class="breadcrumb" *ngFor="let crumb of crumbs">
+        <a [routerLink]="crumb.path">{{ crumb.label }}</a>
+      </li>
+    </ul>
+
+    
+    <router-outlet></router-outlet>
+
+  </div>
+
+</mat-drawer-container>

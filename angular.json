@@ -1,7 +1,10 @@
 {
   "version": 2,
   "projects": {
+    "admin": "apps/admin",
+    "admin-e2e": "apps/admin-e2e",
     "common-api-interface": "libs/common/api-interface",
+    "common-environments": "libs/common/environments",
     "kharchay": "apps/kharchay",
     "kharchay-e2e": "apps/kharchay-e2e",
     "mobile-create-data-access": "libs/mobile/create/data-access",

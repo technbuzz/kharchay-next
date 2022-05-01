@@ -1,0 +1,40 @@
+.container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  .mat-drawer{
+    min-width: 200px;
+
+    .mat-button{
+      width: 100%;
+      text-align: left;
+    }
+  }
+}
+
+.breadcrumbs {
+  .breadcrumb {
+    display: inline-block;
+    margin-right: 1.5em;
+    position: relative;
+
+    a {
+      text-decoration: none;
+    }
+
+    &::after {
+      position: absolute;
+      content: ">";
+      left: 115%;
+    }
+
+    &:last-child {
+      &::after{
+        display: none;
+      }
+    }
+  }
+}

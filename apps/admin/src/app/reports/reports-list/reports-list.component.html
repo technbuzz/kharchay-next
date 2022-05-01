@@ -1,0 +1,50 @@
+<div padding>
+	<mat-form-field appearance="fill">
+		<mat-label>Enter a date range</mat-label>
+		<mat-date-range-input  [formGroup]="range" [rangePicker]="picker">
+			<input matStartDate formControlName="start"  placeholder="Start date">
+			<input matEndDate formControlName="end" placeholder="End date">
+		</mat-date-range-input>
+		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-date-range-picker (closed)="closeRange($event)" #picker></mat-date-range-picker>
+	</mat-form-field>
+
+	<button (click)="closeRange({})">Set Dates</button>
+
+	<pre>{{ this.expensesTotal | json }}</pre>
+
+	<table>
+		<thead>Report from date to date</thead>
+		<tbody>
+			<tr>
+				<td>July 2020</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Bakra Eid Qurbani</td>
+				<td>800</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Monthly Expenses Grocery</td>
+				<td>1200</td>
+			</tr>
+			<tr>
+				<td>September 2020</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Meerab Hopital Expenses</td>
+				<td>665</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Monthly Expenses Grocery</td>
+				<td>1000</td>
+			</tr>
+		</tbody>
+		<tfoot>
+
+		</tfoot>
+	</table>
+</div>
