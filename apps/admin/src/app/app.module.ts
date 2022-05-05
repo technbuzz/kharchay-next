@@ -6,8 +6,9 @@ import { provideStorage } from '@angular/fire/storage';
 import { BrowserModule } from '@angular/platform-browser';
 // Material section
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { environment } from '@kh/common/environments';
 import { getStorage } from 'firebase/storage';
-import { environment } from '../environments/environment';
+// import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 

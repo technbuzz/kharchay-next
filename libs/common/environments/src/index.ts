@@ -1,1 +1,1 @@
-export * from './lib/common-environments';
+export * from './lib/environment';
