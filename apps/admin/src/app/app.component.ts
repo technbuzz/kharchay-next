@@ -19,7 +19,7 @@ export class AppComponent {
       map(u => !!u)
     ).subscribe(resp => {
       if(resp){
-        router.navigate(['/home/reports'])
+        router.navigate(['/home/recurring'])
       } else {
         router.navigate(['/login'])
       }

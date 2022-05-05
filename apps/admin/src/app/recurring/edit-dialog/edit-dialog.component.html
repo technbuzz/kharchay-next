@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>New Task Form</h1>
-<form [formGroup]="form" (submit)="add(form)">
 <div mat-dialog-content>
+  <form [formGroup]="form">
     <mat-form-field appearence="fill">
       <mat-label>Note</mat-label>
       <input matInput formControlName="note">
@@ -34,13 +34,13 @@
     <div>
       <mat-checkbox formControlName="fixed">Fixed </mat-checkbox>
     </div>
+  </form>
     
   </div>
   
-  <div mat-dialog-actions>
-    <button type="button" mat-button (click)="close()" >Close</button>
-    <button mat-raised-button color="primary" [disabled]="form.invalid">
-      {{ data.note ? 'Update' : 'Add' }}
-    </button>
-  </div>
-</form>
+<div mat-dialog-actions>
+  <button type="button" mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" (click)="add()" [disabled]="form.invalid">
+    {{ data.note ? 'Update' : 'Add' }}
+  </button>
+</div>

@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'; 
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'kha-edit-dialog',
@@ -33,8 +33,8 @@ export class EditDialogComponent implements OnInit {
   }
 
 
-  add({value}: any){
-    const { categoryDetails: {category, subCategory}, ...rest  } = value
+  add(){
+    const { categoryDetails: {category, subCategory}, ...rest  } = this.form.value
     this.dialogRef.close({category, subCategory, ...rest, date: new Date()});
   }
 

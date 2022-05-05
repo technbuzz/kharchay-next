@@ -34,7 +34,9 @@
     <tr mat-row *matRowDef="let row, columns: displayedColumns"></tr>
   </table>
 
-  <button mat-fab color="primary" (click)="presentEditModal({})">
-    <mat-icon>add</mat-icon>
-  </button>
+  <section class="fixed right-4 bottom-4">
+    <button mat-fab color="primary" (click)="presentEditModal({})">
+      <mat-icon>add</mat-icon>
+    </button>
+  </section>
 </div>
