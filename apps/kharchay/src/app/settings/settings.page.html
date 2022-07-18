@@ -18,9 +18,19 @@
       ></ion-toggle>
     </ion-item>
     <ion-item>
+      <ion-label>Dark Theme</ion-label>
+      <ion-toggle
+        checked="false"
+        (ionChange)="updateTheme($event)"
+      ></ion-toggle>
+    </ion-item>
+    <ion-item>
       <ion-label>Login Status</ion-label>
       <!-- <ion-button *ngIf="loggedIn; else loggedOut" slot="end" (click)="logout()" -->
-      <ion-button *ngIf="(loggedIn$  | async); else loggedOut" slot="end" (click)="logout()"
+      <ion-button
+        *ngIf="(loggedIn$  | async); else loggedOut"
+        slot="end"
+        (click)="logout()"
         >Logout</ion-button
       >
 

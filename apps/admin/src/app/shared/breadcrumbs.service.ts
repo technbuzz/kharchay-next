@@ -68,7 +68,7 @@ export class BreadcrumbsService {
 
     const crumb: IBreadcrumb = {
       // label: route.routeConfig?.data.title || path,
-      label: 'needs fixing',
+      label: route.routeConfig?.data ? route.routeConfig.data['title'] : path,
       path: path,
     };
 

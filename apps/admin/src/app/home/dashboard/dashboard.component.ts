@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from "@angular/fire/auth";
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EventService } from '../../shared/events.service';
 import { filter, map } from 'rxjs/operators';
-import { GeneralService } from '../../shared/general.service';
 import { BreadcrumbsService } from '../../shared/breadcrumbs.service';
+import { GeneralService } from '../../shared/general.service';
 
 
 @Component({
@@ -14,13 +13,13 @@ import { BreadcrumbsService } from '../../shared/breadcrumbs.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterContentInit{
 
   @ViewChild(MatDrawer, {static: true}) drawer!: MatDrawer;
 
   querying$ = this.gs.querying;
 
-  title: Observable<string>;
+  title$!: Observable<string>;
   crumbs: any;
 
   constructor(
@@ -37,15 +36,15 @@ export class DashboardComponent implements OnInit {
       this.drawer.close()
     })
 
-    this.title = gs.title;
   }
-
+  ngAfterContentInit(): void {
+    this.title$ = this.gs.title;
+  }
+  
   ngOnInit() {
     this.breadcrumbsService.breadcrumbs$.subscribe(x => {
       this.crumbs = x;
     });
-
-
   }
 
   async logout() {

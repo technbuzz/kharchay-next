@@ -1,4 +1,5 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common'
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
@@ -26,7 +27,9 @@ export class SettingsPage implements OnInit {
     public alertController: AlertController,
     private authService: AuthService,
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -107,6 +110,15 @@ export class SettingsPage implements OnInit {
     });
     return await this.loading.present();
 
+  }
+
+  updateTheme(event: any) {
+    const checked = event.detail.checked
+    if(checked) {
+      this.renderer.addClass(this.document.body, 'dark') 
+    } else {
+      this.renderer.removeClass(this.document.body, 'dark') 
+    }
   }
 
   async presentToast() {
