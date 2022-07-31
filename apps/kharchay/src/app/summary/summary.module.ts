@@ -7,12 +7,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { SummaryPage } from './summary.page';
 import { PieComponent } from './pie/pie';
+import { DoughnutComponent } from './doughnut/doughnut.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SummaryPage
-  }
+    component: SummaryPage,
+  },
 ];
 
 @NgModule({
@@ -20,8 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  declarations: [SummaryPage, PieComponent],
+  declarations: [SummaryPage, PieComponent, DoughnutComponent],
 })
 export class SummaryPageModule {}
