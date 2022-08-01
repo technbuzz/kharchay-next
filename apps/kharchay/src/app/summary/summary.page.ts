@@ -58,7 +58,8 @@ export class SummaryPage extends Stepper implements AfterViewInit {
       map(value => this.buildQuery(value)),
       switchMap(value => collectionData(value))
     ).subscribe((event) => {
-      // 
+      // FIXME: The below could be made reactive but we need to release
+      // feature first and iterate later
       this.generateDataForChart(event)
     })
   }
