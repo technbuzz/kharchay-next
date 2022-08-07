@@ -1,6 +1,6 @@
 {
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "application",
-  "root": "apps/admin",
   "sourceRoot": "apps/admin/src",
   "prefix": "kha",
   "targets": {
@@ -85,7 +85,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/admin"],
       "options": {
-        "jestConfig": "apps/admin/jest.config.js",
+        "jestConfig": "apps/admin/jest.config.ts",
         "passWithNoTests": true
       }
     }

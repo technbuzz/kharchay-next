@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { CreateService } from '@kh/mobile/create/data-access';
@@ -25,7 +25,7 @@ export class CreateComponent {
 
   image!: { dataURL: string, blob: Blob }
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     private service: CreateService, 
     private loadingCtrl: LoadingController,
     private router: Router

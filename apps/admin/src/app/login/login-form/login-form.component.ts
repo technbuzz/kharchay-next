@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GeneralService } from '../../shared/general.service';
 
@@ -13,10 +13,10 @@ export class LoginFormComponent {
 
   loading = false
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     private fbAuth: Auth, 
     private router: Router,
     private general: GeneralService) {
@@ -26,7 +26,7 @@ export class LoginFormComponent {
     })
   }
 
-  async doLogin(form: FormGroup) {
+  async doLogin(form: UntypedFormGroup) {
     this.loading = true;
     try {
       const result = await signInWithEmailAndPassword(this.fbAuth, form.value.email, form.value.password);

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, ControlContainer } from '@angular/forms';
+import { UntypedFormGroup, ControlContainer } from '@angular/forms';
 import { categories } from '../../shared/categories'
 
 
@@ -15,7 +15,7 @@ export class SharedCatComponent implements OnInit {
 
 
 
-  @Input() parentForm!: FormGroup;
+  @Input() parentForm!: UntypedFormGroup;
 
   constructor(public controlContainer:ControlContainer) {
     Object.assign(this.categories, categories)

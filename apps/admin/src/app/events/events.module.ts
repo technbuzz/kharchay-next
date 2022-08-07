@@ -28,28 +28,25 @@ import { StorageModule } from "@angular/fire/storage";
 
 
 @NgModule({
-  declarations: [EventsMainComponent, EventEditDialogComponent, EventExpenseListComponent, EventsAllComponent, EventsDateComponent, ExpenseDialogComponent],
-  imports: [
-    CommonModule,
-    EventsRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ComponentsModule,
-
-    MatTableModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatTreeModule,
-
-    StorageModule
-  ],
-  providers: [ MatDatepickerModule ],
-  entryComponents: [EventEditDialogComponent, ExpenseDialogComponent]
+    declarations: [EventsMainComponent, EventEditDialogComponent, EventExpenseListComponent, EventsAllComponent, EventsDateComponent, ExpenseDialogComponent],
+    imports: [
+        CommonModule,
+        EventsRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ComponentsModule,
+        MatTableModule,
+        MatIconModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatGridListModule,
+        MatTreeModule,
+        StorageModule
+    ],
+    providers: [MatDatepickerModule]
 })
 export class EventsModule { }

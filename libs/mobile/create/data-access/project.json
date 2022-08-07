@@ -1,6 +1,6 @@
 {
+  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
-  "root": "libs/mobile/create/data-access",
   "sourceRoot": "libs/mobile/create/data-access/src",
   "prefix": "kh",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/mobile/create/data-access"],
       "options": {
-        "jestConfig": "libs/mobile/create/data-access/jest.config.js",
+        "jestConfig": "libs/mobile/create/data-access/jest.config.ts",
         "passWithNoTests": true
       }
     },

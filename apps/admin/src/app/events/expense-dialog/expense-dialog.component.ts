@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { IExpense } from '../../shared/expense.interface';
 
 import * as dayjs from 'dayjs'
@@ -12,12 +12,12 @@ import * as dayjs from 'dayjs'
 })
 export class ExpenseDialogComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   min!: Date;
   max!: Date;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialogRef: MatDialogRef<ExpenseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data:any,
   ) { }

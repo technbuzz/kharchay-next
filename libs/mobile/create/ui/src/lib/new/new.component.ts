@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ICategory } from '@kh/common/api-interface';
 import { categories } from '@kh/mobile/create/data-access';
@@ -14,7 +14,7 @@ import formatISO from 'date-fns/formatISO';
 export class NewComponent {
 
   @Input() price = ''
-  @Input() parent!: FormGroup;
+  @Input() parent!: UntypedFormGroup;
 
   maxDate = formatISO(new Date());
   categories: any[] = [];
@@ -23,7 +23,7 @@ export class NewComponent {
   selectedSubCategory!: '';
   subCategories!: ICategory[];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     Object.assign(this.categories, categories);
   }
 

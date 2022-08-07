@@ -20,24 +20,21 @@ import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
-  declarations: [RecurringListComponent, EditDialogComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RecurringRoutingModule,
-    
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatSelectModule,
-
-    FirestoreModule,
-    ComponentsModule
-  ],
-  entryComponents: [EditDialogComponent]
+    declarations: [RecurringListComponent, EditDialogComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RecurringRoutingModule,
+        MatTableModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        FirestoreModule,
+        ComponentsModule
+    ]
 })
 export class RecurringModule { }

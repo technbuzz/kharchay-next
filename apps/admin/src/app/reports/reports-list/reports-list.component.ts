@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, query, where } from '@angular/fire/firestore';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import groupBy from "lodash-es/groupBy";
 import { map, mergeAll, pluck } from 'rxjs/operators';
 import { IEvent } from '../../shared/event.interface';
@@ -19,9 +19,9 @@ export class ReportsListComponent implements OnInit {
   // expenseCollection: AngularFirestoreCollection
   expensesTotal: any
   
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
+  range = new UntypedFormGroup({
+    start: new UntypedFormControl(),
+    end: new UntypedFormControl()
   });
   
   constructor(private gs: GeneralService, private afs: Firestore) { }

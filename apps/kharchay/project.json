@@ -1,6 +1,6 @@
 {
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "application",
-  "root": "apps/kharchay",
   "sourceRoot": "apps/kharchay/src",
   "prefix": "kh",
   "targets": {
@@ -93,7 +93,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/kharchay"],
       "options": {
-        "jestConfig": "apps/kharchay/jest.config.js",
+        "jestConfig": "apps/kharchay/jest.config.ts",
         "passWithNoTests": true
       }
     }

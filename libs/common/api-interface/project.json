@@ -1,5 +1,5 @@
 {
-  "root": "libs/common/api-interface",
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "libs/common/api-interface/src",
   "projectType": "library",
   "targets": {
@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/common/api-interface"],
       "options": {
-        "jestConfig": "libs/common/api-interface/jest.config.js",
+        "jestConfig": "libs/common/api-interface/jest.config.ts",
         "passWithNoTests": true
       }
     }
