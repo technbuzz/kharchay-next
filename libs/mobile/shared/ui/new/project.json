@@ -1,0 +1,59 @@
+{
+  "projectType": "library",
+  "root": "libs/mobile/shared/ui/new",
+  "sourceRoot": "libs/mobile/shared/ui/new/src",
+  "prefix": "kh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/mobile/shared/ui/new"],
+      "options": {
+        "jestConfig": "libs/mobile/shared/ui/new/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mobile/shared/ui/new/src/**/*.ts",
+          "libs/mobile/shared/ui/new/src/**/*.html"
+        ]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/mobile/shared/ui/new/.storybook"
+        },
+        "projectBuildConfig": "mobile-shared-ui-new:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/mobile-shared-ui-new",
+        "config": {
+          "configFolder": "libs/mobile/shared/ui/new/.storybook"
+        },
+        "projectBuildConfig": "mobile-shared-ui-new:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": ["type-ui"]
+}

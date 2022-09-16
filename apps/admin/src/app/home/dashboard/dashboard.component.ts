@@ -1,6 +1,7 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from "@angular/fire/auth";
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -15,32 +16,40 @@ import { GeneralService } from '../../shared/general.service';
 })
 export class DashboardComponent implements OnInit, AfterContentInit{
 
-  @ViewChild(MatDrawer, {static: true}) drawer!: MatDrawer;
+  @ViewChild(MatSidenav, {static: false}) snav!: MatSidenav;
 
   querying$ = this.gs.querying;
 
-  title$!: Observable<string>;
+  protected title$!: Observable<string>;
   crumbs: any;
+  media$ = this.breakpointObserver.observe([
+    Breakpoints.XSmall
+  ])
+
+  #test = false
 
   constructor(
     private firebase: Auth,
     private router: Router,
     route: ActivatedRoute,
     private breadcrumbsService: BreadcrumbsService,
-    public gs: GeneralService) {
+    public gs: GeneralService,
+    private breakpointObserver: BreakpointObserver) {
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => route)
-    ).subscribe((resp:ActivatedRoute) => {
-      this.drawer.close()
-    })
+    )
+   // .subscribe((resp:ActivatedRoute) => {
+    //   this.snav.close()
+    // })
 
   }
   ngAfterContentInit(): void {
     this.title$ = this.gs.title;
+    console.log(this)
   }
-  
+
   ngOnInit() {
     this.breadcrumbsService.breadcrumbs$.subscribe(x => {
       this.crumbs = x;

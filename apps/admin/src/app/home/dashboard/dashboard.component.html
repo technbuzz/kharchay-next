@@ -1,44 +1,45 @@
-<mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav">
-    <button color="primary" mat-button routerLink="/home" >Home</button>
-    <button color="primary" mat-button routerLink="/home/recurring" >Recurring</button>
-    <button color="primary" mat-button routerLink="/home/events" >Events</button>
-    <button color="primary" mat-button routerLink="/home/reports" >Reports</button>
-    <button color="primary" mat-button (click)="logout()">Logout</button>
+<div class="admin-container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <!-- <button mat-icon-button (click)="toggleNav()"> -->
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
 
-  </mat-drawer>
+      <span *ngIf="title$ | async as title">{{ title }}</span>
 
-  <div class="sidenav-content">
-
-    <mat-toolbar color="primary">
-      
-      <mat-toolbar-row>
-        <button mat-icon-button (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-
-        <span *ngIf="title$ | async as title">{{ title }}</span>
-
-        <span class="spacer"></span>
-
-      </mat-toolbar-row>
-
-    </mat-toolbar>
-
-    <div *ngIf="querying$ | async as loading">
-      <mat-progress-bar  mode="indeterminate"></mat-progress-bar>
-    </div>
-
-
-    <ul class="breadcrumbs">
-      <li class="breadcrumb" *ngFor="let crumb of crumbs">
-        <a [routerLink]="crumb.path">{{ crumb.label }}</a>
-      </li>
-    </ul>
-
-    
-    <router-outlet></router-outlet>
-
+      <span class="spacer"></span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div *ngIf="querying$ | async as loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 
-</mat-drawer-container>
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    *ngIf="media$ | async as media"
+  >
+    <mat-sidenav #snav opened [mode]="media.matches ? 'over' : 'side'">
+      <mat-nav-list>
+        <a color="primary" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item routerLink="/home">Home</a>
+        <a color="primary" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  mat-list-item routerLink="/home/recurring">
+          Recurring
+        </a>
+        <a color="primary" routerLinkActive="active" mat-list-item routerLink="/home/events">Events</a>
+        <a color="primary" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item routerLink="/home/reports">
+          Reports
+        </a>
+        <a color="primary" mat-list-item (click)="logout()">Logout</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <ul class="breadcrumbs">
+        <li class="breadcrumb" *ngFor="let crumb of crumbs">
+          <a [routerLink]="crumb.path">{{ crumb.label }}</a>
+        </li>
+      </ul>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

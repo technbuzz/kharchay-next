@@ -1,9 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { collection, collectionData, deleteDoc, doc, Firestore, firestoreInstance$, getFirestore } from '@angular/fire/firestore';
-import { AlertController, LoadingController } from '@ionic/angular';
+import {
+  collection,
+  collectionData,
+  deleteDoc,
+  doc,
+  Firestore,
+  firestoreInstance$,
+  getFirestore,
+} from '@angular/fire/firestore';
+import {
+  AlertController,
+} from '@ionic/angular';
 import { IExpense } from '@kh/common/api-interface';
+import { CreateService } from '@kh/mobile/create/data-access';
 import { Observable } from 'rxjs';
-import { concatMap, first } from 'rxjs/operators';
+import { concatMap, first, map} from 'rxjs/operators';
+import {RecurringEvent} from '../components/recurring/recurring.component';
 import { SettingsService } from '../services/settings.service';
 
 @Component({
@@ -18,33 +30,34 @@ export class HomePage implements OnInit {
 
   expCollRef = firestoreInstance$.pipe(
     first(),
-    concatMap(firestore => collectionData(collection(firestore, 'expense')))
+    concatMap((firestore) => collectionData(collection(firestore, 'expense')))
   );
   expenses!: Observable<IExpense[]>;
-  recurringExpenses = [];
-  reccuringExpenseId: string|undefined = undefined;
-
+  recurringExpenses!: Observable<IExpense[]>;
+  reccuringExpenseId: string | undefined = undefined;
 
   constructor(
     private alertCtrl: AlertController,
     private firestore: Firestore,
     private settingService: SettingsService,
-  ) {
-  }
+    private createService: CreateService
+  ) {}
 
   ngOnInit() {
-
-    this.settingService.getConfig().subscribe(initialSettings => {
+    this.settingService.getConfig().subscribe((initialSettings) => {
       this.dynamicPricing = initialSettings;
     });
 
     // dynamicPricing event management
-    this.settingService.inputBS$.subscribe(config => {
+    this.settingService.inputBS$.subscribe((config) => {
       this.dynamicPricing = config;
     });
 
     this.checkRecurring();
 
+    // this.ionModalController.create({
+
+    //  })
   }
 
   public async delete(item: IExpense) {
@@ -53,31 +66,30 @@ export class HomePage implements OnInit {
       subHeader: 'Do you really want to delete',
       buttons: [
         {
-          text: 'Cancel'
+          text: 'Cancel',
         },
         {
           text: 'Yes',
-          handler: () => this.deleteResource(item)
-        }
-      ]
+          handler: () => this.deleteResource(item),
+        },
+      ],
     });
     confirm.present();
   }
 
-
-
   checkRecurring() {
-    collectionData(collection(this.firestore, 'tasks'))
-      // this.afs.collection('tasks').valueChanges()
-      .subscribe(resp => {
-        // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.recurringExpenses = resp.map((item: IExpense) => ({
-          ...item,
-          date: item.date.toDate()
-        }));
-      });
+    this.recurringExpenses = collectionData(
+      collection(this.firestore, 'tasks')
+    ).pipe(
+      map((item) =>
+        item.map((expense) => {
+          return {
+            ...expense,
+            date: expense['date'].toDate(),
+          } as IExpense;
+        })
+      )
+    );
   }
 
   async deleteResource(item: any) {
@@ -99,58 +111,35 @@ export class HomePage implements OnInit {
     // );
   }
 
-  addRecurring(item: IExpense) {
+  // The recurring.component.ts already takes care of 
+  // fixed and non fixed item
+  async addRecurring(event: RecurringEvent) {
     this.recurringLoading = true;
-
-    if (item.fixed) {
-      // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-      this.addItem(undefined, item).then(resp => {
-        this.recurringLoading = false;
-        // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.deleteRecurring(item.id);
-      });
-    } else {
-
-      // this.expense = { ...item };
-      // this.select.open();
-      this.reccuringExpenseId = item.id;
-
-    //   this.deleteRecurring(item.id).finally(() => {
-    //     this.recurringLoading = false;
-    //     // FIXME:
-    // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // // @ts-ignore
-    //     this.reccuringExpenseId = null;
-    //   });
-    }
+    await this.createService.add(event.item)
+    await this.deleteRecurring(event.documentToBeDeletedID)
+    this.recurringLoading = false;
   }
 
-  deleteRecurring(id: string): Promise<void> {
-    return deleteDoc(doc(this.firestore, `tasks${id}`));
+  deleteRecurring(id: string | undefined): Promise<void> {
+    return deleteDoc(doc(this.firestore, `tasks/${id}`));
   }
 
   async addTasks() {
     // FIXME:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     // const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
-      // this.showSubCategory ? this.selectedSubCategory : null, true
+    // this.showSubCategory ? this.selectedSubCategory : null, true
     // );
-
     // try {
-      // const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
-      // console.log('response: ', response);
+    // const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
+    // console.log('response: ', response);
     // } catch (error) {
-      // console.log('error: ', error);
+    // console.log('error: ', error);
     // }
   }
 
-
-  trackByFn(index:any, item: IExpense) {
+  trackByFn(index: any, item: IExpense) {
     return item.id;
   }
 }

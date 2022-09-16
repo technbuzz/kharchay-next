@@ -1,0 +1,8 @@
+
+<ol>
+  <li *ngFor="let task of tasks$ | async">
+    <small>Note:{{ task.note }}</small> Active: {{ task.active}}
+    <small>{{ task.date | date }}</small>
+    <button mat-raised-button (click)="delete(task)">Delete</button>
+  </li>
+</ol>

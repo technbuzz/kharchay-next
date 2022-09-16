@@ -1,0 +1,62 @@
+<form [formGroup]="parent">
+    <ion-list class="ion-no-padding">
+      <ion-item>
+        <ion-label>Price</ion-label>
+        <ion-input slot="end" inputmode="numeric" formControlName="price" min="0">
+        </ion-input>
+      </ion-item>
+
+      <ion-item #dateItem>
+        <ion-label>{{ parent.get('date')?.value | date }}</ion-label>
+        <ion-button fill="clear" id="new-date">
+          <ion-icon icon="calendar"></ion-icon>
+        </ion-button>
+        <ion-popover trigger="new-date" show-backdrop="false">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              showClearButton="true"
+              showDefaultButtons="true"
+              formControlName="date"
+              [max]="maxDate"
+            >
+          </ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col [size]="showSubCategory === true ? '5' : '12'">
+            <ion-item>
+              <ion-label position="floating">Choose Category</ion-label>
+              <ion-select interface="popover" (ionChange)="populateSubCategory($event)" formControlName="category">
+                <ion-select-option [value]="cat" *ngFor="let cat of categories">{{cat.title | titlecase}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col *ngIf="showSubCategory">
+            <ion-item>
+              <ion-label position="floating">Choose Sub Category</ion-label>
+              <ion-select interface="popover" formControlName="subCategory">
+                <ion-select-option [value]="subCat" *ngFor="let subCat of subCategories">{{subCat.title| titlecase}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item>
+        <ion-label position="floating">Note</ion-label>
+        <ion-textarea rows="1" autoGrow formControlName="note"></ion-textarea>
+      </ion-item>
+
+
+    </ion-list>
+
+
+    
+  </form>
+ 

@@ -12,6 +12,7 @@ export interface Task {
   fixed: boolean;
   note: string;
   price: number;
+  enabled: boolean;
 }
 
 @Component({
@@ -21,7 +22,7 @@ export interface Task {
 })
 export class RecurringListComponent implements OnInit {
 
-  displayedColumns: string[] = ['note', 'price', 'fixed', 'edit'];
+  displayedColumns: string[] = ['note', 'price', 'fixed', 'active', 'edit'];
   dataSource!: Observable<any>; 
 
   recurringColl = collection(this.afs, 'recurring')
@@ -34,10 +35,7 @@ export class RecurringListComponent implements OnInit {
 
   ngOnInit() {
     this.gs.title.next('Recurring');
-    setTimeout(() => {
-      
-      this.dataSource = this.checkRecurring();
-    }, 1000);
+    this.dataSource = this.checkRecurring();
   }
 
   checkRecurring() {
@@ -60,6 +58,8 @@ export class RecurringListComponent implements OnInit {
       disableClose: true,
       data: item
     })
+
+    console.log(dialogRef.componentInstance)
 
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result);

@@ -10,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class EditDialogComponent implements OnInit {
 
   loading = false
+  protected test = true
 
   form!: UntypedFormGroup;
 
@@ -28,7 +29,9 @@ export class EditDialogComponent implements OnInit {
         category: [category],
         subCategory: [category && category.subCategory || ''],
       }),
-      fixed: [fixed || false]
+      fixed: [fixed || false],
+      active: [false],
+      disabled: []
     })
   }
 

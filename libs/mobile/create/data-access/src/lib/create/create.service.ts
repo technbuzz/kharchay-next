@@ -11,7 +11,9 @@ export class CreateService {
   constructor(private firestore: Firestore,
 
     private storage: Storage,
-  ) { }
+  ) {
+    console.log('Create Service Constructor')
+   }
 
   add(expense: IExpense) {
     return addDoc(collection(this.firestore, 'expense'), expense);

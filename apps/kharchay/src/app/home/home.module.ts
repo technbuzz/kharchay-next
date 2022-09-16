@@ -17,7 +17,7 @@ import { StreamDirective } from '../shared/stream.directive';
         path: '',
         component: HomePage
       }
-    ])
+    ]),
   ],
   declarations: [HomePage, StreamDirective]
 })

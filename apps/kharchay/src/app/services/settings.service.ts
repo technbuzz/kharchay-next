@@ -14,12 +14,14 @@ export class SettingsService {
   private key = 'kharchay-configs'
 
 
+
   private inputBS = new BehaviorSubject(false)
   inputBS$ = this.inputBS.asObservable()
   private config!: ISettings
 
   constructor() {
     this.initConfig()
+    console.log('SettingService: Constructor Called')
   }
 
   private initConfig() {

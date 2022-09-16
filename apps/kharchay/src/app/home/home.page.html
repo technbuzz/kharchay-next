@@ -23,10 +23,12 @@
   </div>
   
 
+
   <!-- List all the recurring expense -->
-  <section class="ion-padding-horizontal" *ngIf="recurringExpenses.length">
+  <section class="ion-padding-horizontal" *ngIf="(recurringExpenses | async) as recurring">
     <h2>Incoming Expenses</h2>
-    <recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurringExpenses"></recurring>
+    <kh-recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurring"></kh-recurring>
+    
   </section>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">

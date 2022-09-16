@@ -17,10 +17,12 @@ import { RecurringListComponent } from './recurring-list/recurring-list.componen
 import { FirestoreModule } from '@angular/fire/firestore';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { ComponentsModule } from '../components/components.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {TaskListComponent} from './task-list/task-list.component';
 
 
 @NgModule({
-    declarations: [RecurringListComponent, EditDialogComponent],
+    declarations: [RecurringListComponent, EditDialogComponent, TaskListComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -34,7 +36,8 @@ import { ComponentsModule } from '../components/components.module';
         MatCheckboxModule,
         MatSelectModule,
         FirestoreModule,
-        ComponentsModule
+        ComponentsModule,
+        MatSlideToggleModule
     ]
 })
 export class RecurringModule { }
