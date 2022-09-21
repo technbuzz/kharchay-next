@@ -36,6 +36,12 @@ export class CreateComponent {
     this.image = event
   }
 
+  add() {
+    this.addEntry()
+    this.form.reset();
+    this.router.navigate(['home'])
+  }
+
   async addEntry() {
     const loader = await this.presentLoading() 
     if (this.image?.dataURL) {
@@ -50,8 +56,10 @@ export class CreateComponent {
     }
     
     loader.dismiss();
-    this.form.reset();
-    this.router.navigate(['home'])
+  }
+
+  saveAndAddMore() {
+    this.addEntry()
   }
   
   private addDoc(imageName = '') {

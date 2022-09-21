@@ -39,6 +39,7 @@ export class NewComponent implements AfterViewInit, OnInit {
     Object.assign(this.categories, categories);
   }
   ngAfterViewInit(): void {
+    debugger
     this.patchForm(this.parent, this.item)
   }
 
@@ -58,7 +59,7 @@ export class NewComponent implements AfterViewInit, OnInit {
     console.log(value)
     form.patchValue({
       price: value.price,
-      date: value.date,
+      date: formatISO(value.date),
       category: this.categories.find(c => c.title = value.category.title),
       subCategory: value.subCategory,
       note: value.note
