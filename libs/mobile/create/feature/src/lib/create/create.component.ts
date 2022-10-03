@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { CreateService } from '@kh/mobile/create/data-access';
 import formatISO from 'date-fns/formatISO';
 
@@ -28,7 +28,8 @@ export class CreateComponent {
     private fb: UntypedFormBuilder, 
     private service: CreateService, 
     private loadingCtrl: LoadingController,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) {
   }
 
@@ -36,8 +37,8 @@ export class CreateComponent {
     this.image = event
   }
 
-  add() {
-    this.addEntry()
+  async add() {
+    await this.addEntry()
     this.form.reset();
     this.router.navigate(['home'])
   }
@@ -55,11 +56,12 @@ export class CreateComponent {
       await this.addDoc()
     }
     
-    loader.dismiss();
+    return loader.dismiss();
   }
 
-  saveAndAddMore() {
-    this.addEntry()
+  async saveAndAddMore() {
+    await this.addEntry()
+    this.presentToast()
   }
   
   private addDoc(imageName = '') {
@@ -80,5 +82,14 @@ export class CreateComponent {
     await loader.present();
     return loader
   }
+ 
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Added Successfully!',
+      duration: 1000,
+      icon: 'checkmark-circle',
+    });
 
+    await toast.present();
+  }
 }
