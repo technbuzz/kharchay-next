@@ -21,6 +21,8 @@ import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
 import { map, switchMap } from 'rxjs/operators';
 import format from 'date-fns/esm/format'
+import {Gesture, GestureController} from '@ionic/angular';
+import {startsWith} from 'lodash-es';
 
 
 @Component({
@@ -37,17 +39,30 @@ export class SummaryPage extends Stepper implements AfterViewInit {
   chartLabels: string[] = [];
 
   month = format(new Date(), 'yyyy-MM')
-  // month = new Date().toISOString();
   total = 0;
 
   expenses$!: Observable<DocumentData[]>;
   private expensesRef = collection(this.afs, 'expense');
-  constructor(private afs: Firestore) {
+  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
     super();
   }
   
   ngAfterViewInit() {
-    console.log('month', format(new Date(), 'yyyy-MM'))
+
+    const gesture: Gesture = this.gestureCtrl.create({
+      el: this.expenseDate.nativeElement,
+      threshold: 15,
+      direction: 'x',
+      gestureName: 'swipe-x',
+      // onMove: ev => this.onMoveHandler(ev),
+      onStart: ev => this.onStartHandler(ev)
+    }, true);
+
+    gesture.enable()
+
+
+    console.log('gesture', gesture)
+
     fromEvent(this.expenseDate.nativeElement, 'change').pipe(
       map(( value: any ) => value.currentTarget.value),
       map(value => {
@@ -62,6 +77,18 @@ export class SummaryPage extends Stepper implements AfterViewInit {
       // feature first and iterate later
       this.generateDataForChart(event)
     })
+  }
+
+  onStartHandler(ev:any) {
+    const date = this.expenseDate.nativeElement
+    if(ev.deltaX > 0) {
+      date.value = this.addMonth(date.value)
+    } else {
+      date.value = this.subMonth(date.value)
+    }
+
+    const event = new Event('change')
+    date.dispatchEvent(event)
   }
 
   private buildQuery(value: {start: Date, end: Date}) {
