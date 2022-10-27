@@ -14,6 +14,10 @@ const routes: Routes = [
     path: '',
     component: SummaryPage,
   },
+  {
+    path: ':id',
+    component: SummaryPage,
+  },
 ];
 
 @NgModule({

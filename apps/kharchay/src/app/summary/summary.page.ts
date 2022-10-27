@@ -23,6 +23,7 @@ import { map, switchMap } from 'rxjs/operators';
 import format from 'date-fns/esm/format'
 import {Gesture, GestureController} from '@ionic/angular';
 import {startsWith} from 'lodash-es';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -43,11 +44,12 @@ export class SummaryPage extends Stepper implements AfterViewInit {
 
   expenses$!: Observable<DocumentData[]>;
   private expensesRef = collection(this.afs, 'expense');
-  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
+  constructor(private afs: Firestore, private gestureCtrl: GestureController, private route: ActivatedRoute) {
     super();
   }
   
   ngAfterViewInit() {
+    this.route.params.subscribe(console.log)
 
     const gesture: Gesture = this.gestureCtrl.create({
       el: this.expenseDate.nativeElement,
@@ -61,7 +63,6 @@ export class SummaryPage extends Stepper implements AfterViewInit {
     gesture.enable()
 
 
-    console.log('gesture', gesture)
 
     fromEvent(this.expenseDate.nativeElement, 'change').pipe(
       map(( value: any ) => value.currentTarget.value),

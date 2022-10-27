@@ -15,7 +15,7 @@ import { IExpense } from '@kh/common/api-interface';
         </ion-avatar>
 
         <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
-          <small>{{item.date | date:"MMM d"}}</small>
+          <small>{{item.date.toDate() | date:"MMM d"}}</small>
 
           <div>
             <ion-badge color="light" *ngIf="item.category">{{item.category.title}}</ion-badge>
