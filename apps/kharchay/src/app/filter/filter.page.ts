@@ -7,12 +7,13 @@ import isBefore from 'date-fns/esm/isBefore';
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import lightFormat from 'date-fns/esm/lightFormat';
 import parseISO from 'date-fns/esm/parseISO';
+import parse from 'date-fns/esm/parse';
 
 import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 import { categories } from '../shared/categories';
 import { Stepper } from '../shared/stepper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -39,12 +40,13 @@ export class FilterPage extends Stepper implements OnInit{
   total = 0;
 
 
-  constructor(private router: Router, private afs: Firestore) {
+  constructor(private route: ActivatedRoute, private router: Router, private afs: Firestore) {
     super();
     Object.assign(this.categories, categories);
    }
 
   ngOnInit() {
+    this.filter.month = parse(this.route.snapshot.params['id'], 'yyyy-MM', new Date()).toISOString() 
     this.loadBasic();
   }
 

@@ -12,7 +12,11 @@ const routes: Routes = [
   {
     path: '',
     component: FilterPage
-  }
+  },
+  {
+    path: ':id',
+    component: FilterPage
+  },
 ];
 
 @NgModule({

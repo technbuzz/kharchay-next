@@ -21,7 +21,7 @@
   <kh-doughnut [chartLabel]="chartLabels" [chartData]="chartData"></kh-doughnut>
   
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button > 
+<ion-fab-button [routerLink]='["/filter", month]'> 
       <ion-icon name="list-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
