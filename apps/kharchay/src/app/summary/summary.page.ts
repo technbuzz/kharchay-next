@@ -4,7 +4,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { collection, Firestore } from '@angular/fire/firestore';
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, merge, Observable } from 'rxjs';
 import { Stepper } from '../shared/stepper';
 
 import {
@@ -19,10 +19,9 @@ import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
-import { map, switchMap } from 'rxjs/operators';
+import { tap, map, switchMap, pluck } from 'rxjs/operators';
 import format from 'date-fns/esm/format'
 import {Gesture, GestureController} from '@ionic/angular';
-import {startsWith} from 'lodash-es';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -49,7 +48,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
   }
   
   ngAfterViewInit() {
-    this.route.params.subscribe(console.log)
+    // this.route.params.pipe(pluck('id')).subscribe(resp => this.month = resp)
 
     const gesture: Gesture = this.gestureCtrl.create({
       el: this.expenseDate.nativeElement,
@@ -64,8 +63,11 @@ export class SummaryPage extends Stepper implements AfterViewInit {
 
 
 
-    fromEvent(this.expenseDate.nativeElement, 'change').pipe(
-      map(( value: any ) => value.currentTarget.value),
+    merge(
+      fromEvent(this.expenseDate.nativeElement, 'change')
+        .pipe(map((v:any) => v.currentTarget.value)),
+        this.route.params.pipe(pluck('id'),tap((v:any)=> this.month = v))
+    ).pipe(
       map(value => {
         const start = startOfMonth(new Date(value));
         const end = endOfMonth(new Date(this.month));

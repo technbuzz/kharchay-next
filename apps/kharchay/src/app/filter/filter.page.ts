@@ -5,11 +5,14 @@ import { IonDatetime } from '@ionic/angular';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import isBefore from 'date-fns/esm/isBefore';
 import startOfMonth from 'date-fns/esm/startOfMonth';
+import lightFormat from 'date-fns/esm/lightFormat';
+import parseISO from 'date-fns/esm/parseISO';
+
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { BaseExpense } from '../home/expense-base.model';
 import { categories } from '../shared/categories';
 import { Stepper } from '../shared/stepper';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,7 +39,7 @@ export class FilterPage extends Stepper implements OnInit{
   total = 0;
 
 
-  constructor(private afs: Firestore) {
+  constructor(private router: Router, private afs: Firestore) {
     super();
     Object.assign(this.categories, categories);
    }
@@ -94,14 +97,18 @@ export class FilterPage extends Stepper implements OnInit{
 
   findTotal() {
     this.expenses$ = collectionData(this.expRef)
-      .pipe(map(value => value.map(item => ({
-            ...item,
-            date: item['date'].toDate()
-          })))) as Observable<BaseExpense[]>;
+      // .pipe(map(value => value.map(item => ({
+      //       ...item,
+      //       date: item['date'].toDate()
+      //     })))) as Observable<BaseExpense[]>;
 
     this.expenses$.forEach(values => {
       this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
     });
+  }
+
+  navigateToGraph() {
+    this.router.navigate(["/summary", lightFormat(parseISO(this.filter.month), 'yyyy-MM')])
   }
 
 }
