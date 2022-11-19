@@ -46,7 +46,10 @@ export class FilterPage extends Stepper implements OnInit{
    }
 
   ngOnInit() {
-    this.filter.month = parse(this.route.snapshot.params['id'], 'yyyy-MM', new Date()).toISOString() 
+    const date = this.route.snapshot.params['id']
+    if(date) {
+      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString() 
+    }
     this.loadBasic();
   }
 

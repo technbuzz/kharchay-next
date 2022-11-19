@@ -19,7 +19,7 @@ import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
-import { tap, map, switchMap, pluck } from 'rxjs/operators';
+import { tap, map, switchMap, pluck, filter } from 'rxjs/operators';
 import format from 'date-fns/esm/format'
 import {Gesture, GestureController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -66,7 +66,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
     merge(
       fromEvent(this.expenseDate.nativeElement, 'change')
         .pipe(map((v:any) => v.currentTarget.value)),
-        this.route.params.pipe(pluck('id'),tap((v:any)=> this.month = v))
+        this.route.params.pipe(pluck('id'),filter(Boolean),tap((v:any)=> this.month = v))
     ).pipe(
       map(value => {
         const start = startOfMonth(new Date(value));
