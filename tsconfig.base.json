@@ -22,7 +22,10 @@
       ],
       "@kh/mobile/create/feature": ["libs/mobile/create/feature/src/index.ts"],
       "@kh/mobile/create/ui": ["libs/mobile/create/ui/src/index.ts"],
-      "@kh/mobile/shared/ui/new": ["libs/mobile/shared/ui/new/src/index.ts"]
+      "@kh/mobile/shared/ui/new": ["libs/mobile/shared/ui/new/src/index.ts"],
+      "@kh/mobile/shared/ui/new-headless": [
+        "libs/mobile/shared/ui/new-headless/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

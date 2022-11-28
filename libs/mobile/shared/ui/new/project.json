@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/mobile/shared/ui/new",
   "sourceRoot": "libs/mobile/shared/ui/new/src",
   "prefix": "kh",
   "targets": {
