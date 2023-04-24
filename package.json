@@ -10,6 +10,7 @@
     "test": "nx test",
     "lint": "nx lint",
     "e2e": "nx e2e",
+    "serve:admin": "nx run admin:serve:build",
     "build:droid": "nx build --configuration production && npx cap sync android && npx cap open android",
     "explore": "source-map-explorer www/**/*.js --no-border-checks",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",

@@ -25,8 +25,8 @@ export class CreateComponent {
 
   image!: { dataURL: string, blob: Blob }
   constructor(
-    private fb: UntypedFormBuilder, 
-    private service: CreateService, 
+    private fb: UntypedFormBuilder,
+    private service: CreateService,
     private loadingCtrl: LoadingController,
     private router: Router,
     private toastController: ToastController
@@ -44,18 +44,18 @@ export class CreateComponent {
   }
 
   async addEntry() {
-    const loader = await this.presentLoading() 
+    const loader = await this.presentLoading()
     if (this.image?.dataURL) {
-      loader.message = 'Uploading Image, Please wait...'; 
-      const { task, imageName } = this.service.uploadFile(this.image.blob); 
+      loader.message = 'Uploading Image, Please wait...';
+      const { task, imageName } = this.service.uploadFile(this.image.blob);
       await task;
-      loader.message = 'Adding Expense, Please wait...'; 
+      loader.message = 'Adding Expense, Please wait...';
       await this.addDoc(imageName)
     } else {
-      loader.message = 'Adding Expense, Please wait...'; 
+      loader.message = 'Adding Expense, Please wait...';
       await this.addDoc()
     }
-    
+
     return loader.dismiss();
   }
 
@@ -63,7 +63,7 @@ export class CreateComponent {
     await this.addEntry()
     this.presentToast()
   }
-  
+
   private addDoc(imageName = '') {
     const { date } = this.form.value
     return this.service.add({
@@ -72,7 +72,7 @@ export class CreateComponent {
       date: new Date(date)
     })
   }
-  
+
   async presentLoading() {
     const loader = await this.loadingCtrl.create({
       message: 'Loading, Please wait...',
@@ -82,7 +82,7 @@ export class CreateComponent {
     await loader.present();
     return loader
   }
- 
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Added Successfully!',
