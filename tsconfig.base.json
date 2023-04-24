@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@kh/admin-settings": ["libs/admin/settings/src/index.ts"],
+      "@kh/admin/setting/feature": ["libs/admin/setting/feature/src/index.ts"],
       "@kh/common/api-interface": ["libs/common/api-interface/src/index.ts"],
       "@kh/common/environments": ["libs/common/environments/src/index.ts"],
       "@kh/mobile/create/data-access": [

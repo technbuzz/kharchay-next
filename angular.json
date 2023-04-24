@@ -3,6 +3,7 @@
   "projects": {
     "admin": "apps/admin",
     "admin-e2e": "apps/admin-e2e",
+    "admin-setting-feature": "libs/admin/setting/feature",
     "common-api-interface": "libs/common/api-interface",
     "common-environments": "libs/common/environments",
     "kharchay": "apps/kharchay",
