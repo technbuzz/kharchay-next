@@ -3,6 +3,7 @@ import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from "@angular/fire/auth";
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SettingsService } from '@kh/admin/settings/data-access';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { BreadcrumbsService } from '../../shared/breadcrumbs.service';
@@ -21,18 +22,20 @@ export class DashboardComponent implements OnInit, AfterContentInit{
   querying$ = this.gs.querying;
 
   protected title$!: Observable<string>;
+  protected bcrumbsEnabled = this.settingService.settings$.pipe(map(v => v.breadcrumbs))
+
   crumbs: any;
   media$ = this.breakpointObserver.observe([
     Breakpoints.XSmall
   ])
 
-  #test = false
 
   constructor(
     private firebase: Auth,
     private router: Router,
     route: ActivatedRoute,
     private breadcrumbsService: BreadcrumbsService,
+    protected settingService: SettingsService,
     public gs: GeneralService,
     private breakpointObserver: BreakpointObserver) {
 

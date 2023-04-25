@@ -1,1 +1,5 @@
-<p>settings works!</p>
+<form [formGroup]="form" (submit)="save()">
+  <mat-slide-toggle formControlName="breadcrumbs"> Show Breadcrumbs </mat-slide-toggle>
+  <button>Save</button>
+</form>
+

@@ -1,3 +1,9 @@
 import { Route } from '@angular/router';
+import { SettingsComponent } from './settings/settings.component';
 
-export const featureRoutes: Route[] = [];
+export const featureRoutes: Route[] = [
+  {
+    path: '',
+    loadComponent: () => SettingsComponent
+  }
+];
