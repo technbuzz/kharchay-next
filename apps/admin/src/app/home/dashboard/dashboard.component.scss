@@ -18,27 +18,3 @@
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   flex: 1;
 }
-
-.breadcrumbs {
-  .breadcrumb {
-    display: inline-block;
-    margin-right: 1.5em;
-    position: relative;
-
-    a {
-      text-decoration: none;
-    }
-
-    &::after {
-      position: absolute;
-      content: ">";
-      left: 115%;
-    }
-
-    &:last-child {
-      &::after{
-        display: none;
-      }
-    }
-  }
-}

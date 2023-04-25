@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
-  
+
   {
     path: '',
     redirectTo: '',
@@ -25,7 +25,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { paramsInheritanceStrategy: 'always', relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      paramsInheritanceStrategy: 'always',
+      // relativeLinkResolution: 'legacy'
+    })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
