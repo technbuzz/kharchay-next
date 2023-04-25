@@ -26,7 +26,6 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
     MatButtonModule,
     MatProgressBarModule,
     MatLegacyListModule,
-    BreadcrumbsComponent
     // MatListModule
   ]
 })
