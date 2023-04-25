@@ -10,6 +10,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatButtonModule } from "@angular/material/button";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list'
+import { MatLegacyListModule } from "@angular/material/legacy-list";
+import { BreadcrumbsComponent } from './breadcrumbs.component';
 
 
 
@@ -23,7 +25,9 @@ import { MatListModule } from '@angular/material/list'
     MatSidenavModule,
     MatButtonModule,
     MatProgressBarModule,
-    MatListModule
+    MatLegacyListModule,
+    BreadcrumbsComponent
+    // MatListModule
   ]
 })
 export class HomeModule { }
