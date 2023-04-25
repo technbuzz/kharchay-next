@@ -9,12 +9,12 @@ export interface Settings {
   providedIn: 'root'
 })
 export class SettingsService {
-  private _settings = new BehaviorSubject<Settings>({breadcrumbs: true})
-  settings$ = this._settings.asObservable()
+  #settings = new BehaviorSubject<Settings>({breadcrumbs: true})
+  settings$ = this.#settings.asObservable()
 
   constructor() { }
 
   save(value: Settings) {
-    this._settings.next(value)
+    this.#settings.next(value)
   }
 }
