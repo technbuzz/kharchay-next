@@ -56,9 +56,13 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <ng-container *ngIf="(bcrumbsEnabled | async) as breads">
-        <kha-breadcrumbs *ngIf="breads"  [crumbs]="crumbs"></kha-breadcrumbs>
+      <ng-container #vc>
+
       </ng-container>
+      <!-- <ng-container *ngIf="(bcrumbsEnabled | async) as breads"> -->
+      <!--   <kha-breadcrumbs *ngIf="breads" ></kha-breadcrumbs> -->
+      <!-- </ng-container> -->
+
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

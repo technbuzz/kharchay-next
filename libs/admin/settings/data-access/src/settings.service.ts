@@ -12,9 +12,16 @@ export class SettingsService {
   #settings = new BehaviorSubject<Settings>({breadcrumbs: true})
   settings$ = this.#settings.asObservable()
 
-  constructor() { }
+  constructor() {
+
+    const settings = localStorage.getItem('settings')!
+    if(settings) {
+      this.save(JSON.parse(settings) as Settings)
+    }
+  }
 
   save(value: Settings) {
     this.#settings.next(value)
+    localStorage.setItem('settings', JSON.stringify(value))
   }
 }

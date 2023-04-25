@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { warn } from 'console';
+import { BreadcrumbsService } from '../shared/breadcrumbs.service';
 
 @Component({
   selector: 'kha-breadcrumbs',
@@ -42,8 +43,17 @@ import { warn } from 'console';
 })
 
 export class BreadcrumbsComponent implements OnInit {
-  @Input() crumbs !:any;
-  constructor() { }
+  crumbs !: any;
+  // @Input() crumbs !:any;
+  constructor(
 
-  ngOnInit() { }
+    private breadcrumbsService: BreadcrumbsService,
+  ) { }
+
+  ngOnInit() {
+
+    this.breadcrumbsService.breadcrumbs$.subscribe(x => {
+      this.crumbs = x;
+    });
+  }
 }
