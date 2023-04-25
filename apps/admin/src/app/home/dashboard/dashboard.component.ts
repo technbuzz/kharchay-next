@@ -1,11 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterContentInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Auth } from "@angular/fire/auth";
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SettingsService } from '@kh/admin/settings/data-access';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { BreadcrumbsService } from '../../shared/breadcrumbs.service';
+import { filter, map, take } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';
 
 
@@ -17,22 +17,23 @@ import { GeneralService } from '../../shared/general.service';
 export class DashboardComponent implements OnInit, AfterContentInit{
 
   @ViewChild(MatSidenav, {static: false}) snav!: MatSidenav;
+  @ViewChild('vc', { read: ViewContainerRef }) vc!: ViewContainerRef;
 
   querying$ = this.gs.querying;
 
   protected title$!: Observable<string>;
-  crumbs: any;
+  protected bcrumbsEnabled = this.settingService.settings$.pipe(map(v => v.breadcrumbs))
+
   media$ = this.breakpointObserver.observe([
     Breakpoints.XSmall
   ])
 
-  #test = false
 
   constructor(
     private firebase: Auth,
     private router: Router,
     route: ActivatedRoute,
-    private breadcrumbsService: BreadcrumbsService,
+    protected settingService: SettingsService,
     public gs: GeneralService,
     private breakpointObserver: BreakpointObserver) {
 
@@ -51,9 +52,16 @@ export class DashboardComponent implements OnInit, AfterContentInit{
   }
 
   ngOnInit() {
-    this.breadcrumbsService.breadcrumbs$.subscribe(x => {
-      this.crumbs = x;
-    });
+    this.settingService.settings$.pipe(map(v => v.breadcrumbs),take(1)).subscribe(resp => {
+      if(resp) {
+      this.#addDynamicComponent()
+      }
+    })
+  }
+
+  async #addDynamicComponent() {
+    const bcrumbComponent = (await import('../breadcrumbs.component')).BreadcrumbsComponent;
+    this.vc.createComponent(bcrumbComponent)
   }
 
   async logout() {

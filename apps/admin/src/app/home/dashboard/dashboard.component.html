@@ -46,17 +46,23 @@
           <div matListItemTitle>Reports</div>
         </mat-list-item>
 
+        <mat-list-item routerLinkActive="active" routerLink="/home/settings" [routerLinkActiveOptions]="{exact: true}" >
+          <mat-icon>settings</mat-icon>
+          <div matListItemTitle>Settings</div>
+        </mat-list-item>
+
         <a color="primary" mat-list-item (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <ul class="breadcrumbs">
-        <li class="breadcrumb" *ngFor="let crumb of crumbs">
-          <a [routerLink]="crumb.path">{{ crumb.label }}</a>
-        </li>
-      </ul>
-      <kha-breadcrumbs [crumbs]="crumbs"></kha-breadcrumbs>
+      <ng-container #vc>
+
+      </ng-container>
+      <!-- <ng-container *ngIf="(bcrumbsEnabled | async) as breads"> -->
+      <!--   <kha-breadcrumbs *ngIf="breads" ></kha-breadcrumbs> -->
+      <!-- </ng-container> -->
+
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
