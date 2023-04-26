@@ -8,9 +8,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatButtonModule } from "@angular/material/button";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list'
-import { MatLegacyListModule } from "@angular/material/legacy-list";
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 
 
@@ -26,9 +25,7 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
     MatButtonModule,
     MatProgressBarModule,
     MatListModule,
-    // MatLegacyListModule,
     BreadcrumbsComponent
-    // MatListModule
   ]
 })
 export class HomeModule { }
