@@ -1,1 +1,1 @@
-export * from './lib/common-data-adapters';
+export * from './lib/firebase.adapter'

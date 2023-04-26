@@ -22,6 +22,11 @@ import { AuthModule } from '@angular/fire/auth';
     MatButtonModule,
     ReactiveFormsModule,
     AuthModule
+  ],
+  providers: [
+    // {
+    //   provide: 
+    // }
   ]
 })
 export class LoginModule { }
