@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { addDoc, updateDoc, collectionData, Firestore, doc } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
+import { DatabaseAdapter } from '@kh/common/data-adapters';
 import { collection } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -29,13 +30,15 @@ export class RecurringListComponent implements OnInit {
 
   constructor(
     private afs: Firestore,
+    private fbAdapter: DatabaseAdapter,
     public dialog: MatDialog,
     public gs: GeneralService
   ) { }
 
   ngOnInit() {
     this.gs.title.next('Recurring');
-    this.dataSource = this.checkRecurring();
+    // this.dataSource = this.checkRecurring();
+    this.dataSource = this.fbAdapter.getRecurring('recurring')
   }
 
   checkRecurring() {

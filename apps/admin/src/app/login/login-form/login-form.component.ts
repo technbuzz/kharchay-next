@@ -3,7 +3,7 @@ import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GeneralService } from '../../shared/general.service';
-import { FirebaseAdapterService } from "@kh/common/data-adapters";
+import { DatabaseAdapter  } from "@kh/common/data-adapters";
 
 @Component({
   selector: 'kha-login-form',
@@ -20,7 +20,7 @@ export class LoginFormComponent {
     private fb: UntypedFormBuilder, 
     private fbAuth: Auth, 
     private router: Router,
-    private fbAdapter: FirebaseAdapterService,
+    private dbAdapter: DatabaseAdapter,
     private general: GeneralService) {
     this.form = fb.group({
       email: ['', Validators.required],
@@ -31,7 +31,7 @@ export class LoginFormComponent {
   async doLogin(form: UntypedFormGroup) {
     this.loading = true;
     try {
-      const result = await this.fbAdapter.signIn(form.value);
+      const result = await this.dbAdapter.signIn(form.value);
       // this.general.setAdmin(result)
       // debugger
       this.router.navigate(['/home'])

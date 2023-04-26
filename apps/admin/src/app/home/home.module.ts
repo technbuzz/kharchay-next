@@ -11,6 +11,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list'
 import { BreadcrumbsComponent } from './breadcrumbs.component';
+import { DatabaseAdapter } from 'libs/common/data-adapters/src/lib/database.adapter';
+import { FirebaseAdapterService } from '@kh/common/data-adapters';
 
 
 

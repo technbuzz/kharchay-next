@@ -10,8 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { ReactiveFormsModule } from "@angular/forms";
 import { AuthModule } from '@angular/fire/auth';
-import { FirebaseAdapterService } from '@kh/common/data-adapters';
-import { DatabaseAdapter } from 'libs/common/data-adapters/src/lib/database.adapter';
 
 @NgModule({
   declarations: [LoginFormComponent],
@@ -25,11 +23,5 @@ import { DatabaseAdapter } from 'libs/common/data-adapters/src/lib/database.adap
     ReactiveFormsModule,
     AuthModule
   ],
-  providers: [
-    {
-      provide: DatabaseAdapter,
-      useExisting: FirebaseAdapterService
-    }
-  ]
 })
 export class LoginModule { }
