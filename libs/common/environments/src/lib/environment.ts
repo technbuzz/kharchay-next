@@ -12,6 +12,10 @@ export const environment = {
     storageBucket: "kharchay-95809.appspot.com",
     messagingSenderId: "830324159049",
     appId: "1:830324159049:web:9891313566dd13f6714598"
+  },
+  supabase: {
+    url: "https://fcgjlrtnfedgrupjjoch.supabase.co",
+    key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjZ2pscnRuZmVkZ3J1cGpqb2NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODI0ODkwODQsImV4cCI6MTk5ODA2NTA4NH0.H6NMBbmNFY5U8Fue-YmTN2ZEHnjK15V5EInCMAjUkC8"
   }
 };
 
