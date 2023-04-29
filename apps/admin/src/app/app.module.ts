@@ -31,8 +31,8 @@ import { AppComponent } from './app.component';
   providers: [
     {
       provide: DatabaseAdapter,
-      // useClass: FirebaseAdapterService,
-      useClass: SupabaseAdapterService
+      useClass: FirebaseAdapterService,
+      // useClass: SupabaseAdapterService
     }
   ],
   bootstrap: [AppComponent]

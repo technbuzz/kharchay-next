@@ -17,8 +17,8 @@ export class LoginFormComponent {
   form: UntypedFormGroup;
 
   constructor(
-    private fb: UntypedFormBuilder, 
-    private fbAuth: Auth, 
+    private fb: UntypedFormBuilder,
+    private fbAuth: Auth,
     private router: Router,
     private dbAdapter: DatabaseAdapter,
     private general: GeneralService) {
@@ -33,7 +33,6 @@ export class LoginFormComponent {
     try {
       const result = await this.dbAdapter.signIn(form.value);
       // this.general.setAdmin(result)
-      // debugger
       this.router.navigate(['/home'])
     } catch (error) {
       console.log(error);

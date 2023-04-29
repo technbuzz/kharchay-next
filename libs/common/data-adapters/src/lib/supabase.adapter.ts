@@ -10,24 +10,31 @@ import { environment } from '@kh/common/environments';
 export class SupabaseAdapterService implements DatabaseAdapter {
   #supabase!: SupabaseClient;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.#supabase = createClient(environment.supabase.url, environment.supabase.key)
   }
 
-  signIn(data: { email: string; password: string; }): Promise<any> {
-    return this.#supabase.auth.signInWithPassword(data)
+  async signIn(creds: { email: string; password: string; }): Promise<any> {
+    const {data, error} = await this.#supabase.auth.signInWithPassword(creds)
+    return new Promise((resolve, reject) => {
+      if(error) {
+        reject(error)
+      }
+
+      resolve(data)
+    })
   }
 
   signOut(): Promise<any> {
     return this.#supabase.auth.signOut()
   }
- 
+
   getRecurring(collectionName: string): Observable<[]> {
-  
+
 
     // this.#getRecurringPromise(collectionName).then(resp => console.log(resp))
     return from(this.#getRecurringPromise(collectionName))
-    
+
   }
 
   async #getRecurringPromise(collectionName: string): Promise<any> {
