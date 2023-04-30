@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, AfterContentInit {
 
   async logout() {
     await this.dbAdapter.signOut()
-    this.router.navigate(['/'])
+    this.router.navigate(['/login'])
   }
 
 }

@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseAdapterService implements DatabaseAdapter {
-  constructor(private http: HttpClient, private fbAuth: Auth, private firestore: Firestore) { 
+  constructor(private http: HttpClient, private fbAuth: Auth, private firestore: Firestore) {
   }
 
   async signIn(data: {email: string, password: string}) {
@@ -34,5 +34,9 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       })// map
     ) // pipe
   }
- 
+
+  updateDoc(collectionName: string, id: string, body: any): Promise<void> {
+    return updateDoc(doc(this.firestore, collectionName, id), body)
+  }
+
 }

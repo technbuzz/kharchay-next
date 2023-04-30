@@ -38,13 +38,14 @@ export class SupabaseAdapterService implements DatabaseAdapter {
   }
 
   async #getRecurringPromise(collectionName: string): Promise<any> {
-    const { data: { data2}, error: {erro2} } = await this.#supabase.functions.invoke('hello', {
-      body: {
-        name: 'Sami'
-      }
-    })
-    console.log('function ran', data2)
     const { data, error } = await this.#supabase.from(collectionName).select()
     return data
+  }
+
+  updateDoc(collectionName: string, id: string, body: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
+
   }
 }
