@@ -23,6 +23,7 @@
         "libs/admin/settings/feature/src/index.ts"
       ],
       "@kh/common/api-interface": ["libs/common/api-interface/src/index.ts"],
+      "@kh/common/data-adapters": ["libs/common/data-adapters/src/index.ts"],
       "@kh/common/environments": ["libs/common/environments/src/index.ts"],
       "@kh/mobile/create/data-access": [
         "libs/mobile/create/data-access/src/index.ts"

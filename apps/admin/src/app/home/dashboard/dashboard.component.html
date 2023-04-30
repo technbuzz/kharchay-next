@@ -20,39 +20,39 @@
     *ngIf="media$ | async as media"
   >
     <mat-sidenav #snav opened [mode]="media.matches ? 'over' : 'side'">
-      <mat-nav-list>
+      <mat-list>
         <mat-list-item routerLinkActive="active" routerLink="/home"
           [routerLinkActiveOptions]="{exact: true}" >
-          <mat-icon matListIcon>grid_view</mat-icon>
+          <mat-icon matListItemIcon>grid_view</mat-icon>
           <!-- <a matLine>Home</a> -->
-          <div matLstItemTitle>Home </div>
+          <div matListItemTitle>Home </div>
         </mat-list-item>
 
-        <mat-list-item>
-
-            <!-- <a color="primary" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item routerLink="/home/recurring"> -->
-            <a color="primary" routerLink="/home/recurring">
-              <div matListItemTitle> Recurring </div>
-            </a>
+        <mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/home/recurring">
+          <mat-icon matListItemIcon>event_repeat</mat-icon>
+          <div matListItemTitle> Recurring </div>
         </mat-list-item>
 
         <mat-list-item routerLinkActive="active" routerLink="/home/events" [routerLinkActiveOptions]="{exact: true}" >
-          <mat-icon>event</mat-icon>
+          <mat-icon matListItemIcon>event</mat-icon>
           <div matListItemTitle>Events</div>
         </mat-list-item>
 
         <mat-list-item routerLinkActive="active" routerLink="/home/reports" [routerLinkActiveOptions]="{exact: true}" >
-          <mat-icon>lab_profile</mat-icon>
+          <mat-icon matListItemIcon>analytics</mat-icon>
           <div matListItemTitle>Reports</div>
         </mat-list-item>
 
         <mat-list-item routerLinkActive="active" routerLink="/home/settings" [routerLinkActiveOptions]="{exact: true}" >
-          <mat-icon>settings</mat-icon>
+          <mat-icon matListItemIcon>settings</mat-icon>
           <div matListItemTitle>Settings</div>
         </mat-list-item>
 
-        <a color="primary" mat-list-item (click)="logout()">Logout</a>
-      </mat-nav-list>
+        <mat-list-item (click)="logout()">
+          <mat-icon  matListItemIcon>logout</mat-icon>
+          <div matListItemTitle>Logout</div>
+        </mat-list-item>
+      </mat-list>
     </mat-sidenav>
 
     <mat-sidenav-content>

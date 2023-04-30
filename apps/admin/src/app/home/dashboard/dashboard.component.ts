@@ -1,9 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterContentInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Auth } from "@angular/fire/auth";
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router';
 import { SettingsService } from '@kh/admin/settings/data-access';
+import { DatabaseAdapter } from '@kh/common/data-adapters';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';
@@ -14,9 +14,9 @@ import { GeneralService } from '../../shared/general.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterContentInit{
+export class DashboardComponent implements OnInit, AfterContentInit {
 
-  @ViewChild(MatSidenav, {static: false}) snav!: MatSidenav;
+  @ViewChild(MatSidenav, { static: false }) snav!: MatSidenav;
   @ViewChild('vc', { read: ViewContainerRef }) vc!: ViewContainerRef;
 
   querying$ = this.gs.querying;
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit, AfterContentInit{
 
 
   constructor(
-    private firebase: Auth,
+    private dbAdapter: DatabaseAdapter,
     private router: Router,
     route: ActivatedRoute,
     protected settingService: SettingsService,
@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, AfterContentInit{
       filter(event => event instanceof NavigationEnd),
       map(() => route)
     )
-   // .subscribe((resp:ActivatedRoute) => {
+    // .subscribe((resp:ActivatedRoute) => {
     //   this.snav.close()
     // })
 
@@ -52,9 +52,9 @@ export class DashboardComponent implements OnInit, AfterContentInit{
   }
 
   ngOnInit() {
-    this.settingService.settings$.pipe(map(v => v.breadcrumbs),take(1)).subscribe(resp => {
-      if(resp) {
-      this.#addDynamicComponent()
+    this.settingService.settings$.pipe(map(v => v.breadcrumbs), take(1)).subscribe(resp => {
+      if (resp) {
+        this.#addDynamicComponent()
       }
     })
   }
@@ -65,8 +65,8 @@ export class DashboardComponent implements OnInit, AfterContentInit{
   }
 
   async logout() {
-    await this.firebase.signOut()
-    this.router.navigate(['/'])
+    await this.dbAdapter.signOut()
+    this.router.navigate(['/login'])
   }
 
 }
