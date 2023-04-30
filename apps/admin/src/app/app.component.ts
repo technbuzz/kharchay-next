@@ -12,17 +12,17 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent {
   constructor(router: Router, auth: Auth) {
-    auth.currentUser
 
-    authState(auth).pipe(
-      traceUntilFirst('auth'),
-      map(u => !!u)
-    ).subscribe(resp => {
-      if(resp){
-        router.navigate(['/home/recurring'])
-      } else {
-        router.navigate(['/login'])
-      }
-    })
+        // router.navigate(['/home/recurring'])
+    // authState(auth).pipe(
+    //   traceUntilFirst('auth'),
+    //   map(u => !!u)
+    // ).subscribe(resp => {
+    //   if(resp){
+    //     router.navigate(['/home/recurring'])
+    //   } else {
+    //     router.navigate(['/login'])
+    //   }
+    // })
   }
 }

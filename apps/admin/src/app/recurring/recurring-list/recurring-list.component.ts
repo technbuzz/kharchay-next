@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { addDoc, updateDoc, collectionData, Firestore, doc } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
+import { DatabaseAdapter } from '@kh/common/data-adapters';
 import { collection } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,19 +24,21 @@ export interface Task {
 export class RecurringListComponent implements OnInit {
 
   displayedColumns: string[] = ['note', 'price', 'fixed', 'active', 'edit'];
-  dataSource!: Observable<any>; 
+  dataSource!: Observable<any>;
 
   recurringColl = collection(this.afs, 'recurring')
 
   constructor(
     private afs: Firestore,
+    private dbAdapter: DatabaseAdapter,
     public dialog: MatDialog,
     public gs: GeneralService
   ) { }
 
   ngOnInit() {
     this.gs.title.next('Recurring');
-    this.dataSource = this.checkRecurring();
+    // this.dataSource = this.checkRecurring();
+    this.dataSource = this.dbAdapter.getRecurring('recurring')
   }
 
   checkRecurring() {
@@ -64,11 +67,12 @@ export class RecurringListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result);
       if(result) {
-        // FIXME: Update teh firestore api 
+        // FIXME: Update teh firestore api
         // update logic goes here
         try {
           if(item.id){
 
+            // await this.dbAdapter.updateDoc('recurring', item.id, result)
             await updateDoc(doc(this.afs, 'recurring', item.id), result)
             // await this.afs.collection('recurring').doc(item.id).update(result)
           } else {
@@ -80,10 +84,10 @@ export class RecurringListComponent implements OnInit {
             //   id: task.id
             // });
           }
-          
+
         } catch (error) {
           console.log(error);
-          
+
         }
       }
     })

@@ -8,10 +8,11 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatButtonModule } from "@angular/material/button";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list'
-import { MatLegacyListModule } from "@angular/material/legacy-list";
 import { BreadcrumbsComponent } from './breadcrumbs.component';
+import { DatabaseAdapter } from 'libs/common/data-adapters/src/lib/database.adapter';
+import { FirebaseAdapterService } from '@kh/common/data-adapters';
 
 
 
@@ -25,8 +26,8 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
     MatSidenavModule,
     MatButtonModule,
     MatProgressBarModule,
-    MatLegacyListModule,
-    // MatListModule
+    MatListModule,
+    BreadcrumbsComponent
   ]
 })
 export class HomeModule { }
