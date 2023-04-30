@@ -14,4 +14,5 @@ export abstract class DatabaseAdapter {
   abstract getRecurring(collectionName: string): Observable<[]>
 
   abstract updateDoc(collectionName:string, id: string, body: any): Promise<void>
+
 }
