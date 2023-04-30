@@ -12,6 +12,15 @@ const routes: Routes = [
     data: { title: 'Home' },
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('@kh/admin/dashboard/feature').then(m => m.AdminDashboardFeatureModule)
+      },
+      {
         path: 'recurring',
         loadChildren: () => import('../recurring/recurring.module').then(m => m.RecurringModule),
       },

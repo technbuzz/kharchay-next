@@ -21,11 +21,10 @@
   >
     <mat-sidenav #snav opened [mode]="media.matches ? 'over' : 'side'">
       <mat-list>
-        <mat-list-item routerLinkActive="active" routerLink="/home"
+        <mat-list-item routerLinkActive="active" routerLink="/home/dashboard"
           [routerLinkActiveOptions]="{exact: true}" >
           <mat-icon matListItemIcon>grid_view</mat-icon>
-          <!-- <a matLine>Home</a> -->
-          <div matListItemTitle>Home </div>
+          <div matListItemTitle>Dashboard</div>
         </mat-list-item>
 
         <mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/home/recurring">
