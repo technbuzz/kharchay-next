@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { DatabaseAdapter } from './database.adapter';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
+import { limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
 
 
@@ -40,13 +41,15 @@ export class FirebaseAdapterService implements DatabaseAdapter {
   }
 
   recentTransactions() {
-
     const ref = collection(this.firestore, 'expense');
-    return query(ref,
-      where('date', '>=', new Date()),
-      // where('date', '<=', new Date(this.filter.endDate)),
+    const newQuery = query(ref,
+      // where('date', '<=', new Date()),
+      orderBy('date', 'desc'),
+      limit(5)
+      // where('date', '>=', new Date(this.filter.endDate)),
       // where('category', '==', this.filter.category)
     );
+    return collectionData(newQuery)
   }
 
 }
