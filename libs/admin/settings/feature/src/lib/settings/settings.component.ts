@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 import { Settings, SettingsService } from "@kh/admin/settings/data-access";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'kh-settings',
-  standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })

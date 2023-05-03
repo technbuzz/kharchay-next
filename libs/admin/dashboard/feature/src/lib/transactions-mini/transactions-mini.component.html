@@ -1,0 +1,55 @@
+<div class="mat-typography">
+
+<mat-card >
+  <mat-card-header>
+    <mat-card-title>Recent Transactions</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+
+      <table mat-table [dataSource]="dataSource">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.date.toDate() | date}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <!-- <td mat-cell *matCellDef="let element"> {{element.category.title}} </td> -->
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.category.title === 'grocery'" [ngTemplateOutlet]="grocery"></ng-container>
+            <ng-container *ngIf="element.category.title !== 'grocery'" [ngTemplateOutlet]="other"></ng-container>
+          <ng-template #grocery>
+              <p class="bg-blue-500">{{ element.category.title}}</p>
+            </ng-template>
+
+          <ng-template #other>
+              <p class="bg-red-500">{{ element.category.title}}</p>
+            </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      </ng-container>
+
+
+        <p *matNoDataRow>There is no data available</p>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </mat-card-content>
+  <mat-card-actions class="flex justify-center">
+    <button mat-button>View All Transaction</button>
+  </mat-card-actions>
+</mat-card>
+</div>

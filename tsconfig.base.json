@@ -16,6 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@kh/admin-settings": ["libs/admin/settings/src/index.ts"],
+      "@kh/admin/dashboard/data-access": [
+        "libs/admin/dashboard/data-access/src/index.ts"
+      ],
+      "@kh/admin/dashboard/feature": [
+        "libs/admin/dashboard/feature/src/index.ts"
+      ],
       "@kh/admin/settings/data-access": [
         "libs/admin/settings/data-access/src/index.ts"
       ],
