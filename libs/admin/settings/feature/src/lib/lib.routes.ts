@@ -4,6 +4,6 @@ import { SettingsComponent } from './settings/settings.component';
 export const featureRoutes: Route[] = [
   {
     path: '',
-    loadComponent: () => SettingsComponent
+    component: SettingsComponent
   }
 ];
