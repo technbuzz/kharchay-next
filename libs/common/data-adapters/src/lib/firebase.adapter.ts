@@ -23,6 +23,7 @@ export class FirebaseAdapterService implements DatabaseAdapter {
     await signInWithEmailAndPassword(this.fbAuth, data.email, data.password);
   }
 
+
   async signOut(): Promise<void> {
     return this.fbAuth.signOut()
   }

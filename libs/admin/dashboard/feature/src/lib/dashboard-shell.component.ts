@@ -10,7 +10,7 @@ import { warn } from 'console';
   </div>
 `,
   styles: [`
-    :host { @apply block h-full p-1 }
+    :host { @apply block h-full p-3 }
 `],
 })
 export class DashboardShellComponent {}
