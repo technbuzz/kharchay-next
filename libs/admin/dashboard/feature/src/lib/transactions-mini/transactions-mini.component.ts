@@ -17,6 +17,5 @@ export class TransactionsMiniComponent {
   displayedColumns: string[] = ['date', 'category', 'price'];
   dataSource = this.service.recentTransactions()
   constructor(private service: FirebaseAdapterService) {
-    this.service.recentTransactions().subscribe(console.log)
   }
 }

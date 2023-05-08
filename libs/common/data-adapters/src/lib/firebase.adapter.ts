@@ -36,6 +36,19 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       ) // pipe
   }
 
+  summaryByMonth(collectionName: string, startDate:string, endDate: string) {
+    const ref = collection(this.firestore, collectionName)
+
+    const expensesQuery = query(
+      ref,
+      where('date', '>=', startDate),
+      where('date', '<=', endDate)
+    );
+    return expensesQuery
+        // const start = startOfMonth(new Date(value));
+        // const end = endOfMonth(new Date(this.month));
+  }
+
   updateDoc(collectionName: string, id: string, body: any): Promise<void> {
     return updateDoc(doc(this.firestore, collectionName, id), body)
   }
