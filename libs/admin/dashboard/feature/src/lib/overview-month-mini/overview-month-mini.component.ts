@@ -32,38 +32,47 @@ const data = [
 })
 export class OverviewMonthMiniComponent implements OnInit {
   @ViewChild('wrapper', { static: true }) chartWrapper!: ElementRef
-  private chart!: Chart<"doughnut", number[], number>
+  private chart!: Chart<"doughnut", number[], string>
   protected month = Date.now()
 
   constructor(private service: FirebaseAdapterService) { }
 
 
   ngOnInit(): void {
+
+    const basicStartMonth = startOfMonth(this.month);
+    const basicEndMonth = endOfMonth(this.month);
+    this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
+      take(1),
+      tap((resp:any) => this.initChart(resp))
+    ).subscribe()
+    //https://coolors.co/d45088-ddc0bc-a15295-f05f6c-f57b49-f48d3b-23485b-685192
+  }
+
+  private initChart(data: {chartLabel: string[], chartData: number[]}) {
     this.chart = new Chart(this.chartWrapper.nativeElement, {
       type: 'doughnut',
       data: {
 
-        labels: data.map(row => row.year),
+        labels: data.chartLabel,
         datasets: [{
           hoverOffset: 4,
-          label: 'Acquisation per year',
-          data: data.map(row => row.count),
+          data: data.chartData
         }]
       },
       options: {
+        responsive: true,
         layout: {
           padding: 10,
         },
         plugins: {
           legend: {
-            display: false,
+            display: true,
             position: 'bottom'
           }
         }
       }
     })
-
-    //https://coolors.co/d45088-ddc0bc-a15295-f05f6c-f57b49-f48d3b-23485b-685192
   }
 
   next() {
@@ -74,7 +83,8 @@ export class OverviewMonthMiniComponent implements OnInit {
     // console.log({basicStartMonth, basicEndMonth})
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
-      tap((resp:any) => this.updateChartData(resp))
+      tap((resp:any) => this.updateChartData(resp)),
+      tap(() => this.month = basicStartMonth.getTime())
     ).subscribe(console.log)
     // console.log({ nextMOnth: addMonths(this.month, 1)})
   }
@@ -85,14 +95,13 @@ export class OverviewMonthMiniComponent implements OnInit {
     const basicEndMonth = endOfMonth(prevMonth);
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
-      tap((resp:any) => this.updateChartData(resp))
+      tap((resp:any) => this.updateChartData(resp)),
+      tap(() => this.month = basicStartMonth.getTime())
     ).subscribe(console.log)
     // console.log({ prevMOnth: subMonths(this.month, 1)})
   }
 
   private updateChartData(data: any) {
-    console.log(data)
-
     this.updateLabels(this.chart, data.chartLabels)
     this.updateData(this.chart, data.chartData)
 
@@ -100,13 +109,13 @@ export class OverviewMonthMiniComponent implements OnInit {
     // this.addData(this.chart, data.chartData, data.chartLabel)
   }
 
-  private updateLabels(chart: Chart<"doughnut", number[], number>, labels: any) {
+  private updateLabels(chart: Chart<"doughnut", number[], string>, labels: any) {
     chart.data.labels = [];
     chart.data.labels = [...labels]
     chart.update();
   }
 
-  private updateData(chart: Chart<"doughnut", number[], number>, data: any) {
+  private updateData(chart: Chart<"doughnut", number[], string>, data: any) {
 
     chart.data.datasets.forEach((dataset) => {
       dataset.data = [];

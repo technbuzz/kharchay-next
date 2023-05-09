@@ -10,6 +10,8 @@ import { getDocs, limit, orderBy } from 'firebase/firestore';
 import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
+import sortBy from 'lodash-es/sortBy'
+import take from 'lodash-es/take'
 
 
 @Injectable({ providedIn: 'root' })
@@ -57,20 +59,29 @@ export class FirebaseAdapterService implements DatabaseAdapter {
   }
 
   private generateDataForChart(values: any) {
-    const chartData: any[] = [];
-    const chartLabels: any[] = [];
+    const chartData: number[] = [];
+    const chartLabels: string[] = [];
 
 
     // FIXME: Replace lodash with groupBy rxjs function
     // Backward compat becuse new format is {category:{title:'food'}}
+
+    // FIXME : These operation probably needs to be done on Server side
     const grouped = groupBy(values, (item:any) =>
       item.category.title ? item.category.title : item.category
     );
 
-    forIn(grouped, (value, key, item) => {
-      chartLabels.push(key.toUpperCase());
-      chartData.push(reduce(value, (sum, n) => sum + Number(n.price), 0));
+    const rawValues : Array<{key: string; value: number}> = []
+    forIn(grouped, (value, key) => {
+      const total = reduce(value, (sum, n) => sum + Number(n.price), 0);
+      rawValues.push({key, value: total})
     });
+
+    const normalized = take(sortBy(rawValues, [(o) => -o.value]), 3)
+    normalized.forEach(item => {
+      chartLabels.push(item.key.toUpperCase());
+      chartData.push(item.value);
+    })
     return { chartData, chartLabels }
   }
 
