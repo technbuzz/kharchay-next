@@ -5,8 +5,11 @@ import { HttpClient } from '@angular/common/http';
 import { DatabaseAdapter } from './database.adapter';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { limit, orderBy } from 'firebase/firestore';
+import { getDocs, limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
+import forIn from 'lodash-es/forIn';
+import groupBy from 'lodash-es/groupBy';
+import reduce from 'lodash-es/reduce';
 
 
 @Injectable({ providedIn: 'root' })
@@ -36,7 +39,7 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       ) // pipe
   }
 
-  summaryByMonth(collectionName: string, startDate:string, endDate: string) {
+  summaryByMonth(collectionName: string, startDate:Date, endDate: Date) {
     const ref = collection(this.firestore, collectionName)
 
     const expensesQuery = query(
@@ -44,9 +47,31 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       where('date', '>=', startDate),
       where('date', '<=', endDate)
     );
-    return expensesQuery
-        // const start = startOfMonth(new Date(value));
-        // const end = endOfMonth(new Date(this.month));
+    return collectionData(expensesQuery).pipe(
+      map(this.generateDataForChart)
+    )
+    // const docs = await getDocs(expensesQuery)
+    // docs.forEach((doc) => {
+    //   console.log(doc.id, doc.data())
+    // })
+  }
+
+  private generateDataForChart(values: any) {
+    const chartData: any[] = [];
+    const chartLabels: any[] = [];
+
+
+    // FIXME: Replace lodash with groupBy rxjs function
+    // Backward compat becuse new format is {category:{title:'food'}}
+    const grouped = groupBy(values, (item:any) =>
+      item.category.title ? item.category.title : item.category
+    );
+
+    forIn(grouped, (value, key, item) => {
+      chartLabels.push(key.toUpperCase());
+      chartData.push(reduce(value, (sum, n) => sum + Number(n.price), 0));
+    });
+    return { chartData, chartLabels }
   }
 
   updateDoc(collectionName: string, id: string, body: any): Promise<void> {

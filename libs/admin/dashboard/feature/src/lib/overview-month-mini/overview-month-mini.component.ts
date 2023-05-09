@@ -1,13 +1,18 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArcElement, Chart, DoughnutController } from "chart.js";
-import * as autocolors from 'chartjs-plugin-autocolors';
+import { ArcElement, Chart, DoughnutController, Legend, Tooltip, Colors} from "chart.js";
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button';
 import { FirebaseAdapterService } from "@kh/common/data-adapters";
+import format from 'date-fns/esm/format'
+import startOfMonth from 'date-fns/esm/startOfMonth';
+import endOfMonth from 'date-fns/esm/endOfMonth';
+import { addMonths, subMonths } from 'date-fns';
+import { take, tap } from "rxjs/operators";
 
-Chart.register(DoughnutController, ArcElement, autocolors)
+
+Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors)
 const data = [
   { year: 2010, count: 10 },
   { year: 2011, count: 20 },
@@ -15,7 +20,7 @@ const data = [
   { year: 2013, count: 25 },
   { year: 2014, count: 22 },
   { year: 2015, count: 30 },
-  { year: 2016, count: 28 },
+  { year: 2016, count: 29 },
 ]
 
 @Component({
@@ -28,6 +33,7 @@ const data = [
 export class OverviewMonthMiniComponent implements OnInit {
   @ViewChild('wrapper', { static: true }) chartWrapper!: ElementRef
   private chart!: Chart<"doughnut", number[], number>
+  protected month = Date.now()
 
   constructor(private service: FirebaseAdapterService) { }
 
@@ -36,29 +42,95 @@ export class OverviewMonthMiniComponent implements OnInit {
     this.chart = new Chart(this.chartWrapper.nativeElement, {
       type: 'doughnut',
       data: {
+
         labels: data.map(row => row.year),
         datasets: [{
+          hoverOffset: 4,
           label: 'Acquisation per year',
           data: data.map(row => row.count),
-          backgroundColor: [
-            'rgb(212, 80, 136)',
-            'rgb(161, 82, 149)',
-            'rgb(240, 95, 108)',
-            'rgb(245, 123, 73)',
-            'rgb(244, 141, 59)',
-            'rgb(35, 72, 91)',
-            'rgb(104, 81, 146)',
-            'rgb(44,71,89)',
-            // 'rgb(102,178,237)',
-            // 'rgb(225,128,94)',
-            // 'rgb(255, 205, 86)',
-            // 'rgb(85	56	196	)'
-          ],
         }]
       },
-      // plugins: [autocolors],
+      options: {
+        layout: {
+          padding: 10,
+        },
+        plugins: {
+          legend: {
+            display: false,
+            position: 'bottom'
+          }
+        }
+      }
     })
 
     //https://coolors.co/d45088-ddc0bc-a15295-f05f6c-f57b49-f48d3b-23485b-685192
   }
+
+  next() {
+
+    const nextMonth = addMonths(this.month, 1)
+    const basicStartMonth = startOfMonth(nextMonth);
+    const basicEndMonth = endOfMonth(nextMonth);
+    // console.log({basicStartMonth, basicEndMonth})
+    this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
+      take(1),
+      tap((resp:any) => this.updateChartData(resp))
+    ).subscribe(console.log)
+    // console.log({ nextMOnth: addMonths(this.month, 1)})
+  }
+
+  prev() {
+    const prevMonth = subMonths(this.month, 1)
+    const basicStartMonth = startOfMonth(prevMonth);
+    const basicEndMonth = endOfMonth(prevMonth);
+    this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
+      take(1),
+      tap((resp:any) => this.updateChartData(resp))
+    ).subscribe(console.log)
+    // console.log({ prevMOnth: subMonths(this.month, 1)})
+  }
+
+  private updateChartData(data: any) {
+    console.log(data)
+
+    this.updateLabels(this.chart, data.chartLabels)
+    this.updateData(this.chart, data.chartData)
+
+    // this.removeData(this.chart)
+    // this.addData(this.chart, data.chartData, data.chartLabel)
+  }
+
+  private updateLabels(chart: Chart<"doughnut", number[], number>, labels: any) {
+    chart.data.labels = [];
+    chart.data.labels = [...labels]
+    chart.update();
+  }
+
+  private updateData(chart: Chart<"doughnut", number[], number>, data: any) {
+
+    chart.data.datasets.forEach((dataset) => {
+      dataset.data = [];
+    });
+    chart.data.datasets.forEach((dataset) => {
+      dataset.data = [...data];
+    });
+    chart.update();
+  }
+
+private addData(chart: Chart<"doughnut", number[], number> , label:any, data:any) {
+    chart.data?.labels?.push(...label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+    console.log(chart)
+}
+
+private removeData(chart: Chart<"doughnut", number[], number>) {
+    chart.data?.labels?.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
 }
