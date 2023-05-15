@@ -36,9 +36,8 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
     protected settingService: SettingsService,
     public gs: GeneralService,
     private breakpointObserver: BreakpointObserver) {
-
-
   }
+
   ngAfterViewInit(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
