@@ -5,8 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { DatabaseAdapter } from './database.adapter';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { limit, orderBy } from 'firebase/firestore';
+import { getDocs, limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
+import forIn from 'lodash-es/forIn';
+import groupBy from 'lodash-es/groupBy';
+import reduce from 'lodash-es/reduce';
+import sortBy from 'lodash-es/sortBy'
+import take from 'lodash-es/take'
 
 
 @Injectable({ providedIn: 'root' })
@@ -34,6 +39,50 @@ export class FirebaseAdapterService implements DatabaseAdapter {
           ) // map
         })// map
       ) // pipe
+  }
+
+  summaryByMonth(collectionName: string, startDate:Date, endDate: Date) {
+    const ref = collection(this.firestore, collectionName)
+
+    const expensesQuery = query(
+      ref,
+      where('date', '>=', startDate),
+      where('date', '<=', endDate)
+    );
+    return collectionData(expensesQuery).pipe(
+      map(this.generateDataForChart)
+    )
+    // const docs = await getDocs(expensesQuery)
+    // docs.forEach((doc) => {
+    //   console.log(doc.id, doc.data())
+    // })
+  }
+
+  private generateDataForChart(values: any) {
+    const chartData: number[] = [];
+    const chartLabels: string[] = [];
+
+
+    // FIXME: Replace lodash with groupBy rxjs function
+    // Backward compat becuse new format is {category:{title:'food'}}
+
+    // FIXME : These operation probably needs to be done on Server side
+    const grouped = groupBy(values, (item:any) =>
+      item.category.title ? item.category.title : item.category
+    );
+
+    const rawValues : Array<{key: string; value: number}> = []
+    forIn(grouped, (value, key) => {
+      const total = reduce(value, (sum, n) => sum + Number(n.price), 0);
+      rawValues.push({key, value: total})
+    });
+
+    const normalized = take(sortBy(rawValues, [(o) => -o.value]), 3)
+    normalized.forEach(item => {
+      chartLabels.push(item.key.toUpperCase());
+      chartData.push(item.value);
+    })
+    return { chartData, chartLabels }
   }
 
   updateDoc(collectionName: string, id: string, body: any): Promise<void> {
