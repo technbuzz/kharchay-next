@@ -61,7 +61,8 @@ export class OverviewMonthMiniComponent implements OnInit {
         }]
       },
       options: {
-        responsive: true,
+        responsive: false,
+        aspectRatio: 1,
         layout: {
           padding: 10,
         },
@@ -126,20 +127,4 @@ export class OverviewMonthMiniComponent implements OnInit {
     chart.update();
   }
 
-private addData(chart: Chart<"doughnut", number[], number> , label:any, data:any) {
-    chart.data?.labels?.push(...label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
-    chart.update();
-    console.log(chart)
-}
-
-private removeData(chart: Chart<"doughnut", number[], number>) {
-    chart.data?.labels?.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
 }
