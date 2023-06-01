@@ -1,11 +1,12 @@
 
 <p class="text-center pt-2">Compared to Last Month</p>
+<p>from sibling {{ currMonth?.date | date }}</p>
 <mat-list>
-  <mat-list-item *ngFor="let folder of folders">
-    <mat-icon matListItemIcon>folder</mat-icon>
+  <mat-list-item *ngFor="let diff of diffs$ | async">
+    <!-- <mat-icon matListItemIcon>folder</mat-icon> -->
     <div matListItemTitle >
-      {{folder.name}}
-      <small class="pl-8">300 <span class="text-orange-400">▴ 45%</span></small>
+      {{diff.key | titlecase}}
+      <small class="pl-12">{{ diff.value | number }} <span class="text-orange-400">▴▾45%</span></small>
     </div>
     <div matListItemLine><mat-progress-bar mode="determinate" value="79"></mat-progress-bar></div>
   </mat-list-item>

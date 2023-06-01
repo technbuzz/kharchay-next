@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
   <div class="wrapper grid grid-cols-3 grid-rows-2 gap-3 h-full">
     <kh-transactions-mini class="col-span-2"></kh-transactions-mini>
     <div>
-      <kh-overview-month-mini></kh-overview-month-mini>
-      <kh-month-mini-diff></kh-month-mini-diff>
+      <kh-overview-month-mini #mini="miniTransaction"></kh-overview-month-mini>
+      <kh-month-mini-diff [currMonth]="mini.selMonth"></kh-month-mini-diff>
     </div>
   </div>
 `,
