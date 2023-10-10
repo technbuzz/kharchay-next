@@ -9,19 +9,11 @@ import format from 'date-fns/esm/format'
 import startOfMonth from 'date-fns/esm/startOfMonth';
 import endOfMonth from 'date-fns/esm/endOfMonth';
 import { addMonths, subMonths } from 'date-fns';
-import { take, tap } from "rxjs/operators";
+import { map, take, tap } from "rxjs/operators";
+import {take as loTake } from 'lodash-es'
 
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors)
-const data = [
-  { year: 2010, count: 10 },
-  { year: 2011, count: 20 },
-  { year: 2012, count: 15 },
-  { year: 2013, count: 25 },
-  { year: 2014, count: 22 },
-  { year: 2015, count: 30 },
-  { year: 2016, count: 29 },
-]
 
 @Component({
   selector: 'kh-overview-month-mini',
@@ -29,24 +21,49 @@ const data = [
   imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
   templateUrl: './overview-month-mini.component.html',
   styleUrls: ['./overview-month-mini.component.scss'],
+  exportAs: 'miniTransaction'
 })
 export class OverviewMonthMiniComponent implements OnInit {
   @ViewChild('wrapper', { static: true }) chartWrapper!: ElementRef
   private chart!: Chart<"doughnut", number[], string>
   protected month = Date.now()
 
+  /*
+  * used to communicate to other component via
+  * exportAs
+  */
+  public selMonth!: { date: number, topExpenses: any[]}
+
   constructor(private service: FirebaseAdapterService) { }
 
 
   ngOnInit(): void {
-
     const basicStartMonth = startOfMonth(this.month);
     const basicEndMonth = endOfMonth(this.month);
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
+      map((values:any) => this.makeArrays(values)),
       tap((resp:any) => this.initChart(resp))
     ).subscribe()
     //https://coolors.co/d45088-ddc0bc-a15295-f05f6c-f57b49-f48d3b-23485b-685192
+  }
+
+  private makeArrays(values:Array<{key:string, value: number}>) {
+    const chartData: number[] = [];
+    const chartLabels: string[] = [];
+
+
+
+    this.selMonth = {
+      date: this.month,
+      topExpenses : values.filter(item => item.key ==='bills' || item.key === 'grocery')
+    }
+    loTake(values, 3).map(item => {
+        chartLabels.push(item.key.toUpperCase());
+        chartData.push(item.value);
+      })
+    return {chartData, chartLabels}
+
   }
 
   private initChart(data: {chartLabel: string[], chartData: number[]}) {
@@ -84,6 +101,7 @@ export class OverviewMonthMiniComponent implements OnInit {
     // console.log({basicStartMonth, basicEndMonth})
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
+      map((values:any) => this.makeArrays(values)),
       tap((resp:any) => this.updateChartData(resp)),
       tap(() => this.month = basicStartMonth.getTime())
     ).subscribe(console.log)
@@ -96,6 +114,7 @@ export class OverviewMonthMiniComponent implements OnInit {
     const basicEndMonth = endOfMonth(prevMonth);
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
+      map((values:any) => this.makeArrays(values)),
       tap((resp:any) => this.updateChartData(resp)),
       tap(() => this.month = basicStartMonth.getTime())
     ).subscribe(console.log)
@@ -105,9 +124,6 @@ export class OverviewMonthMiniComponent implements OnInit {
   private updateChartData(data: any) {
     this.updateLabels(this.chart, data.chartLabels)
     this.updateData(this.chart, data.chartData)
-
-    // this.removeData(this.chart)
-    // this.addData(this.chart, data.chartData, data.chartLabel)
   }
 
   private updateLabels(chart: Chart<"doughnut", number[], string>, labels: any) {

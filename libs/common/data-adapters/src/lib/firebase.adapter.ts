@@ -3,8 +3,8 @@ import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { addDoc, updateDoc, collectionData, collection, Firestore, doc, query, where } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
 import { DatabaseAdapter } from './database.adapter';
-import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
+import { from, Observable, of } from 'rxjs';
+import { map, mergeMap, toArray, groupBy as rxGroupBy, expand, tap, concatMap } from "rxjs/operators";
 import { getDocs, limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
 import forIn from 'lodash-es/forIn';
@@ -12,6 +12,7 @@ import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import sortBy from 'lodash-es/sortBy'
 import take from 'lodash-es/take'
+import { IExpense } from "@kh/common/api-interface";
 
 
 @Injectable({ providedIn: 'root' })
@@ -42,7 +43,7 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       ) // pipe
   }
 
-  summaryByMonth(collectionName: string, startDate:Date, endDate: Date) {
+  summaryByMonth(collectionName: string, startDate: Date, endDate: Date) {
     const ref = collection(this.firestore, collectionName)
 
     const expensesQuery = query(
@@ -50,40 +51,68 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       where('date', '>=', startDate),
       where('date', '<=', endDate)
     );
+    // const stream$ =
     return collectionData(expensesQuery).pipe(
-      map(this.generateDataForChart)
+      // tap((x: any) => console.log('summaryByMonth', x)),
+      // // rxGroupBy((e: IExpense) => e.category.title ? e.category.title : e.category),
+      // // return from(stream$).pipe(
+      //
+      // concatMap((e: any) => from(e)),
+      // rxGroupBy((e: any) => e.category.title),
+      // mergeMap(group => group.pipe(
+      //   tap((x: any) => console.log('beforeMergeMap', x)),
+      //   toArray(),
+      //   // tap((x: any) => console.log('beforeMergeMap', x)),
+      //   map(item => {
+      //     console.log(item)
+      //     const key = item[0].category.title
+      //     return { [key]: item.reduce((acc, next) => acc + Number(next.price), 0) }
+      //   })
+      //   )
+      // ),
+      //
+      // tap((x: any) => console.log('afterMergeMap', x)),
+
+      map(this.generateDataForChart),
     )
+
     // const docs = await getDocs(expensesQuery)
     // docs.forEach((doc) => {
     //   console.log(doc.id, doc.data())
     // })
   }
 
-  private generateDataForChart(values: any) {
-    const chartData: number[] = [];
-    const chartLabels: string[] = [];
+  private generateDataForChart(values: any): Array<{ key: string; value: number }> {
+    // const chartData: number[] = [];
+    // const chartLabels: string[] = [];
 
 
     // FIXME: Replace lodash with groupBy rxjs function
     // Backward compat becuse new format is {category:{title:'food'}}
 
     // FIXME : These operation probably needs to be done on Server side
-    const grouped = groupBy(values, (item:any) =>
+    const grouped = groupBy(values, (item: any) =>
       item.category.title ? item.category.title : item.category
     );
 
-    const rawValues : Array<{key: string; value: number}> = []
+
+    const rawValues: Array<{ key: string; value: number }> = []
+
     forIn(grouped, (value, key) => {
       const total = reduce(value, (sum, n) => sum + Number(n.price), 0);
-      rawValues.push({key, value: total})
+      rawValues.push({ key, value: total })
     });
 
+
     const normalized = take(sortBy(rawValues, [(o) => -o.value]), 3)
-    normalized.forEach(item => {
-      chartLabels.push(item.key.toUpperCase());
-      chartData.push(item.value);
-    })
-    return { chartData, chartLabels }
+    return sortBy(rawValues, [(o) => -o.value])
+    // return sortBy(rawValues, [(o) => -o.value])
+    // console.log({normalized})
+    // normalized.forEach(item => {
+    //   chartLabels.push(item.key.toUpperCase());
+    //   chartData.push(item.value);
+    // })
+    // return { chartData, chartLabels }
   }
 
   updateDoc(collectionName: string, id: string, body: any): Promise<void> {
