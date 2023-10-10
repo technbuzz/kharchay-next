@@ -14,7 +14,7 @@ export class DoughnutComponent implements OnInit, AfterViewInit {
   @Input() set chartData(data: number[]) {
     this.updateData(this.chart, data)
   }
-  
+
   @Input() set chartLabel(label: string[]) {
     this.updateLabels(this.chart, label)
   }
@@ -24,9 +24,11 @@ export class DoughnutComponent implements OnInit, AfterViewInit {
   chart!: Chart;
 
   ngOnInit(): void {}
-  
+
   ngAfterViewInit(): void {
     Chart.register(PieController, ArcElement, Legend, Tooltip);
+    //@ts-ignore:w
+    //
     this.chart = new Chart(this.container.nativeElement, {
       type: 'doughnut',
       data: {
@@ -74,6 +76,7 @@ export class DoughnutComponent implements OnInit, AfterViewInit {
   updateData(chart: Chart, data:number[]) {
     if(!chart) return;
     chart.data.datasets.forEach((dataset) => {
+      //@ts-ignore
       dataset.data == [];
     });
     chart.data.datasets.forEach((dataset) => {
@@ -82,7 +85,7 @@ export class DoughnutComponent implements OnInit, AfterViewInit {
     chart.update();
 
   }
-  
+
   addData(chart: Chart, label: string[], data: number[]) {
     chart.data.labels = [...label]
     chart.data.datasets.forEach((dataset) => {
@@ -94,6 +97,7 @@ export class DoughnutComponent implements OnInit, AfterViewInit {
   removeData(chart: Chart) {
     chart.data.labels = [];
     chart.data.datasets.forEach((dataset) => {
+      //@ts-ignore
       dataset.data == [];
     });
     chart.update();
