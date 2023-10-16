@@ -6,7 +6,7 @@
   "prefix": "kh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/mobile/create/ui"],
       "options": {
         "jestConfig": "libs/mobile/create/ui/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/mobile/create/ui/src/**/*.ts",

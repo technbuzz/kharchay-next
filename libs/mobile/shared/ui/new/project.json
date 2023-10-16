@@ -6,7 +6,7 @@
   "prefix": "kh",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/mobile/shared/ui/new"],
       "options": {
         "jestConfig": "libs/mobile/shared/ui/new/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/mobile/shared/ui/new/src/**/*.ts",
@@ -23,9 +23,8 @@
       }
     },
     "storybook": {
-      "executor": "@nrwl/storybook:storybook",
+      "executor": "@nx/storybook:storybook",
       "options": {
-        "uiFramework": "@storybook/angular",
         "port": 4400,
         "projectBuildConfig": "mobile-shared-ui-new:build-storybook",
         "configDir": "libs/mobile/shared/ui/new/.storybook"
@@ -37,10 +36,9 @@
       }
     },
     "build-storybook": {
-      "executor": "@nrwl/storybook:build",
+      "executor": "@nx/storybook:build",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "uiFramework": "@storybook/angular",
         "projectBuildConfig": "mobile-shared-ui-new:build-storybook",
         "configDir": "libs/mobile/shared/ui/new/.storybook",
         "outputDir": "dist/storybook/mobile-shared-ui-new"
