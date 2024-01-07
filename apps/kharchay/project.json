@@ -67,10 +67,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "kharchay:build:production"
+          "buildTarget": "kharchay:build:production"
         },
         "development": {
-          "browserTarget": "kharchay:build:development"
+          "buildTarget": "kharchay:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -78,24 +78,17 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "kharchay:build"
+        "buildTarget": "kharchay:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/kharchay/src/**/*.ts",
-          "apps/kharchay/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/kharchay"],
       "options": {
-        "jestConfig": "apps/kharchay/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/kharchay/jest.config.ts"
       }
     }
   },

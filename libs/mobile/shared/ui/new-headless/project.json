@@ -11,18 +11,11 @@
         "{workspaceRoot}/coverage/libs/mobile/shared/ui/new-headless"
       ],
       "options": {
-        "jestConfig": "libs/mobile/shared/ui/new-headless/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/mobile/shared/ui/new-headless/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/mobile/shared/ui/new-headless/**/*.ts",
-          "libs/mobile/shared/ui/new-headless/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": []

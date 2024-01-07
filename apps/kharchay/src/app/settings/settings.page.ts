@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
+import { Component, VERSION, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common'
+import {  } from "@ionic/core";
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
@@ -16,6 +17,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./settings.page.scss']
 })
 export class SettingsPage implements OnInit {
+  version = VERSION.full;
   dynamicPricing = false;
   loggedIn = false;
   loggedIn$!: Observable<any>;
@@ -115,9 +117,9 @@ export class SettingsPage implements OnInit {
   updateTheme(event: any) {
     const checked = event.detail.checked
     if(checked) {
-      this.renderer.addClass(this.document.body, 'dark') 
+      this.renderer.addClass(this.document.body, 'dark')
     } else {
-      this.renderer.removeClass(this.document.body, 'dark') 
+      this.renderer.removeClass(this.document.body, 'dark')
     }
   }
 
