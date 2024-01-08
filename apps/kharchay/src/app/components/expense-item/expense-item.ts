@@ -7,32 +7,7 @@ import { IExpense } from '@kh/common/api-interface';
 
 @Component({
   selector: 'expense-item',
-  template: `
-    <ion-item-sliding [disabled]="!item.id">
-      <ion-item class="ion-no-padding" [attr.detail]="item.imageName" (click)="showDetails(item)">
-        <ion-avatar slot="start" *ngIf="item.imageName">
-          <img src="./assets/imgs/placeholder.jpg">
-        </ion-avatar>
-
-        <section class="inner-piece" [className]="item.details ? null : 'ion-text-nowrap'">
-          <small>{{item.date.toDate() | date:"MMM d"}}</small>
-
-          <div>
-            <ion-badge color="light" *ngIf="item.category">{{item.category.title}}</ion-badge>
-            <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory?.title}}</ion-badge>
-          </div>
-          <p class="ion-no-margin">{{item.note}}</p>
-        </section>
-
-        <h3 slot="end">{{item.price}}</h3>
-
-      </ion-item>
-
-      <ion-item-options slide="start" *ngIf="!readonly" >
-        <ion-item-option color="danger" (click)="delete.emit(item)">Delete</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  `,
+  templateUrl: './expense-item.html',
   styles: [
     `
       small {

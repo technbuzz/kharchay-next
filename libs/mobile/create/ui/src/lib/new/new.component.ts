@@ -4,7 +4,7 @@ import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angu
 import { IonicModule } from '@ionic/angular';
 import { ICategory } from '@kh/common/api-interface';
 import { categories } from '@kh/mobile/create/data-access';
-import formatISO from 'date-fns/formatISO';
+import {formatISO} from 'date-fns/formatISO';
 
 @Component({
   selector: 'kh-new',
@@ -37,7 +37,7 @@ export class NewComponent {
     }
   }
 
-  
+
 
 }
 

@@ -2,7 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, Input, OnInit } from '@angu
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICategory, IExpense } from '@kh/common/api-interface';
 import { categories } from '@kh/mobile/create/data-access';
-import formatISO from 'date-fns/formatISO';
+import {formatISO} from 'date-fns/formatISO';
 
 @Component({
   selector: 'kh-new',

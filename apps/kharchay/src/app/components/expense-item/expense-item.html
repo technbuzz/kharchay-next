@@ -1,0 +1,49 @@
+<ion-item-sliding [disabled]="!item.id">
+  <ion-item class="ion-no-padding" [attr.detail]="item.imageName" (click)="showDetails(item)">
+    <ion-avatar slot="start" *ngIf="item.imageName">
+      <img src="./assets/imgs/placeholder.jpg">
+    </ion-avatar>
+
+    <!-- <h3 slot="end">{{item.price}}</h3> -->
+
+    <!-- <section class="inner-piece" [className]="item.details ? 'ion-text-nowrap' : 'ion-text-wrap'"> -->
+    <!--   <small>{{item.date.toDate() | date:"MMM d"}}</small> -->
+    <!---->
+    <!--   <div> -->
+    <!--     <ion-badge color="light" *ngIf="item.category">{{item.category.title}}</ion-badge> -->
+    <!--     <ion-badge color="light" *ngIf="item?.subCategory">{{item?.subCategory?.title}}</ion-badge> -->
+    <!--   </div> -->
+    <!--   <p class="ion-no-margin">{{item.note}}</p> -->
+    <!-- </section> -->
+    <ion-label>
+      <strong>{{item.price}}</strong>
+
+    </ion-label>
+
+    <!-- <ion-note slot="end">{{item.price}}</ion-note> -->
+    <!-- <h3 slot="end">{{item.price}}</h3> -->
+
+
+
+  </ion-item>
+  <ion-item [button]="true" detail="false">
+      <div class="unread-indicator-wrapper" slot="start">
+        <div class="unread-indicator"></div>
+      </div>
+      <ion-label>
+        <strong>Rick Astley</strong>
+        <ion-text>Never Gonna Give You Up</ion-text><br />
+        <ion-note color="medium" class="ion-text-wrap">
+          Never gonna give you up Never gonna let you down Never gonna run...
+        </ion-note>
+      </ion-label>
+      <div class="metadata-end-wrapper" slot="end">
+        <ion-note color="medium">06:11</ion-note>
+        <ion-icon color="medium" name="chevron-forward"></ion-icon>
+      </div>
+    </ion-item>
+
+  <ion-item-options slide="start" *ngIf="!readonly" >
+    <ion-item-option color="danger" (click)="delete.emit(item)">Delete</ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>

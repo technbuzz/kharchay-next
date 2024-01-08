@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { collection, collectionData, Firestore, where } from '@angular/fire/firestore';
-import { query } from '@firebase/firestore';
+import { collection, collectionData, Firestore, getCountFromServer, where } from '@angular/fire/firestore';
+import { query, count } from '@firebase/firestore';
 import { IonDatetime } from '@ionic/angular';
-import endOfMonth from 'date-fns/esm/endOfMonth';
-import isBefore from 'date-fns/esm/isBefore';
-import startOfMonth from 'date-fns/esm/startOfMonth';
-import lightFormat from 'date-fns/esm/lightFormat';
-import parseISO from 'date-fns/esm/parseISO';
-import parse from 'date-fns/esm/parse';
+import {endOfMonth} from 'date-fns/endOfMonth';
+import {isBefore} from 'date-fns/isBefore';
+import {startOfMonth} from 'date-fns/startOfMonth';
+import {lightFormat} from 'date-fns/lightFormat';
+import {parseISO} from 'date-fns/parseISO';
+import {parse} from 'date-fns/parse';
 
 import { Observable } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
@@ -48,7 +48,7 @@ export class FilterPage extends Stepper implements OnInit{
   ngOnInit() {
     const date = this.route.snapshot.params['id']
     if(date) {
-      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString() 
+      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString()
     }
     this.loadBasic();
   }
@@ -100,16 +100,19 @@ export class FilterPage extends Stepper implements OnInit{
     this.findTotal();
   }
 
-  findTotal() {
+  async findTotal() {
+    const snapshot = await getCountFromServer(this.expRef)
+
+    this.total = snapshot.data().count
     this.expenses$ = collectionData(this.expRef)
       // .pipe(map(value => value.map(item => ({
       //       ...item,
       //       date: item['date'].toDate()
       //     })))) as Observable<BaseExpense[]>;
 
-    this.expenses$.forEach(values => {
-      this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
-    });
+    // this.expenses$.forEach(values => {
+    //   this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
+    // });
   }
 
   navigateToGraph() {
