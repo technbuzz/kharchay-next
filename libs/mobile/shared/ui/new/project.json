@@ -16,11 +16,12 @@
       "executor": "@nx/eslint:lint"
     },
     "storybook": {
-      "executor": "@nx/storybook:storybook",
+      "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "projectBuildConfig": "mobile-shared-ui-new:build-storybook",
-        "configDir": "libs/mobile/shared/ui/new/.storybook"
+        "configDir": "libs/mobile/shared/ui/new/.storybook",
+        "browserTarget": "mobile-shared-ui-new:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
@@ -29,17 +30,28 @@
       }
     },
     "build-storybook": {
-      "executor": "@nx/storybook:build",
+      "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputDir}"],
       "options": {
-        "projectBuildConfig": "mobile-shared-ui-new:build-storybook",
+        "outputDir": "dist/storybook/mobile-shared-ui-new",
         "configDir": "libs/mobile/shared/ui/new/.storybook",
-        "outputDir": "dist/storybook/mobile-shared-ui-new"
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
+        "browserTarget": "mobile-shared-ui-new:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
           "quiet": true
         }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/mobile/shared/ui/new/.storybook --url=http://localhost:4400"
       }
     }
   },
