@@ -38,10 +38,9 @@ export class CreateComponent {
   }
 
   async add() {
-    this.addDoc()
-    // await this.addEntry()
-    // this.form.reset();
-    // this.router.navigate(['home'])
+    await this.addEntry()
+    this.form.reset();
+    this.router.navigate(['home'])
   }
 
   async addEntry() {
