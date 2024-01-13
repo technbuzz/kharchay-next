@@ -1,6 +1,6 @@
-import addMonths from 'date-fns/esm/addMonths';
-import subMonths from 'date-fns/esm/subMonths';
-import isAfter from 'date-fns/esm/isAfter';
+import {addMonths} from 'date-fns/addMonths';
+import {subMonths} from 'date-fns/subMonths';
+import {isAfter} from 'date-fns/isAfter';
 
 import {format} from 'date-fns';
 export class Stepper {

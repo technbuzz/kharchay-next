@@ -2,7 +2,7 @@
 
 export interface IExpense {
   id?: string;
-  price: number|null;
+  price?: number;
   note: string;
   category: ICategory;
   date: Date|any;

@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
+import { Component, VERSION, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common'
+import {  } from "@ionic/core";
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
@@ -16,10 +17,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./settings.page.scss']
 })
 export class SettingsPage implements OnInit {
+  version = VERSION.full;
   dynamicPricing = false;
+  deleteRights = false;
   loggedIn = false;
   loggedIn$!: Observable<any>;
   loading: any = null;
+  themeToggle = false;
 
   constructor(
     private settingsService: SettingsService,
@@ -28,13 +32,12 @@ export class SettingsPage implements OnInit {
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.settingsService.getConfig().subscribe(resp => {
-      this.dynamicPricing = resp;
+      this.dynamicPricing = resp.dynamicPricing;
+      this.deleteRights = resp.deleteRights;
     });
 
     const auth = getAuth();
@@ -47,10 +50,17 @@ export class SettingsPage implements OnInit {
   }
 
   updateTextMode() {
-    this.settingsService.updateConfig(this.dynamicPricing);
+    // this.settingsService.updateConfig(this.dynamicPricing);
+    this.settingsService.updateConfig({ dynamicPricing: this.dynamicPricing });
 
     // update localstorage
     this.settingsService.setConfig({ dynamicPricing: this.dynamicPricing });
+  }
+
+  updateDeleteRights() {
+    this.settingsService.updateConfig({ deleteRights: this.deleteRights });
+    this.settingsService.setConfig({ deleteRights: this.deleteRights });
+
   }
 
   async presentLoginAlert(){
@@ -112,15 +122,6 @@ export class SettingsPage implements OnInit {
 
   }
 
-  updateTheme(event: any) {
-    const checked = event.detail.checked
-    if(checked) {
-      this.renderer.addClass(this.document.body, 'dark') 
-    } else {
-      this.renderer.removeClass(this.document.body, 'dark') 
-    }
-  }
-
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Something Not Right 😓 Please try again',
@@ -128,6 +129,16 @@ export class SettingsPage implements OnInit {
       color: 'warning'
     });
     toast.present();
+  }
+
+  // Listen for the toggle check/uncheck to toggle the dark theme
+  toggleChange(ev:any) {
+    this.toggleDarkTheme(ev.detail.checked);
+  }
+
+  // Add or remove the "dark" class on the document body
+  toggleDarkTheme(shouldAdd: boolean) {
+    document.body.classList.toggle('dark', shouldAdd);
   }
 
 

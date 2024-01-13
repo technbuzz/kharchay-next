@@ -67,10 +67,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "kharchay:build:production"
+          "buildTarget": "kharchay:build:production"
         },
         "development": {
-          "browserTarget": "kharchay:build:development"
+          "buildTarget": "kharchay:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -78,24 +78,72 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "kharchay:build"
+        "buildTarget": "kharchay:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/kharchay/src/**/*.ts",
-          "apps/kharchay/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/kharchay"],
       "options": {
-        "jestConfig": "apps/kharchay/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/kharchay/jest.config.ts"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/kharchay/.storybook",
+        "browserTarget": "kharchay:build",
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/kharchay",
+        "configDir": "apps/kharchay/.storybook",
+        "browserTarget": "kharchay:build",
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps/kharchay/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "kharchay:build-storybook",
+        "staticFilePath": "dist/storybook/kharchay"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "kharchay:build-storybook:ci"
+        }
       }
     }
   },

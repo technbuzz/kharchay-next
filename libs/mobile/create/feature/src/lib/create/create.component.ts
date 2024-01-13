@@ -3,7 +3,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { CreateService } from '@kh/mobile/create/data-access';
-import formatISO from 'date-fns/formatISO';
+import {formatISO} from 'date-fns/formatISO';
 
 
 @Component({
@@ -38,9 +38,10 @@ export class CreateComponent {
   }
 
   async add() {
-    await this.addEntry()
-    this.form.reset();
-    this.router.navigate(['home'])
+    this.addDoc()
+    // await this.addEntry()
+    // this.form.reset();
+    // this.router.navigate(['home'])
   }
 
   async addEntry() {
@@ -65,12 +66,14 @@ export class CreateComponent {
   }
 
   private addDoc(imageName = '') {
-    const { date } = this.form.value
-    return this.service.add({
+    const { date, price } = this.form.value
+    const result = {
       ...this.form.value,
+      price: Number(price),
       imageName: imageName,
       date: new Date(date)
-    })
+    }
+    return this.service.add(result)
   }
 
   async presentLoading() {

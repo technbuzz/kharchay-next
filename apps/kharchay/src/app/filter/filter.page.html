@@ -28,15 +28,7 @@
         </ion-button>
         <ion-popover trigger="open-date-month" show-backdrop="false">
           <ng-template>
-            <ion-datetime
-              #expenseMonth
-              presentation="month-year"
-              name="month"
-              showClearButton="true"
-              showDefaultButtons="true"
-              [(ngModel)]="filter.month"
-              (ionChange)="loadBasic()"
-            >
+            <ion-datetime #expenseMonth presentation="month-year" name="month" showClearButton="true" showDefaultButtons="true" [(ngModel)]="filter.month" (ionChange)="loadBasic()" >
           </ion-datetime>
           </ng-template>
         </ion-popover>
@@ -53,15 +45,7 @@
         </ion-button>
         <ion-popover trigger="open-date-start" show-backdrop="false">
           <ng-template>
-            <ion-datetime
-              #expenseDate
-              presentation="date"
-              name="startDate"
-              showClearButton="true"
-              showDefaultButtons="true"
-              [(ngModel)]="filter.startDate"
-              (ionChange)="loadResults($event)"
-            >
+            <ion-datetime #expenseDate presentation="date" name="startDate" showClearButton="true" showDefaultButtons="true" [(ngModel)]="filter.startDate" (ionChange)="loadResults($event)" >
           </ion-datetime>
           </ng-template>
         </ion-popover>
@@ -75,18 +59,10 @@
         </ion-button>
         <ion-popover trigger="open-date-end" show-backdrop="false">
           <ng-template>
-            <ion-datetime
-              #expenseDate
-              presentation="date"
-              name="endDate"
-              showClearButton="true"
-              showDefaultButtons="true"
-              [(ngModel)]="filter.endDate"
-              (ionChange)="loadResults($event)"
-            >
+            <ion-datetime #expenseDate presentation="date" name="endDate" showClearButton="true" showDefaultButtons="true" [(ngModel)]="filter.endDate" (ionChange)="loadResults($event)" >
           </ion-datetime>
           </ng-template>
-          
+
         </ion-popover>
       </ion-item>
       <ion-item>
@@ -106,15 +82,27 @@
         <h2>{{total | number: '2.2-2'}}</h2>
       </header>
 
-      <expense-item 
-      [expense]="item" 
+    @for(item of expenses$ | async; track item.id) {
+      <expense-item
+      [expense]="item"
       [readonly]="true"
-      *ngFor="let item of expenses$ | async"></expense-item>
-   
+      (onDelete)="deleteExpense(item)"
+      (onUpdate)="fixPriceItem(item)"
+      ></expense-item>
+    } @empty {
+      <ion-item lines="none">
+        <ion-label>
+
+        <ion-note> Nothing found here. </ion-note>
+      </ion-label>
+      </ion-item>
+
+    }
+
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="navigateToGraph()" > 
+    <ion-fab-button (click)="navigateToGraph()" >
       <ion-icon name="pie-chart"></ion-icon>
     </ion-fab-button>
   </ion-fab>

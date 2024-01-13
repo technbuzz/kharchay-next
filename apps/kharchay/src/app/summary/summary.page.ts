@@ -12,15 +12,15 @@ import {
   query,
   where
 } from '@firebase/firestore';
-import endOfMonth from 'date-fns/esm/endOfMonth';
-import startOfMonth from 'date-fns/esm/startOfMonth';
+import {endOfMonth} from 'date-fns/endOfMonth';
+import {startOfMonth} from 'date-fns/startOfMonth';
 
 import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
 import { tap, map, switchMap, pluck, filter } from 'rxjs/operators';
-import format from 'date-fns/esm/format'
+import {format} from 'date-fns/format'
 import {Gesture, GestureController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 
@@ -46,7 +46,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
   constructor(private afs: Firestore, private gestureCtrl: GestureController, private route: ActivatedRoute) {
     super();
   }
-  
+
   ngAfterViewInit() {
     // this.route.params.pipe(pluck('id')).subscribe(resp => this.month = resp)
 
@@ -100,7 +100,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
       where('date', '>=', value.start),
       where('date', '<=', value.end)
     );
-// 8001717, 
+// 8001717,
     return expensesQuery
   }
 

@@ -1,30 +1,37 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { collection, collectionData, Firestore, where } from '@angular/fire/firestore';
-import { query } from '@firebase/firestore';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { toSignal } from "@angular/core/rxjs-interop";
+import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import { query} from '@firebase/firestore';
 import { IonDatetime } from '@ionic/angular';
-import endOfMonth from 'date-fns/esm/endOfMonth';
-import isBefore from 'date-fns/esm/isBefore';
-import startOfMonth from 'date-fns/esm/startOfMonth';
-import lightFormat from 'date-fns/esm/lightFormat';
-import parseISO from 'date-fns/esm/parseISO';
-import parse from 'date-fns/esm/parse';
+import {endOfMonth} from 'date-fns/endOfMonth';
+import {isBefore} from 'date-fns/isBefore';
+import {startOfMonth} from 'date-fns/startOfMonth';
+import {lightFormat} from 'date-fns/lightFormat';
+import {parseISO} from 'date-fns/parseISO';
+import {parse} from 'date-fns/parse';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
 import { categories } from '../shared/categories';
 import { Stepper } from '../shared/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IExpense } from '@kh/common/api-interface';
+import { SettingsService } from '../services/settings.service';
 
 
 @Component({
   selector: 'kh-filter',
   templateUrl: './filter.page.html',
+
   styleUrls: ['./filter.page.scss'],
 })
 export class FilterPage extends Stepper implements OnInit{
 
   @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
 
+
+  settingService = inject(SettingsService)
+  $configs = toSignal(this.settingService.getConfig())
   categories: any = [];
 
   searchType = 'basic';
@@ -48,10 +55,40 @@ export class FilterPage extends Stepper implements OnInit{
   ngOnInit() {
     const date = this.route.snapshot.params['id']
     if(date) {
-      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString() 
+      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString()
     }
     this.loadBasic();
   }
+
+  async fixPrice() {
+    const batcher = writeBatch(this.afs)
+
+    const basicStartMonth = startOfMonth(new Date(this.filter.month));
+    const basicEndMonth = endOfMonth(new Date(this.filter.month));
+    const expenseGroup = collection(this.afs, 'expense')
+    const expenseQuery = query(
+      expenseGroup,
+      where('date', '>=', basicStartMonth),
+      where('date', '<=', basicEndMonth),
+    )
+
+    // const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
+    collectionData(expenseQuery, { idField: 'id' }).subscribe(expense => {
+      expense.forEach(item => {
+        console.log(item)
+        batcher.update(doc(this.afs, `expense/${item.id}`), {
+          price: Number(item['price'])
+        })
+      })
+
+    })
+
+
+    const resp = await batcher.commit()
+    console.log('batch updated', resp)
+
+  }
+
 
   public loadBasic() {
     const basicStartMonth = startOfMonth(new Date(this.filter.month));
@@ -68,6 +105,17 @@ export class FilterPage extends Stepper implements OnInit{
 
     // Finding Total
     this.findTotal();
+    // this.findTest()
+  }
+
+  async fixPriceItem(item: IExpense) {
+    const resp = await updateDoc(doc(this.afs, `expense/${item.id}`), {
+      price: Number(item.price)
+    })
+
+    console.log('updated', resp)
+
+
   }
 
   public loadResults(event:any) {
@@ -95,21 +143,49 @@ export class FilterPage extends Stepper implements OnInit{
     this.expRef = query(ref,
       where('date', '>=', new Date(this.filter.startDate)),
       where('date', '<=', new Date(this.filter.endDate)),
-      where('category', '==', this.filter.category)
+      where('category', '==', this.filter.category),
+      orderBy('date', 'desc')
     );
     this.findTotal();
+
+
   }
 
-  findTotal() {
-    this.expenses$ = collectionData(this.expRef)
-      // .pipe(map(value => value.map(item => ({
-      //       ...item,
-      //       date: item['date'].toDate()
-      //     })))) as Observable<BaseExpense[]>;
+  async findTest() {
+    const querySnapshot = await getDocs(this.expRef);
+    console.log(querySnapshot)
+    querySnapshot.forEach((doc) => {
 
-    this.expenses$.forEach(values => {
-      this.total = values.reduce((prev, current) => prev + Number(current.price), 0);
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
     });
+
+  }
+
+  async findTotal() {
+    const snapshot = await getAggregateFromServer(this.expRef, {
+      total: sum('price')
+    })
+
+    this.total = snapshot.data().total
+    this.expenses$ = collectionData(this.expRef, { idField: 'id' })
+
+    // collectionData(this.expRef).pipe(
+    //   map((v:any) => {
+    //     return v.map((v: any) => ({...v, date: v.date.toDate()}))
+    //   }),
+    //   map(v => groupBy(v, 'date'))
+    // ).subscribe(v => {
+    //   console.log(v)
+    // })
+  }
+
+  async deleteExpense(item: IExpense) {
+    if(this.$configs()?.deleteRights) {
+      const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
+      console.log(item.id, resp, 'deleted')
+    }
+    console.log('No Delete rights')
   }
 
   navigateToGraph() {

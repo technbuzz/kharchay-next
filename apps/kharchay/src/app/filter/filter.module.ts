@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { FilterPage } from './filter.page';
 import { ComponentsModule } from '../components/components.module';
+import { ExpenseItemComponent } from '../components/expense-item/expense-item';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    ExpenseItemComponent,
     RouterModule.forChild(routes)
   ],
   declarations: [FilterPage]

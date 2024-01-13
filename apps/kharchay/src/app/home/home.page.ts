@@ -45,12 +45,13 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.settingService.getConfig().subscribe((initialSettings) => {
-      this.dynamicPricing = initialSettings;
+      this.dynamicPricing = initialSettings.dynamicPricing;
+
     });
 
     // dynamicPricing event management
     this.settingService.inputBS$.subscribe((config) => {
-      this.dynamicPricing = config;
+      this.dynamicPricing = config.dynamicPricing;
     });
 
     this.checkRecurring();
@@ -111,7 +112,7 @@ export class HomePage implements OnInit {
     // );
   }
 
-  // The recurring.component.ts already takes care of 
+  // The recurring.component.ts already takes care of
   // fixed and non fixed item
   async addRecurring(event: RecurringEvent) {
     this.recurringLoading = true;

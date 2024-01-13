@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/mobile/create/feature"],
       "options": {
-        "jestConfig": "libs/mobile/create/feature/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/mobile/create/feature/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/mobile/create/feature/src/**/*.ts",
-          "libs/mobile/create/feature/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",

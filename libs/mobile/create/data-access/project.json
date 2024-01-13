@@ -9,18 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/mobile/create/data-access"],
       "options": {
-        "jestConfig": "libs/mobile/create/data-access/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/mobile/create/data-access/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/mobile/create/data-access/src/**/*.ts",
-          "libs/mobile/create/data-access/src/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     }
   },
   "tags": ["data-access"]
