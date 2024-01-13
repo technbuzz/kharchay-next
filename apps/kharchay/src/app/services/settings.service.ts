@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs'
 interface ISettings {
   dynamicPricing: boolean
   collapseEntry: boolean
+  deleteRights: boolean
 }
 
 @Injectable({
@@ -15,7 +16,11 @@ export class SettingsService {
 
 
 
-  private inputBS = new BehaviorSubject(false)
+  private inputBS = new BehaviorSubject<ISettings>({
+    dynamicPricing: false,
+    collapseEntry: false,
+    deleteRights: false
+  })
   inputBS$ = this.inputBS.asObservable()
   private config!: ISettings
 
@@ -28,16 +33,18 @@ export class SettingsService {
     this.config = JSON.parse(localStorage.getItem(this.key) as string)
 
     if (this.config) {
-      this.config.dynamicPricing ? this.inputBS.next(this.config.dynamicPricing) : this.inputBS.next(false)
+      this.inputBS.next(this.config)
+      // this.config.dynamicPricing ? this.inputBS.next(this.config.dynamicPricing) : this.inputBS.next(false)
+      // this.config.collapseEntry ? this.inputBS.next(this.config.collapseEntry) : this.inputBS.next(false)
     }
   }
 
-  getConfig(): Observable<boolean> {
+  getConfig(): Observable<ISettings> {
     return this.inputBS.asObservable()
   }
 
-  updateConfig(value:boolean) {
-    this.inputBS.next(value)
+  updateConfig(value: Partial<ISettings>) {
+    this.inputBS.next({ ...this.config, ...value })
   }
 
   setConfig(newConfig:any) {

@@ -97,6 +97,10 @@
         "port": 4400,
         "configDir": "apps/kharchay/.storybook",
         "browserTarget": "kharchay:build",
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
         "compodoc": false
       },
       "configurations": {
@@ -112,6 +116,10 @@
         "outputDir": "dist/storybook/kharchay",
         "configDir": "apps/kharchay/.storybook",
         "browserTarget": "kharchay:build",
+        "styles": [
+          "apps/kharchay/src/global.scss",
+          "apps/kharchay/src/theme/variables.scss"
+        ],
         "compodoc": false
       },
       "configurations": {

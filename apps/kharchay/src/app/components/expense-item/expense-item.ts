@@ -1,13 +1,19 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { mapCategory, mapSubCategory } from '../../shared/categories';
 import { IExpense } from '@kh/common/api-interface';
+import { IonItem, IonicModule } from '@ionic/angular';
+import { DatePipe, NgIf } from '@angular/common';
+import { TruncatePipe } from './truncate.pipe';
+import { doc, updateDoc } from 'firebase/firestore';
+import { SettingsService } from '../../services/settings.service';
 
 
 @Component({
   selector: 'expense-item',
   templateUrl: './expense-item.html',
+  imports: [IonicModule, NgIf, DatePipe, TruncatePipe ],
+  standalone: true,
   styles: [
     `
       small {
@@ -26,16 +32,26 @@ import { IExpense } from '@kh/common/api-interface';
 })
 export class ExpenseItemComponent implements OnInit {
   @Input('expense') item!: IExpense;
+
   @Input() readonly = false;
   @Output('onDelete') delete = new EventEmitter();
+  @Output('onUpdate') update = new EventEmitter();
 
-  constructor(private navCtrl: NavController, private router: Router) {
-  }
+
+  constructor(private router: Router) { }
 
   ngOnInit () {
     this.item = mapCategory(this.item)
     this.item = mapSubCategory(this.item)
+  }
 
+  decideIcon(item: IExpense) {
+    return typeof item.price != 'number' ? 'cloud-offline' : null
+  }
+
+  async fixPrice(item: any, more: any) {
+    this.update.emit(item)
+    more.close()
   }
 
   public showDetails(item: IExpense) {
@@ -45,9 +61,15 @@ export class ExpenseItemComponent implements OnInit {
           item: JSON.stringify(item)
         }
       });
-      // this.navCtrl.push('DetailsPage', { item });
     } else {
       item.details = !item.details;
+      console.log(item.details)
     }
+  }
+
+  requestDeletion(event: any, more:any) {
+    this.delete.emit(this.item)
+    console.log(more)
+    more.close()
   }
 }
