@@ -1,0 +1,48 @@
+
+<ion-grid>
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <ion-col size="4"  class="price-col">
+      <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
+      <input inputmode="numeric" placeholder="00" type="text" name="" id="price" value="">
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="date-row">
+    <ion-col>
+      <ion-note for="" (click)="expenseDate.showPicker()">{{ date }}</ion-note>
+      <input type="date" class="sr-only" #expenseDate (change)="onSelect($event)" [value]="date">
+      </ion-col>
+    <ion-col>Note</ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-between">
+    <ion-col size="auto">
+      <ion-button  id="open-modal" fill="clear" size="small" > <ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>
+         {{selectedCategory.label}} </ion-button>
+    </ion-col>
+    <ion-col size="auto"> <ion-button size="small" shape="round">Save</ion-button> </ion-col>
+  </ion-row>
+
+
+
+
+  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    <ng-template>
+
+      <ion-content>
+        <p class="ion-text-uppercase ion-padding ion-text-center">Categories</p>
+
+        <ion-grid>
+          <ion-row>
+            @for (item of categories; track item.label) {
+            <ion-col (click)="selecteCategory(item)" class="category" size="3">
+              <ion-icon  [name]="item.icon"></ion-icon>
+              <p> <ion-note>{{ item.label }}</ion-note> </p>
+            </ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>

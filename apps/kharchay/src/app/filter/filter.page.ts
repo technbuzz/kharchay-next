@@ -147,8 +147,6 @@ export class FilterPage extends Stepper implements OnInit{
       orderBy('date', 'desc')
     );
     this.findTotal();
-
-
   }
 
   async findTest() {
@@ -169,23 +167,15 @@ export class FilterPage extends Stepper implements OnInit{
 
     this.total = snapshot.data().total
     this.expenses$ = collectionData(this.expRef, { idField: 'id' })
-
-    // collectionData(this.expRef).pipe(
-    //   map((v:any) => {
-    //     return v.map((v: any) => ({...v, date: v.date.toDate()}))
-    //   }),
-    //   map(v => groupBy(v, 'date'))
-    // ).subscribe(v => {
-    //   console.log(v)
-    // })
   }
 
   async deleteExpense(item: IExpense) {
     if(this.$configs()?.deleteRights) {
       const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
       console.log(item.id, resp, 'deleted')
+    } else {
+      console.log('No Delete rights')
     }
-    console.log('No Delete rights')
   }
 
   navigateToGraph() {

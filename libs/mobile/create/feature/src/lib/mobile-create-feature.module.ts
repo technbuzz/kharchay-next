@@ -4,7 +4,7 @@ import { RouterModule, Route } from '@angular/router';
 import { IonicModule } from "@ionic/angular";
 
 import { CreateComponent } from './create/create.component';
-import { DynamicPriceModule, InvoiceModule, NewComponentModule } from "@kh/mobile/create/ui";
+import { DynamicPriceModule, InvoiceModule, NewComponentModule, NewxComponent } from "@kh/mobile/create/ui";
 
 export const routes: Route[] = [
   {
@@ -15,12 +15,13 @@ export const routes: Route[] = [
 
 @NgModule({
   imports: [
-    CommonModule, 
-    RouterModule.forChild(routes), 
-    IonicModule, 
+    CommonModule,
+    RouterModule.forChild(routes),
+    IonicModule,
     DynamicPriceModule,
     NewComponentModule,
-    InvoiceModule
+    InvoiceModule,
+    NewxComponent
   ],
   declarations: [CreateComponent],
 })
