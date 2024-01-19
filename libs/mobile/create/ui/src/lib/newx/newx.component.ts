@@ -17,10 +17,13 @@ export class NewxComponent {
   selectedCategory: Category = { title: 'Grocery', icon: 'cart-outline' }
 
   @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild('submodal') submodal!: IonModal;
   @ViewChild('expenseDate') dateEl!: ElementRef<HTMLInputElement>;
 
   @Input() parent!: UntypedFormGroup;
   @Output() onSubmit = new EventEmitter()
+
+  parentCategory!: Category
 
   ngAfterViewInit() {
     this.dateEl.nativeElement.value = format(new Date('2024-01-11'), 'yyyy-MM-dd')
@@ -37,18 +40,25 @@ export class NewxComponent {
   date = format(new Date('2024-01-11'), 'yyyy-MM-dd');
 
   selecteCategory(category: Category) {
-
-    if(category.categories) {
-      this.categories = category.categories
-
-    } else {
       this.selectedCategory = category
       this.parent.controls['category'].setValue({ title: category.title })
-      this.categories = categories
-      console.log(this.parent.value)
       this.modal.dismiss()
 
-    }
+      if(category.categories) {
+        this.submodal.present()
+      } else {
+        this.parent.controls['subCategory'].reset()
+      }
+
+      console.log(this.parent.value)
+
+
   }
 
+
+  selectSubCategory(category: Category) {
+    this.parent.controls['subCategory'].setValue({ title: category.title })
+      console.log(this.parent.value)
+    this.submodal.dismiss()
+  }
 }
