@@ -1,27 +1,32 @@
 
-<ion-grid>
-  <ion-row class="ion-justify-content-center ion-align-items-center">
-    <ion-col size="4"  class="price-col">
-      <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
-      <input inputmode="numeric" placeholder="00" type="text" name="" id="price" value="">
-    </ion-col>
-  </ion-row>
-
-  <ion-row class="date-row">
-    <ion-col>
-      <ion-note for="" (click)="expenseDate.showPicker()">{{ date }}</ion-note>
-      <input type="date" class="sr-only" #expenseDate (change)="onSelect($event)" [value]="date">
+<form [formGroup]="parent" (submit)="onSubmit.emit()">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="4"  class="price-col">
+        <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
+        <input inputmode="numeric" formControlName="price" class="clear-input" placeholder="00" type="text" name="price" id="price" >
       </ion-col>
-    <ion-col>Note</ion-col>
-  </ion-row>
+    </ion-row>
 
-  <ion-row class="ion-justify-content-between">
-    <ion-col size="auto">
-      <ion-button  id="open-modal" fill="clear" size="small" > <ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>
-         {{selectedCategory.label}} </ion-button>
-    </ion-col>
-    <ion-col size="auto"> <ion-button size="small" shape="round">Save</ion-button> </ion-col>
-  </ion-row>
+    <ion-row class="date-row">
+      <ion-col>
+        <ion-note for="" (click)="expenseDate.showPicker()">📆 {{ parent.get('date')?.value | date }}</ion-note>
+        <input type="date" class="sr-only" #expenseDate (change)="onSelect($event)" name="date" formControlName="date">
+        </ion-col>
+      <ion-col> <input class="clear-input" placeholder="Note" formControlName="note" name="" /></ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="auto">
+        <ion-button id="open-modal" fill="clear" size="small"> <ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>
+           {{selectedCategory.title}} </ion-button>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-button type="submit" [disabled]="parent.invalid" size="small" shape="round">Save</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
 
 
 
@@ -34,10 +39,10 @@
 
         <ion-grid>
           <ion-row>
-            @for (item of categories; track item.label) {
+            @for (item of categories; track item.title) {
             <ion-col (click)="selecteCategory(item)" class="category" size="3">
               <ion-icon  [name]="item.icon"></ion-icon>
-              <p> <ion-note>{{ item.label }}</ion-note> </p>
+              <p> <ion-note>{{ item.title }}</ion-note> </p>
             </ion-col>
             }
           </ion-row>
