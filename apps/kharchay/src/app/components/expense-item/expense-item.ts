@@ -1,12 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { mapCategory, mapSubCategory } from '../../shared/categories';
-import { IExpense } from '@kh/common/api-interface';
-import { IonItem, IonicModule } from '@ionic/angular';
 import { DatePipe, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { IExpense } from '@kh/common/api-interface';
+import { mapCategory, mapSubCategory } from '../../shared/categories';
 import { TruncatePipe } from './truncate.pipe';
-import { doc, updateDoc } from 'firebase/firestore';
-import { SettingsService } from '../../services/settings.service';
 
 
 @Component({
