@@ -31,6 +31,7 @@
     "@angular/platform-browser-dynamic": "17.0.8",
     "@angular/router": "17.0.8",
     "@capacitor/android": "next",
+    "@capacitor/app": "^5.0.6",
     "@capacitor/core": "next",
     "@ionic/angular": "^7.6.3",
     "@ionic/core": "^7.6.3",

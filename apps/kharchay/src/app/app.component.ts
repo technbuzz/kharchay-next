@@ -1,9 +1,11 @@
-import { Component, OnDestroy, Optional } from '@angular/core';
+import { Component, OnDestroy, Optional, ViewChild, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { traceUntilFirst } from '@angular/fire/performance';
+import { App, BackButtonListener } from '@capacitor/app';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
 import { Platform } from '@ionic/angular';
+import { IonRouterOutlet } from '@ionic/angular';
 import { authState } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,6 +18,8 @@ import { map } from 'rxjs/operators';
 export class AppComponent implements OnDestroy {
 
   private readonly userDesposible!: Subscription;
+  @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
+  @ViewChild('outlet') outlet: any
 
 
   constructor(
@@ -34,10 +38,22 @@ export class AppComponent implements OnDestroy {
     //   console.log(c);
     // });
     this.initializeApp();
+    // this.registerHandleBack();
+  }
+
+  ngAfterViewInit() {
+      console.log(this.routerOutlet);
+
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.registerHandleBack();
+      setTimeout(() => {
+
+      console.log(this.routerOutlet);
+        console.log(this.outlet);
+      }, 3000);
       // this.registerBroadcast()
       // this.handleBackButton();
     });
@@ -45,6 +61,15 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.userDesposible.unsubscribe();
+  }
+
+  registerHandleBack() {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      if(!this.routerOutlet?.canGoBack()) {
+        App.exitApp();
+      }
+    })
+
   }
 
   // private registerBroadcast() {
