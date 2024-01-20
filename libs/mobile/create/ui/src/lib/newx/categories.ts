@@ -21,18 +21,9 @@ export interface Category {
       title: 'food',
       icon: 'restaurant-outline',
       categories: [
-        {
-          title: 'breakfast',
-          icon: 'fast-food-outline'
-        },
-        {
-          title: 'lunch',
-          icon: 'fast-food-outline'
-        },
-        {
-          title: 'dinner',
-          icon: 'fast-food-outline'
-        }
+        { title: 'breakfast', icon: '/assets/custom-icons/breakfast.svg' },
+        { title: 'lunch', icon: '/assets/custom-icons/lunch.svg' },
+        { title: 'dinner', icon: '/assets/custom-icons/dinner.svg' }
       ]
     },
     {
@@ -40,11 +31,11 @@ export interface Category {
       icon: 'cart-outline',
       categories: [
 
-      { title: 'bread', icon: 'cart-outline' },
-      { title: 'dairy' , icon: 'cart-outline' },
-      { title: 'fruits' , icon: 'cart-outline' },
+      { title: 'bread', icon: '/assets/custom-icons/bread.svg' },
+      { title: 'dairy' , icon: '/assets/custom-icons/dairy.svg' },
+      { title: 'fruits' , icon: '/assets/custom-icons/fruits.svg' },
       { title: 'general' , icon: 'cart-outline' },
-      { title: 'vegetables' , icon: 'cart-outline' },
+      { title: 'vegetables' , icon: '/assets/custom-icons/vegetables.svg' },
       { title: 'dry fruits' , icon: 'cart-outline' },
       { title: 'other' , icon: 'cart-outline' }
       ]

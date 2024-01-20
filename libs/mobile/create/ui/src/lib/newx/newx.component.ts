@@ -1,64 +1,64 @@
-import { DatePipe } from '@angular/common';
-import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonGrid, IonInput, IonModal, IonicModule } from '@ionic/angular';
-import {format} from 'date-fns/format'
+import { IonModal, IonicModule } from '@ionic/angular';
+import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from './categories';
-
 
 @Component({
   selector: 'kh-newx',
   standalone: true,
-  imports: [IonicModule,DatePipe, ReactiveFormsModule],
+  imports: [IonicModule, DatePipe, TitleCasePipe, ReactiveFormsModule],
   templateUrl: './newx.component.html',
   styleUrl: './newx.component.css'
 })
 export class NewxComponent {
   selectedCategory: Category = { title: 'Grocery', icon: 'cart-outline' }
 
+  selectedSubCategory: Category | undefined
+
+  @ViewChild('inputEl') inputEl!: ElementRef<HTMLInputElement>;
   @ViewChild(IonModal) modal!: IonModal;
   @ViewChild('submodal') submodal!: IonModal;
-  @ViewChild('expenseDate') dateEl!: ElementRef<HTMLInputElement>;
 
   @Input() parent!: UntypedFormGroup;
   @Output() onSubmit = new EventEmitter()
 
-  parentCategory!: Category
-
   ngAfterViewInit() {
-    this.dateEl.nativeElement.value = format(new Date('2024-01-11'), 'yyyy-MM-dd')
+    setTimeout(() => {
+      this.inputEl.nativeElement.focus()
+    }) ;
   }
 
   categories = categories
 
-  onSelect(e:any) {
-
-    console.log(e)
-
+  onSelect(event: Event) {
+    const value = (event as DatetimeCustomEvent).detail.value
+    this.parent.controls['date'].setValue(value)
   }
-
-  date = format(new Date('2024-01-11'), 'yyyy-MM-dd');
 
   selecteCategory(category: Category) {
       this.selectedCategory = category
       this.parent.controls['category'].setValue({ title: category.title })
       this.modal.dismiss()
+  }
 
-      if(category.categories) {
-        this.submodal.present()
-      } else {
-        this.parent.controls['subCategory'].reset()
-      }
-
-      console.log(this.parent.value)
-
-
+  categoryDismissed() {
+    this.selectedSubCategory = undefined
+    if(this.selectedCategory.categories) {
+      this.submodal.present()
+    } else {
+      this.parent.controls['subCategory'].reset()
+    }
+    console.log(this.parent.value)
+    console.log(this.selectedCategory)
   }
 
 
   selectSubCategory(category: Category) {
     this.parent.controls['subCategory'].setValue({ title: category.title })
-      console.log(this.parent.value)
+    this.selectedSubCategory = category
+    console.log(this.parent.value)
     this.submodal.dismiss()
   }
 }

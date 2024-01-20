@@ -19,7 +19,6 @@ export class AppComponent implements OnDestroy {
 
   private readonly userDesposible!: Subscription;
   @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
-  @ViewChild('outlet') outlet: any
 
 
   constructor(
@@ -38,24 +37,12 @@ export class AppComponent implements OnDestroy {
     //   console.log(c);
     // });
     this.initializeApp();
-    // this.registerHandleBack();
-  }
-
-  ngAfterViewInit() {
-      console.log(this.routerOutlet);
-
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.registerHandleBack();
-      setTimeout(() => {
-
-      console.log(this.routerOutlet);
-        console.log(this.outlet);
-      }, 3000);
       // this.registerBroadcast()
-      // this.handleBackButton();
     });
   }
 
@@ -87,16 +74,6 @@ export class AppComponent implements OnDestroy {
   //   }
 
   //   this.handleIntent()
-  // }
-
-  // private handleBackButton() {
-  //   if (this.platform.is('android')) {
-  //     this.platform.backButton.subscribe(() => {
-  //       if (window.location.pathname.includes('home')) {
-  //         navigator.app.exitApp();
-  //       }
-  //     });
-  //   }
   // }
 
   // handleIntent () {
