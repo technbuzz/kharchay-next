@@ -1,19 +1,23 @@
-
 <form [formGroup]="parent" (submit)="onSubmit.emit()">
   <ion-grid>
     <ion-row class="ion-justify-content-center ion-align-items-center">
       <ion-col size="4"  class="price-col">
         <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
-        <input inputmode="numeric" formControlName="price" class="clear-input" placeholder="00" type="text" name="price" id="price" >
+        <input inputmode="numeric" formControlName="price"  class="clear-input" placeholder="00" type="text" name="price" #inputEl >
       </ion-col>
     </ion-row>
 
-    <ion-row class="date-row">
+    <ion-row class="date-row ion-align-items-center">
       <ion-col>
-        <ion-note for="" (click)="expenseDate.showPicker()">📆 {{ parent.get('date')?.value | date }}</ion-note>
-        <input type="date" class="sr-only" #expenseDate (change)="onSelect($event)" name="date" formControlName="date">
+          <ion-datetime-button datetime="datetime" style="width: max-content"></ion-datetime-button>
+
+          <ion-popover [dismissOnSelect]="true" [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime presentation="date" id="datetime" (ionChange)="onSelect($event)"  name="date" formControlName="date"></ion-datetime>
+            </ng-template>
+          </ion-popover>
         </ion-col>
-      <ion-col> <input class="clear-input" placeholder="Note" formControlName="note" name="" /></ion-col>
+      <ion-col> <input class="clear-input" placeholder="Note" formControlName="note" name="note" /></ion-col>
     </ion-row>
 
     <ion-row class="ion-justify-content-between">
