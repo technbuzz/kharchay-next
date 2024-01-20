@@ -19,7 +19,16 @@
     <ion-row class="ion-justify-content-between">
       <ion-col size="auto">
         <ion-button id="open-modal" fill="clear" size="small"> <ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>
-           {{selectedCategory.title}} </ion-button>
+           {{selectedCategory.title}}
+        </ion-button>
+
+        @if(selectedSubCategory; as item){
+          <ion-button disabled color="dark" fill="clear" size="small">
+            <ion-icon slot="start" [src]="item.icon"></ion-icon>
+           {{item.title}}
+          </ion-button>
+        }
+
       </ion-col>
       <ion-col size="auto">
         <ion-button type="submit" [disabled]="parent.invalid" size="small" shape="round">Save</ion-button>
@@ -31,7 +40,7 @@
 
 
 
-  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ion-modal #modal trigger="open-modal" (willDismiss)="categoryDismissed()" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
     <ng-template>
 
       <ion-content>
@@ -42,7 +51,7 @@
             @for (item of categories; track item.title) {
             <ion-col (click)="selecteCategory(item)" class="category" size="3">
               <ion-icon  [name]="item.icon"></ion-icon>
-              <p> <ion-note>{{ item.title }}</ion-note> </p>
+              <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
           </ion-row>
@@ -63,8 +72,8 @@
           <ion-row>
             @for (item of selectedCategory.categories; track item.title) {
             <ion-col (click)="selectSubCategory(item)" class="category" size="3">
-              <ion-icon  [name]="item.icon"></ion-icon>
-              <p> <ion-note>{{ item.title }}</ion-note> </p>
+              <ion-icon  [src]="item.icon"></ion-icon>
+              <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
           </ion-row>
