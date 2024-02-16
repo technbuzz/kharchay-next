@@ -50,7 +50,7 @@ export class RecurringComponent {
   confirm() {
     this.modal.dismiss('confirm name', 'confirm');
   }
-  
+
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {

@@ -1,8 +1,8 @@
-import { ApplicationConfig, importProvidersFrom } from "@angular/core";
-import { provideRouter, withPreloading, PreloadAllModules, RouteReuseStrategy } from "@angular/router";
+import { ApplicationConfig } from "@angular/core";
+import { RouteReuseStrategy, provideRouter } from "@angular/router";
+import { IonicRouteStrategy, provideIonicAngular } from "@ionic/angular/standalone";
 import { appRoutes } from "./app.routes";
 import { firebaseProviders } from "./firebase.providers";
-import { IonicRouteStrategy, provideIonicAngular } from "@ionic/angular/standalone";
 
 export const appConfig: ApplicationConfig = {
   providers: [
