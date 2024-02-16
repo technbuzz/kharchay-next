@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import { query} from '@firebase/firestore';
-import { IonDatetime } from '@ionic/angular';
+import { IonDatetime, IonicModule } from '@ionic/angular';
 import {endOfMonth} from 'date-fns/endOfMonth';
 import {isBefore} from 'date-fns/isBefore';
 import {startOfMonth} from 'date-fns/startOfMonth';
@@ -17,13 +17,29 @@ import { Stepper } from '../shared/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
 import { SettingsService } from '../services/settings.service';
+import { ExpenseItemComponent } from '../components/expense-item/expense-item';
+import { NgSwitch, NgSwitchCase, NgFor, AsyncPipe, DecimalPipe, TitleCasePipe, DatePipe } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @Component({
-  selector: 'kh-filter',
-  templateUrl: './filter.page.html',
-
-  styleUrls: ['./filter.page.scss'],
+    selector: 'kh-filter',
+    templateUrl: './filter.page.html',
+    styleUrls: ['./filter.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NgSwitch,
+        NgSwitchCase,
+        NgFor,
+        ExpenseItemComponent,
+        AsyncPipe,
+        DecimalPipe,
+        TitleCasePipe,
+        DatePipe,
+    ],
 })
 export class FilterPage extends Stepper implements OnInit{
 

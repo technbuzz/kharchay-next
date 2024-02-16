@@ -8,11 +8,11 @@ import { SharedUiNewModule } from '@kh/mobile/shared/ui/new';
 
 
 @NgModule({
-    declarations: [RecurringComponent],
     imports: [
         CommonModule,
         IonicModule,
-        SharedUiNewModule
+        SharedUiNewModule,
+        RecurringComponent
     ],
     exports: [RecurringComponent]
 })

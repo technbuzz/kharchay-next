@@ -21,12 +21,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes),
-  ],
-  declarations: [SummaryPage, PieComponent, DoughnutComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        SummaryPage, PieComponent, DoughnutComponent,
+    ],
 })
 export class SummaryPageModule {}

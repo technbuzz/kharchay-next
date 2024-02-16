@@ -8,14 +8,22 @@ import { getDownloadURL } from '@firebase/storage';
 import { keepUnstableUntilFirst } from '@angular/fire';
 import { startWith, tap } from 'rxjs/operators';
 import { IExpense } from '@kh/common/api-interface';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 const TRANSPARENT_PNG
   = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
 @Component({
-  selector: 'kh-details',
-  templateUrl: './details.page.html',
-  styleUrls: ['./details.page.scss'],
+    selector: 'kh-details',
+    templateUrl: './details.page.html',
+    styleUrls: ['./details.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        NgIf,
+        AsyncPipe,
+    ],
 })
 export class DetailsPage implements OnInit {
 

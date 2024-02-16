@@ -4,7 +4,8 @@ import { buffer, throttleTime, map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Directive({
-  selector: '[app-stream]'
+    selector: '[app-stream]',
+    standalone: true
 })
 export class StreamDirective {
   subscriptions = new Subscription();

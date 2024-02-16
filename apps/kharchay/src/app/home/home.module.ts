@@ -8,17 +8,17 @@ import { ComponentsModule } from '../components/components.module';
 import { StreamDirective } from '../shared/stream.directive';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    IonicModule,
-    ComponentsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: HomePage
-      }
-    ]),
-  ],
-  declarations: [HomePage, StreamDirective]
+    imports: [
+        CommonModule,
+        IonicModule,
+        ComponentsModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: HomePage
+            }
+        ]),
+        HomePage, StreamDirective,
+    ]
 })
 export class HomePageModule { }

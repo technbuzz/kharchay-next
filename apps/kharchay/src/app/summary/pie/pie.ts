@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, SimpleChange } from '@angular/core';
+import { NgFor, NgStyle } from '@angular/common';
 
 interface Slice {
   color: string;
@@ -8,10 +9,12 @@ interface Slice {
 }
 
 @Component({
-  selector: 'pie',
-  templateUrl: 'pie.html',
-  styleUrls: ['pie.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pie',
+    templateUrl: 'pie.html',
+    styleUrls: ['pie.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, NgStyle]
 })
 export class PieComponent {
 

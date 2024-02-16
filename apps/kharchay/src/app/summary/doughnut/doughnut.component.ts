@@ -2,13 +2,14 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { ArcElement, Chart, Legend, PieController, Tooltip } from 'chart.js';
 
 @Component({
-  selector: 'kh-doughnut',
-  template: `
+    selector: 'kh-doughnut',
+    template: `
     <div class="wrapper">
       <canvas #container width="400" height="400"></canvas>
 
     </div>
-  `
+  `,
+    standalone: true
 })
 export class DoughnutComponent implements OnInit, AfterViewInit {
   @Input() set chartData(data: number[]) {
