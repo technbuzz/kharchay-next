@@ -18,6 +18,8 @@ import { SettingsService } from '../services/settings.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StreamDirective } from '../shared/stream.directive';
+import { addIcons } from "ionicons";
+import { funnel, add, search } from "ionicons/icons";
 
 @Component({
     selector: 'kh-home',
@@ -51,7 +53,9 @@ export class HomePage implements OnInit {
     private firestore: Firestore,
     private settingService: SettingsService,
     private createService: CreateService
-  ) {}
+  ) {
+    addIcons({funnel, search, add});
+  }
 
   ngOnInit() {
     this.settingService.getConfig().subscribe((initialSettings) => {

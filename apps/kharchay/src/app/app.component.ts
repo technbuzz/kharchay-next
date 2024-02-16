@@ -4,7 +4,7 @@ import { traceUntilFirst } from '@angular/fire/performance';
 import { App, BackButtonListener } from '@capacitor/app';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
-import { Platform } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { IonRouterOutlet } from '@ionic/angular';
 import { authState } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,8 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'kh-root',
+  imports: [IonicModule],
+  standalone: true,
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnDestroy {
