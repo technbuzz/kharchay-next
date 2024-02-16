@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
 import { of as observableOf } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { files } from './example-data';
 import { EventService } from '../../shared/events.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 /** File node data with possible child nodes. */
 export interface FileNode {
@@ -25,9 +27,11 @@ export interface FlatTreeNode {
 }
 
 @Component({
-  selector: 'kha-events-all',
-  templateUrl: './events-all.component.html',
-  styleUrls: ['./events-all.component.scss']
+    selector: 'kha-events-all',
+    templateUrl: './events-all.component.html',
+    styleUrls: ['./events-all.component.scss'],
+    standalone: true,
+    imports: [MatTreeModule, MatButtonModule, MatIconModule]
 })
 export class EventsAllComponent {
 

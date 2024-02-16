@@ -9,11 +9,21 @@ import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog
 import { Component, OnInit } from '@angular/core';
 import { IEventMonth } from "../../shared/eventMonth.interface";
 import { IEvent } from '../../shared/event.interface';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'kha-events-date',
-  templateUrl: './events-date.component.html',
-  styleUrls: ['./events-date.component.scss']
+    selector: 'kha-events-date',
+    templateUrl: './events-date.component.html',
+    styleUrls: ['./events-date.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, FormsModule, NgIf, MatButtonModule, MatIconModule, MatTableModule]
 })
 export class EventsDateComponent implements OnInit {
 

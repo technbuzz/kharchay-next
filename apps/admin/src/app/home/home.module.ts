@@ -17,17 +17,17 @@ import { FirebaseAdapterService } from '@kh/common/data-adapters';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MatListModule,
-    BreadcrumbsComponent
-  ]
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatProgressBarModule,
+        MatListModule,
+        BreadcrumbsComponent,
+        DashboardComponent
+    ]
 })
 export class HomeModule { }

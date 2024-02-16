@@ -21,32 +21,31 @@ import { EventExpenseListComponent } from './event-expense-list/event-expense-li
 import { EventsAllComponent } from './events-all/events-all.component';
 import { EventsDateComponent } from './events-date/events-date.component';
 import { ExpenseDialogComponent } from './expense-dialog/expense-dialog.component';
-import { ComponentsModule } from '../components/components.module';
+
 
 import { StorageModule } from "@angular/fire/storage";
 
 
 
 @NgModule({
-    declarations: [EventsMainComponent, EventEditDialogComponent, EventExpenseListComponent, EventsAllComponent, EventsDateComponent, ExpenseDialogComponent],
     imports: [
-        CommonModule,
-        EventsRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ComponentsModule,
-        MatTableModule,
-        MatIconModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatInputModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatGridListModule,
-        MatTreeModule,
-        StorageModule
-    ],
+    CommonModule,
+    EventsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatTreeModule,
+    StorageModule,
+    EventsMainComponent, EventEditDialogComponent, EventExpenseListComponent, EventsAllComponent, EventsDateComponent, ExpenseDialogComponent
+],
     providers: [MatDatepickerModule]
 })
 export class EventsModule { }

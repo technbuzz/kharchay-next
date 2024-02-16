@@ -12,16 +12,16 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AuthModule } from '@angular/fire/auth';
 
 @NgModule({
-  declarations: [LoginFormComponent],
-  imports: [
-    CommonModule,
-    LoginRoutingModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    AuthModule
-  ],
+    imports: [
+        CommonModule,
+        LoginRoutingModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        AuthModule,
+        LoginFormComponent
+    ],
 })
 export class LoginModule { }

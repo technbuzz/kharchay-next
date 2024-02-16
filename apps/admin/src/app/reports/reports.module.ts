@@ -11,15 +11,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [ReportsListComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    
-    ReportsRoutingModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule
-  ]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        ReportsRoutingModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        ReportsListComponent
+    ]
 })
 export class ReportsModule { }

@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, query, where } from '@angular/fire/firestore';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import groupBy from "lodash-es/groupBy";
 import { map, mergeAll, pluck } from 'rxjs/operators';
 import { IEvent } from '../../shared/event.interface';
 import { IExpense } from '../../shared/expense.interface';
 import { GeneralService } from '../../shared/general.service';
+import { JsonPipe } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'kha-reports-list',
-  templateUrl: './reports-list.component.html',
-  styleUrls: ['./reports-list.component.scss']
+    selector: 'kha-reports-list',
+    templateUrl: './reports-list.component.html',
+    styleUrls: ['./reports-list.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, JsonPipe]
 })
 export class ReportsListComponent implements OnInit {
 

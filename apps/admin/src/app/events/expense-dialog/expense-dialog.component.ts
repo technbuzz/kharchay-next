@@ -1,14 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IExpense } from '../../shared/expense.interface';
 
 import * as dayjs from 'dayjs'
+import { MatButtonModule } from '@angular/material/button';
+import { SharedCatComponent } from '../../components/shared-cat/shared-cat.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'kha-expense-dialog',
-  templateUrl: './expense-dialog.component.html',
-  styleUrls: ['./expense-dialog.component.scss']
+    selector: 'kha-expense-dialog',
+    templateUrl: './expense-dialog.component.html',
+    styleUrls: ['./expense-dialog.component.scss'],
+    standalone: true,
+    imports: [MatDialogTitle, ReactiveFormsModule, MatDialogContent, MatFormFieldModule, MatInputModule, MatDatepickerModule, SharedCatComponent, MatDialogActions, MatButtonModule]
 })
 export class ExpenseDialogComponent implements OnInit {
 
