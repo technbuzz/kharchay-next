@@ -14,15 +14,15 @@ export const routes: Route[] = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    IonicModule,
-    DynamicPriceModule,
-    NewComponentModule,
-    InvoiceModule,
-    NewxComponent
-  ],
-  declarations: [CreateComponent],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        IonicModule,
+        DynamicPriceModule,
+        NewComponentModule,
+        InvoiceModule,
+        NewxComponent,
+        CreateComponent
+    ],
 })
 export class MobileCreateFeatureModule { }
