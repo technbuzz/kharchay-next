@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, IonicModule } from '@ionic/angular';
 import { CreateService } from '@kh/mobile/create/data-access';
+import { NewxComponent } from '@kh/mobile/create/ui';
 import {formatISO} from 'date-fns/formatISO';
 
 
 @Component({
-  selector: 'kh-create',
-  templateUrl: './create.component.html',
-  styleUrls: ['./create.component.scss'],
+    selector: 'kh-create',
+    templateUrl: './create.component.html',
+    styleUrls: ['./create.component.scss'],
+    standalone: true,
+    imports: [IonicModule, NewxComponent],
 })
 export class CreateComponent {
 

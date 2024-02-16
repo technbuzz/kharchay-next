@@ -1,8 +1,8 @@
 import { Component, VERSION, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common'
+import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common'
 import {  } from "@ionic/core";
 import { SettingsService } from '../services/settings.service';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController, IonicModule } from '@ionic/angular';
 
 import { Auth, getAuth } from '@angular/fire/auth';
 import { AuthService } from '../services/auth.service';
@@ -10,11 +10,14 @@ import { Observable } from 'rxjs';
 import { authState } from 'rxfire/auth';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { map } from 'rxjs/operators';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss']
+    selector: 'app-settings',
+    templateUrl: './settings.page.html',
+    styleUrls: ['./settings.page.scss'],
+    standalone: true,
+    imports: [IonicModule, ReactiveFormsModule, FormsModule, NgIf, AsyncPipe]
 })
 export class SettingsPage implements OnInit {
   version = VERSION.full;

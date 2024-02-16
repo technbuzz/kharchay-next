@@ -21,14 +21,24 @@ import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
 import { tap, map, switchMap, pluck, filter } from 'rxjs/operators';
 import {format} from 'date-fns/format'
-import {Gesture, GestureController} from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { Gesture, GestureController, IonicModule } from '@ionic/angular';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DoughnutComponent } from './doughnut/doughnut.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.page.html',
-  styleUrls: ['./summary.page.scss'],
+    selector: 'app-summary',
+    templateUrl: './summary.page.html',
+    styleUrls: ['./summary.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DoughnutComponent,
+        RouterLink,
+    ],
 })
 export class SummaryPage extends Stepper implements AfterViewInit {
   @ViewChild('dateItem') dateItem: any;

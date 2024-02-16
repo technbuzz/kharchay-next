@@ -8,20 +8,32 @@ import {
   firestoreInstance$,
   getFirestore,
 } from '@angular/fire/firestore';
-import {
-  AlertController,
-} from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { IExpense } from '@kh/common/api-interface';
 import { CreateService } from '@kh/mobile/create/data-access';
 import { Observable } from 'rxjs';
 import { concatMap, first, map} from 'rxjs/operators';
-import {RecurringEvent} from '../components/recurring/recurring.component';
+import { RecurringEvent, RecurringComponent } from '../components/recurring/recurring.component';
 import { SettingsService } from '../services/settings.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { StreamDirective } from '../shared/stream.directive';
+import { addIcons } from "ionicons";
+import { funnel, add, search } from "ionicons/icons";
 
 @Component({
-  selector: 'kh-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+    selector: 'kh-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    standalone: true,
+    imports: [
+        IonicModule,
+        StreamDirective,
+        RouterLink,
+        NgIf,
+        RecurringComponent,
+        AsyncPipe,
+    ],
 })
 export class HomePage implements OnInit {
   app = getFirestore().app;
@@ -41,7 +53,9 @@ export class HomePage implements OnInit {
     private firestore: Firestore,
     private settingService: SettingsService,
     private createService: CreateService
-  ) {}
+  ) {
+    addIcons({funnel, search, add});
+  }
 
   ngOnInit() {
     this.settingService.getConfig().subscribe((initialSettings) => {
