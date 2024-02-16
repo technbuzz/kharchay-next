@@ -20,7 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     standalone: true,
-    imports: [MatToolbarModule, MatButtonModule, MatIconModule, NgIf, MatProgressBarModule, MatSidenavModule, MatListModule, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe]
+    imports: [MatToolbarModule, MatButtonModule, MatIconModule, NgIf, MatProgressBarModule, MatSidenavModule, MatListModule, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
 export class DashboardComponent implements OnInit, AfterContentInit, AfterViewInit {
 
