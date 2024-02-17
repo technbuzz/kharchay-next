@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { EventsMainComponent } from './events-main/events-main.component';
-import { EventExpenseListComponent } from './event-expense-list/event-expense-list.component';
-import { EventsDateComponent } from './events-date/events-date.component';
-import { EventsAllComponent } from './events-all/events-all.component';
-import { TitleResolver } from '../shared/title.resolver';
+import { Routes } from "@angular/router";
+import { EventsMainComponent } from "./events-main/events-main.component";
+import { TitleResolver } from "../shared/title.resolver";
+import { EventsAllComponent } from "./events-all/events-all.component";
+import { EventsDateComponent } from "./events-date/events-date.component";
+import { EventExpenseListComponent } from "./event-expense-list/event-expense-list.component";
 
-
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     data: { title: 'Events' },
@@ -45,9 +43,3 @@ const routes: Routes = [
     ]
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class EventsRoutingModule { }
