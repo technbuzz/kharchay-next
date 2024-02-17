@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EventService } from '../../shared/events.service';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 
 import * as dayjs from "dayjs";
 import { MatDialog } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog.component';
 import { TitleResolver } from '../../shared/title.resolver';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 interface IEventArray {
   title: string,
@@ -23,9 +25,11 @@ interface IEventMonth {
 }
 
 @Component({
-  selector: 'kha-events-main',
-  templateUrl: './events-main.component.html',
-  styleUrls: ['./events-main.component.scss']
+    selector: 'kha-events-main',
+    templateUrl: './events-main.component.html',
+    styleUrls: ['./events-main.component.scss'],
+    standalone: true,
+    imports: [MatGridListModule, MatButtonModule, RouterLink]
 })
 export class EventsMainComponent implements OnInit {
 

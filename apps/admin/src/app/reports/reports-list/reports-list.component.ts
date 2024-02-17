@@ -1,38 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, query, where } from '@angular/fire/firestore';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import groupBy from "lodash-es/groupBy";
 import { map, mergeAll, pluck } from 'rxjs/operators';
 import { IEvent } from '../../shared/event.interface';
 import { IExpense } from '../../shared/expense.interface';
 import { GeneralService } from '../../shared/general.service';
+import { JsonPipe } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'kha-reports-list',
-  templateUrl: './reports-list.component.html',
-  styleUrls: ['./reports-list.component.scss']
+    selector: 'kha-reports-list',
+    templateUrl: './reports-list.component.html',
+    styleUrls: ['./reports-list.component.scss'],
+    standalone: true,
+    imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, JsonPipe]
 })
 export class ReportsListComponent implements OnInit {
 
   expenseCollection: any
   // expenseCollection: AngularFirestoreCollection
   expensesTotal: any
-  
+
   range = new UntypedFormGroup({
     start: new UntypedFormControl(),
     end: new UntypedFormControl()
   });
-  
+
   constructor(private gs: GeneralService, private afs: Firestore) { }
-  
+
   ngOnInit() {
     this.gs.title.next('Reports');
     this.range.get('start')?.setValue(new Date(2018,4,1))
     this.range.get('end')?.setValue(new Date(2020,4,1))
   }
 
-  
+
   closeRange(event: any) {
     this.gs.querying.next(true)
     console.log('event: ', this.range);
@@ -40,14 +45,14 @@ export class ReportsListComponent implements OnInit {
     // this.grabExpenses(start, end)
     this.grabEvents(start, end)
   }
-  
+
   grabExpenses(start:string, end:string) {
-    const ref = collection(this.afs, 'expense'); 
+    const ref = collection(this.afs, 'expense');
     this.expenseCollection = query(ref, where('date','>=', start),where('date', '<=', end))
     this.expenseCollection.valueChanges()
     .pipe(map(
-      (e: IExpense[]) => 
-      e.map(x => { 
+      (e: IExpense[]) =>
+      e.map(x => {
         const date = x.date.toDate();
         const monthYear = `${date.getMonth()}-${date.getFullYear()}`
         // const [ month, year ] = dayjs(date).format('MMMM-YYYY').split('-')
@@ -58,7 +63,7 @@ export class ReportsListComponent implements OnInit {
     .subscribe((result: any) => {
       const monthGrouped = groupBy(result, 'monthYear')
       console.log('monthGrouped: ', monthGrouped);
-  
+
       // this.expensesTotal = this.transformation(monthGrouped)
     })
 
@@ -66,8 +71,8 @@ export class ReportsListComponent implements OnInit {
 
   grabEvents(start: any, end: any) {
     const ref = collection(this.afs, 'events')
-    const eventCol = query(ref, 
-      where('date','>=', start), 
+    const eventCol = query(ref,
+      where('date','>=', start),
       where('date', '<=', end)
     )
 
@@ -77,9 +82,9 @@ export class ReportsListComponent implements OnInit {
       pluck('events'),
       // map((e: IEventMonth) => e.events),
       // mergeMap((x: IEvent[]) => {
-        
+
       //   map(this.calculateEventTotal)
-        
+
       //   // concatMap(this.calculateEventTotal)
       //  debugger
       //  return x
@@ -89,7 +94,7 @@ export class ReportsListComponent implements OnInit {
       this.gs.querying.next(false)
       console.log('resp: ', resp);
     })
-    
+
     collectionData(eventCol)
     // .pipe(
     //   mergeAll(),

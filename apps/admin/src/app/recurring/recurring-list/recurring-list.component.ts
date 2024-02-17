@@ -7,6 +7,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 
 export interface Task {
   id ?: string;
@@ -17,9 +22,11 @@ export interface Task {
 }
 
 @Component({
-  selector: 'kha-recurring-list',
-  templateUrl: './recurring-list.component.html',
-  styleUrls: ['./recurring-list.component.scss']
+    selector: 'kha-recurring-list',
+    templateUrl: './recurring-list.component.html',
+    styleUrls: ['./recurring-list.component.scss'],
+    standalone: true,
+    imports: [MatTableModule, MatSlideToggleModule, MatButtonModule, MatIconModule, RouterLink]
 })
 export class RecurringListComponent implements OnInit {
 

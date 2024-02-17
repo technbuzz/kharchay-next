@@ -11,11 +11,17 @@ import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IEvent } from '../../shared/event.interface';
 import { ICategory } from '@kh/common/api-interface';
+import { DatePipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'kha-event-expense-list',
-  templateUrl: './event-expense-list.component.html',
-  styleUrls: ['./event-expense-list.component.scss']
+    selector: 'kha-event-expense-list',
+    templateUrl: './event-expense-list.component.html',
+    styleUrls: ['./event-expense-list.component.scss'],
+    standalone: true,
+    imports: [MatTableModule, MatButtonModule, MatIconModule, DatePipe]
 })
 export class EventExpenseListComponent implements OnInit {
   displayedColumns: string[] = ['date', 'note', 'price', 'delete'];

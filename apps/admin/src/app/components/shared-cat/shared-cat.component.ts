@@ -1,12 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UntypedFormGroup, ControlContainer } from '@angular/forms';
+import { UntypedFormGroup, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { categories } from '../../shared/categories'
+import { MatOptionModule } from '@angular/material/core';
+import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'shared-cat',
-  templateUrl: './shared-cat.component.html',
-  styleUrls: ['./shared-cat.component.scss']
+    selector: 'shared-cat',
+    templateUrl: './shared-cat.component.html',
+    styleUrls: ['./shared-cat.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, NgIf, TitleCasePipe]
 })
 export class SharedCatComponent implements OnInit {
 

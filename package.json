@@ -11,6 +11,7 @@
     "lint": "nx lint",
     "e2e": "nx e2e",
     "serve:admin": "nx run admin:serve:build",
+    "build:admin": "nx run admin:build:production",
     "story:app": "nx storybook",
     "build:droid": "nx build && npx cap sync android && npx cap open android",
     "explore": "source-map-explorer www/**/*.js --no-border-checks",

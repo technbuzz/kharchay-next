@@ -5,6 +5,8 @@ import { collection, deleteDoc } from 'firebase/firestore';
 import {Observable} from "rxjs";
 import { map } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';
+import { MatButtonModule } from "@angular/material/button";
+import { NgFor, AsyncPipe, DatePipe } from "@angular/common";
 
 export interface Task {
   id : string;
@@ -16,8 +18,15 @@ export interface Task {
 }
 
 @Component({
-  selector: 'kha-task-list',
-  templateUrl: './task-list.component.html',
+    selector: 'kha-task-list',
+    templateUrl: './task-list.component.html',
+    standalone: true,
+    imports: [
+        NgFor,
+        MatButtonModule,
+        AsyncPipe,
+        DatePipe,
+    ],
 })
 export class TaskListComponent implements OnInit {
 
