@@ -6,8 +6,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button';
 import { FirebaseAdapterService } from "@kh/common/data-adapters";
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
-import { map, take, tap } from "rxjs/operators";
+import { catchError, map, take, tap } from "rxjs/operators";
 import {take as loTake } from 'lodash-es'
+import { of } from 'rxjs';
 
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors)
@@ -40,6 +41,7 @@ export class OverviewMonthMiniComponent implements OnInit {
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
       take(1),
       map((values:any) => this.makeArrays(values)),
+      catchError(() => of({chartLabel: [], chartData: []})),
       tap((resp:any) => this.initChart(resp))
     ).subscribe()
     //https://coolors.co/d45088-ddc0bc-a15295-f05f6c-f57b49-f48d3b-23485b-685192

@@ -4,7 +4,7 @@ import { addDoc, updateDoc, collectionData, collection, Firestore, doc, query, w
 import { HttpClient } from '@angular/common/http';
 import { DatabaseAdapter } from './database.adapter';
 import { from, Observable, of } from 'rxjs';
-import { map, mergeMap, toArray, groupBy as rxGroupBy, expand, tap, concatMap } from "rxjs/operators";
+import { map, mergeMap, toArray, groupBy as rxGroupBy, expand, tap, concatMap, catchError } from "rxjs/operators";
 import { getDocs, limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
 import forIn from 'lodash-es/forIn';
@@ -24,9 +24,12 @@ export class FirebaseAdapterService implements DatabaseAdapter {
     await signInWithEmailAndPassword(this.fbAuth, data.email, data.password);
   }
 
-
-  async signOut(): Promise<void> {
+  signOut(): Promise<void> {
     return this.fbAuth.signOut()
+  }
+
+  signOutVoid(): void {
+    this.fbAuth.signOut()
   }
 
   getRecurring(collectionName: string): Observable<[]> {
@@ -128,7 +131,9 @@ export class FirebaseAdapterService implements DatabaseAdapter {
       // where('date', '>=', new Date(this.filter.endDate)),
       // where('category', '==', this.filter.category)
     );
-    return collectionData(newQuery)
+    return collectionData(newQuery).pipe(
+      catchError(() => of([]))
+    )
   }
 
 }

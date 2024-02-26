@@ -29,6 +29,11 @@ export class SupabaseAdapterService implements DatabaseAdapter {
     return this.#supabase.auth.signOut()
   }
 
+  signOutVoid(): void {
+    this.#supabase.auth.signOut()
+  }
+
+
   getRecurring(collectionName: string): Observable<[]> {
 
 

@@ -39,7 +39,6 @@ export class NewComponent implements AfterViewInit, OnInit {
     Object.assign(this.categories, categories);
   }
   ngAfterViewInit(): void {
-    debugger
     this.patchForm(this.parent, this.item)
   }
 

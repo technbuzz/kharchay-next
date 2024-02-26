@@ -17,6 +17,7 @@ import { BreadcrumbsService } from '../shared/breadcrumbs.service';
   imports: [CommonModule, RouterModule],
   styles:[`
       .breadcrumbs {
+        padding: 0.5rem 1rem;
         .breadcrumb {
           display: inline-block;
           margin-right: 1.5em;

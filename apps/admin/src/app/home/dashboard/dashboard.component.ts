@@ -47,13 +47,13 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
   }
 
   ngAfterViewInit(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.route)
-    )
-      .subscribe((rep: ActivatedRoute) => {
-        this.snav.close()
-      })
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd),
+    //   map(() => this.route)
+    // )
+    //   .subscribe((rep: ActivatedRoute) => {
+    //     this.snav.close()
+    //   })
   }
   ngAfterContentInit(): void {
     this.title$ = this.gs.title;
@@ -72,8 +72,8 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
     this.vc.createComponent(bcrumbComponent)
   }
 
-  async logout() {
-    await this.dbAdapter.signOut()
+  logout() {
+    this.dbAdapter.signOutVoid()
     this.router.navigate(['/login'])
   }
 

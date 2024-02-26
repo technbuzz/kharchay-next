@@ -60,7 +60,6 @@ export class EventExpenseListComponent implements OnInit {
   }
 
   createExpense (expense: any) {
-    debugger
     const dialogRef = this.dialog.open(ExpenseDialogComponent, {
       width: '400px',
       disableClose: true,
@@ -74,7 +73,7 @@ export class EventExpenseListComponent implements OnInit {
 
   addExpense(expense: IExpense){
     if (!expense) return
-    // const expenseInstance = new Expense(expense.price, expense.note, '', expense.category, expense.date, 
+    // const expenseInstance = new Expense(expense.price, expense.note, '', expense.category, expense.date,
     //   expense.subCategory, expense.fixed
     // )
     // FIXME: fix for new api

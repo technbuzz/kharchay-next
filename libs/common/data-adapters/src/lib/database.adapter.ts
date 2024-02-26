@@ -12,6 +12,8 @@ export abstract class DatabaseAdapter {
 
   abstract signOut(): Promise<void>
 
+  abstract signOutVoid(): void
+
   abstract getRecurring(collectionName: string): Observable<[]>
 
   abstract updateDoc(collectionName:string, id: string, body: any): Promise<void>

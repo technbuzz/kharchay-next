@@ -11,7 +11,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login-form/login-form.component').then(m => m.LoginFormComponent)
+    loadComponent: () => import('./login/login-form/login-form.component').then(m => m.LoginFormComponent)
   },
 
   {
