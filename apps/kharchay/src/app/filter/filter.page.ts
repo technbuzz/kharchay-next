@@ -20,7 +20,8 @@ import { SettingsService } from '../services/settings.service';
 import { ExpenseItemComponent } from '../components/expense-item/expense-item';
 import { NgSwitch, NgSwitchCase, NgFor, AsyncPipe, DecimalPipe, TitleCasePipe, DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { addIcons } from "ionicons";
+import { calendar, pieChart } from "ionicons/icons";
 
 @Component({
     selector: 'kh-filter',
@@ -66,6 +67,7 @@ export class FilterPage extends Stepper implements OnInit{
   constructor(private route: ActivatedRoute, private router: Router, private afs: Firestore) {
     super();
     Object.assign(this.categories, categories);
+    addIcons({pieChart, calendar});
    }
 
   ngOnInit() {

@@ -5,7 +5,7 @@ import { IonModal, IonicModule } from '@ionic/angular';
 import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from './categories';
 import { addIcons } from "ionicons";
-import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline } from "ionicons/icons";
+import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
 
 @Component({
   selector: 'kh-newx',
@@ -27,7 +27,7 @@ export class NewxComponent {
   @Output() onSubmit = new EventEmitter()
 
   constructor() {
-    addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline})
+    addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
   }
 
   ngAfterViewInit() {

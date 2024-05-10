@@ -25,6 +25,9 @@ import { Gesture, GestureController, IonicModule } from '@ionic/angular';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DoughnutComponent } from './doughnut/doughnut.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { addIcons } from "ionicons";
+import { listOutline } from "ionicons/icons";
+
 
 
 @Component({
@@ -55,6 +58,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
   private expensesRef = collection(this.afs, 'expense');
   constructor(private afs: Firestore, private gestureCtrl: GestureController, private route: ActivatedRoute) {
     super();
+    addIcons({listOutline});
   }
 
   ngAfterViewInit() {
