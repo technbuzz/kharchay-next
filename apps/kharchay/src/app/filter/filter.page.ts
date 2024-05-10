@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import { query} from '@firebase/firestore';
-import { IonDatetime, IonicModule } from '@ionic/angular';
+import { IonDatetime, IonicModule, SegmentChangeEventDetail } from '@ionic/angular';
 import {endOfMonth} from 'date-fns/endOfMonth';
 import {isBefore} from 'date-fns/isBefore';
 import {startOfMonth} from 'date-fns/startOfMonth';
@@ -107,6 +107,9 @@ export class FilterPage extends Stepper implements OnInit{
 
   }
 
+  onSegmentChange(event: any) {
+    this.searchType = event.detail.value
+  }
 
   public loadBasic() {
     const basicStartMonth = startOfMonth(new Date(this.filter.month));
