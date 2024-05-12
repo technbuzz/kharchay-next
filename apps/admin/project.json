@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/admin/src",
   "prefix": "kha",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -83,6 +84,5 @@
         "jestConfig": "apps/admin/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

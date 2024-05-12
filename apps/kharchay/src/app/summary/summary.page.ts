@@ -89,11 +89,14 @@ export class SummaryPage extends Stepper implements AfterViewInit {
 
 
 
+        // this.route.params.pipe(pluck('id'), filter(Boolean), tap((v: any) => this.month = v))
     merge(
-      fromEvent(this.expenseDate.nativeElement, 'change')
-        .pipe(map((v: any) => v.currentTarget.value)),
-      this.route.params.pipe(pluck('id'), filter(Boolean), tap((v: any) => this.month = v))
+        fromEvent(this.expenseDate.nativeElement, 'change').pipe(
+          map((v: any) => v.currentTarget.value)
+        ),
+        // this.route.params.pipe(pluck('id'), filter(Boolean), tap((v: any) => this.month = v))
     ).pipe(
+      tap(v => { console.log('this.selledMonth', this.selectedMonth)}),
       map(value => {
         const start = startOfMonth(new Date(value));
         const end = endOfMonth(new Date(this.month));

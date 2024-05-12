@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/kharchay/src",
   "prefix": "kh",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -146,6 +147,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }

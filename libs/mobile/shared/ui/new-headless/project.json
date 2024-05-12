@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/mobile/shared/ui/new-headless/src",
   "prefix": "kh",
+  "tags": [],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -17,6 +18,5 @@
     "lint": {
       "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": []
+  }
 }

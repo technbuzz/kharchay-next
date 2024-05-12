@@ -4,6 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/mobile/shared/ui/new/src",
   "prefix": "kh",
+  "tags": ["type-ui"],
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
@@ -54,6 +55,5 @@
         "command": "test-storybook -c libs/mobile/shared/ui/new/.storybook --url=http://localhost:4400"
       }
     }
-  },
-  "tags": ["type-ui"]
+  }
 }
