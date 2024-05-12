@@ -221,7 +221,8 @@ export class FilterPage extends Stepper implements OnInit {
     }
 
     navigateToGraph() {
-        this.router.navigate(["/summary", lightFormat(parseISO(this.filter.month), 'yyyy-MM')])
+        const selectedMonth =  lightFormat(parseISO(this.filter.month), 'yyyy-MM')
+        this.router.navigate(["/summary"], { queryParams: { selectedMonth } } )
     }
 
 }
