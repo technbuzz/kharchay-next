@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
-import { query} from '@firebase/firestore';
-import { IonDatetime, IonicModule, SegmentChangeEventDetail } from '@ionic/angular';
-import {endOfMonth} from 'date-fns/endOfMonth';
-import {isBefore} from 'date-fns/isBefore';
-import {startOfMonth} from 'date-fns/startOfMonth';
-import {lightFormat} from 'date-fns/lightFormat';
-import {parseISO} from 'date-fns/parseISO';
-import {parse} from 'date-fns/parse';
+import { query } from '@firebase/firestore';
+import { IonNote, SegmentChangeEventDetail } from '@ionic/angular/standalone';
+import { endOfMonth } from 'date-fns/endOfMonth';
+import { isBefore } from 'date-fns/isBefore';
+import { startOfMonth } from 'date-fns/startOfMonth';
+import { lightFormat } from 'date-fns/lightFormat';
+import { parseISO } from 'date-fns/parseISO';
+import { parse } from 'date-fns/parse';
 
 import { Observable, map } from 'rxjs';
 import { BaseExpense } from '../home/expense-base.model';
@@ -22,6 +22,7 @@ import { NgSwitch, NgSwitchCase, NgFor, AsyncPipe, DecimalPipe, TitleCasePipe, D
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { addIcons } from "ionicons";
 import { calendar, pieChart } from "ionicons/icons";
+import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSegment, IonSegmentButton, IonList, IonItem, IonLabel, IonButton, IonIcon, IonPopover, IonDatetime, IonSelect, IonSelectOption, IonFab, IonFabButton } from "@ionic/angular/standalone";
 
 @Component({
     selector: 'kh-filter',
@@ -29,7 +30,6 @@ import { calendar, pieChart } from "ionicons/icons";
     styleUrls: ['./filter.page.scss'],
     standalone: true,
     imports: [
-        IonicModule,
         ReactiveFormsModule,
         FormsModule,
         NgSwitch,
@@ -40,167 +40,188 @@ import { calendar, pieChart } from "ionicons/icons";
         DecimalPipe,
         TitleCasePipe,
         DatePipe,
+        IonHeader,
+        IonToolbar,
+        IonButtons,
+        IonBackButton,
+        IonTitle,
+        IonContent,
+        IonSegment,
+        IonSegmentButton,
+        IonList,
+        IonItem,
+        IonLabel,
+        IonButton,
+        IonIcon,
+        IonPopover,
+        IonDatetime,
+        IonSelect,
+        IonSelectOption,
+        IonFab,
+        IonFabButton,
+        IonNote
     ],
 })
-export class FilterPage extends Stepper implements OnInit{
+export class FilterPage extends Stepper implements OnInit {
 
-  @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
-
-
-  settingService = inject(SettingsService)
-  $configs = toSignal(this.settingService.getConfig())
-  categories: any = [];
-
-  searchType = 'basic';
-  filter = {
-    startDate: '',
-    endDate: '',
-    category: '',
-    month: new Date().toISOString()
-  };
-
-  expenses$!: Observable<BaseExpense[]>;
-  expRef: any;
-  total = 0;
+    @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private afs: Firestore) {
-    super();
-    Object.assign(this.categories, categories);
-    addIcons({pieChart, calendar});
-   }
+    settingService = inject(SettingsService)
+    $configs = toSignal(this.settingService.getConfig())
+    categories: any = [];
 
-  ngOnInit() {
-    const date = this.route.snapshot.params['id']
-    if(date) {
-      this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString()
+    searchType = 'basic';
+    filter = {
+        startDate: '',
+        endDate: '',
+        category: '',
+        month: new Date().toISOString()
+    };
+
+    expenses$!: Observable<BaseExpense[]>;
+    expRef: any;
+    total = 0;
+
+
+    constructor(private route: ActivatedRoute, private router: Router, private afs: Firestore) {
+        super();
+        Object.assign(this.categories, categories);
+        addIcons({ pieChart, calendar });
+        addIcons({ calendar, pieChart });
     }
-    this.loadBasic();
-  }
 
-  async fixPrice() {
-    const batcher = writeBatch(this.afs)
+    ngOnInit() {
+        const date = this.route.snapshot.params['id']
+        if (date) {
+            this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString()
+        }
+        this.loadBasic();
+    }
 
-    const basicStartMonth = startOfMonth(new Date(this.filter.month));
-    const basicEndMonth = endOfMonth(new Date(this.filter.month));
-    const expenseGroup = collection(this.afs, 'expense')
-    const expenseQuery = query(
-      expenseGroup,
-      where('date', '>=', basicStartMonth),
-      where('date', '<=', basicEndMonth),
-    )
+    async fixPrice() {
+        const batcher = writeBatch(this.afs)
 
-    // const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
-    collectionData(expenseQuery, { idField: 'id' }).subscribe(expense => {
-      expense.forEach(item => {
-        console.log(item)
-        batcher.update(doc(this.afs, `expense/${item.id}`), {
-          price: Number(item['price'])
+        const basicStartMonth = startOfMonth(new Date(this.filter.month));
+        const basicEndMonth = endOfMonth(new Date(this.filter.month));
+        const expenseGroup = collection(this.afs, 'expense')
+        const expenseQuery = query(
+            expenseGroup,
+            where('date', '>=', basicStartMonth),
+            where('date', '<=', basicEndMonth),
+        )
+
+        // const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
+        collectionData(expenseQuery, { idField: 'id' }).subscribe(expense => {
+            expense.forEach(item => {
+                console.log(item)
+                batcher.update(doc(this.afs, `expense/${item.id}`), {
+                    price: Number(item['price'])
+                })
+            })
+
         })
-      })
-
-    })
 
 
-    const resp = await batcher.commit()
-    console.log('batch updated', resp)
+        const resp = await batcher.commit()
+        console.log('batch updated', resp)
 
-  }
-
-  onSegmentChange(event: any) {
-    this.searchType = event.detail.value
-  }
-
-  public loadBasic() {
-    const basicStartMonth = startOfMonth(new Date(this.filter.month));
-    const basicEndMonth = endOfMonth(new Date(this.filter.month));
-
-    this.loadResults({startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString()});
-
-    const ref = collection(this.afs, 'expense');
-    this.expRef = query(ref,
-      where('date', '>=', basicStartMonth),
-      where('date', '<=', basicEndMonth)
-    );
-
-
-    // Finding Total
-    this.findTotal();
-    // this.findTest()
-  }
-
-  async fixPriceItem(item: IExpense) {
-    const resp = await updateDoc(doc(this.afs, `expense/${item.id}`), {
-      price: Number(item.price)
-    })
-
-    console.log('updated', resp)
-
-
-  }
-
-  public loadResults(event:any) {
-    // Remove following lines after tesing
-    if (event && event.startDate && event.endDate) {
-      this.filter.startDate = event.startDate;
-      this.filter.endDate = event.endDate;
     }
 
-    if (!this.filter.startDate || !this.filter.endDate || !this.filter.category) {
-      return;
+    onSegmentChange(event: any) {
+        this.searchType = event.detail.value
     }
 
-    if (isBefore(new Date(this.filter.endDate), new Date(this.filter.startDate))) {
-      // this.toastCtrl.create({
-      //   message: 'Note: Start Date cannot be set in the future.',
-      //   position: 'bottom',
-      //   showCloseButton: true
-      // }).present();
+    public loadBasic() {
+        const basicStartMonth = startOfMonth(new Date(this.filter.month));
+        const basicEndMonth = endOfMonth(new Date(this.filter.month));
 
-      return;
+        this.loadResults({ startDate: basicStartMonth.toISOString(), endDate: basicEndMonth.toISOString() });
+
+        const ref = collection(this.afs, 'expense');
+        this.expRef = query(ref,
+            where('date', '>=', basicStartMonth),
+            where('date', '<=', basicEndMonth)
+        );
+
+
+        // Finding Total
+        this.findTotal();
+        // this.findTest()
     }
 
-    const ref = collection(this.afs, 'expense');
-    this.expRef = query(ref,
-      where('date', '>=', new Date(this.filter.startDate)),
-      where('date', '<=', new Date(this.filter.endDate)),
-      where('category', '==', this.filter.category),
-      orderBy('date', 'desc')
-    );
-    this.findTotal();
-  }
+    async fixPriceItem(item: IExpense) {
+        const resp = await updateDoc(doc(this.afs, `expense/${item.id}`), {
+            price: Number(item.price)
+        })
 
-  async findTest() {
-    const querySnapshot = await getDocs(this.expRef);
-    console.log(querySnapshot)
-    querySnapshot.forEach((doc) => {
+        console.log('updated', resp)
 
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
 
-  }
-
-  async findTotal() {
-    const snapshot = await getAggregateFromServer(this.expRef, {
-      total: sum('price')
-    })
-
-    this.total = snapshot.data().total
-    this.expenses$ = collectionData(this.expRef, { idField: 'id' })
-  }
-
-  async deleteExpense(item: IExpense) {
-    if(this.$configs()?.deleteRights) {
-      const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
-      console.log(item.id, resp, 'deleted')
-    } else {
-      console.log('No Delete rights')
     }
-  }
 
-  navigateToGraph() {
-    this.router.navigate(["/summary", lightFormat(parseISO(this.filter.month), 'yyyy-MM')])
-  }
+    public loadResults(event: any) {
+        // Remove following lines after tesing
+        if (event && event.startDate && event.endDate) {
+            this.filter.startDate = event.startDate;
+            this.filter.endDate = event.endDate;
+        }
+
+        if (!this.filter.startDate || !this.filter.endDate || !this.filter.category) {
+            return;
+        }
+
+        if (isBefore(new Date(this.filter.endDate), new Date(this.filter.startDate))) {
+            // this.toastCtrl.create({
+            //   message: 'Note: Start Date cannot be set in the future.',
+            //   position: 'bottom',
+            //   showCloseButton: true
+            // }).present();
+
+            return;
+        }
+
+        const ref = collection(this.afs, 'expense');
+        this.expRef = query(ref,
+            where('date', '>=', new Date(this.filter.startDate)),
+            where('date', '<=', new Date(this.filter.endDate)),
+            where('category', '==', this.filter.category),
+            orderBy('date', 'desc')
+        );
+        this.findTotal();
+    }
+
+    async findTest() {
+        const querySnapshot = await getDocs(this.expRef);
+        console.log(querySnapshot)
+        querySnapshot.forEach((doc) => {
+
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+
+    }
+
+    async findTotal() {
+        const snapshot = await getAggregateFromServer(this.expRef, {
+            total: sum('price')
+        })
+
+        this.total = snapshot.data().total
+        this.expenses$ = collectionData(this.expRef, { idField: 'id' })
+    }
+
+    async deleteExpense(item: IExpense) {
+        if (this.$configs()?.deleteRights) {
+            const resp = await deleteDoc(doc(this.afs, `expense/${item.id}`))
+            console.log(item.id, resp, 'deleted')
+        } else {
+            console.log('No Delete rights')
+        }
+    }
+
+    navigateToGraph() {
+        this.router.navigate(["/summary", lightFormat(parseISO(this.filter.month), 'yyyy-MM')])
+    }
 
 }

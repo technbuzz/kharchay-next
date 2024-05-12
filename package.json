@@ -34,7 +34,7 @@
     "@capacitor/android": "next",
     "@capacitor/app": "^5.0.6",
     "@capacitor/core": "next",
-    "@ionic/angular": "^7.6.3",
+    "@ionic/angular": "^8.1.1",
     "@ionic/core": "^7.6.3",
     "@nx/angular": "17.2.8",
     "@supabase/supabase-js": "^2.39.2",

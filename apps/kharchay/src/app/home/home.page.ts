@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  Firestore,
-  firestoreInstance$,
-  getFirestore,
+    collection,
+    collectionData,
+    deleteDoc,
+    doc,
+    Firestore,
+    firestoreInstance$,
+    getFirestore,
 } from '@angular/fire/firestore';
-import { AlertController, IonicModule } from '@ionic/angular';
+import { AlertController } from '@ionic/angular/standalone';
+import { IonHeader, IonButtons, IonIcon, IonTitle, IonContent, IonFab, IonRouterLink, IonToolbar, IonButton, IonFabButton } from '@ionic/angular/standalone'
 import { IExpense } from '@kh/common/api-interface';
 import { CreateService } from '@kh/mobile/create/data-access';
 import { Observable } from 'rxjs';
-import { concatMap, first, map} from 'rxjs/operators';
+import { concatMap, first, map } from 'rxjs/operators';
 import { RecurringEvent, RecurringComponent } from '../components/recurring/recurring.component';
 import { SettingsService } from '../services/settings.service';
 import { NgIf, AsyncPipe } from '@angular/common';
@@ -27,135 +28,152 @@ import { funnel, add, search } from "ionicons/icons";
     styleUrls: ['home.page.scss'],
     standalone: true,
     imports: [
-        IonicModule,
+        IonHeader,
+        IonButtons,
+        IonIcon,
+        IonTitle,
+        IonContent,
+        IonFab,
+        // IonicModule,
         StreamDirective,
         RouterLink,
         NgIf,
         RecurringComponent,
         AsyncPipe,
+        IonRouterLink,
+        IonHeader,
+        IonToolbar,
+        IonButtons,
+        IonButton,
+        IonIcon,
+        IonTitle,
+        IonContent,
+        IonFab,
+        IonFabButton
     ],
 })
 export class HomePage implements OnInit {
-  app = getFirestore().app;
-  recurringLoading = false;
-  dynamicPricing = true;
+    app = getFirestore().app;
+    recurringLoading = false;
+    dynamicPricing = true;
 
-  expCollRef = firestoreInstance$.pipe(
-    first(),
-    concatMap((firestore) => collectionData(collection(firestore, 'expense')))
-  );
-  expenses!: Observable<IExpense[]>;
-  recurringExpenses!: Observable<IExpense[]>;
-  reccuringExpenseId: string | undefined = undefined;
-
-  constructor(
-    private alertCtrl: AlertController,
-    private firestore: Firestore,
-    private settingService: SettingsService,
-    private createService: CreateService
-  ) {
-    addIcons({funnel, search, add});
-  }
-
-  ngOnInit() {
-    this.settingService.getConfig().subscribe((initialSettings) => {
-      this.dynamicPricing = initialSettings.dynamicPricing;
-
-    });
-
-    // dynamicPricing event management
-    this.settingService.inputBS$.subscribe((config) => {
-      this.dynamicPricing = config.dynamicPricing;
-    });
-
-    this.checkRecurring();
-
-    // this.ionModalController.create({
-
-    //  })
-  }
-
-  public async delete(item: IExpense) {
-    // this.expCollRef.doc('yourid').delete();
-    const confirm = await this.alertCtrl.create({
-      subHeader: 'Do you really want to delete',
-      buttons: [
-        {
-          text: 'Cancel',
-        },
-        {
-          text: 'Yes',
-          handler: () => this.deleteResource(item),
-        },
-      ],
-    });
-    confirm.present();
-  }
-
-  checkRecurring() {
-    this.recurringExpenses = collectionData(
-      collection(this.firestore, 'tasks')
-    ).pipe(
-      map((item) =>
-        item.map((expense) => {
-          return {
-            ...expense,
-            date: expense['date'].toDate(),
-          } as IExpense;
-        })
-      )
+    expCollRef = firestoreInstance$.pipe(
+        first(),
+        concatMap((firestore) => collectionData(collection(firestore, 'expense')))
     );
-  }
+    expenses!: Observable<IExpense[]>;
+    recurringExpenses!: Observable<IExpense[]>;
+    reccuringExpenseId: string | undefined = undefined;
 
-  async deleteResource(item: any) {
-    // FIXME: below is broken code kindly fix it
-    // await deleteDoc(doc(item.id));
-    // this.expCollRef.doc(item.id).delete();
-    // FIXME: Refactor this subscription
-    // if(!item.imageName) {return;}
-    // const imagesRef = ref(this.storage, `receipts/${item.imageName}`);
-    // deleteObject(imagesRef).then()
-    // this.storage
-    // .ref(`receipts/${item.imageName}`)
-    // .delete()
-    // .subscribe(
-    //   resp => {
-    //     console.log('resource deleted', resp);
-    //   },
-    //   error => console.log(error)
-    // );
-  }
+    constructor(
+        private alertCtrl: AlertController,
+        private firestore: Firestore,
+        private settingService: SettingsService,
+        private createService: CreateService
+    ) {
+        addIcons({ funnel, search, add });
+        addIcons({ funnel, search, add });
+    }
 
-  // The recurring.component.ts already takes care of
-  // fixed and non fixed item
-  async addRecurring(event: RecurringEvent) {
-    this.recurringLoading = true;
-    await this.createService.add(event.item)
-    await this.deleteRecurring(event.documentToBeDeletedID)
-    this.recurringLoading = false;
-  }
+    ngOnInit() {
+        this.settingService.getConfig().subscribe((initialSettings) => {
+            this.dynamicPricing = initialSettings.dynamicPricing;
 
-  deleteRecurring(id: string | undefined): Promise<void> {
-    return deleteDoc(doc(this.firestore, `tasks/${id}`));
-  }
+        });
 
-  async addTasks() {
-    // FIXME:
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
-    // this.showSubCategory ? this.selectedSubCategory : null, true
-    // );
-    // try {
-    // const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
-    // console.log('response: ', response);
-    // } catch (error) {
-    // console.log('error: ', error);
-    // }
-  }
+        // dynamicPricing event management
+        this.settingService.inputBS$.subscribe((config) => {
+            this.dynamicPricing = config.dynamicPricing;
+        });
 
-  trackByFn(index: any, item: IExpense) {
-    return item.id;
-  }
+        this.checkRecurring();
+
+        // this.ionModalController.create({
+
+        //  })
+    }
+
+    public async delete(item: IExpense) {
+        // this.expCollRef.doc('yourid').delete();
+        const confirm = await this.alertCtrl.create({
+            subHeader: 'Do you really want to delete',
+            buttons: [
+                {
+                    text: 'Cancel',
+                },
+                {
+                    text: 'Yes',
+                    handler: () => this.deleteResource(item),
+                },
+            ],
+        });
+        confirm.present();
+    }
+
+    checkRecurring() {
+        this.recurringExpenses = collectionData(
+            collection(this.firestore, 'tasks')
+        ).pipe(
+            map((item) =>
+                item.map((expense) => {
+                    return {
+                        ...expense,
+                        date: expense['date'].toDate(),
+                    } as IExpense;
+                })
+            )
+        );
+    }
+
+    async deleteResource(item: any) {
+        // FIXME: below is broken code kindly fix it
+        // await deleteDoc(doc(item.id));
+        // this.expCollRef.doc(item.id).delete();
+        // FIXME: Refactor this subscription
+        // if(!item.imageName) {return;}
+        // const imagesRef = ref(this.storage, `receipts/${item.imageName}`);
+        // deleteObject(imagesRef).then()
+        // this.storage
+        // .ref(`receipts/${item.imageName}`)
+        // .delete()
+        // .subscribe(
+        //   resp => {
+        //     console.log('resource deleted', resp);
+        //   },
+        //   error => console.log(error)
+        // );
+    }
+
+    // The recurring.component.ts already takes care of
+    // fixed and non fixed item
+    async addRecurring(event: RecurringEvent) {
+        this.recurringLoading = true;
+        await this.createService.add(event.item)
+        await this.deleteRecurring(event.documentToBeDeletedID)
+        this.recurringLoading = false;
+    }
+
+    deleteRecurring(id: string | undefined): Promise<void> {
+        return deleteDoc(doc(this.firestore, `tasks/${id}`));
+    }
+
+    async addTasks() {
+        // FIXME:
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // const expenseInstance = new Expense(100, 'Shared Wifi Monthly Fee with neighbor', null, { title: 'bills' }, new Date(null),
+        // this.showSubCategory ? this.selectedSubCategory : null, true
+        // );
+        // try {
+        // const response = await addDoc(collection(this.firestore, 'recurring'), { ...expenseInstance });
+        // console.log('response: ', response);
+        // } catch (error) {
+        // console.log('error: ', error);
+        // }
+    }
+
+    trackByFn(index: any, item: IExpense) {
+        return item.id;
+    }
 }
 // 304 lines

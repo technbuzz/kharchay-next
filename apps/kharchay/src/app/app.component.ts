@@ -4,99 +4,98 @@ import { traceUntilFirst } from '@angular/fire/performance';
 import { App, BackButtonListener } from '@capacitor/app';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
-import { IonicModule, Platform } from '@ionic/angular';
-import { IonRouterOutlet } from '@ionic/angular';
+import { Platform } from '@ionic/angular/standalone';
 import { authState } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { IonApp, IonRouterOutlet } from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'kh-root',
-  imports: [IonicModule],
-  standalone: true,
-  templateUrl: 'app.component.html'
+    selector: 'kh-root',
+    imports: [IonApp, IonRouterOutlet],
+    standalone: true,
+    templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnDestroy {
 
-  private readonly userDesposible!: Subscription;
-  @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
+    private readonly userDesposible!: Subscription;
+    @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
 
 
-  constructor(
-    private platform: Platform,
-    @Optional() private afAuth: Auth,
-    // private webIntent: WebIntent,
-  ) {
+    constructor(
+        private platform: Platform,
+        @Optional() private afAuth: Auth,
+        // private webIntent: WebIntent,
+    ) {
 
-    this.userDesposible = authState(this.afAuth).pipe(
-      traceUntilFirst('auth'),
-      map(u => !!u)
-    ).subscribe(isLoggedIn => {
-      console.log('isLoggedIn: ', isLoggedIn);
-    });
-    // this.afAuth.authState.subscribe(c => {
-    //   console.log(c);
-    // });
-    this.initializeApp();
-  }
+        this.userDesposible = authState(this.afAuth).pipe(
+            traceUntilFirst('auth'),
+            map(u => !!u)
+        ).subscribe(isLoggedIn => {
+            console.log('isLoggedIn: ', isLoggedIn);
+        });
+        // this.afAuth.authState.subscribe(c => {
+        //   console.log(c);
+        // });
+        this.initializeApp();
+    }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.registerHandleBack();
-      // this.registerBroadcast()
-    });
-  }
+    initializeApp() {
+        this.platform.ready().then(() => {
+            this.registerHandleBack();
+            // this.registerBroadcast()
+        });
+    }
 
-  ngOnDestroy(): void {
-    this.userDesposible.unsubscribe();
-  }
+    ngOnDestroy(): void {
+        this.userDesposible.unsubscribe();
+    }
 
-  registerHandleBack() {
-    this.platform.backButton.subscribeWithPriority(-1, () => {
-      if(!this.routerOutlet?.canGoBack()) {
-        App.exitApp();
-      }
-    })
+    registerHandleBack() {
+        this.platform.backButton.subscribeWithPriority(-1, () => {
+            if (!this.routerOutlet?.canGoBack()) {
+                App.exitApp();
+            }
+        })
 
-  }
+    }
 
-  // private registerBroadcast() {
-  //   if (this.platform.is('cordova')) {
-  //     window['plugins'].intentShim.registerBroadcastReceiver({
-  //       filterActions: [
-  //         'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
-  //       ]
-  //     },
-  //       function (intent) {
-  //         //  Broadcast received
-  //         console.log('Received Intent: ' + JSON.stringify(intent.extras))
-  //       }
-  //     )
-  //   }
+    // private registerBroadcast() {
+    //   if (this.platform.is('cordova')) {
+    //     window['plugins'].intentShim.registerBroadcastReceiver({
+    //       filterActions: [
+    //         'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
+    //       ]
+    //     },
+    //       function (intent) {
+    //         //  Broadcast received
+    //         console.log('Received Intent: ' + JSON.stringify(intent.extras))
+    //       }
+    //     )
+    //   }
 
-  //   this.handleIntent()
-  // }
+    //   this.handleIntent()
+    // }
 
-  // handleIntent () {
-  //   this.webIntent.onIntent().subscribe(intent => {
-  //     this.utils.image.next(intent.extras)
-  //     console.log(intent)
-  //   }, error => {
-  //     console.log(error)
-  //   })
-  // }
+    // handleIntent () {
+    //   this.webIntent.onIntent().subscribe(intent => {
+    //     this.utils.image.next(intent.extras)
+    //     console.log(intent)
+    //   }, error => {
+    //     console.log(error)
+    //   })
+    // }
 
-  // registerShortcuts() {
-  //   if (this.platform.is('cordova')) {
-  //     // @ts-ignore
-  //     window.plugins.Shortcuts.supportsDynamic(supported => {
-  //       console.log('supported: Dynamic ', supported);
-  //     }, error => {
-  //       console.log('error: ', error);
-  //     })
-  //   }
-  // }
+    // registerShortcuts() {
+    //   if (this.platform.is('cordova')) {
+    //     // @ts-ignore
+    //     window.plugins.Shortcuts.supportsDynamic(supported => {
+    //       console.log('supported: Dynamic ', supported);
+    //     }, error => {
+    //       console.log('error: ', error);
+    //     })
+    //   }
+    // }
 }
 
 
