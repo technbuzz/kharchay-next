@@ -8,12 +8,11 @@
 </ion-header>
 
 <ion-content padding>
-  <pre> selectedMonth{{ selectedMonth }} </pre>
   <ion-list>
 
     <ion-item #dateItem>
       <ion-label stacked>Month</ion-label>
-      <input type="month" [(ngModel)]="month" #expenseDate>
+      <input type="month" [value]="month()" #expenseDate>
     </ion-item>
   </ion-list>
 
@@ -22,7 +21,7 @@
   <kh-doughnut [chartLabel]="chartLabels" [chartData]="chartData"></kh-doughnut>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-<ion-fab-button [routerLink]='["/filter", month]'>
+    <ion-fab-button [routerLink]='["/filter"]' [queryParams]="{ month: expenseDate.value }">
       <ion-icon name="list-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

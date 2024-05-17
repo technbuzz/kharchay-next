@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, input } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
@@ -23,6 +23,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { addIcons } from "ionicons";
 import { calendar, pieChart } from "ionicons/icons";
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSegment, IonSegmentButton, IonList, IonItem, IonLabel, IonButton, IonIcon, IonPopover, IonDatetime, IonSelect, IonSelectOption, IonFab, IonFabButton } from "@ionic/angular/standalone";
+import { format } from 'date-fns/format';
 
 @Component({
     selector: 'kh-filter',
@@ -65,7 +66,7 @@ import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
 export class FilterPage extends Stepper implements OnInit {
 
     @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
-
+    month = input<string>(format(new Date(), 'yyyy-MM'));
 
     settingService = inject(SettingsService)
     $configs = toSignal(this.settingService.getConfig())
@@ -84,7 +85,7 @@ export class FilterPage extends Stepper implements OnInit {
     total = 0;
 
 
-    constructor(private route: ActivatedRoute, private router: Router, private afs: Firestore) {
+    constructor(private router: Router, private afs: Firestore) {
         super();
         Object.assign(this.categories, categories);
         addIcons({ pieChart, calendar });
@@ -92,7 +93,7 @@ export class FilterPage extends Stepper implements OnInit {
     }
 
     ngOnInit() {
-        const date = this.route.snapshot.params['id']
+        const date = this.month()
         if (date) {
             this.filter.month = parse(date, 'yyyy-MM', new Date()).toISOString()
         }
@@ -222,7 +223,7 @@ export class FilterPage extends Stepper implements OnInit {
 
     navigateToGraph() {
         const selectedMonth =  lightFormat(parseISO(this.filter.month), 'yyyy-MM')
-        this.router.navigate(["/summary"], { queryParams: { selectedMonth } } )
+        this.router.navigate(["/summary"], { queryParams: { month: selectedMonth } } )
     }
 
 }
