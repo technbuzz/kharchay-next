@@ -3,6 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/admin/dashboard/data-access/src",
   "projectType": "library",
+  "tags": ["type:data-access"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -15,8 +16,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -25,6 +25,5 @@
         "jestConfig": "libs/admin/dashboard/data-access/jest.config.ts"
       }
     }
-  },
-  "tags": ["type:data-access"]
+  }
 }

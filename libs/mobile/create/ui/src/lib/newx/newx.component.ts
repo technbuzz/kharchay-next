@@ -1,14 +1,16 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonModal, IonicModule } from '@ionic/angular';
+import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRow, IonPopover, IonContent, IonNote, IonDatetime} from '@ionic/angular/standalone';
 import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from './categories';
+import { addIcons } from "ionicons";
+import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
 
 @Component({
   selector: 'kh-newx',
   standalone: true,
-  imports: [IonicModule, DatePipe, TitleCasePipe, ReactiveFormsModule],
+  imports: [IonDatetimeButton, IonDatetime, IonButton, IonModal, IonContent, IonNote, IonGrid, IonRow, IonCol, IonIcon, DatePipe, IonPopover, TitleCasePipe, ReactiveFormsModule],
   templateUrl: './newx.component.html',
   styleUrl: './newx.component.css'
 })
@@ -23,6 +25,10 @@ export class NewxComponent {
 
   @Input() parent!: UntypedFormGroup;
   @Output() onSubmit = new EventEmitter()
+
+  constructor() {
+    addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {

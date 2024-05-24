@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "master"
-  },
   "cli": {
     "packageManager": "npm"
   },
@@ -39,10 +36,6 @@
       ],
       "cache": true
     },
-    "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
-      "cache": true
-    },
     "e2e": {
       "inputs": ["default", "^production"],
       "cache": true
@@ -59,6 +52,10 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/eslint:lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+      "cache": true
     }
   },
   "namedInputs": {
@@ -82,5 +79,7 @@
         "cacheableOperations": ["build-storybook"]
       }
     }
-  }
+  },
+  "useInferencePlugins": false,
+  "defaultBase": "master"
 }

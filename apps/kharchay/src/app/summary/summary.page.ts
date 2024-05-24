@@ -1,44 +1,64 @@
 import {
-  AfterViewInit,
-  Component, ElementRef, OnInit,
-  ViewChild
+    AfterViewInit,
+    Component, ElementRef,
+    ViewChild,
+    effect,
+    input,
+    signal
 } from '@angular/core';
-import { collection, Firestore } from '@angular/fire/firestore';
-import { fromEvent, merge, Observable } from 'rxjs';
+import { Firestore, collection } from '@angular/fire/firestore';
+import { Observable, fromEvent, merge } from 'rxjs';
 import { Stepper } from '../shared/stepper';
 
 import {
-  DocumentData,
-  query,
-  where
+    DocumentData,
+    query,
+    where
 } from '@firebase/firestore';
-import {endOfMonth} from 'date-fns/endOfMonth';
-import {startOfMonth} from 'date-fns/startOfMonth';
+import { endOfMonth } from 'date-fns/endOfMonth';
+import { startOfMonth } from 'date-fns/startOfMonth';
 
+import { toObservable } from '@angular/core/rxjs-interop';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { Gesture, GestureController, IonBackButton, IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { format } from 'date-fns/format';
+import { addIcons } from "ionicons";
+import { listOutline } from "ionicons/icons";
 import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
-import { tap, map, switchMap, pluck, filter } from 'rxjs/operators';
-import {format} from 'date-fns/format'
-import { Gesture, GestureController, IonicModule } from '@ionic/angular';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { filter, map, tap, switchMap } from 'rxjs/operators';
 import { DoughnutComponent } from './doughnut/doughnut.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+function tranformDate(v: string) {
+    return format(new Date(v), 'yyyy-MM')
+}
 
 @Component({
-    selector: 'app-summary',
-    templateUrl: './summary.page.html',
-    styleUrls: ['./summary.page.scss'],
-    standalone: true,
-    imports: [
-        IonicModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DoughnutComponent,
-        RouterLink,
-    ],
+  selector: 'app-summary',
+  templateUrl: './summary.page.html',
+  styleUrls: ['./summary.page.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    DoughnutComponent,
+    RouterLink,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonFab,
+    IonFabButton,
+    IonIcon
+  ],
 })
 export class SummaryPage extends Stepper implements AfterViewInit {
   @ViewChild('dateItem') dateItem: any;
@@ -48,17 +68,19 @@ export class SummaryPage extends Stepper implements AfterViewInit {
   chartData: number[] = [];
   chartLabels: string[] = [];
 
-  month = format(new Date(), 'yyyy-MM')
+  month = input<string>(format(new Date('2022-01'), 'yyyy-MM'));
   total = 0;
+  month$ = toObservable(this.month)
+
 
   expenses$!: Observable<DocumentData[]>;
   private expensesRef = collection(this.afs, 'expense');
-  constructor(private afs: Firestore, private gestureCtrl: GestureController, private route: ActivatedRoute) {
+  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
     super();
+    addIcons({ listOutline });
   }
 
   ngAfterViewInit() {
-    // this.route.params.pipe(pluck('id')).subscribe(resp => this.month = resp)
 
     const gesture: Gesture = this.gestureCtrl.create({
       el: this.expenseDate.nativeElement,
@@ -74,13 +96,14 @@ export class SummaryPage extends Stepper implements AfterViewInit {
 
 
     merge(
-      fromEvent(this.expenseDate.nativeElement, 'change')
-        .pipe(map((v:any) => v.currentTarget.value)),
-        this.route.params.pipe(pluck('id'),filter(Boolean),tap((v:any)=> this.month = v))
+        fromEvent(this.expenseDate.nativeElement, 'change').pipe(
+          map((v: any) => v.currentTarget.value)
+        ),
+        this.month$.pipe(tap(v => console.log('this.month$', v)),filter(Boolean))
     ).pipe(
       map(value => {
         const start = startOfMonth(new Date(value));
-        const end = endOfMonth(new Date(this.month));
+        const end = endOfMonth(new Date(value));
         return { start, end }
       }),
       map(value => this.buildQuery(value)),
@@ -92,9 +115,9 @@ export class SummaryPage extends Stepper implements AfterViewInit {
     })
   }
 
-  onStartHandler(ev:any) {
+  onStartHandler(ev: any) {
     const date = this.expenseDate.nativeElement
-    if(ev.deltaX > 0) {
+    if (ev.deltaX > 0) {
       date.value = this.addMonth(date.value)
     } else {
       date.value = this.subMonth(date.value)
@@ -104,20 +127,20 @@ export class SummaryPage extends Stepper implements AfterViewInit {
     date.dispatchEvent(event)
   }
 
-  private buildQuery(value: {start: Date, end: Date}) {
+  private buildQuery(value: { start: Date, end: Date }) {
     const expensesQuery = query(
       this.expensesRef,
       where('date', '>=', value.start),
       where('date', '<=', value.end)
     );
-// 8001717,
+    // 8001717,
     return expensesQuery
   }
 
 
   loadBasic() {
-    const basicStartMonth = startOfMonth(new Date(this.month));
-    const basicEndMonth = endOfMonth(new Date(this.month));
+    const basicStartMonth = startOfMonth(new Date(this.month()));
+    const basicEndMonth = endOfMonth(new Date(this.month()));
 
     const expensesQuery = query(
       this.expensesRef,
