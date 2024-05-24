@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController, IonicModule } from '@ionic/angular';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { CreateService } from '@kh/mobile/create/data-access';
 import { NewxComponent } from '@kh/mobile/create/ui';
 import {formatISO} from 'date-fns/formatISO';
@@ -12,7 +12,7 @@ import {formatISO} from 'date-fns/formatISO';
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.scss'],
     standalone: true,
-    imports: [IonicModule, NewxComponent],
+    imports: [NewxComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton ],
 })
 export class CreateComponent {
 

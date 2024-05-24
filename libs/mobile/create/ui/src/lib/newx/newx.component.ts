@@ -1,7 +1,7 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonModal, IonicModule } from '@ionic/angular';
+import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRow, IonPopover, IonContent, IonNote, IonDatetime} from '@ionic/angular/standalone';
 import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from './categories';
 import { addIcons } from "ionicons";
@@ -10,7 +10,7 @@ import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOu
 @Component({
   selector: 'kh-newx',
   standalone: true,
-  imports: [IonicModule, DatePipe, TitleCasePipe, ReactiveFormsModule],
+  imports: [IonDatetimeButton, IonDatetime, IonButton, IonModal, IonContent, IonNote, IonGrid, IonRow, IonCol, IonIcon, DatePipe, IonPopover, TitleCasePipe, ReactiveFormsModule],
   templateUrl: './newx.component.html',
   styleUrl: './newx.component.css'
 })
