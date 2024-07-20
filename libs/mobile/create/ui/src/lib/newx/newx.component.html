@@ -1,9 +1,11 @@
 <form [formGroup]="parent" (submit)="onSubmit.emit()">
   <ion-grid>
-    <ion-row class="ion-justify-content-center ion-align-items-center">
-      <ion-col size="4"  class="price-col">
+    <ion-row class="ion-justify-content-center ion-align-items-center" style=" margin-block: 20dvh; ">
+      <ion-col size="1"  >
         <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
-        <input inputmode="numeric" formControlName="price"  class="clear-input" placeholder="00" type="text" name="price" #inputEl >
+      </ion-col>
+      <ion-col size="auto"  >
+        <input inputmode="numeric" formControlName="price"  class="price-input clear-input" placeholder="00" type="text" name="price" #inputEl >
       </ion-col>
     </ion-row>
 

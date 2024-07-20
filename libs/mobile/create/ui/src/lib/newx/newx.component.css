@@ -1,26 +1,19 @@
 .price-col{
   margin-block: 20dvh;
   position: relative;
+}
 
-  input {
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    font-size: 3.5rem;
-    border-bottom:1px solid #ccc;
-    padding-left: 0.5rem;
-  }
+.price-input {
+  width: 100%;
+  font-size: 3.5rem;
+  field-sizing: content;
+  padding-left: 0.5rem;
 }
 
 .price-icon {
   color: #ccc;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: -2rem;
 }
 
-/* #price:focus:not(:focus-visible) { */
 #price:focus{
   outline: none;
 }
