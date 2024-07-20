@@ -1,14 +1,13 @@
-import { Component, OnDestroy, Optional, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, Optional, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { traceUntilFirst } from '@angular/fire/performance';
-import { App, BackButtonListener } from '@capacitor/app';
+import { App } from '@capacitor/app';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
-import { Platform } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
 import { authState } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IonApp, IonRouterOutlet } from "@ionic/angular/standalone";
 
 @Component({
     selector: 'kh-root',
