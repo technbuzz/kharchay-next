@@ -12,9 +12,3 @@ export const firebaseProviders = [
     provideStorage(() => getStorage()),
 ];
 
-// export const firebaseProviders: EnvironmentProviders = importProvidersFrom([
-//     provideFirebaseApp(() => initializeApp(environment.firebase)),
-//     provideFirestore(() => getFirestore()),
-//     provideAuth(() => getAuth()),
-//     provideStorage(() => getStorage()),
-// ]);
