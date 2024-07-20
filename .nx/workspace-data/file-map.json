@@ -125,118 +125,237 @@
   "nxJsonPlugins": [],
   "fileMap": {
     "projectFileMap": {
-      "admin-settings-data-access": [
+      "admin-dashboard-feature": [
         {
-          "file": "libs/admin/settings/data-access/.eslintrc.json",
+          "file": "libs/admin/dashboard/feature/.eslintrc.json",
           "hash": "16512303650588057616"
         },
         {
-          "file": "libs/admin/settings/data-access/README.md",
-          "hash": "18342608404264993786"
+          "file": "libs/admin/dashboard/feature/README.md",
+          "hash": "7624182869733750103"
         },
         {
-          "file": "libs/admin/settings/data-access/jest.config.ts",
-          "hash": "15086559376350686407"
+          "file": "libs/admin/dashboard/feature/jest.config.ts",
+          "hash": "9020052849783684545"
         },
         {
-          "file": "libs/admin/settings/data-access/project.json",
-          "hash": "5383863206651980532"
+          "file": "libs/admin/dashboard/feature/project.json",
+          "hash": "2318614130005053112"
         },
         {
-          "file": "libs/admin/settings/data-access/src/index.ts",
-          "hash": "10682655017358543470"
+          "file": "libs/admin/dashboard/feature/src/index.ts",
+          "hash": "17794114590410152684"
         },
         {
-          "file": "libs/admin/settings/data-access/src/settings.service.spec.ts",
-          "hash": "13836793875496109162"
+          "file": "libs/admin/dashboard/feature/src/lib/dashboard-shell.component.ts",
+          "hash": "5965823652677175266"
         },
         {
-          "file": "libs/admin/settings/data-access/src/settings.service.ts",
-          "hash": "17391199926432715007",
+          "file": "libs/admin/dashboard/feature/src/lib/lib.routes.ts",
+          "hash": "12212911044648884346"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.html",
+          "hash": "9332156008395776453"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.scss",
+          "hash": "1190290824933100757"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.spec.ts",
+          "hash": "14576786252867731980"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.ts",
+          "hash": "8004651389269165797",
           "deps": [
+            "npm:date-fns",
+            "common-data-adapters",
+            "npm:lodash-es",
             "npm:rxjs"
           ]
         },
         {
-          "file": "libs/admin/settings/data-access/src/test-setup.ts",
+          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.html",
+          "hash": "16612561458279412792"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.scss",
+          "hash": "13888049597955799442"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.spec.ts",
+          "hash": "15414830460625214646"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.ts",
+          "hash": "18304488821178325571",
+          "deps": [
+            "npm:chart.js",
+            "common-data-adapters",
+            "npm:date-fns",
+            "npm:rxjs",
+            "npm:lodash-es"
+          ]
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.html",
+          "hash": "9017845411607402399"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.scss",
+          "hash": "221988175983410531"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.spec.ts",
+          "hash": "501581212968527258"
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.ts",
+          "hash": "16001343155413666418",
+          "deps": [
+            "common-data-adapters",
+            "npm:rxfire"
+          ]
+        },
+        {
+          "file": "libs/admin/dashboard/feature/src/test-setup.ts",
           "hash": "17711435995618823417"
         },
         {
-          "file": "libs/admin/settings/data-access/tsconfig.json",
+          "file": "libs/admin/dashboard/feature/tsconfig.json",
           "hash": "16248533471678702062"
         },
         {
-          "file": "libs/admin/settings/data-access/tsconfig.lib.json",
+          "file": "libs/admin/dashboard/feature/tsconfig.lib.json",
           "hash": "8746075233993636049"
         },
         {
-          "file": "libs/admin/settings/data-access/tsconfig.spec.json",
+          "file": "libs/admin/dashboard/feature/tsconfig.spec.json",
           "hash": "9840611283105717156"
         }
       ],
-      "common-data-adapters": [
+      "kharchay-e2e": [
         {
-          "file": "libs/common/data-adapters/.eslintrc.json",
-          "hash": "9703569748258640057"
+          "file": "apps/kharchay-e2e/.eslintrc.json",
+          "hash": "15523834149352881398"
         },
         {
-          "file": "libs/common/data-adapters/README.md",
-          "hash": "17839218258744990134"
+          "file": "apps/kharchay-e2e/cypress.json",
+          "hash": "1743906055628195709"
         },
         {
-          "file": "libs/common/data-adapters/jest.config.ts",
-          "hash": "15096242622865799835"
+          "file": "apps/kharchay-e2e/project.json",
+          "hash": "11433047966432592102"
         },
         {
-          "file": "libs/common/data-adapters/package.json",
-          "hash": "896344956331857982"
+          "file": "apps/kharchay-e2e/src/fixtures/example.json",
+          "hash": "11614668686582597233"
         },
         {
-          "file": "libs/common/data-adapters/project.json",
-          "hash": "13664825058984296863"
+          "file": "apps/kharchay-e2e/src/integration/app.spec.ts",
+          "hash": "3762528186679201231"
         },
         {
-          "file": "libs/common/data-adapters/src/index.ts",
-          "hash": "15976750036462172747"
+          "file": "apps/kharchay-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
         },
         {
-          "file": "libs/common/data-adapters/src/lib/database.adapter.ts",
-          "hash": "7242284214501268957",
-          "deps": [
-            "npm:rxjs"
-          ]
+          "file": "apps/kharchay-e2e/src/support/commands.ts",
+          "hash": "7314691991044890572"
         },
         {
-          "file": "libs/common/data-adapters/src/lib/firebase.adapter.ts",
-          "hash": "7806548512030379001",
-          "deps": [
-            "npm:@angular/fire",
-            "npm:rxjs",
-            "npm:firebase",
-            "npm:lodash-es",
-            "common-api-interface"
-          ]
+          "file": "apps/kharchay-e2e/src/support/index.ts",
+          "hash": "3666078656922506009"
         },
         {
-          "file": "libs/common/data-adapters/src/lib/supabase.adapter.ts",
-          "hash": "8700933107530036859",
-          "deps": [
-            "npm:@supabase/supabase-js",
-            "npm:rxjs",
-            "common-environments"
-          ]
+          "file": "apps/kharchay-e2e/tsconfig.json",
+          "hash": "16733260544948143347"
+        }
+      ],
+      "admin-dashboard-data-access": [
+        {
+          "file": "libs/admin/dashboard/data-access/.eslintrc.json",
+          "hash": "15754961097349354736"
         },
         {
-          "file": "libs/common/data-adapters/tsconfig.json",
-          "hash": "1098465750514412960"
+          "file": "libs/admin/dashboard/data-access/jest.config.ts",
+          "hash": "8849916695962068885"
         },
         {
-          "file": "libs/common/data-adapters/tsconfig.lib.json",
-          "hash": "5554291030212586824"
+          "file": "libs/admin/dashboard/data-access/package.json",
+          "hash": "3960747747772118361"
         },
         {
-          "file": "libs/common/data-adapters/tsconfig.spec.json",
-          "hash": "9110660443763673899"
+          "file": "libs/admin/dashboard/data-access/project.json",
+          "hash": "232577887341951914"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/src/index.ts",
+          "hash": "16020410870916833981"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/src/lib/admin-dashboard-data-access.spec.ts",
+          "hash": "11530246060118055916"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/src/lib/admin-dashboard-data-access.ts",
+          "hash": "6995427960095047568"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/tsconfig.json",
+          "hash": "9584156853704587869"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/tsconfig.lib.json",
+          "hash": "5419457303262888731"
+        },
+        {
+          "file": "libs/admin/dashboard/data-access/tsconfig.spec.json",
+          "hash": "12676338339107966475"
+        }
+      ],
+      "mobile-shared-ui-new-headless": [
+        {
+          "file": "libs/mobile/shared/ui/new-headless/.eslintrc.json",
+          "hash": "3948558902784237919"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/README.md",
+          "hash": "4928008517022337643"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/jest.config.ts",
+          "hash": "8415383144944260415"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/project.json",
+          "hash": "9752457180582016179"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/src/index.ts",
+          "hash": "8024494762070792866"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/src/lib/mobile-shared-ui-new-headless.module.ts",
+          "hash": "16614663929391592396"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/src/test-setup.ts",
+          "hash": "17711435995618823417"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/tsconfig.json",
+          "hash": "16259194420737281264"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/tsconfig.lib.json",
+          "hash": "16226339965824651167"
+        },
+        {
+          "file": "libs/mobile/shared/ui/new-headless/tsconfig.spec.json",
+          "hash": "459621581731998297"
         }
       ],
       "common-environments": [
@@ -290,6 +409,55 @@
         {
           "file": "libs/common/environments/tsconfig.spec.json",
           "hash": "9648545877377768905"
+        }
+      ],
+      "admin-settings-data-access": [
+        {
+          "file": "libs/admin/settings/data-access/.eslintrc.json",
+          "hash": "16512303650588057616"
+        },
+        {
+          "file": "libs/admin/settings/data-access/README.md",
+          "hash": "18342608404264993786"
+        },
+        {
+          "file": "libs/admin/settings/data-access/jest.config.ts",
+          "hash": "15086559376350686407"
+        },
+        {
+          "file": "libs/admin/settings/data-access/project.json",
+          "hash": "5383863206651980532"
+        },
+        {
+          "file": "libs/admin/settings/data-access/src/index.ts",
+          "hash": "10682655017358543470"
+        },
+        {
+          "file": "libs/admin/settings/data-access/src/settings.service.spec.ts",
+          "hash": "13836793875496109162"
+        },
+        {
+          "file": "libs/admin/settings/data-access/src/settings.service.ts",
+          "hash": "17391199926432715007",
+          "deps": [
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/admin/settings/data-access/src/test-setup.ts",
+          "hash": "17711435995618823417"
+        },
+        {
+          "file": "libs/admin/settings/data-access/tsconfig.json",
+          "hash": "16248533471678702062"
+        },
+        {
+          "file": "libs/admin/settings/data-access/tsconfig.lib.json",
+          "hash": "8746075233993636049"
+        },
+        {
+          "file": "libs/admin/settings/data-access/tsconfig.spec.json",
+          "hash": "9840611283105717156"
         }
       ],
       "mobile-create-feature": [
@@ -467,628 +635,69 @@
           "hash": "5316622612819460143"
         }
       ],
-      "common-api-interface": [
+      "common-data-adapters": [
         {
-          "file": "libs/common/api-interface/.babelrc",
-          "hash": "1185090046784686875"
-        },
-        {
-          "file": "libs/common/api-interface/.eslintrc.json",
+          "file": "libs/common/data-adapters/.eslintrc.json",
           "hash": "9703569748258640057"
         },
         {
-          "file": "libs/common/api-interface/README.md",
-          "hash": "8691704127331435157"
+          "file": "libs/common/data-adapters/README.md",
+          "hash": "17839218258744990134"
         },
         {
-          "file": "libs/common/api-interface/jest.config.ts",
-          "hash": "6652877758783902471"
+          "file": "libs/common/data-adapters/jest.config.ts",
+          "hash": "15096242622865799835"
         },
         {
-          "file": "libs/common/api-interface/project.json",
-          "hash": "7662405057634806253"
+          "file": "libs/common/data-adapters/package.json",
+          "hash": "896344956331857982"
         },
         {
-          "file": "libs/common/api-interface/src/index.ts",
-          "hash": "6813923066801641585"
+          "file": "libs/common/data-adapters/project.json",
+          "hash": "13664825058984296863"
         },
         {
-          "file": "libs/common/api-interface/src/lib/common-api-interface.ts",
-          "hash": "9695190356675019419"
+          "file": "libs/common/data-adapters/src/index.ts",
+          "hash": "15976750036462172747"
         },
         {
-          "file": "libs/common/api-interface/tsconfig.json",
-          "hash": "12593661486528879349"
-        },
-        {
-          "file": "libs/common/api-interface/tsconfig.lib.json",
-          "hash": "13623992947506424656"
-        },
-        {
-          "file": "libs/common/api-interface/tsconfig.spec.json",
-          "hash": "9648545877377768905"
-        }
-      ],
-      "kharchay-e2e": [
-        {
-          "file": "apps/kharchay-e2e/.eslintrc.json",
-          "hash": "15523834149352881398"
-        },
-        {
-          "file": "apps/kharchay-e2e/cypress.json",
-          "hash": "1743906055628195709"
-        },
-        {
-          "file": "apps/kharchay-e2e/project.json",
-          "hash": "11433047966432592102"
-        },
-        {
-          "file": "apps/kharchay-e2e/src/fixtures/example.json",
-          "hash": "11614668686582597233"
-        },
-        {
-          "file": "apps/kharchay-e2e/src/integration/app.spec.ts",
-          "hash": "3762528186679201231"
-        },
-        {
-          "file": "apps/kharchay-e2e/src/support/app.po.ts",
-          "hash": "11157016311132186162"
-        },
-        {
-          "file": "apps/kharchay-e2e/src/support/commands.ts",
-          "hash": "7314691991044890572"
-        },
-        {
-          "file": "apps/kharchay-e2e/src/support/index.ts",
-          "hash": "3666078656922506009"
-        },
-        {
-          "file": "apps/kharchay-e2e/tsconfig.json",
-          "hash": "16733260544948143347"
-        }
-      ],
-      "admin-e2e": [
-        {
-          "file": "apps/admin-e2e/.eslintrc.json",
-          "hash": "14060216369337943343"
-        },
-        {
-          "file": "apps/admin-e2e/cypress.json",
-          "hash": "11215422444258028922"
-        },
-        {
-          "file": "apps/admin-e2e/project.json",
-          "hash": "7207061907477438612"
-        },
-        {
-          "file": "apps/admin-e2e/src/fixtures/example.json",
-          "hash": "11614668686582597233"
-        },
-        {
-          "file": "apps/admin-e2e/src/integration/app.spec.ts",
-          "hash": "16884771756213499868"
-        },
-        {
-          "file": "apps/admin-e2e/src/support/app.po.ts",
-          "hash": "11157016311132186162"
-        },
-        {
-          "file": "apps/admin-e2e/src/support/commands.ts",
-          "hash": "7314691991044890572"
-        },
-        {
-          "file": "apps/admin-e2e/src/support/index.ts",
-          "hash": "3666078656922506009"
-        },
-        {
-          "file": "apps/admin-e2e/tsconfig.json",
-          "hash": "16733260544948143347"
-        }
-      ],
-      "admin": [
-        {
-          "file": "apps/admin/.eslintrc.json",
-          "hash": "4997024575961907269"
-        },
-        {
-          "file": "apps/admin/jest.config.ts",
-          "hash": "1778997200124341820"
-        },
-        {
-          "file": "apps/admin/project.json",
-          "hash": "5514603753581808461"
-        },
-        {
-          "file": "apps/admin/src/app/app.component.html",
-          "hash": "16498897523005705592"
-        },
-        {
-          "file": "apps/admin/src/app/app.component.scss",
-          "hash": "17794799849290834731"
-        },
-        {
-          "file": "apps/admin/src/app/app.component.spec.ts",
-          "hash": "1001630686331980494"
-        },
-        {
-          "file": "apps/admin/src/app/app.component.ts",
-          "hash": "17643398104679933086",
+          "file": "libs/common/data-adapters/src/lib/database.adapter.ts",
+          "hash": "7242284214501268957",
           "deps": [
-            "npm:@angular/fire",
             "npm:rxjs"
           ]
         },
         {
-          "file": "apps/admin/src/app/app.config.ts",
-          "hash": "4965415105106714989",
-          "deps": [
-            "npm:@angular/fire",
-            "common-environments",
-            "common-data-adapters"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/app.routes.ts",
-          "hash": "13736755026877994609"
-        },
-        {
-          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.html",
-          "hash": "9396174537795183419"
-        },
-        {
-          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.scss",
-          "hash": "3244421341483603138"
-        },
-        {
-          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.ts",
-          "hash": "7518760204000879170"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.html",
-          "hash": "9994972388356122200"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.scss",
-          "hash": "6563087845401030418"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.ts",
-          "hash": "6126815020256303553"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.html",
-          "hash": "16218990199414045439"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.scss",
-          "hash": "3244421341483603138"
-        },
-        {
-          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.ts",
-          "hash": "12965646324223708931",
+          "file": "libs/common/data-adapters/src/lib/firebase.adapter.ts",
+          "hash": "7806548512030379001",
           "deps": [
             "npm:@angular/fire",
             "npm:rxjs",
+            "npm:firebase",
+            "npm:lodash-es",
             "common-api-interface"
           ]
         },
         {
-          "file": "apps/admin/src/app/events/events-all/events-all.component.html",
-          "hash": "5952364650694818001"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-all/events-all.component.scss",
-          "hash": "3944252494315769462"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-all/events-all.component.ts",
-          "hash": "6963769199274899613",
+          "file": "libs/common/data-adapters/src/lib/supabase.adapter.ts",
+          "hash": "8700933107530036859",
           "deps": [
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/events/events-all/example-data.ts",
-          "hash": "5654790813159095"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-date/events-date.component.html",
-          "hash": "9838324905898210294"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-date/events-date.component.scss",
-          "hash": "10605946393267999550"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-date/events-date.component.ts",
-          "hash": "7732035980372288379",
-          "deps": [
+            "npm:@supabase/supabase-js",
             "npm:rxjs",
-            "npm:@angular/fire",
-            "npm:dayjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/events/events-main/events-main.component.html",
-          "hash": "12375739792779172756"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-main/events-main.component.scss",
-          "hash": "748977913834317295"
-        },
-        {
-          "file": "apps/admin/src/app/events/events-main/events-main.component.ts",
-          "hash": "5784596618002078708",
-          "deps": [
-            "npm:rxjs",
-            "npm:@angular/fire",
-            "npm:dayjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/events/events.routes.ts",
-          "hash": "8821901090052631240"
-        },
-        {
-          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.html",
-          "hash": "4236379296422615870"
-        },
-        {
-          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.scss",
-          "hash": "8003264644063139703"
-        },
-        {
-          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.ts",
-          "hash": "17337149233338574459",
-          "deps": [
-            "npm:dayjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/home/breadcrumbs.component.ts",
-          "hash": "6287498695061409955"
-        },
-        {
-          "file": "apps/admin/src/app/home/dashboard/dashboard.component.html",
-          "hash": "12493137353448456158"
-        },
-        {
-          "file": "apps/admin/src/app/home/dashboard/dashboard.component.scss",
-          "hash": "5584377702187473012"
-        },
-        {
-          "file": "apps/admin/src/app/home/dashboard/dashboard.component.ts",
-          "hash": "7129636960663802692",
-          "deps": [
-            "admin-settings-data-access",
-            "common-data-adapters",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/home/home.routes.ts",
-          "hash": "14053245444442278632",
-          "deps": [
-            [
-              "admin-dashboard-feature",
-              "dynamic"
-            ],
-            [
-              "admin-settings-feature",
-              "dynamic"
-            ]
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/login/login-form/login-form.component.html",
-          "hash": "8218414042115905171"
-        },
-        {
-          "file": "apps/admin/src/app/login/login-form/login-form.component.scss",
-          "hash": "14655089231077344397"
-        },
-        {
-          "file": "apps/admin/src/app/login/login-form/login-form.component.ts",
-          "hash": "3353909125336950161",
-          "deps": [
-            "npm:@angular/fire",
-            "common-data-adapters"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.html",
-          "hash": "14173874431716644076"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.scss",
-          "hash": "13853181155248483717"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.ts",
-          "hash": "13982494339637720653"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.html",
-          "hash": "8581192028094780141"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.scss",
-          "hash": "6979282723524514106"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.ts",
-          "hash": "11701374253438854602",
-          "deps": [
-            "npm:@angular/fire",
-            "common-data-adapters",
-            "npm:firebase",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/recurring/recurring.routes.ts",
-          "hash": "2551818693202058559"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/task-list/task-list.component.html",
-          "hash": "6935355615408883171"
-        },
-        {
-          "file": "apps/admin/src/app/recurring/task-list/task-list.component.ts",
-          "hash": "12178601336278541654",
-          "deps": [
-            "npm:@angular/fire",
-            "npm:firebase",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/reports/reporting.routes.ts",
-          "hash": "12878232859353282171"
-        },
-        {
-          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.html",
-          "hash": "5965456938444001044"
-        },
-        {
-          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.scss",
-          "hash": "3244421341483603138"
-        },
-        {
-          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.ts",
-          "hash": "4503780923609400464",
-          "deps": [
-            "npm:@angular/fire",
-            "npm:lodash-es",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/shared/breadcrumbs.service.ts",
-          "hash": "11084692786587660651",
-          "deps": [
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/shared/categories.ts",
-          "hash": "3659487979027752692"
-        },
-        {
-          "file": "apps/admin/src/app/shared/category.interface.ts",
-          "hash": "9167553764761996763"
-        },
-        {
-          "file": "apps/admin/src/app/shared/event.interface.ts",
-          "hash": "14401735577260709427"
-        },
-        {
-          "file": "apps/admin/src/app/shared/eventMonth.interface.ts",
-          "hash": "5182438239248124483"
-        },
-        {
-          "file": "apps/admin/src/app/shared/events.service.ts",
-          "hash": "7589444975155435191",
-          "deps": [
-            "npm:rxjs",
-            "npm:@angular/fire"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/shared/expense.class.ts",
-          "hash": "6232536255711360864"
-        },
-        {
-          "file": "apps/admin/src/app/shared/expense.interface.ts",
-          "hash": "4311841577833069626"
-        },
-        {
-          "file": "apps/admin/src/app/shared/general.service.ts",
-          "hash": "16656521014439715221",
-          "deps": [
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/app/shared/month.enum.ts",
-          "hash": "8957046256230496245"
-        },
-        {
-          "file": "apps/admin/src/app/shared/title.resolver.ts",
-          "hash": "11273434838405417226",
-          "deps": [
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "apps/admin/src/assets/.gitkeep",
-          "hash": "3244421341483603138"
-        },
-        {
-          "file": "apps/admin/src/favicon.ico",
-          "hash": "9303420814833116677"
-        },
-        {
-          "file": "apps/admin/src/index.html",
-          "hash": "244320185937420295"
-        },
-        {
-          "file": "apps/admin/src/main.ts",
-          "hash": "1166968434453717622",
-          "deps": [
             "common-environments"
           ]
         },
         {
-          "file": "apps/admin/src/polyfills.ts",
-          "hash": "13952578668946952738",
-          "deps": [
-            "npm:zone.js"
-          ]
+          "file": "libs/common/data-adapters/tsconfig.json",
+          "hash": "1098465750514412960"
         },
         {
-          "file": "apps/admin/src/styles.scss",
-          "hash": "1641723589396349559"
+          "file": "libs/common/data-adapters/tsconfig.lib.json",
+          "hash": "5554291030212586824"
         },
         {
-          "file": "apps/admin/src/test-setup.ts",
-          "hash": "17711435995618823417"
-        },
-        {
-          "file": "apps/admin/tailwind.config.js",
-          "hash": "14536399351319239147"
-        },
-        {
-          "file": "apps/admin/tsconfig.app.json",
-          "hash": "15989261137096458116"
-        },
-        {
-          "file": "apps/admin/tsconfig.editor.json",
-          "hash": "13708902743870995589"
-        },
-        {
-          "file": "apps/admin/tsconfig.json",
-          "hash": "17168068191646536033"
-        },
-        {
-          "file": "apps/admin/tsconfig.spec.json",
-          "hash": "18121645209207210368"
-        }
-      ],
-      "mobile-create-ui": [
-        {
-          "file": "libs/mobile/create/ui/.eslintrc.json",
-          "hash": "11909438110768766502"
-        },
-        {
-          "file": "libs/mobile/create/ui/.storybook/main.js",
-          "hash": "10364069106927201410"
-        },
-        {
-          "file": "libs/mobile/create/ui/.storybook/preview.js",
-          "hash": "3244421341483603138"
-        },
-        {
-          "file": "libs/mobile/create/ui/.storybook/tsconfig.json",
-          "hash": "10867384832595814270"
-        },
-        {
-          "file": "libs/mobile/create/ui/README.md",
-          "hash": "2315105197292600306"
-        },
-        {
-          "file": "libs/mobile/create/ui/jest.config.ts",
-          "hash": "16708501237523509271"
-        },
-        {
-          "file": "libs/mobile/create/ui/project.json",
-          "hash": "16517260333644181035"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/index.ts",
-          "hash": "5179886325534333480"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/dynamic-price/dynamic-price.component.stories.ts",
-          "hash": "1273103212383982929",
-          "deps": [
-            "npm:@ionic/angular",
-            "npm:@storybook/addon-actions",
-            "npm:@storybook/angular"
-          ]
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/dynamic-price/dynamic-price.component.ts",
-          "hash": "15046956582259235879",
-          "deps": [
-            "npm:@ionic/angular"
-          ]
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.html",
-          "hash": "10459665814392448357"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.stories.ts",
-          "hash": "2747946838535252176",
-          "deps": [
-            "npm:@ionic/angular",
-            "npm:@storybook/angular",
-            "npm:@storybook/addon-actions"
-          ]
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.ts",
-          "hash": "3109733552451183504",
-          "deps": [
-            "npm:@ionic/angular",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/mobile-create-ui.module.ts",
-          "hash": "4203625570596412125"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/newx/categories.ts",
-          "hash": "12293775988288068175"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.css",
-          "hash": "17292450811361718999"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.html",
-          "hash": "13199262282230765224"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.spec.ts",
-          "hash": "15930724060902950726"
-        },
-        {
-          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.ts",
-          "hash": "14991452752980900214",
-          "deps": [
-            "npm:@ionic/angular",
-            "npm:@ionic/core",
-            "npm:ionicons"
-          ]
-        },
-        {
-          "file": "libs/mobile/create/ui/src/test-setup.ts",
-          "hash": "17711435995618823417"
-        },
-        {
-          "file": "libs/mobile/create/ui/tsconfig.json",
-          "hash": "15927997309249724305"
-        },
-        {
-          "file": "libs/mobile/create/ui/tsconfig.lib.json",
-          "hash": "3145276583713318840"
-        },
-        {
-          "file": "libs/mobile/create/ui/tsconfig.spec.json",
-          "hash": "5679151219798048914"
+          "file": "libs/common/data-adapters/tsconfig.spec.json",
+          "hash": "9110660443763673899"
         }
       ],
       "kharchay": [
@@ -1617,149 +1226,394 @@
           "hash": "18121645209207210368"
         }
       ],
-      "mobile-shared-ui-new-headless": [
+      "admin": [
         {
-          "file": "libs/mobile/shared/ui/new-headless/.eslintrc.json",
-          "hash": "3948558902784237919"
+          "file": "apps/admin/.eslintrc.json",
+          "hash": "4997024575961907269"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/README.md",
-          "hash": "4928008517022337643"
+          "file": "apps/admin/jest.config.ts",
+          "hash": "1778997200124341820"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/jest.config.ts",
-          "hash": "8415383144944260415"
+          "file": "apps/admin/project.json",
+          "hash": "5514603753581808461"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/project.json",
-          "hash": "9752457180582016179"
+          "file": "apps/admin/src/app/app.component.html",
+          "hash": "16498897523005705592"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/src/index.ts",
-          "hash": "8024494762070792866"
+          "file": "apps/admin/src/app/app.component.scss",
+          "hash": "17794799849290834731"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/src/lib/mobile-shared-ui-new-headless.module.ts",
-          "hash": "16614663929391592396"
+          "file": "apps/admin/src/app/app.component.spec.ts",
+          "hash": "1001630686331980494"
         },
         {
-          "file": "libs/mobile/shared/ui/new-headless/src/test-setup.ts",
-          "hash": "17711435995618823417"
-        },
-        {
-          "file": "libs/mobile/shared/ui/new-headless/tsconfig.json",
-          "hash": "16259194420737281264"
-        },
-        {
-          "file": "libs/mobile/shared/ui/new-headless/tsconfig.lib.json",
-          "hash": "16226339965824651167"
-        },
-        {
-          "file": "libs/mobile/shared/ui/new-headless/tsconfig.spec.json",
-          "hash": "459621581731998297"
-        }
-      ],
-      "admin-dashboard-data-access": [
-        {
-          "file": "libs/admin/dashboard/data-access/.eslintrc.json",
-          "hash": "15754961097349354736"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/jest.config.ts",
-          "hash": "8849916695962068885"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/package.json",
-          "hash": "3960747747772118361"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/project.json",
-          "hash": "232577887341951914"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/src/index.ts",
-          "hash": "16020410870916833981"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/src/lib/admin-dashboard-data-access.spec.ts",
-          "hash": "11530246060118055916"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/src/lib/admin-dashboard-data-access.ts",
-          "hash": "6995427960095047568"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/tsconfig.json",
-          "hash": "9584156853704587869"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/tsconfig.lib.json",
-          "hash": "5419457303262888731"
-        },
-        {
-          "file": "libs/admin/dashboard/data-access/tsconfig.spec.json",
-          "hash": "12676338339107966475"
-        }
-      ],
-      "mobile-create-data-access": [
-        {
-          "file": "libs/mobile/create/data-access/.eslintrc.json",
-          "hash": "11909438110768766502"
-        },
-        {
-          "file": "libs/mobile/create/data-access/README.md",
-          "hash": "6364701420535995084"
-        },
-        {
-          "file": "libs/mobile/create/data-access/jest.config.ts",
-          "hash": "9586151003031513325"
-        },
-        {
-          "file": "libs/mobile/create/data-access/project.json",
-          "hash": "8395913851393305548"
-        },
-        {
-          "file": "libs/mobile/create/data-access/src/index.ts",
-          "hash": "6759148545918857827"
-        },
-        {
-          "file": "libs/mobile/create/data-access/src/lib/categories.ts",
-          "hash": "16844187701649941157",
+          "file": "apps/admin/src/app/app.component.ts",
+          "hash": "17643398104679933086",
           "deps": [
+            "npm:@angular/fire",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/app.config.ts",
+          "hash": "4965415105106714989",
+          "deps": [
+            "npm:@angular/fire",
+            "common-environments",
+            "common-data-adapters"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/app.routes.ts",
+          "hash": "13736755026877994609"
+        },
+        {
+          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.html",
+          "hash": "9396174537795183419"
+        },
+        {
+          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/admin/src/app/components/shared-cat/shared-cat.component.ts",
+          "hash": "7518760204000879170"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.html",
+          "hash": "9994972388356122200"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.scss",
+          "hash": "6563087845401030418"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-edit-dialog/event-edit-dialog.component.ts",
+          "hash": "6126815020256303553"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.html",
+          "hash": "16218990199414045439"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/admin/src/app/events/event-expense-list/event-expense-list.component.ts",
+          "hash": "12965646324223708931",
+          "deps": [
+            "npm:@angular/fire",
+            "npm:rxjs",
             "common-api-interface"
           ]
         },
         {
-          "file": "libs/mobile/create/data-access/src/lib/create/create.service.spec.ts",
-          "hash": "16007135601300827256"
+          "file": "apps/admin/src/app/events/events-all/events-all.component.html",
+          "hash": "5952364650694818001"
         },
         {
-          "file": "libs/mobile/create/data-access/src/lib/create/create.service.ts",
-          "hash": "11562056885662535416",
+          "file": "apps/admin/src/app/events/events-all/events-all.component.scss",
+          "hash": "3944252494315769462"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-all/events-all.component.ts",
+          "hash": "6963769199274899613",
           "deps": [
-            "common-api-interface",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/events/events-all/example-data.ts",
+          "hash": "5654790813159095"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-date/events-date.component.html",
+          "hash": "9838324905898210294"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-date/events-date.component.scss",
+          "hash": "10605946393267999550"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-date/events-date.component.ts",
+          "hash": "7732035980372288379",
+          "deps": [
+            "npm:rxjs",
+            "npm:@angular/fire",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/events/events-main/events-main.component.html",
+          "hash": "12375739792779172756"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-main/events-main.component.scss",
+          "hash": "748977913834317295"
+        },
+        {
+          "file": "apps/admin/src/app/events/events-main/events-main.component.ts",
+          "hash": "5784596618002078708",
+          "deps": [
+            "npm:rxjs",
+            "npm:@angular/fire",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/events/events.routes.ts",
+          "hash": "8821901090052631240"
+        },
+        {
+          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.html",
+          "hash": "4236379296422615870"
+        },
+        {
+          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.scss",
+          "hash": "8003264644063139703"
+        },
+        {
+          "file": "apps/admin/src/app/events/expense-dialog/expense-dialog.component.ts",
+          "hash": "17337149233338574459",
+          "deps": [
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/home/breadcrumbs.component.ts",
+          "hash": "6287498695061409955"
+        },
+        {
+          "file": "apps/admin/src/app/home/dashboard/dashboard.component.html",
+          "hash": "12493137353448456158"
+        },
+        {
+          "file": "apps/admin/src/app/home/dashboard/dashboard.component.scss",
+          "hash": "5584377702187473012"
+        },
+        {
+          "file": "apps/admin/src/app/home/dashboard/dashboard.component.ts",
+          "hash": "7129636960663802692",
+          "deps": [
+            "admin-settings-data-access",
+            "common-data-adapters",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/home/home.routes.ts",
+          "hash": "14053245444442278632",
+          "deps": [
+            [
+              "admin-dashboard-feature",
+              "dynamic"
+            ],
+            [
+              "admin-settings-feature",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/login/login-form/login-form.component.html",
+          "hash": "8218414042115905171"
+        },
+        {
+          "file": "apps/admin/src/app/login/login-form/login-form.component.scss",
+          "hash": "14655089231077344397"
+        },
+        {
+          "file": "apps/admin/src/app/login/login-form/login-form.component.ts",
+          "hash": "3353909125336950161",
+          "deps": [
+            "npm:@angular/fire",
+            "common-data-adapters"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.html",
+          "hash": "14173874431716644076"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.scss",
+          "hash": "13853181155248483717"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/edit-dialog/edit-dialog.component.ts",
+          "hash": "13982494339637720653"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.html",
+          "hash": "8581192028094780141"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.scss",
+          "hash": "6979282723524514106"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/recurring-list/recurring-list.component.ts",
+          "hash": "11701374253438854602",
+          "deps": [
+            "npm:@angular/fire",
+            "common-data-adapters",
+            "npm:firebase",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/recurring/recurring.routes.ts",
+          "hash": "2551818693202058559"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/task-list/task-list.component.html",
+          "hash": "6935355615408883171"
+        },
+        {
+          "file": "apps/admin/src/app/recurring/task-list/task-list.component.ts",
+          "hash": "12178601336278541654",
+          "deps": [
+            "npm:@angular/fire",
+            "npm:firebase",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/reports/reporting.routes.ts",
+          "hash": "12878232859353282171"
+        },
+        {
+          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.html",
+          "hash": "5965456938444001044"
+        },
+        {
+          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.scss",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/admin/src/app/reports/reports-list/reports-list.component.ts",
+          "hash": "4503780923609400464",
+          "deps": [
+            "npm:@angular/fire",
+            "npm:lodash-es",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/shared/breadcrumbs.service.ts",
+          "hash": "11084692786587660651",
+          "deps": [
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/shared/categories.ts",
+          "hash": "3659487979027752692"
+        },
+        {
+          "file": "apps/admin/src/app/shared/category.interface.ts",
+          "hash": "9167553764761996763"
+        },
+        {
+          "file": "apps/admin/src/app/shared/event.interface.ts",
+          "hash": "14401735577260709427"
+        },
+        {
+          "file": "apps/admin/src/app/shared/eventMonth.interface.ts",
+          "hash": "5182438239248124483"
+        },
+        {
+          "file": "apps/admin/src/app/shared/events.service.ts",
+          "hash": "7589444975155435191",
+          "deps": [
+            "npm:rxjs",
             "npm:@angular/fire"
           ]
         },
         {
-          "file": "libs/mobile/create/data-access/src/lib/mobile-create-data-access.module.ts",
-          "hash": "2863923615212089811"
+          "file": "apps/admin/src/app/shared/expense.class.ts",
+          "hash": "6232536255711360864"
         },
         {
-          "file": "libs/mobile/create/data-access/src/test-setup.ts",
+          "file": "apps/admin/src/app/shared/expense.interface.ts",
+          "hash": "4311841577833069626"
+        },
+        {
+          "file": "apps/admin/src/app/shared/general.service.ts",
+          "hash": "16656521014439715221",
+          "deps": [
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/app/shared/month.enum.ts",
+          "hash": "8957046256230496245"
+        },
+        {
+          "file": "apps/admin/src/app/shared/title.resolver.ts",
+          "hash": "11273434838405417226",
+          "deps": [
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/admin/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/admin/src/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/admin/src/index.html",
+          "hash": "244320185937420295"
+        },
+        {
+          "file": "apps/admin/src/main.ts",
+          "hash": "1166968434453717622",
+          "deps": [
+            "common-environments"
+          ]
+        },
+        {
+          "file": "apps/admin/src/polyfills.ts",
+          "hash": "13952578668946952738",
+          "deps": [
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "apps/admin/src/styles.scss",
+          "hash": "1641723589396349559"
+        },
+        {
+          "file": "apps/admin/src/test-setup.ts",
           "hash": "17711435995618823417"
         },
         {
-          "file": "libs/mobile/create/data-access/tsconfig.json",
-          "hash": "16861324440741454528"
+          "file": "apps/admin/tailwind.config.js",
+          "hash": "14536399351319239147"
         },
         {
-          "file": "libs/mobile/create/data-access/tsconfig.lib.json",
-          "hash": "8623466268565430462"
+          "file": "apps/admin/tsconfig.app.json",
+          "hash": "15989261137096458116"
         },
         {
-          "file": "libs/mobile/create/data-access/tsconfig.spec.json",
-          "hash": "5679151219798048914"
+          "file": "apps/admin/tsconfig.editor.json",
+          "hash": "13708902743870995589"
+        },
+        {
+          "file": "apps/admin/tsconfig.json",
+          "hash": "17168068191646536033"
+        },
+        {
+          "file": "apps/admin/tsconfig.spec.json",
+          "hash": "18121645209207210368"
         }
       ],
       "admin-settings-feature": [
@@ -1824,115 +1678,261 @@
           "hash": "9840611283105717156"
         }
       ],
-      "admin-dashboard-feature": [
+      "admin-e2e": [
         {
-          "file": "libs/admin/dashboard/feature/.eslintrc.json",
-          "hash": "16512303650588057616"
+          "file": "apps/admin-e2e/.eslintrc.json",
+          "hash": "14060216369337943343"
         },
         {
-          "file": "libs/admin/dashboard/feature/README.md",
-          "hash": "7624182869733750103"
+          "file": "apps/admin-e2e/cypress.json",
+          "hash": "11215422444258028922"
         },
         {
-          "file": "libs/admin/dashboard/feature/jest.config.ts",
-          "hash": "9020052849783684545"
+          "file": "apps/admin-e2e/project.json",
+          "hash": "7207061907477438612"
         },
         {
-          "file": "libs/admin/dashboard/feature/project.json",
-          "hash": "2318614130005053112"
+          "file": "apps/admin-e2e/src/fixtures/example.json",
+          "hash": "11614668686582597233"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/index.ts",
-          "hash": "17794114590410152684"
+          "file": "apps/admin-e2e/src/integration/app.spec.ts",
+          "hash": "16884771756213499868"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/dashboard-shell.component.ts",
-          "hash": "5965823652677175266"
+          "file": "apps/admin-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/lib.routes.ts",
-          "hash": "12212911044648884346"
+          "file": "apps/admin-e2e/src/support/commands.ts",
+          "hash": "7314691991044890572"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.html",
-          "hash": "9332156008395776453"
+          "file": "apps/admin-e2e/src/support/index.ts",
+          "hash": "3666078656922506009"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.scss",
-          "hash": "1190290824933100757"
+          "file": "apps/admin-e2e/tsconfig.json",
+          "hash": "16733260544948143347"
+        }
+      ],
+      "common-api-interface": [
+        {
+          "file": "libs/common/api-interface/.babelrc",
+          "hash": "1185090046784686875"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.spec.ts",
-          "hash": "14576786252867731980"
+          "file": "libs/common/api-interface/.eslintrc.json",
+          "hash": "9703569748258640057"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/month-mini-diff/month-mini-diff.component.ts",
-          "hash": "8004651389269165797",
+          "file": "libs/common/api-interface/README.md",
+          "hash": "8691704127331435157"
+        },
+        {
+          "file": "libs/common/api-interface/jest.config.ts",
+          "hash": "6652877758783902471"
+        },
+        {
+          "file": "libs/common/api-interface/project.json",
+          "hash": "7662405057634806253"
+        },
+        {
+          "file": "libs/common/api-interface/src/index.ts",
+          "hash": "6813923066801641585"
+        },
+        {
+          "file": "libs/common/api-interface/src/lib/common-api-interface.ts",
+          "hash": "9695190356675019419"
+        },
+        {
+          "file": "libs/common/api-interface/tsconfig.json",
+          "hash": "12593661486528879349"
+        },
+        {
+          "file": "libs/common/api-interface/tsconfig.lib.json",
+          "hash": "13623992947506424656"
+        },
+        {
+          "file": "libs/common/api-interface/tsconfig.spec.json",
+          "hash": "9648545877377768905"
+        }
+      ],
+      "mobile-create-data-access": [
+        {
+          "file": "libs/mobile/create/data-access/.eslintrc.json",
+          "hash": "11909438110768766502"
+        },
+        {
+          "file": "libs/mobile/create/data-access/README.md",
+          "hash": "6364701420535995084"
+        },
+        {
+          "file": "libs/mobile/create/data-access/jest.config.ts",
+          "hash": "9586151003031513325"
+        },
+        {
+          "file": "libs/mobile/create/data-access/project.json",
+          "hash": "8395913851393305548"
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/index.ts",
+          "hash": "6759148545918857827"
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/lib/categories.ts",
+          "hash": "16844187701649941157",
           "deps": [
-            "npm:date-fns",
-            "common-data-adapters",
-            "npm:lodash-es",
+            "common-api-interface"
+          ]
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/lib/create/create.service.spec.ts",
+          "hash": "16007135601300827256"
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/lib/create/create.service.ts",
+          "hash": "11562056885662535416",
+          "deps": [
+            "common-api-interface",
+            "npm:@angular/fire"
+          ]
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/lib/mobile-create-data-access.module.ts",
+          "hash": "2863923615212089811"
+        },
+        {
+          "file": "libs/mobile/create/data-access/src/test-setup.ts",
+          "hash": "17711435995618823417"
+        },
+        {
+          "file": "libs/mobile/create/data-access/tsconfig.json",
+          "hash": "16861324440741454528"
+        },
+        {
+          "file": "libs/mobile/create/data-access/tsconfig.lib.json",
+          "hash": "8623466268565430462"
+        },
+        {
+          "file": "libs/mobile/create/data-access/tsconfig.spec.json",
+          "hash": "5679151219798048914"
+        }
+      ],
+      "mobile-create-ui": [
+        {
+          "file": "libs/mobile/create/ui/.eslintrc.json",
+          "hash": "11909438110768766502"
+        },
+        {
+          "file": "libs/mobile/create/ui/.storybook/main.js",
+          "hash": "10364069106927201410"
+        },
+        {
+          "file": "libs/mobile/create/ui/.storybook/preview.js",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "libs/mobile/create/ui/.storybook/tsconfig.json",
+          "hash": "10867384832595814270"
+        },
+        {
+          "file": "libs/mobile/create/ui/README.md",
+          "hash": "2315105197292600306"
+        },
+        {
+          "file": "libs/mobile/create/ui/jest.config.ts",
+          "hash": "16708501237523509271"
+        },
+        {
+          "file": "libs/mobile/create/ui/project.json",
+          "hash": "16517260333644181035"
+        },
+        {
+          "file": "libs/mobile/create/ui/src/index.ts",
+          "hash": "5179886325534333480"
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/dynamic-price/dynamic-price.component.stories.ts",
+          "hash": "1273103212383982929",
+          "deps": [
+            "npm:@ionic/angular",
+            "npm:@storybook/addon-actions",
+            "npm:@storybook/angular"
+          ]
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/dynamic-price/dynamic-price.component.ts",
+          "hash": "15046956582259235879",
+          "deps": [
+            "npm:@ionic/angular"
+          ]
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.html",
+          "hash": "10459665814392448357"
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.stories.ts",
+          "hash": "2747946838535252176",
+          "deps": [
+            "npm:@ionic/angular",
+            "npm:@storybook/angular",
+            "npm:@storybook/addon-actions"
+          ]
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/invoice/invoice.ts",
+          "hash": "3109733552451183504",
+          "deps": [
+            "npm:@ionic/angular",
             "npm:rxjs"
           ]
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.html",
-          "hash": "16612561458279412792"
+          "file": "libs/mobile/create/ui/src/lib/mobile-create-ui.module.ts",
+          "hash": "4203625570596412125"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.scss",
-          "hash": "13888049597955799442"
+          "file": "libs/mobile/create/ui/src/lib/newx/categories.ts",
+          "hash": "12293775988288068175"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.spec.ts",
-          "hash": "15414830460625214646"
+          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.css",
+          "hash": "17292450811361718999"
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/overview-month-mini/overview-month-mini.component.ts",
-          "hash": "18304488821178325571",
+          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.html",
+          "hash": "13199262282230765224"
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.spec.ts",
+          "hash": "15930724060902950726"
+        },
+        {
+          "file": "libs/mobile/create/ui/src/lib/newx/newx.component.ts",
+          "hash": "14991452752980900214",
           "deps": [
-            "npm:chart.js",
-            "common-data-adapters",
-            "npm:date-fns",
-            "npm:rxjs",
-            "npm:lodash-es"
+            "npm:@ionic/angular",
+            "npm:@ionic/core",
+            "npm:ionicons"
           ]
         },
         {
-          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.html",
-          "hash": "9017845411607402399"
-        },
-        {
-          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.scss",
-          "hash": "221988175983410531"
-        },
-        {
-          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.spec.ts",
-          "hash": "501581212968527258"
-        },
-        {
-          "file": "libs/admin/dashboard/feature/src/lib/transactions-mini/transactions-mini.component.ts",
-          "hash": "16001343155413666418",
-          "deps": [
-            "common-data-adapters",
-            "npm:rxfire"
-          ]
-        },
-        {
-          "file": "libs/admin/dashboard/feature/src/test-setup.ts",
+          "file": "libs/mobile/create/ui/src/test-setup.ts",
           "hash": "17711435995618823417"
         },
         {
-          "file": "libs/admin/dashboard/feature/tsconfig.json",
-          "hash": "16248533471678702062"
+          "file": "libs/mobile/create/ui/tsconfig.json",
+          "hash": "15927997309249724305"
         },
         {
-          "file": "libs/admin/dashboard/feature/tsconfig.lib.json",
-          "hash": "8746075233993636049"
+          "file": "libs/mobile/create/ui/tsconfig.lib.json",
+          "hash": "3145276583713318840"
         },
         {
-          "file": "libs/admin/dashboard/feature/tsconfig.spec.json",
-          "hash": "9840611283105717156"
+          "file": "libs/mobile/create/ui/tsconfig.spec.json",
+          "hash": "5679151219798048914"
         }
       ]
     },
@@ -2007,7 +2007,7 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "6058550513531817228"
+        "hash": "9801685796573869907"
       },
       {
         "file": "package.json",
