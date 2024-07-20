@@ -8,7 +8,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideRouter(appRoutes, withComponentInputBinding() ),
-    firebaseProviders,
+    ...firebaseProviders,
     provideIonicAngular(),
   ]
 }
