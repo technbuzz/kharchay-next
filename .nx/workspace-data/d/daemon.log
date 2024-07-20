@@ -1,0 +1,14 @@
+[NX Daemon Server] - 2024-07-20T07:42:20.768Z - Started listening on: /var/folders/xh/cnzszzm91gq2fwg68bszg8500000gn/T/9d765158a663905f98d3/d.sock
+[NX Daemon Server] - 2024-07-20T07:42:20.771Z - [WATCHER]: Subscribed to changes within: /Users/smk/Dev/practice/active/kharchay-next (native)
+[NX Daemon Server] - 2024-07-20T07:42:20.772Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-07-20T07:42:20.773Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-07-20T07:42:20.774Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-07-20T07:42:20.776Z - [REQUEST]: Responding to the client. handleGlob
+[NX Daemon Server] - 2024-07-20T07:42:20.776Z - Done responding to the client handleGlob
+[NX Daemon Server] - 2024-07-20T07:42:20.776Z - Handled GLOB. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2024-07-20T07:42:20.817Z - [REQUEST]: Responding to the client. handleNxWorkspaceFiles
+[NX Daemon Server] - 2024-07-20T07:42:20.818Z - Done responding to the client handleNxWorkspaceFiles
+[NX Daemon Server] - 2024-07-20T07:42:20.818Z - Handled GET_NX_WORKSPACE_FILES. Handling time: 1. Response time: 1.
+[NX Daemon Server] - 2024-07-20T07:42:21.191Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-07-20T07:42:27.111Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-07-20T07:42:27.178Z - [WATCHER]: Processing file changes in outputs
