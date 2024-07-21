@@ -88,7 +88,6 @@ export class FilterPage extends Stepper implements OnInit {
     constructor(private router: Router, private afs: Firestore) {
         super();
         Object.assign(this.categories, categories);
-        addIcons({ pieChart, calendar });
         addIcons({ calendar, pieChart });
     }
 

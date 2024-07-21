@@ -38,6 +38,7 @@
     "@nx/angular": "19.5.1",
     "@supabase/supabase-js": "^2.44.4",
     "chart.js": "^4.4.3",
+    "contactjs": "^2.1.7",
     "date-fns": "^3.6.0",
     "firebase": "^10.7.1",
     "lodash-es": "^4.17.21",

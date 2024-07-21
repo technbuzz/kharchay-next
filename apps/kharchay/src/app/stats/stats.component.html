@@ -1,0 +1,13 @@
+<ion-content >
+  <header class="ion-padding ion-margin-bottom">
+    <h1 class="ion-no-margin">15.55</h1>
+    <ion-text color="medium">Total spend this week</ion-text>
+  </header>
+
+  <canvas #container height="300"></canvas>
+
+  @for(period of ['week', 'month', 'year']; track $index) {
+  <ion-button [fill]="service.$queries().period === period ? 'outline' : 'clear' " size="small">{{period}}</ion-button>
+  }
+
+</ion-content>
