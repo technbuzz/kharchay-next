@@ -2,20 +2,25 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Firestore, collection, query, where } from '@firebase/firestore';
 import { IonButton, IonContent, IonText } from '@ionic/angular/standalone';
 import { BarController, BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js';
-import { PointerListener } from 'contactjs';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import { StatsService } from './stats.service';
+import { Router } from '@angular/router';
+import { PeriodSwipeDirective } from './period-swipe.directive';
+import { DatePipe, JsonPipe } from '@angular/common';
 
 Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale);
 @Component({
   selector: 'kh-stats',
   standalone: true,
-  imports: [IonContent, IonText, IonButton],
+  imports: [IonContent, DatePipe, PeriodSwipeDirective, JsonPipe, IonText, IonButton],
   templateUrl: './stats.component.html',
 })
 export class StatsComponent {
 
+  router = inject(Router);
   service = inject(StatsService);
+
+  $queries = this.service.$queries;
 
   @ViewChild('container') chartEl!: ElementRef<HTMLCanvasElement>;
   chart!: Chart;
@@ -23,8 +28,13 @@ export class StatsComponent {
 
   constructor() {
 
-    const basicStartMonth = startOfWeek(new Date());
-    const basicEndMonth = endOfWeek(new Date());
+    let timestamp = Date.now();
+    if(this.$queries()?.timestamp) {
+      timestamp = Number(this.$queries()?.timestamp)
+    }
+
+    const basicStartMonth = startOfWeek(timestamp);
+    const basicEndMonth = endOfWeek(timestamp);
     console.log({basicStartMonth, basicEndMonth})
     // const expenseGroup = collection(this.afs, 'expense')
     // const expenseQuery = query(
@@ -35,22 +45,22 @@ export class StatsComponent {
 
   }
 
-  updatePeriod() {
+  changePeriod(period: string) {
+    this.router.navigate([], {queryParams: { period }})
+  }
 
+  onSwipeRight(date: Date) {
+    console.log(date)
+    this.router.navigate([], {queryParams: {timestamp: date.getTime() }, queryParamsHandling: 'merge'} )
+  }
+
+  onSwipeLeft(date: Date) {
+    console.log(date)
+    this.router.navigate([], {queryParams: {timestamp: date.getTime() }, queryParamsHandling: 'merge'} )
   }
 
   ngAfterViewInit(): void {
-    const pointerListener = new PointerListener(this.chartEl.nativeElement);
 
-    this.chartEl.nativeElement.addEventListener("swiperight", function(event){
-      console.log('swiperight', event)
-      // do something on tap
-    });
-
-    this.chartEl.nativeElement.addEventListener("swipeleft", function(event){
-      console.log('swipeleft', event)
-      // do something on tap
-    });
 
     this.chart = new Chart(this.chartEl.nativeElement, {
       type: 'bar',

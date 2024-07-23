@@ -4,10 +4,12 @@
     <ion-text color="medium">Total spend this week</ion-text>
   </header>
 
-  <canvas #container height="300"></canvas>
+  <canvas khPeriodSwipe #container height="300" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas>
 
-  @for(period of ['week', 'month', 'year']; track $index) {
-  <ion-button [fill]="service.$queries().period === period ? 'outline' : 'clear' " size="small">{{period}}</ion-button>
+  @for(p of ['week', 'month', 'year']; track $index) {
+    <ion-button (click)="changePeriod(p)" [fill]="service.$queries()?.period === p ? 'outline' : 'clear' " size="small">{{p}}</ion-button>
   }
+
+  <pre>{{ service.$queries()?.timestamp | date }}</pre>
 
 </ion-content>
