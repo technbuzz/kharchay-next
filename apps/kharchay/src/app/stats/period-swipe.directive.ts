@@ -28,13 +28,30 @@ export class PeriodSwipeDirective implements AfterViewInit {
     this.el.nativeElement.addEventListener("swiperight", () => {
       let timestamp = Number(this.$queries()?.timestamp)
       // console.log(timestamp)
-      this.swipeRight.emit(subWeeks(timestamp, 1))
+      this.swipeRight.emit(this.subPeriod(timestamp))
     });
 
     this.el.nativeElement.addEventListener("swipeleft", () => {
       let timestamp = Number(this.$queries()?.timestamp)
       this.swipeLeft.emit(addWeeks(timestamp, 1))
     });
+  }
+
+  subPeriod(timestamp: number): Date {
+    const period = this.$queries()?.period
+    let result;
+    switch (period) {
+      case 'week':
+        result = subWeeks(timestamp, 1)
+        break;
+
+      default:
+        result = subWeeks(timestamp, 4)
+        break;
+    }
+
+    return result
+
   }
 
 

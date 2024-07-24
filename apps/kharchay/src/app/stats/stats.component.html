@@ -1,15 +1,15 @@
 <ion-content >
   <header class="ion-padding ion-margin-bottom">
-    <h1 class="ion-no-margin">15.55</h1>
+    <h1 class="ion-no-margin">{{ $total() }}</h1>
     <ion-text color="medium">Total spend this week</ion-text>
   </header>
 
   <canvas khPeriodSwipe #container height="300" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas>
 
-  @for(p of ['week', 'month', 'year']; track $index) {
-    <ion-button (click)="changePeriod(p)" [fill]="service.$queries().period === p ? 'outline' : 'clear' " size="small">{{p}}</ion-button>
-  }
+  <!-- @for(p of ['week', 'month', 'year']; track $index) { -->
+  <!--   <ion-button (click)="changePeriod(p)" [fill]="service.$queries().period === p ? 'outline' : 'clear' " size="small">{{p}}</ion-button> -->
+  <!-- } -->
 
-  <pre>{{ service.$queries().timestamp | date }}</pre>
+  <pre>{{$queries().timestamp | date }}</pre>
 
 </ion-content>

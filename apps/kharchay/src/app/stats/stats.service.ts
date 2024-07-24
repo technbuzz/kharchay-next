@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import { collection, query, where } from 'firebase/firestore';
-import { map, switchMap, tap } from 'rxjs';
+import { debounceTime, map, switchMap } from 'rxjs';
 
 interface Queries {
   period: 'week' | 'month' | 'year',
@@ -32,6 +32,7 @@ export class StatsService {
   }
 
   expenses$ = toObservable(this.$queries).pipe(
+      debounceTime(1000),
       switchMap(params => {
         const expenseGroup = collection(this.afs, 'expense')
         const basicStartMonth = startOfWeek(params.timestamp);

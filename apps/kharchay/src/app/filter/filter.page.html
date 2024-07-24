@@ -1,12 +1,3 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Filter</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <!-- <ion-segment [(ngModel)]="searchType"> -->
   <ion-segment [value]="searchType" (ionChange)="onSegmentChange($event)">

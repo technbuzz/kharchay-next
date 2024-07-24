@@ -1,15 +1,5 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Summary</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content padding>
   <ion-list>
-
     <ion-item #dateItem>
       <ion-label stacked>Month</ion-label>
       <input type="month" [value]="month()" #expenseDate>
@@ -21,7 +11,7 @@
   <kh-doughnut [chartLabel]="chartLabels" [chartData]="chartData"></kh-doughnut>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]='["/filter"]' [queryParams]="{ month: expenseDate.value }">
+    <ion-fab-button [routerLink]='["../tabs/filter"]' [queryParams]="{ month: expenseDate.value }">
       <ion-icon name="list-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

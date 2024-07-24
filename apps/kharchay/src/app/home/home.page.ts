@@ -1,16 +1,16 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  Firestore,
-  collection,
-  collectionData,
-  deleteDoc,
-  doc,
-  firestoreInstance$,
-  getFirestore,
+    Firestore,
+    collection,
+    collectionData,
+    deleteDoc,
+    doc,
+    firestoreInstance$,
+    getFirestore,
 } from '@angular/fire/firestore';
 import { RouterLink } from '@angular/router';
-import { AlertController, IonButton, IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonRouterLink, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { AlertController, IonButton, IonContent, IonFab, IonFabButton, IonIcon, IonRouterLink } from '@ionic/angular/standalone';
 import { IExpense } from '@kh/common/api-interface';
 import { CreateService } from '@kh/mobile/create/data-access';
 import { addIcons } from "ionicons";
@@ -26,7 +26,7 @@ import { StreamDirective } from '../shared/stream.directive';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonButtons, IonIcon, IonTitle, IonContent, IonFab, StreamDirective, RouterLink, NgIf, RecurringComponent, AsyncPipe, IonRouterLink, IonHeader, IonToolbar, IonButtons, IonButton, IonIcon, IonTitle, IonContent, IonFab, IonFabButton],
+  imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, RecurringComponent, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
 })
 export class HomePage implements OnInit {
   app = getFirestore().app;

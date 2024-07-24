@@ -1,5 +1,5 @@
 import { DatePipe, JsonPipe } from '@angular/common';
-import { Component, ElementRef, inject, viewChild, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, viewChild, ViewChild } from '@angular/core';
 import { IonButton, IonContent, IonText } from '@ionic/angular/standalone';
 import { BarController, BarElement, CategoryScale, Chart, LinearScale, LineController, LineElement, Point, TimeScale, Tooltip } from 'chart.js';
 import { endOfWeek, startOfWeek } from 'date-fns';
@@ -7,6 +7,7 @@ import { PeriodSwipeDirective } from './period-swipe.directive';
 import { StatsService } from './stats.service';
 import { tap } from 'rxjs';
 import { IExpense } from '@kh/common/api-interface';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 Chart.register(BarController, BarElement, LineController, LineElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 @Component({
@@ -18,34 +19,37 @@ Chart.register(BarController, BarElement, LineController, LineElement, Tooltip, 
 export class StatsComponent {
 
   chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
-  chart!: Chart;
+  #chart!: Chart;
+  #service = inject(StatsService);
+  $queries = this.#service.$queries;
+  $expensesSet = toSignal(this.#service.expenses$, { initialValue: [] })
+
+  $total = computed(() => {
+    return this.$expensesSet().reduce((a, b) => a + b, 0)
+  })
 
 
-  service = inject(StatsService);
-  $queries = this.service.$queries;
-
-
-  expenses$ = this.service.expenses$.pipe(
+  expenses$ = this.#service.expenses$.pipe(
     tap(() => this.resetChart()),
     tap(expenses => this.updateChartData(expenses)),
-    tap(() => this.chart.update())
+    tap(() => this.#chart.update())
   )
 
   changePeriod(period: string) {
-    this.service.setQueries({ period })
+    this.#service.setQueries({ period })
   }
 
   onSwipeRight(date: Date) {
-    this.service.setQueries({ timestamp: date.getTime() })
+    this.#service.setQueries({ timestamp: date.getTime() })
   }
 
   onSwipeLeft(date: Date) {
-    this.service.setQueries({ timestamp: date.getTime() })
+    this.#service.setQueries({ timestamp: date.getTime() })
   }
 
   updateChartData(expenses: Number[]) {
     console.log(expenses)
-    this.chart.data.datasets.push({
+    this.#chart.data.datasets.push({
     // @ts-ignore
       data: [...expenses],
       backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234',],
@@ -58,7 +62,7 @@ export class StatsComponent {
   ngAfterViewInit(): void {
     this.expenses$.subscribe()
 
-    this.chart = new Chart(this.chartEl().nativeElement, {
+    this.#chart = new Chart(this.chartEl().nativeElement, {
       type: 'bar',
       data: {
         labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -109,7 +113,7 @@ export class StatsComponent {
   }
 
   resetChart() {
-    this.chart.data.datasets = []
+    this.#chart.data.datasets = []
   }
 
 
