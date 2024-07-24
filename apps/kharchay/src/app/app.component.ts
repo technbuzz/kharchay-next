@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
     selector: 'kh-root',
     imports: [IonApp, IonRouterOutlet],
     standalone: true,
-    templateUrl: 'app.component.html'
+    template: `<ion-app><ion-router-outlet></ion-router-outlet></ion-app>`,
 })
 export class AppComponent implements OnDestroy {
 

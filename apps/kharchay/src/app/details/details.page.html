@@ -14,7 +14,7 @@
       <ion-spinner></ion-spinner>
     </div>
   </ng-template>
-  
+
   <ion-card *ngIf="imgUrl$ | async as url" >
     <img [src]="url" imageViewer="expense.imageUrl"/>
     <!-- <img [src]="expense.imageUrl || './assets/imgs/placeholder.png'" imageViewer="expense.imageUrl"/> -->
@@ -23,9 +23,9 @@
         <h1>
           {{expense.price}}
         </h1>
-        
+
         <ion-badge *ngIf="expense.category">{{expense.category.title}}</ion-badge>
-        <ion-badge *ngIf="expense?.subCategory" color="danger">{{expense?.subCategory?.title}}</ion-badge>
+        <ion-badge *ngIf="expense?.subCategory" color="danger">{{expense.subCategory?.title}}</ion-badge>
 
         </ion-card-title>
       <p>

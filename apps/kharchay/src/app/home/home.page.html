@@ -1,38 +1,15 @@
-<ion-header>
-  <ion-toolbar color="primary" app-stream>
-    <ion-buttons slot="primary">
-      <ion-button routerLink="/filter">
-        <ion-icon name="funnel" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button routerLink="/search">
-        <ion-icon name="search" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>
-      Kharchay
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-
 <ion-content padding-small>
-  <div class="ion-padding-horizontal">
-    <ion-button margin-right color="secondary" class="ion-float-end" routerLink="/summary" routerDirection="forward"
-      type="button">Show
-      Chart</ion-button>
-  </div>
-  
+
 
 
   <!-- List all the recurring expense -->
   <section class="ion-padding-horizontal" *ngIf="(recurringExpenses | async) as recurring">
     <h2>Incoming Expenses</h2>
     <kh-recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurring"></kh-recurring>
-    
   </section>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="../new">
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/new">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

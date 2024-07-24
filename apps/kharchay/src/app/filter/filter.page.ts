@@ -41,11 +41,6 @@ import { format } from 'date-fns/format';
         DecimalPipe,
         TitleCasePipe,
         DatePipe,
-        IonHeader,
-        IonToolbar,
-        IonButtons,
-        IonBackButton,
-        IonTitle,
         IonContent,
         IonSegment,
         IonSegmentButton,
@@ -88,7 +83,6 @@ export class FilterPage extends Stepper implements OnInit {
     constructor(private router: Router, private afs: Firestore) {
         super();
         Object.assign(this.categories, categories);
-        addIcons({ pieChart, calendar });
         addIcons({ calendar, pieChart });
     }
 

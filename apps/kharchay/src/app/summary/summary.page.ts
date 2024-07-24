@@ -2,9 +2,7 @@ import {
     AfterViewInit,
     Component, ElementRef,
     ViewChild,
-    effect,
-    input,
-    signal
+    input
 } from '@angular/core';
 import { Firestore, collection } from '@angular/fire/firestore';
 import { Observable, fromEvent, merge } from 'rxjs';
@@ -21,7 +19,7 @@ import { startOfMonth } from 'date-fns/startOfMonth';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Gesture, GestureController, IonBackButton, IonButtons, IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Gesture, GestureController, IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList } from '@ionic/angular/standalone';
 import { format } from 'date-fns/format';
 import { addIcons } from "ionicons";
 import { listOutline } from "ionicons/icons";
@@ -29,7 +27,7 @@ import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
 import { collectionData } from 'rxfire/firestore';
-import { filter, map, tap, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { DoughnutComponent } from './doughnut/doughnut.component';
 
 function tranformDate(v: string) {
@@ -46,11 +44,6 @@ function tranformDate(v: string) {
     FormsModule,
     DoughnutComponent,
     RouterLink,
-    IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonBackButton,
-    IonTitle,
     IonContent,
     IonList,
     IonItem,

@@ -20096,6 +20096,11 @@
       },
       {
         "source": "admin",
+        "target": "npm:@angular/router",
+        "type": "static"
+      },
+      {
+        "source": "admin",
         "target": "common-environments",
         "type": "static"
       },
@@ -20106,7 +20111,12 @@
       },
       {
         "source": "admin",
-        "target": "npm:@angular/router",
+        "target": "npm:@angular/common",
+        "type": "static"
+      },
+      {
+        "source": "admin",
+        "target": "npm:@angular/platform-browser",
         "type": "static"
       },
       {
@@ -20117,11 +20127,6 @@
       {
         "source": "admin",
         "target": "npm:@angular/material",
-        "type": "static"
-      },
-      {
-        "source": "admin",
-        "target": "npm:@angular/common",
         "type": "static"
       },
       {
