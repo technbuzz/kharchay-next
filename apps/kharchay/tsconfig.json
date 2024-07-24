@@ -23,7 +23,8 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "es2020"
+    "target": "esnext",
+    "module": "esnext",
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

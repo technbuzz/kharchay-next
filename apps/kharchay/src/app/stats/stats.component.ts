@@ -1,14 +1,14 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { Firestore, collection, query, where } from '@firebase/firestore';
-import { IonButton, IonContent, IonText } from '@ionic/angular/standalone';
-import { BarController, BarElement, CategoryScale, Chart, LinearScale, Tooltip } from 'chart.js';
-import { endOfWeek, startOfWeek } from 'date-fns';
-import { StatsService } from './stats.service';
-import { Router } from '@angular/router';
-import { PeriodSwipeDirective } from './period-swipe.directive';
 import { DatePipe, JsonPipe } from '@angular/common';
+import { Component, ElementRef, inject, viewChild, ViewChild } from '@angular/core';
+import { IonButton, IonContent, IonText } from '@ionic/angular/standalone';
+import { BarController, BarElement, CategoryScale, Chart, LinearScale, LineController, LineElement, Point, TimeScale, Tooltip } from 'chart.js';
+import { endOfWeek, startOfWeek } from 'date-fns';
+import { PeriodSwipeDirective } from './period-swipe.directive';
+import { StatsService } from './stats.service';
+import { tap } from 'rxjs';
+import { IExpense } from '@kh/common/api-interface';
 
-Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale);
+Chart.register(BarController, BarElement, LineController, LineElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 @Component({
   selector: 'kh-stats',
   standalone: true,
@@ -17,60 +17,56 @@ Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale);
 })
 export class StatsComponent {
 
-  router = inject(Router);
-  service = inject(StatsService);
-
-  $queries = this.service.$queries;
-
-  @ViewChild('container') chartEl!: ElementRef<HTMLCanvasElement>;
+  chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
   chart!: Chart;
 
 
-  constructor() {
+  service = inject(StatsService);
+  $queries = this.service.$queries;
 
-    let timestamp = Date.now();
-    if(this.$queries()?.timestamp) {
-      timestamp = Number(this.$queries()?.timestamp)
-    }
 
-    const basicStartMonth = startOfWeek(timestamp);
-    const basicEndMonth = endOfWeek(timestamp);
-    console.log({basicStartMonth, basicEndMonth})
-    // const expenseGroup = collection(this.afs, 'expense')
-    // const expenseQuery = query(
-    //     expenseGroup,
-    //     where('date', '>=', basicStartMonth),
-    //     where('date', '<=', basicEndMonth),
-    // )
-
-  }
+  expenses$ = this.service.expenses$.pipe(
+    tap(() => this.resetChart()),
+    tap(expenses => this.updateChartData(expenses)),
+    tap(() => this.chart.update())
+  )
 
   changePeriod(period: string) {
-    this.router.navigate([], {queryParams: { period }})
+    this.service.setQueries({ period })
   }
 
   onSwipeRight(date: Date) {
-    console.log(date)
-    this.router.navigate([], {queryParams: {timestamp: date.getTime() }, queryParamsHandling: 'merge'} )
+    this.service.setQueries({ timestamp: date.getTime() })
   }
 
   onSwipeLeft(date: Date) {
-    console.log(date)
-    this.router.navigate([], {queryParams: {timestamp: date.getTime() }, queryParamsHandling: 'merge'} )
+    this.service.setQueries({ timestamp: date.getTime() })
+  }
+
+  updateChartData(expenses: Number[]) {
+    console.log(expenses)
+    this.chart.data.datasets.push({
+    // @ts-ignore
+      data: [...expenses],
+      backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234',],
+      borderWidth: 2,
+      borderRadius: 5,
+      barThickness: 24,
+    })
   }
 
   ngAfterViewInit(): void {
+    this.expenses$.subscribe()
 
-
-    this.chart = new Chart(this.chartEl.nativeElement, {
+    this.chart = new Chart(this.chartEl().nativeElement, {
       type: 'bar',
       data: {
-        labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         datasets: [
           {
             label: '# of Votes',
             data: [12, 39, 3, 45, 82, 3, 27],
-            backgroundColor: [ 'tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234', ],
+            backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234',],
             borderWidth: 2,
             borderRadius: 5,
             barThickness: 24,
@@ -110,6 +106,73 @@ export class StatsComponent {
 
       }
     });
-
   }
+
+  resetChart() {
+    this.chart.data.datasets = []
+  }
+
+
+
 }
+// this.chart = new Chart(this.chartEl.nativeElement, {
+//   type: 'line',
+//   // data: {
+//   //   labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+//   //   datasets: [
+//   //     {
+//   //       label: '# of Votes',
+//   //       data: [12, 39, 3, 45, 82, 3, 27],
+//   //       backgroundColor: [ 'tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234', ],
+//   //       borderWidth: 2,
+//   //       borderRadius: 5,
+//   //       barThickness: 24,
+//   //     },
+//   //   ],
+//   // },
+//       // data: [{ x: 'Sun', y: 12 }, { x: 'Mon', y: 39 }, { x: 'Tue', y: 3 }, { x: 'Wed', y: 45 }, { x: 'Thu', y: 82 }, { x: 'Fri', y: 3 }, { x: 'Sat', y: 27 }],
+//   data: {
+//     datasets: [{
+//         // data: [12, 39, 3, 45, 82, 3, 27],
+//       label: '# of Votes',
+//       data: [{ x: 'Sun', y: 12 }, { x: 'Mon', y: 39 }],
+//       // backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234'],
+//       // borderWidth: 2,
+//       // borderRadius: 5,
+//       // barThickness: 24,
+//     }],
+//   },
+//   // options: {
+//   //   parsing: false,
+//   //
+//   //   scales: {
+//   //     x: {
+//   //       border: {
+//   //         display: false
+//   //       },
+//   //       grid: {
+//   //         display: false,
+//   //         drawTicks: false
+//   //       }
+//   //     },
+//   //     y: {
+//   //       position: 'right',
+//   //       border: {
+//   //         display: false
+//   //       },
+//   //       grid: {
+//   //         display: false
+//   //       },
+//   //       ticks: {
+//   //         stepSize: 30,
+//   //       }
+//   //     }
+//   },
+//   plugins: {
+//     legend: {
+//       display: false
+//     }
+//   }
+//
+// }
+// });
