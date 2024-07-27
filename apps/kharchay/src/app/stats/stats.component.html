@@ -11,5 +11,17 @@
   <!-- } -->
 
   <pre>{{$queries().timestamp | date }}</pre>
+  <!-- <pre>{{ $expensesSet()?.ungrouped | json }}</pre> -->
 
+  <ion-list class="ion-padding-horizontal">
+      @for(item of $expensesSet()?.ungrouped; track $index) {
+        <expense-item
+        [expense]="$any(item)"
+        [readonly]="true"
+        ></expense-item>
+      } @empty {
+        <small>Nothing found</small>
+      }
+
+  </ion-list>
 </ion-content>

@@ -26,6 +26,8 @@ export class NewxComponent {
   @Input() parent!: UntypedFormGroup;
   @Output() onSubmit = new EventEmitter()
 
+  fieldSizing = CSS.supports('field-sizing', 'content') ? 'auto' : '4'
+
   constructor() {
     addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
   }

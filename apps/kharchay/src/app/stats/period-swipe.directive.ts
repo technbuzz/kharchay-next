@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, inject, output } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, OnDestroy, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { PointerListener } from 'contactjs';
 import { StatsService } from './stats.service';
@@ -9,7 +9,7 @@ import { subWeeks } from 'date-fns/subWeeks';
   selector: '[khPeriodSwipe]',
   standalone: true
 })
-export class PeriodSwipeDirective implements AfterViewInit {
+export class PeriodSwipeDirective implements AfterViewInit, OnDestroy{
 
   el = inject(ElementRef);
   router = inject(Router);
@@ -21,20 +21,23 @@ export class PeriodSwipeDirective implements AfterViewInit {
   swipeRight = output<Date>()
   swipeLeft = output<Date>()
 
+  swipeRightHandler = () => {
+    let timestamp = Number(this.$queries()?.timestamp)
+    this.swipeRight.emit(this.subPeriod(timestamp))
+  }
+
+  swipeLeftHandler = () => {
+    let timestamp = Number(this.$queries()?.timestamp)
+    this.swipeLeft.emit(addWeeks(timestamp, 1))
+  }
+
   ngAfterViewInit(): void {
 
     const pointerListener = new PointerListener(this.el.nativeElement);
 
-    this.el.nativeElement.addEventListener("swiperight", () => {
-      let timestamp = Number(this.$queries()?.timestamp)
-      // console.log(timestamp)
-      this.swipeRight.emit(this.subPeriod(timestamp))
-    });
+    this.el.nativeElement.addEventListener("swiperight", this.swipeRightHandler);
 
-    this.el.nativeElement.addEventListener("swipeleft", () => {
-      let timestamp = Number(this.$queries()?.timestamp)
-      this.swipeLeft.emit(addWeeks(timestamp, 1))
-    });
+    this.el.nativeElement.addEventListener("swipeleft", this.swipeLeftHandler);
   }
 
   subPeriod(timestamp: number): Date {
@@ -55,5 +58,9 @@ export class PeriodSwipeDirective implements AfterViewInit {
   }
 
 
+  ngOnDestroy(): void {
+    this.el.nativeElement.removeEventListener("swiperight", this.swipeRightHandler);
+    this.el.nativeElement.removeEventListener("swipeleft", this.swipeLeftHandler);
+  }
 
 }

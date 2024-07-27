@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import { collection, query, where } from 'firebase/firestore';
-import { debounceTime, map, switchMap } from 'rxjs';
+import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { BaseExpense } from '../home/expense-base.model';
+import groupBy from 'lodash-es/groupBy';
 
 interface Queries {
   period: 'week' | 'month' | 'year',
@@ -42,28 +44,34 @@ export class StatsService {
             where('date', '>=', basicStartMonth),
             where('date', '<=', basicEndMonth),
         )
-        return collectionData(expenseQuery, { idField: 'id' })
+        // return collectionData<Observable<IExpense>>(expenseQuery)
+        return collectionData(expenseQuery)
       }),
-      map(expense => {
-        // @ts-ignore
-        return Object.groupBy(expense, expense => expense.date.toDate().getDay())
+      map(expenses => {
+        // let grouped = groupBy(expenses, (expense: IExpense) => expense.date.toDate().getMonth())
+      // @ts-ignore
+        let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
+        return { grouped: this.reduceGrouped(grouped), ungrouped: expenses}
       }),
-      map((expenses: { [key: number]: IExpense[]} ) => {
-        let spendings = new Array(7).fill(0);
-
-        for(let e in expenses) {
-          let el = expenses[e]
-          // @ts-ignore
-          spendings[e] = el.map(item => item.price).reduce((a:number, b: number) => a +b)
-        }
-        return spendings
-
-      }),
+      // map((expenses: { [key: number]: IExpense[]} ) => {
+      //
+      // }),
     )
 
 
   constructor(private afs: Firestore) {
 
+  }
+
+  reduceGrouped(expenses: { [key: number]: IExpense[]} ): Number[] {
+    let spendings = new Array(7).fill(0);
+
+    for(let e in expenses) {
+      let el = expenses[e]
+      // @ts-ignore
+      spendings[e] = el.map(item => item.price).reduce((a:number, b: number) => a +b)
+    }
+    return spendings
   }
 
 

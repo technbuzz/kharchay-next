@@ -12,7 +12,6 @@ interface Slice {
     selector: 'pie',
     templateUrl: 'pie.html',
     styleUrls: ['pie.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [NgFor, NgStyle]
 })
@@ -33,13 +32,13 @@ export class PieComponent {
     const { data, labels }:{data:SimpleChange, labels:SimpleChange} = changes
     if (data.currentValue && data.currentValue.length) {
       const total = data.currentValue.reduce((a:any,b:any) => a + b)
-      this.slices = data.currentValue.map((item:any, i:any) => ({ 
-        value: item / total, 
+      this.slices = data.currentValue.map((item:any, i:any) => ({
+        value: item / total,
         color: this.colors[i],
         label: labels.currentValue[i],
         startAngle: (item / total)* 360
       }))
-      
+
     }
   }
 
