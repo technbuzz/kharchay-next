@@ -1,46 +1,46 @@
-import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import { argsToTemplate, type Meta, applicationConfig, type StoryObj } from '@storybook/angular';
 import { ExpenseItemComponent } from './expense-item';
 
-import { within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
-import { CommonModule } from '@angular/common';
 
 const meta: Meta<ExpenseItemComponent> = {
-    component: ExpenseItemComponent,
-    title: 'ExpenseItemComponent',
-    decorators: [
-        moduleMetadata({
-            imports: [
-                IonicModule.forRoot(),
-                CommonModule,
-                ExpenseItemComponent
-            ],
-        })
-    ],
+  component: ExpenseItemComponent,
+  title: 'Components/ExpenseItem',
+  render: args => ({
+    props: args,
+    // props: {
+    //   ...args
+    // },
+    template: `<expense-item class="sami" [expense]="args.item"></expense-item>`,
+  })
 };
 export default meta;
 type Story = StoryObj<ExpenseItemComponent>;
 
 export const Primary: Story = {
-    args: {
-        readonly: false,
-        item: {
-            id: '',
-            price: 30,
-            note: 'Basic note',
-            category: {
-                title: 'food',
-            },
-            date: '',
-            details: false,
-            imageName: '',
-            imageUrl: '',
-            subCategory: {
-                title: 'breakfast',
-            },
-            fixed: false
-        }
-    },
+
+  args: {
+    // readonly: false,
+    item: {
+      "id": "",
+      "price": 77,
+      "note": "Basic note",
+
+      "category": {
+        "title": "food"
+      },
+
+      "date": "",
+      "details": false,
+      "imageName": "",
+      "imageUrl": "",
+
+      "subCategory": {
+        "title": "breakfast"
+      },
+
+      "fixed": false
+    }
+  },
 };
 
 // export const Heading: Story = {

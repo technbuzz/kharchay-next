@@ -4,24 +4,20 @@
     <ion-text color="medium">Total spend this week</ion-text>
   </header>
 
-  <canvas khPeriodSwipe #container height="300" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas>
+  <canvas khPeriodSwipe #container height="250" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas>
 
-  <!-- @for(p of ['week', 'month', 'year']; track $index) { -->
-  <!--   <ion-button (click)="changePeriod(p)" [fill]="service.$queries().period === p ? 'outline' : 'clear' " size="small">{{p}}</ion-button> -->
-  <!-- } -->
 
   <pre>{{$queries().timestamp | date }}</pre>
-  <!-- <pre>{{ $expensesSet()?.ungrouped | json }}</pre> -->
 
   <ion-list class="ion-padding-horizontal">
-      @for(item of $expensesSet()?.ungrouped; track $index) {
-        <expense-item
+    @for(item of $expensesSet()?.ungrouped; track $index) {
+      <expense-item
         [expense]="$any(item)"
         [readonly]="true"
-        ></expense-item>
-      } @empty {
-        <small>Nothing found</small>
-      }
-
+      ></expense-item>
+    } @empty {
+      <small>Nothing found</small>
+    }
   </ion-list>
+
 </ion-content>

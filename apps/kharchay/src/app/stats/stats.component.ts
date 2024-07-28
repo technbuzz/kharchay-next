@@ -21,8 +21,8 @@ export class StatsComponent {
   #chart!: Chart;
   #service = inject(StatsService);
   $queries = this.#service.$queries;
-  // $expensesSet = toSignal(this.#service.expenses$, { initialValue: { grouped: [], ungrouped: []} })
-  $expensesSet = toSignal(this.#service.expenses$)
+  $expensesSet = toSignal(this.#service.expenses$, { initialValue: { grouped: [], ungrouped: []} })
+  // $expensesSet = toSignal(this.#service.expenses$)
 
   $total = computed(() => {
     return this.$expensesSet()?.grouped.reduce((a, b) => Number(a) + Number(b), 0)
@@ -31,7 +31,6 @@ export class StatsComponent {
 
   expenses$ = this.#service.expenses$.pipe(
     tap(() => this.resetChart()),
-    tap(console.log),
     tap(expenses => this.updateChartData(expenses.grouped)),
     tap(() => this.#chart.update())
   )
@@ -88,7 +87,7 @@ export class StatsComponent {
           // const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
           //
         },
-
+        events: ['click'],
         scales: {
           x: {
             border: {
@@ -108,7 +107,7 @@ export class StatsComponent {
               display: false
             },
             ticks: {
-              stepSize: 30,
+              stepSize: 50,
             }
           }
         },
