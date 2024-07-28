@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ref, Storage } from '@angular/fire/storage';
-import { mapCategory, mapSubCategory } from '../shared/categories';
 import { from, Observable } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { getDownloadURL } from '@firebase/storage';

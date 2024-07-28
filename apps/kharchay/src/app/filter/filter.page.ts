@@ -22,8 +22,8 @@ import { Observable } from 'rxjs';
 import { ExpenseItemComponent } from '../components/expense-item/expense-item';
 import { BaseExpense } from '../home/expense-base.model';
 import { SettingsService } from '../services/settings.service';
-import { categories } from '../shared/categories';
 import { Stepper } from '../shared/stepper';
+import { categories } from '@kh/mobile/create/data-access';
 
 @Component({
     selector: 'kh-filter',
