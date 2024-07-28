@@ -43,7 +43,7 @@ export class CreateComponent {
   async add() {
     await this.addEntry()
     this.form.reset();
-    this.router.navigate(['home'])
+    this.router.navigate(['../tabs/home'])
   }
 
   async addEntry() {

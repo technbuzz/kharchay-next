@@ -1,4 +1,6 @@
-const rootMain = require('../../../../../.storybook/main');
+// const rootMain = require('../../../../../.storybook/main');
+const rootMain = require('../../../../../apps/kharchay/.storybook/main');
+// rootMai
 
 module.exports = {
   ...rootMain,
