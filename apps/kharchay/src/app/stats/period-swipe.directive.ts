@@ -2,14 +2,13 @@ import { AfterViewInit, Directive, ElementRef, inject, OnDestroy, output } from 
 import { Router } from '@angular/router';
 import { PointerListener } from 'contactjs';
 import { StatsService } from './stats.service';
-import { addWeeks } from 'date-fns/addWeeks';
-import { subWeeks } from 'date-fns/subWeeks';
 
 @Directive({
   selector: '[khPeriodSwipe]',
   standalone: true
 })
 export class PeriodSwipeDirective implements AfterViewInit, OnDestroy{
+
 
   el = inject(ElementRef);
   router = inject(Router);
@@ -23,12 +22,12 @@ export class PeriodSwipeDirective implements AfterViewInit, OnDestroy{
 
   swipeRightHandler = () => {
     let timestamp = Number(this.$queries()?.timestamp)
-    this.swipeRight.emit(this.subPeriod(timestamp))
+    this.swipeRight.emit(this.service.subPeriod(timestamp))
   }
 
   swipeLeftHandler = () => {
     let timestamp = Number(this.$queries()?.timestamp)
-    this.swipeLeft.emit(addWeeks(timestamp, 1))
+    this.swipeLeft.emit(this.service.addPeriod(timestamp))
   }
 
   ngAfterViewInit(): void {
@@ -39,24 +38,6 @@ export class PeriodSwipeDirective implements AfterViewInit, OnDestroy{
 
     this.el.nativeElement.addEventListener("swipeleft", this.swipeLeftHandler);
   }
-
-  subPeriod(timestamp: number): Date {
-    const period = this.$queries()?.period
-    let result;
-    switch (period) {
-      case 'week':
-        result = subWeeks(timestamp, 1)
-        break;
-
-      default:
-        result = subWeeks(timestamp, 4)
-        break;
-    }
-
-    return result
-
-  }
-
 
   ngOnDestroy(): void {
     this.el.nativeElement.removeEventListener("swiperight", this.swipeRightHandler);

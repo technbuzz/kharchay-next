@@ -3,11 +3,11 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
-import { endOfWeek, startOfWeek } from 'date-fns';
+import { addWeeks, subWeeks ,endOfWeek, startOfWeek } from 'date-fns';
 import { collection, query, where } from 'firebase/firestore';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { BaseExpense } from '../home/expense-base.model';
-import groupBy from 'lodash-es/groupBy';
+import { addIcons } from 'ionicons';
+import { chevronBackOutline, chevronForwardOutline  } from 'ionicons/icons';
 
 interface Queries {
   period: 'week' | 'month' | 'year',
@@ -60,6 +60,9 @@ export class StatsService {
 
 
   constructor(private afs: Firestore) {
+    addIcons({
+      chevronBackOutline,chevronForwardOutline
+    })
 
   }
 
@@ -75,7 +78,39 @@ export class StatsService {
   }
 
 
+  subPeriod(timestamp: number): Date {
+    const period = this.$queries()?.period
+    let result;
+    switch (period) {
+      case 'week':
+        result = subWeeks(timestamp, 1)
+        break;
+
+      default:
+        result = subWeeks(timestamp, 4)
+        break;
+    }
+
+    return result
+
+  }
 
 
+  addPeriod(timestamp: number): Date {
+    const period = this.$queries()?.period
+    let result;
+    switch (period) {
+      case 'week':
+        result = addWeeks(timestamp, 1)
+        break;
+
+      default:
+        result = addWeeks(timestamp, 4)
+        break;
+    }
+
+    return result
+
+  }
 
 }

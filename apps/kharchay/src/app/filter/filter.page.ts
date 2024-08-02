@@ -14,7 +14,7 @@ import { AsyncPipe, DatePipe, DecimalPipe, NgFor, NgSwitch, NgSwitchCase, TitleC
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonButton, IonContent, IonDatetime, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSegment, IonSegmentButton, IonSelect, IonSelectOption } from "@ionic/angular/standalone";
-import { IExpense } from '@kh/common/api-interface';
+import { categories, IExpense } from '@kh/common/api-interface';
 import { format } from 'date-fns/format';
 import { addIcons } from "ionicons";
 import { calendar, pieChart } from "ionicons/icons";
@@ -23,7 +23,6 @@ import { ExpenseItemComponent } from '../components/expense-item/expense-item';
 import { BaseExpense } from '../home/expense-base.model';
 import { SettingsService } from '../services/settings.service';
 import { Stepper } from '../shared/stepper';
-import { categories } from '@kh/mobile/create/data-access';
 
 @Component({
     selector: 'kh-filter',
@@ -71,7 +70,7 @@ export class FilterPage extends Stepper implements OnInit {
     filter = {
         startDate: '',
         endDate: '',
-        category: '',
+        category: [],
         month: new Date().toISOString()
     };
 
@@ -177,6 +176,7 @@ export class FilterPage extends Stepper implements OnInit {
         }
 
         const ref = collection(this.afs, 'expense');
+    debugger
         this.expRef = query(ref,
             where('date', '>=', new Date(this.filter.startDate)),
             where('date', '<=', new Date(this.filter.endDate)),

@@ -26,7 +26,7 @@ import { StreamDirective } from '../shared/stream.directive';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, RecurringComponent, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
+  imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
 })
 export class HomePage implements OnInit {
   app = getFirestore().app;

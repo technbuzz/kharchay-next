@@ -1,10 +1,9 @@
 import { DatePipe, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { IExpense } from '@kh/common/api-interface';
+import { IExpense, mapCategory, mapSubCategory } from '@kh/common/api-interface';
 import { TruncatePipe } from './truncate.pipe';
 import { IonItemSliding, IonItem, IonAvatar, IonLabel, IonGrid, IonRow, IonCol, IonIcon, IonBadge, IonNote, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
-import { mapCategory, mapSubCategory } from '@kh/mobile/create/data-access';
 
 @Component({
     selector: 'expense-item',
