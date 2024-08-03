@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import { IExpense } from '@kh/common/api-interface'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { FormGroup } from '@angular/forms';
-import { SharedUiNewModule } from '../../../../../../libs/mobile/shared/ui/new/src/lib/new.module';
 import { IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent } from "@ionic/angular/standalone";
 
 export interface RecurringEvent {
@@ -15,7 +14,7 @@ export interface RecurringEvent {
     templateUrl: './recurring.component.html',
     styleUrls: ['./recurring.component.scss'],
     standalone: true,
-    imports: [SharedUiNewModule, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent],
+    imports: [IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent],
 })
 export class RecurringComponent {
 

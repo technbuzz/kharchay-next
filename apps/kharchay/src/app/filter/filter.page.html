@@ -60,7 +60,7 @@
       <ion-item>
         <ion-label floating>Choose Category</ion-label>
         <ion-select interface="popover" required name="category" [(ngModel)]="filter.category" (ionChange)="loadResults({})">
-          <ion-select-option [value]="cat" *ngFor="let cat of categories">
+          <ion-select-option [value]="{ title: cat.title}" *ngFor="let cat of categories">
             {{cat.title | titlecase}}</ion-select-option>
         </ion-select>
       </ion-item>

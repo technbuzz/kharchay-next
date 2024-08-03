@@ -5,8 +5,16 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
   framework: {
     name: '@storybook/angular',
-    options: {},
+    options: {
+      builders: { useSWC: true}
+    },
   },
+  docs: { autodocs: true},
+  webpackFinal: (config) => {
+    config.devtool = 'source-map';
+    return config;
+  },
+  staticDirs: ["./assets/images"]
 };
 
 export default config;

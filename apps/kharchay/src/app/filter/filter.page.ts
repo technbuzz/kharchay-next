@@ -1,29 +1,28 @@
 import { Component, OnInit, ViewChild, inject, input } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
-import { collection, collectionData, collectionGroup, deleteDoc, doc, Firestore, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, deleteDoc, doc, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
 import { query } from '@firebase/firestore';
-import { IonNote, SegmentChangeEventDetail } from '@ionic/angular/standalone';
+import { IonNote } from '@ionic/angular/standalone';
 import { endOfMonth } from 'date-fns/endOfMonth';
 import { isBefore } from 'date-fns/isBefore';
-import { startOfMonth } from 'date-fns/startOfMonth';
 import { lightFormat } from 'date-fns/lightFormat';
-import { parseISO } from 'date-fns/parseISO';
 import { parse } from 'date-fns/parse';
+import { parseISO } from 'date-fns/parseISO';
+import { startOfMonth } from 'date-fns/startOfMonth';
 
-import { Observable, map } from 'rxjs';
-import { BaseExpense } from '../home/expense-base.model';
-import { categories } from '../shared/categories';
-import { Stepper } from '../shared/stepper';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IExpense } from '@kh/common/api-interface';
-import { SettingsService } from '../services/settings.service';
-import { ExpenseItemComponent } from '../components/expense-item/expense-item';
-import { NgSwitch, NgSwitchCase, NgFor, AsyncPipe, DecimalPipe, TitleCasePipe, DatePipe } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AsyncPipe, DatePipe, DecimalPipe, NgFor, NgSwitch, NgSwitchCase, TitleCasePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { IonButton, IonContent, IonDatetime, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSegment, IonSegmentButton, IonSelect, IonSelectOption } from "@ionic/angular/standalone";
+import { categories, IExpense } from '@kh/common/api-interface';
+import { format } from 'date-fns/format';
 import { addIcons } from "ionicons";
 import { calendar, pieChart } from "ionicons/icons";
-import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSegment, IonSegmentButton, IonList, IonItem, IonLabel, IonButton, IonIcon, IonPopover, IonDatetime, IonSelect, IonSelectOption, IonFab, IonFabButton } from "@ionic/angular/standalone";
-import { format } from 'date-fns/format';
+import { Observable } from 'rxjs';
+import { ExpenseItemComponent } from '../components/expense-item/expense-item';
+import { BaseExpense } from '../home/expense-base.model';
+import { SettingsService } from '../services/settings.service';
+import { Stepper } from '../shared/stepper';
 
 @Component({
     selector: 'kh-filter',
@@ -71,7 +70,7 @@ export class FilterPage extends Stepper implements OnInit {
     filter = {
         startDate: '',
         endDate: '',
-        category: '',
+        category: [],
         month: new Date().toISOString()
     };
 
@@ -177,6 +176,7 @@ export class FilterPage extends Stepper implements OnInit {
         }
 
         const ref = collection(this.afs, 'expense');
+    debugger
         this.expRef = query(ref,
             where('date', '>=', new Date(this.filter.startDate)),
             where('date', '<=', new Date(this.filter.endDate)),

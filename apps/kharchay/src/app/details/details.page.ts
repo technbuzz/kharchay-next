@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ref, Storage } from '@angular/fire/storage';
-import { mapCategory, mapSubCategory } from '../shared/categories';
 import { from, Observable } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { getDownloadURL } from '@firebase/storage';
 import { keepUnstableUntilFirst } from '@angular/fire';
 import { startWith, tap } from 'rxjs/operators';
-import { IExpense } from '@kh/common/api-interface';
+import { IExpense, mapCategory, mapSubCategory } from '@kh/common/api-interface';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSpinner, IonCard, IonCardContent, IonCardTitle, IonBadge } from "@ionic/angular/standalone";
 

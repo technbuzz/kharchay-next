@@ -1,15 +1,35 @@
 <ion-content >
-  <header class="ion-padding ion-margin-bottom">
-    <h1 class="ion-no-margin">{{ $total() }}</h1>
-    <ion-text color="medium">Total spend this week</ion-text>
+  <header class="flex ion-padding ion-margin-bottom">
+    <ion-button (click)="backward()" fill="clear" color="medium">
+      <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    <div class="flex-1 ion-text-center">
+      <h1 class="ion-no-margin">{{ $total() }}</h1>
+      <ion-text color="medium">Total spend this week</ion-text>
+    </div>
+
+    <ion-button (click)="forward()" fill="clear" color="medium">
+      <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+    </ion-button>
   </header>
 
-  <canvas khPeriodSwipe #container height="300" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas>
+  <!-- <canvas khPeriodSwipe #container height="250" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas> -->
+  <canvas khPeriodSwipe #container height="250" ></canvas>
 
-  <!-- @for(p of ['week', 'month', 'year']; track $index) { -->
-  <!--   <ion-button (click)="changePeriod(p)" [fill]="service.$queries().period === p ? 'outline' : 'clear' " size="small">{{p}}</ion-button> -->
-  <!-- } -->
-
+  <kh-periods />
   <pre>{{$queries().timestamp | date }}</pre>
+
+
+  <ion-list class="ion-padding-horizontal">
+    @for(item of $expensesSet()?.ungrouped; track $index) {
+      <expense-item
+        [expense]="$any(item)"
+        [readonly]="true"
+      ></expense-item>
+    } @empty {
+      <small>Nothing found</small>
+    }
+  </ion-list>
 
 </ion-content>

@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRow, IonPopover, IonContent, IonNote, IonDatetime} from '@ionic/angular/standalone';
 import { DatetimeCustomEvent } from '@ionic/core';
-import { Category, categories } from './categories';
+import { Category, categories } from '@kh/common/api-interface';
 import { addIcons } from "ionicons";
 import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
 
@@ -25,6 +25,8 @@ export class NewxComponent {
 
   @Input() parent!: UntypedFormGroup;
   @Output() onSubmit = new EventEmitter()
+
+  fieldSizing = CSS.supports('field-sizing', 'content') ? 'auto' : '4'
 
   constructor() {
     addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
