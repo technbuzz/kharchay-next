@@ -1,5 +1,5 @@
-import { DatePipe, JsonPipe } from '@angular/common';
-import { Component, computed, ElementRef, inject, viewChild } from '@angular/core';
+import { CurrencyPipe, DatePipe, JsonPipe } from '@angular/common';
+import { Component, computed, effect, ElementRef, inject, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { IonButton, IonContent, IonText, IonList, IonIcon } from '@ionic/angular/standalone';
 import { ActiveElement, BarController, BarElement, CategoryScale, Chart, ChartEvent, LinearScale, LineController, LineElement, TimeScale, Tooltip } from 'chart.js';
@@ -13,7 +13,7 @@ Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, T
 @Component({
   selector: 'kh-stats',
   standalone: true,
-  imports: [IonContent, IonIcon, PeriodsComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
+  imports: [IonContent, IonIcon, CurrencyPipe, PeriodsComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
   templateUrl: './stats.component.html',
 })
 export class StatsComponent {
@@ -28,11 +28,51 @@ export class StatsComponent {
     return this.$expensesSet()?.grouped.reduce((a, b) => Number(a) + Number(b), 0)
   })
 
-  expenses$ = this.#service.expenses$.pipe(
-    tap(() => this.resetChart()),
-    tap(expenses => this.updateChartData(expenses.grouped)),
-    tap(() => this.#chart.update())
-  )
+  $updatedLabel = computed(() => {
+    const days = this.#service.$daysInPeriod()
+    let labels = days == 7 ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] :
+      Array.from({ length: days}, (_, i) => i + 1)
+    return labels
+  })
+
+  $updatedConfig = computed(() => {
+    let { grouped } = this.$expensesSet()
+    let days = this.#service.$daysInPeriod()
+    let weekStyles = { barThickness: 24, borderWidth: 2, borderRadius: 5, }
+    let monthStyles = { borderRadius: 5, barThickness: 4, }
+
+    let result = days == 7 ? weekStyles : monthStyles
+    return {
+      ...result,
+      data: [...grouped],
+      backgroundColor: '#191928',
+    }
+  })
+
+  // expenses$ = this.#service.expenses$.pipe(
+  //   tap(() => this.resetChart()),
+  //   tap(expenses => this.updateChartData(expenses.grouped)),
+  //   tap(() => this.#chart.update())
+  // )
+
+
+  constructor() {
+    effect(() => {
+      let labels = this.$updatedLabel()
+      this.#chart.data.labels = labels;
+      console.log('label updated', labels)
+    })
+
+    effect(() => {
+      this.resetChart()
+      //@ts-ignore
+      this.#chart.data.datasets.push(this.$updatedConfig())
+      this.#chart.update()
+      console.log(this.#chart.config)
+      console.log('config updated', this.$updatedConfig())
+    })
+
+  }
 
   changePeriod(period: string) {
     this.#service.setQueries({ period })
@@ -48,35 +88,26 @@ export class StatsComponent {
     this.#service.setQueries({ timestamp: this.#service.subPeriod(timestamp).getTime() })
   }
 
-  updateChartData(expenses: Number[]) {
-    console.log(expenses)
-    this.#chart.data.datasets.push({
-    // @ts-ignore
-      data: [...expenses],
-      backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234',],
-      borderWidth: 2,
-      borderRadius: 5,
-      barThickness: 24,
-    })
-  }
 
   ngAfterViewInit(): void {
-    this.expenses$.subscribe()
 
     this.#chart = new Chart(this.chartEl().nativeElement, {
       type: 'bar',
       data: {
-        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        labels: [],
         datasets: [
           {
             label: '# of Votes',
             data: [],
-            backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234',],
-            borderWidth: 2,
-            borderRadius: 5,
-            barThickness: 24,
           },
         ],
+        // labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        // datasets: [
+        //   {
+        //     label: '# of Votes',
+        //     data: [],
+        //   },
+        // ],
       },
       options: {
         onClick: (event: ChartEvent, elements: ActiveElement[], chart: Chart) => {
@@ -124,70 +155,10 @@ export class StatsComponent {
   }
 
   resetChart() {
+    // this.#chart.data.labels = []
     this.#chart.data.datasets = []
   }
 
 
 
 }
-// this.chart = new Chart(this.chartEl.nativeElement, {
-//   type: 'line',
-//   // data: {
-//   //   labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-//   //   datasets: [
-//   //     {
-//   //       label: '# of Votes',
-//   //       data: [12, 39, 3, 45, 82, 3, 27],
-//   //       backgroundColor: [ 'tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234', ],
-//   //       borderWidth: 2,
-//   //       borderRadius: 5,
-//   //       barThickness: 24,
-//   //     },
-//   //   ],
-//   // },
-//       // data: [{ x: 'Sun', y: 12 }, { x: 'Mon', y: 39 }, { x: 'Tue', y: 3 }, { x: 'Wed', y: 45 }, { x: 'Thu', y: 82 }, { x: 'Fri', y: 3 }, { x: 'Sat', y: 27 }],
-//   data: {
-//     datasets: [{
-//         // data: [12, 39, 3, 45, 82, 3, 27],
-//       label: '# of Votes',
-//       data: [{ x: 'Sun', y: 12 }, { x: 'Mon', y: 39 }],
-//       // backgroundColor: ['tomato', '#FF9020', '#059BFF', 'rebeccapurple', 'gold', '#FF6384', 'indigo', '#FFC234'],
-//       // borderWidth: 2,
-//       // borderRadius: 5,
-//       // barThickness: 24,
-//     }],
-//   },
-//   // options: {
-//   //   parsing: false,
-//   //
-//   //   scales: {
-//   //     x: {
-//   //       border: {
-//   //         display: false
-//   //       },
-//   //       grid: {
-//   //         display: false,
-//   //         drawTicks: false
-//   //       }
-//   //     },
-//   //     y: {
-//   //       position: 'right',
-//   //       border: {
-//   //         display: false
-//   //       },
-//   //       grid: {
-//   //         display: false
-//   //       },
-//   //       ticks: {
-//   //         stepSize: 30,
-//   //       }
-//   //     }
-//   },
-//   plugins: {
-//     legend: {
-//       display: false
-//     }
-//   }
-//
-// }
-// });
