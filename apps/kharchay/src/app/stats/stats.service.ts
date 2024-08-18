@@ -1,4 +1,4 @@
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,8 +38,37 @@ export class StatsService {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
   }
 
+  expenses2$ = toObservable(this.$queries).pipe(
+    // tap(v => console.log('query', v)),
+    debounceTime(1000),
+    switchMap(params => {
+      const { period, timestamp } = params
+
+      const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
+        getMonthlyQuery(this.afs, new Date(timestamp));
+      return collectionData(query)
+    }),
+    tap(v => console.log('result', v)),
+
+  )
+
+  $expensesRaw = toSignal(this.expenses2$, { initialValue: [] })
+
+  $expensesGroupedByWeek = computed(() => {
+    let expenses = this.$expensesRaw()
+    // @ts-ignore
+    let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
+    return this.reduceGrouped(grouped)
+  })
+
+  $expensesGroupedByMonth = computed(() => {
+    let expenses = this.$expensesRaw()
+    // @ts-ignore
+    let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
+    return this.reduceGrouped(grouped)
+  })
+
   expenses$ = toObservable(this.$queries).pipe(
-    tap(v => console.log('query', v)),
     debounceTime(1000),
     switchMap(params => {
       const { period, timestamp } = params
@@ -60,6 +89,18 @@ export class StatsService {
 
 
   constructor(private afs: Firestore) {
+    this.expenses2$.subscribe()
+    effect(() => {
+      console.log('expenseraw', this.$expensesRaw())
+    })
+    effect(() => {
+      console.log('$groupedbymonth', this.$expensesGroupedByMonth())
+    })
+
+    effect(() => {
+      console.log('$groupedbyweek', this.$expensesGroupedByWeek())
+    })
+
     addIcons({
       chevronBackOutline, chevronForwardOutline
     })

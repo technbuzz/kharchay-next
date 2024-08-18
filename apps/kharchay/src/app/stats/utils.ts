@@ -9,6 +9,7 @@ export function getWeeklyQuery(firestore: Firestore, timestamp: Date) {
   const expenseGroup = collection(firestore, 'expense')
   const basicStartMonth = startOfWeek(timestamp);
   const basicEndMonth = endOfWeek(timestamp);
+  console.log({ basicStartMonth, basicEndMonth })
   const expenseQuery = query(
     expenseGroup,
     where('date', '>=', basicStartMonth),
