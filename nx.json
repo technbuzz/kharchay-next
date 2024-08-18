@@ -15,7 +15,8 @@
     },
     "@nx/angular:component": {
       "style": "scss",
-      "stanalone": true
+      "standalone": true,
+      "skipTests": true
     }
   },
   "defaultProject": "kharchay",

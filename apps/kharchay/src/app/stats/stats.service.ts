@@ -1,13 +1,13 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
-import { addWeeks, subWeeks ,endOfWeek, startOfWeek } from 'date-fns';
-import { collection, query, where } from 'firebase/firestore';
-import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { addMonths, addWeeks, getDate, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
-import { chevronBackOutline, chevronForwardOutline  } from 'ionicons/icons';
+import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import { debounceTime, map, switchMap, tap } from 'rxjs';
+import { getMonthlyQuery, getWeeklyQuery } from './utils';
 
 interface Queries {
   period: 'week' | 'month' | 'year',
@@ -22,57 +22,71 @@ export class StatsService {
 
   $queries = toSignal(this.route.queryParamMap.pipe(
     map(q =>
-      ({
-        period: q.get('period') ?? 'week',
-        timestamp: Number(q.get('timestamp')) || new Date().getTime()
-      })
+    ({
+      period: q.get('period') ?? 'week',
+      timestamp: Number(q.get('timestamp')) || new Date().getTime()
+    })
     ),
   ), { initialValue: { period: 'week', timestamp: new Date().getTime() } })
+
+  $daysInPeriod = computed(() => {
+    const { period, timestamp } = this.$queries()
+    return period === 'week' ? 7 : getDaysInMonth(new Date(timestamp))
+  })
 
   setQueries(params: any) {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
   }
 
   expenses$ = toObservable(this.$queries).pipe(
-      debounceTime(1000),
-      switchMap(params => {
-        const expenseGroup = collection(this.afs, 'expense')
-        const basicStartMonth = startOfWeek(params.timestamp);
-        const basicEndMonth = endOfWeek(params.timestamp);
-        const expenseQuery = query(
-            expenseGroup,
-            where('date', '>=', basicStartMonth),
-            where('date', '<=', basicEndMonth),
-        )
-        // return collectionData<Observable<IExpense>>(expenseQuery)
-        return collectionData(expenseQuery)
-      }),
-      map(expenses => {
-        // let grouped = groupBy(expenses, (expense: IExpense) => expense.date.toDate().getMonth())
-      // @ts-ignore
-        let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
-        return { grouped: this.reduceGrouped(grouped), ungrouped: expenses}
-      }),
-      // map((expenses: { [key: number]: IExpense[]} ) => {
-      //
-      // }),
-    )
+    // tap(v => console.log('query', v)),
+    debounceTime(1000),
+    switchMap(params => {
+      const { period, timestamp } = params
+
+      const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
+        getMonthlyQuery(this.afs, new Date(timestamp));
+      return collectionData(query)
+    }),
+  )
+
+  $expenses = toSignal(this.expenses$, { initialValue: [] })
+
+
+
+  // expenses$ = toObservable(this.$queries).pipe(
+  //   debounceTime(1000),
+  //   switchMap(params => {
+  //     const { period, timestamp } = params
+  //
+  //     const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
+  //       getMonthlyQuery(this.afs, new Date(timestamp));
+  //     return collectionData(query)
+  //   }),
+  //   map(expenses => {
+  //     // @ts-ignore
+  //     let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
+  //     return { grouped: this.reduceGrouped(grouped), ungrouped: expenses }
+  //   }),
+  // )
+
 
 
   constructor(private afs: Firestore) {
-    addIcons({
-      chevronBackOutline,chevronForwardOutline
-    })
+    this.expenses$.subscribe()
 
+    addIcons({
+      chevronBackOutline, chevronForwardOutline
+    })
   }
 
-  reduceGrouped(expenses: { [key: number]: IExpense[]} ): Number[] {
-    let spendings = new Array(7).fill(0);
+  reduceGrouped(expenses: { [key: number]: IExpense[] }): Number[] {
+    let spendings = new Array(this.$daysInPeriod()).fill(0);
 
-    for(let e in expenses) {
+    for (let e in expenses) {
       let el = expenses[e]
       // @ts-ignore
-      spendings[e] = el.map(item => item.price).reduce((a:number, b: number) => a +b)
+      spendings[e] = el.map(item => item.price).reduce((a: number, b: number) => a + b)
     }
     return spendings
   }
@@ -86,8 +100,12 @@ export class StatsService {
         result = subWeeks(timestamp, 1)
         break;
 
+      case 'month':
+        result = subMonths(timestamp, 1)
+        break;
+
       default:
-        result = subWeeks(timestamp, 4)
+        result = subWeeks(timestamp, 1)
         break;
     }
 
@@ -104,8 +122,12 @@ export class StatsService {
         result = addWeeks(timestamp, 1)
         break;
 
+      case 'month':
+        result = addMonths(timestamp, 1)
+        break;
+
       default:
-        result = addWeeks(timestamp, 4)
+        result = addWeeks(timestamp, 1)
         break;
     }
 

@@ -5,7 +5,7 @@
     </ion-button>
 
     <div class="flex-1 ion-text-center">
-      <h1 class="ion-no-margin">{{ $total() }}</h1>
+      <h1 class="ion-no-margin">{{ $any($total()) | currency: 'AED': ''}}</h1>
       <ion-text color="medium">Total spend this week</ion-text>
     </div>
 
@@ -14,15 +14,20 @@
     </ion-button>
   </header>
 
-  <!-- <canvas khPeriodSwipe #container height="250" (swipeLeft)="onSwipeLeft($event)" (swipeRight)="onSwipeRight($event)"></canvas> -->
-  <canvas khPeriodSwipe #container height="250" ></canvas>
+  @if(this.service.$daysInPeriod() == 7) {
+    <kh-stats-week [data]="service.$expenses()" />
+  } @else {
+  <!-- try using @defer when month is clicked -->
+    <kh-stats-month [data]="service.$expenses()" />
+  }
 
   <kh-periods />
   <pre>{{$queries().timestamp | date }}</pre>
 
 
   <ion-list class="ion-padding-horizontal">
-    @for(item of $expensesSet()?.ungrouped; track $index) {
+    <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->
+    @for(item of service.$expenses(); track $index) {
       <expense-item
         [expense]="$any(item)"
         [readonly]="true"
