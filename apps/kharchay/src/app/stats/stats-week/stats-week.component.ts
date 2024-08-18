@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, effect, ElementRef, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BarController, BarElement, CategoryScale, Chart, Tooltip } from 'chart.js';
+import { StatsService } from '../stats.service';
 
 // Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 Chart.register(BarController, BarElement, Tooltip, CategoryScale );
@@ -13,6 +14,7 @@ Chart.register(BarController, BarElement, Tooltip, CategoryScale );
   host: { class: 'block' }
 })
 export class StatsWeekComponent implements AfterViewInit {
+  protected service = inject(StatsService);
 
   protected label = input(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])
 
@@ -20,9 +22,17 @@ export class StatsWeekComponent implements AfterViewInit {
   chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
   #chart!: Chart;
 
+
+  $expensesGroupedByWeek = computed(() => {
+    let expenses = this.data()
+    // @ts-ignore
+    let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
+    return this.service.reduceGrouped(grouped)
+  })
+
   constructor() {
     effect(() => {
-      let data = this.data()
+      let data = this.$expensesGroupedByWeek()
 
       if(data) {
         this.#chart.data.datasets = []
@@ -35,7 +45,6 @@ export class StatsWeekComponent implements AfterViewInit {
         }
         // @ts-ignore
         this.#chart.data.datasets.push(weekStyles)
-        console.log(this.#chart.data)
       }
     })
 

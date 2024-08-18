@@ -15,19 +15,19 @@
   </header>
 
   @if(this.service.$daysInPeriod() == 7) {
-    <kh-stats-week [data]="$expensesSet()?.grouped" />
+    <kh-stats-week [data]="service.$expenses()" />
   } @else {
   <!-- try using @defer when month is clicked -->
-    <pre>Month load</pre>
+    <kh-stats-month [data]="service.$expenses()" />
   }
-  <canvas khPeriodSwipe #container height="250" ></canvas>
 
   <kh-periods />
   <pre>{{$queries().timestamp | date }}</pre>
 
 
   <ion-list class="ion-padding-horizontal">
-    @for(item of $expensesSet()?.ungrouped; track $index) {
+    <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->
+    @for(item of service.$expenses(); track $index) {
       <expense-item
         [expense]="$any(item)"
         [readonly]="true"

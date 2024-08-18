@@ -38,7 +38,7 @@ export class StatsService {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
   }
 
-  expenses2$ = toObservable(this.$queries).pipe(
+  expenses$ = toObservable(this.$queries).pipe(
     // tap(v => console.log('query', v)),
     debounceTime(1000),
     switchMap(params => {
@@ -48,58 +48,32 @@ export class StatsService {
         getMonthlyQuery(this.afs, new Date(timestamp));
       return collectionData(query)
     }),
-    tap(v => console.log('result', v)),
-
   )
 
-  $expensesRaw = toSignal(this.expenses2$, { initialValue: [] })
+  $expenses = toSignal(this.expenses$, { initialValue: [] })
 
-  $expensesGroupedByWeek = computed(() => {
-    let expenses = this.$expensesRaw()
-    // @ts-ignore
-    let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
-    return this.reduceGrouped(grouped)
-  })
 
-  $expensesGroupedByMonth = computed(() => {
-    let expenses = this.$expensesRaw()
-    // @ts-ignore
-    let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
-    return this.reduceGrouped(grouped)
-  })
 
-  expenses$ = toObservable(this.$queries).pipe(
-    debounceTime(1000),
-    switchMap(params => {
-      const { period, timestamp } = params
-
-      const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
-        getMonthlyQuery(this.afs, new Date(timestamp));
-      return collectionData(query)
-    }),
-    map(expenses => {
-      // let grouped = groupBy(expenses, (expense: IExpense) => expense.date.toDate().getMonth())
-      // @ts-ignore
-      // let grouped = Object.groupBy(expenses, expense => expense.date.toDate())
-      let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
-      return { grouped: this.reduceGrouped(grouped), ungrouped: expenses }
-    }),
-  )
+  // expenses$ = toObservable(this.$queries).pipe(
+  //   debounceTime(1000),
+  //   switchMap(params => {
+  //     const { period, timestamp } = params
+  //
+  //     const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
+  //       getMonthlyQuery(this.afs, new Date(timestamp));
+  //     return collectionData(query)
+  //   }),
+  //   map(expenses => {
+  //     // @ts-ignore
+  //     let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
+  //     return { grouped: this.reduceGrouped(grouped), ungrouped: expenses }
+  //   }),
+  // )
 
 
 
   constructor(private afs: Firestore) {
-    this.expenses2$.subscribe()
-    effect(() => {
-      console.log('expenseraw', this.$expensesRaw())
-    })
-    effect(() => {
-      console.log('$groupedbymonth', this.$expensesGroupedByMonth())
-    })
-
-    effect(() => {
-      console.log('$groupedbyweek', this.$expensesGroupedByWeek())
-    })
+    this.expenses$.subscribe()
 
     addIcons({
       chevronBackOutline, chevronForwardOutline
