@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
 import { BarController, BarElement, CategoryScale, Chart, Tooltip } from 'chart.js';
 import { StatsService } from '../stats.service';
 
@@ -45,6 +45,7 @@ export class StatsWeekComponent implements AfterViewInit {
         }
         // @ts-ignore
         this.#chart.data.datasets.push(weekStyles)
+        this.#chart.update()
       }
     })
 

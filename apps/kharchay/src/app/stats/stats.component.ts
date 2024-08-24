@@ -28,7 +28,7 @@ export class StatsComponent {
   $updatedLabel = computed(() => {
     const days = this.service.$daysInPeriod()
     let labels = days == 7 ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] :
-      Array.from({ length: days}, (_, i) => i + 1)
+      Array.from({ length: days }, (_, i) => i + 1)
     return labels
   })
 
@@ -52,6 +52,9 @@ export class StatsComponent {
   //   tap(() => this.#chart.update())
   // )
 
+  ngOnInit() {
+    this.service.getUsers$().subscribe(console.log)
+  }
 
   constructor() {
     // effect(() => {

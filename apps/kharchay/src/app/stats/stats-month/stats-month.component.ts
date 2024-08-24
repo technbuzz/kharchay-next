@@ -50,6 +50,7 @@ export class StatsMonthComponent implements AfterViewInit {
         }
         // @ts-ignore
         this.#chart.data.datasets.push(monthStyles)
+        this.#chart.update()
       }
     })
 
