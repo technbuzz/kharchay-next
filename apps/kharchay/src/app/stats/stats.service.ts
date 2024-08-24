@@ -1,12 +1,13 @@
-import { computed, effect, inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { computed, inject, Injectable } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
-import { addMonths, addWeeks, getDate, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
+import { addMonths, addWeeks, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { debounceTime, map, switchMap, tap } from 'rxjs';
+import { debounceTime, map, switchMap } from 'rxjs';
 import { getMonthlyQuery, getWeeklyQuery } from './utils';
 
 interface Queries {
@@ -18,7 +19,11 @@ interface Queries {
 export class StatsService {
   router = inject(Router);
   route = inject(ActivatedRoute);
+  http = inject(HttpClient)
 
+  getUsers$() {
+    return this.http.get('https://jsonplaceholder.typicode.com/users')
+  }
 
   $queries = toSignal(this.route.queryParamMap.pipe(
     map(q =>
@@ -36,6 +41,7 @@ export class StatsService {
 
   setQueries(params: any) {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
+
   }
 
   expenses$ = toObservable(this.$queries).pipe(
