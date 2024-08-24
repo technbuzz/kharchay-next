@@ -4,7 +4,7 @@ on:  push
 
 jobs:
   joba:
-    - name: Frist Job
+    name: Frist Job
     runs-on: ubuntu-latest
     steps:
     - name: Step 1
@@ -12,7 +12,7 @@ jobs:
     - name: Step 2
       run: env | sort
   jobb:
-    - name: Second Job
+    name: Second Job
     runs-on: windows-latest
     steps:
     - name: Step 1
