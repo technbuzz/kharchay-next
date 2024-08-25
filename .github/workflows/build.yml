@@ -1,0 +1,15 @@
+name: Build Angular
+on: [push]
+jobs: 
+  build-ng: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.3
+        with: 
+          node-version: 22.0.0
+      - name: Install Packages
+        run: npm ci
+        
