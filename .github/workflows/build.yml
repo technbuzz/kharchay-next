@@ -12,4 +12,7 @@ jobs:
           node-version: 22.0.0
       - name: Install Packages
         run: npm ci --legacy-peer-deps
+      - name: Build Angular Project
+        run: npx nx build
+            
         
