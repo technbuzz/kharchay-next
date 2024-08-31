@@ -32,19 +32,21 @@ jobs:
           name: kharchay
           path: ./android
 
-  # build-gradle:
-  #   name: Build APK
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: kharchay
-  #     - name: Verify Files
-  #       run: ls -a
+  build-gradle:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kharchay
+      - name: Verify Files
+      - shell: bash
+        run: ls -a
+
       # - name: Setup JDK
       #   uses: actions/setup-java@v4
       #   with:
