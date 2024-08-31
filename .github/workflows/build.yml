@@ -1,18 +1,30 @@
 name: Build Angular
 on: [push]
-jobs: 
-  build-ng: 
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+      uses: actions/checkout@v4
+
+
+  build-ng:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup Node
         uses: actions/setup-node@v4.0.3
-        with: 
+        with:
           node-version: 22.0.0
       - name: Install Packages
         run: npm ci --legacy-peer-deps
       - name: Build Angular Project
         run: npx nx build
-            
-        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kharchay
+          path: ./apps/kharchay
+
+
