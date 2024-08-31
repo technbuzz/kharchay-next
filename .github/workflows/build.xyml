@@ -1,0 +1,72 @@
+name: Build Angular
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+
+  build-ng:
+    name: Build Angular
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 22.0.0
+      - name: install packages
+        run: npm ci --legacy-peer-deps
+      - name: Build Angular Project
+        run: npx nx build
+      - name: Add android platform
+        run: npx cap add android
+      - name: NX Sync Android
+        run: npx cap sync android
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kharchay
+          path: ./android
+
+  build-gradle:
+    name: Build APK
+    runs-on: ubuntu-latest
+    needs: build-ng
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kharchay
+          path: ./android
+      - shell: bash
+        run: |
+          cd ./android
+          ls -a
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Build debug apk
+        run: |
+          cd ./android
+          bash ./gradlew clean
+          bash ./gradlew assembleDebug --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: ./android/build/outputs/apk/debug/app-debug.apk
+
+
+
