@@ -39,6 +39,8 @@ jobs:
           node-version: 22.0.0
       - name: install packages
         run: npm ci --legacy-peer-deps
+      - name: Add android platform
+        run: npx cap add android
       - name: NX Sync Android
         run: npx cap sync android
 
