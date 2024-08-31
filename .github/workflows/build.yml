@@ -44,8 +44,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: kharchay
+          path: ./android
       - shell: bash
-        run: ls -a
+        run: |
+          cd ./android
+          ls -a
 
       # - name: Setup JDK
       #   uses: actions/setup-java@v4
