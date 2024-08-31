@@ -41,5 +41,5 @@ Thumbs.db
 .angular
 android
 
-.nx/cache
-.nx/workspace-data
+.nx
+

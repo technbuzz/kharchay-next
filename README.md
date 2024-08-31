@@ -1,4 +1,5 @@
 
+# Build Status Badge: ![](https://github.com/technbuzz/kharchay-next/workflows/build/badge.svg)
 
 # Kh
 
