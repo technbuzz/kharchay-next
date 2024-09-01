@@ -1,19 +1,18 @@
-import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe } from '@angular/common';
-import { Component, computed, effect, ElementRef, inject, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { AsyncPipe, CurrencyPipe, DatePipe, DecimalPipe, JsonPipe } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
 import { IonButton, IonContent, IonIcon, IonList, IonText } from '@ionic/angular/standalone';
-import { ActiveElement, BarController, BarElement, CategoryScale, Chart, ChartEvent, LinearScale, TimeScale, Tooltip } from 'chart.js';
+import { BarController, BarElement, CategoryScale, Chart, LinearScale, TimeScale, Tooltip } from 'chart.js';
 import { ExpenseItemComponent } from '../components/expense-item/expense-item';
 import { PeriodsComponent } from './periods.component';
+import { StatsMonthComponent } from './stats-month/stats-month.component';
 import { StatsWeekComponent } from './stats-week/stats-week.component';
 import { StatsService } from './stats.service';
-import { StatsMonthComponent } from './stats-month/stats-month.component';
 
 Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 @Component({
   selector: 'kh-stats',
   standalone: true,
-  imports: [IonContent, AsyncPipe, IonIcon, StatsMonthComponent, CurrencyPipe, PeriodsComponent, StatsWeekComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
+  imports: [IonContent, AsyncPipe, DecimalPipe, JsonPipe, IonIcon, StatsMonthComponent, CurrencyPipe, PeriodsComponent, StatsWeekComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
   templateUrl: './stats.component.html',
 })
 export class StatsComponent {

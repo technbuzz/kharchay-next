@@ -44,6 +44,18 @@
     border-bottom:1px solid #ccc;
 }
 
+.gap-x-2 {
+  gap: 0.5rem;
+}
+
+.gap-x-1 {
+  gap: 0.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -51,6 +63,7 @@
 .flex {
   display: flex;
 }
+
 .flex-1 {
   flex: 1;
 }

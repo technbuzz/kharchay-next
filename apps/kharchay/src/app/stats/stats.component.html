@@ -4,9 +4,15 @@
       <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
     </ion-button>
 
+    @let $diff = service.$diffTotal();
+
     <div class="flex-1 ion-text-center">
       <h1 class="ion-no-margin">{{ $any($total()) | currency: 'AED': ''}}</h1>
-      <ion-text color="medium">Total spend this week</ion-text>
+      <div class="flex ion-justify-content-center ion-align-items-center gap-x-1">
+        <ion-text color="medium">Total spend this week</ion-text>
+        <ion-icon [name]="$diff.icon" size="medium" [color]="$diff.color"></ion-icon>
+        <ion-text>{{ $diff.pct | number: '1.0-0' }}%</ion-text>
+      </div>
     </div>
 
     <ion-button (click)="forward()" fill="clear" color="medium">
