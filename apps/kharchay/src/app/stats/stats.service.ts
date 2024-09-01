@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { collectionData, Firestore } from '@angular/fire/firestore';
+import { collectionData, Firestore, getAggregateFromServer, sum } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExpense } from '@kh/common/api-interface';
 import { addMonths, addWeeks, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
-import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import { chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline } from 'ionicons/icons';
 import { distinctUntilKeyChanged, map, switchMap } from 'rxjs';
 import { getMonthlyQuery, getWeeklyQuery } from './utils';
 
@@ -43,23 +43,57 @@ export class StatsService {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
   }
 
+
   expenses$ = toObservable(this.$queries).pipe(
     distinctUntilKeyChanged('timestamp'),
-    switchMap(params => {
-      const { period, timestamp } = params
-
-      const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
-        getMonthlyQuery(this.afs, new Date(timestamp));
+    switchMap(({ period, timestamp}) => {
+      const query = this.decideQuery(period, timestamp)
       return collectionData(query)
     }),
   )
+
+
+
+  $currTotal = toSignal(toObservable(this.$queries).pipe(
+    distinctUntilKeyChanged('timestamp'),
+    switchMap(({ period, timestamp}) => {
+      const query = this.decideQuery(period, timestamp)
+      return getAggregateFromServer(query, { total: sum('price') })
+    }),
+    map(v => v.data().total)
+  ), { initialValue: 0 })
+
+  $prevTotal = toSignal(toObservable(this.$queries).pipe(
+    distinctUntilKeyChanged('timestamp'),
+    switchMap(({ period, timestamp}) => {
+      let prevPeriod = period === 'month' ? subMonths(new Date(timestamp), 1) : subWeeks(new Date(timestamp), 1)
+      const query = this.decideQuery(period, prevPeriod.getTime())
+      return getAggregateFromServer(query, { total: sum('price') })
+    }),
+    map(v => v.data().total)
+  ), {initialValue: 0})
+
+  $diffTotal = computed(() => {
+    const diff = this.$currTotal() - this.$prevTotal()
+    return {
+      raw: diff,
+      pct: Math.abs(diff / this.$prevTotal()) * 100,
+      icon: diff > 0 ? 'arrow-up-circle-outline' : 'arrow-down-circle-outline',
+      color: diff > 0 ? 'danger' : 'success'
+    }
+  })
 
   $expenses = toSignal(this.expenses$, { initialValue: [] })
 
   constructor(private afs: Firestore) {
     addIcons({
-      chevronBackOutline, chevronForwardOutline
+      chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline
     })
+  }
+
+  decideQuery(period: string, timestamp: number) {
+    return  period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
+        getMonthlyQuery(this.afs, new Date(timestamp));
   }
 
   reduceGrouped(expenses: { [key: number]: IExpense[] }): Number[] {
