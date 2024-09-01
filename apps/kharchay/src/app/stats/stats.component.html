@@ -21,7 +21,7 @@
   </header>
 
   @if(this.service.$daysInPeriod() == 7) {
-    <kh-stats-week []="service.$expenses()" />
+    <kh-stats-week [data]="service.$expenses()" />
   } @else {
   <!-- try using @defer when month is clicked -->
     <kh-stats-month [data]="service.$expenses()" />
