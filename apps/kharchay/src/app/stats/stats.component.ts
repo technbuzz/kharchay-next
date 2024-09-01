@@ -25,52 +25,7 @@ export class StatsComponent {
     return this.service.$expenses().reduce((a, b: any) => Number(a) + Number(b.price), 0)
   })
 
-  $updatedLabel = computed(() => {
-    const days = this.service.$daysInPeriod()
-    let labels = days == 7 ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] :
-      Array.from({ length: days }, (_, i) => i + 1)
-    return labels
-  })
-
-  // $updatedConfig = computed(() => {
-  //   let { grouped } = this.$expensesSet()
-  //   let days = this.service.$daysInPeriod()
-  //   let weekStyles = { barThickness: 24, borderWidth: 2, borderRadius: 5, }
-  //   let monthStyles = { borderRadius: 5, barThickness: 4, }
-  //
-  //   let result = days == 7 ? weekStyles : monthStyles
-  //   return {
-  //     ...result,
-  //     data: [...grouped],
-  //     backgroundColor: '#191928',
-  //   }
-  // })
-
-  // expenses$ = this.#service.expenses$.pipe(
-  //   tap(() => this.resetChart()),
-  //   tap(expenses => this.updateChartData(expenses.grouped)),
-  //   tap(() => this.#chart.update())
-  // )
-
-  ngOnInit() {
-    this.service.getUsers$().subscribe(console.log)
-  }
-
   constructor() {
-    // effect(() => {
-    //   let labels = this.$updatedLabel()
-    //   this.#chart.data.labels = labels;
-    //   console.log('label updated', labels)
-    // })
-
-    effect(() => {
-      //@ts-ignore
-      // this.#chart.data.datasets.push(this.$updatedConfig())
-      // this.#chart.update()
-      // console.log(this.#chart.config)
-      // console.log('config updated', this.$updatedConfig())
-    })
-
   }
 
   forward() {
