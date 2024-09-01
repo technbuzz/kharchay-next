@@ -7,7 +7,7 @@ import { IExpense } from '@kh/common/api-interface';
 import { addMonths, addWeeks, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
-import { debounceTime, map, switchMap } from 'rxjs';
+import { distinctUntilKeyChanged, map, switchMap } from 'rxjs';
 import { getMonthlyQuery, getWeeklyQuery } from './utils';
 
 interface Queries {
@@ -30,7 +30,7 @@ export class StatsService {
     ({
       period: q.get('period') ?? 'week',
       timestamp: Number(q.get('timestamp')) || new Date().getTime()
-    })
+    }),
     ),
   ), { initialValue: { period: 'week', timestamp: new Date().getTime() } })
 
@@ -41,12 +41,10 @@ export class StatsService {
 
   setQueries(params: any) {
     this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
-
   }
 
   expenses$ = toObservable(this.$queries).pipe(
-    // tap(v => console.log('query', v)),
-    debounceTime(1000),
+    distinctUntilKeyChanged('timestamp'),
     switchMap(params => {
       const { period, timestamp } = params
 
@@ -58,29 +56,7 @@ export class StatsService {
 
   $expenses = toSignal(this.expenses$, { initialValue: [] })
 
-
-
-  // expenses$ = toObservable(this.$queries).pipe(
-  //   debounceTime(1000),
-  //   switchMap(params => {
-  //     const { period, timestamp } = params
-  //
-  //     const query = period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
-  //       getMonthlyQuery(this.afs, new Date(timestamp));
-  //     return collectionData(query)
-  //   }),
-  //   map(expenses => {
-  //     // @ts-ignore
-  //     let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
-  //     return { grouped: this.reduceGrouped(grouped), ungrouped: expenses }
-  //   }),
-  // )
-
-
-
   constructor(private afs: Firestore) {
-    this.expenses$.subscribe()
-
     addIcons({
       chevronBackOutline, chevronForwardOutline
     })

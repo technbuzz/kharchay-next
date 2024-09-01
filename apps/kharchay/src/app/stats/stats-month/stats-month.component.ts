@@ -1,13 +1,11 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
 import { Chart } from 'chart.js';
-import { StatsService } from '../stats.service';
 import { getDate } from 'date-fns/getDate';
+import { StatsService } from '../stats.service';
 
 @Component({
   selector: 'kh-stats-month',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './stats-month.component.html',
   styleUrl: './stats-month.component.scss',
   host: { class: 'block' }
@@ -17,11 +15,13 @@ export class StatsMonthComponent implements AfterViewInit {
   data = input()
   chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
   #chart!: Chart;
+  cd = inject(ChangeDetectorRef)
   protected service = inject(StatsService);
 
 
   $expensesGroupedByMonth = computed(() => {
     let expenses = this.data()
+    console.log(expenses)
     // @ts-ignore
     let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
     return this.service.reduceGrouped(grouped)
@@ -51,6 +51,8 @@ export class StatsMonthComponent implements AfterViewInit {
         // @ts-ignore
         this.#chart.data.datasets.push(monthStyles)
         this.#chart.update()
+        this.cd.markForCheck()
+        console.log('chart updated')
       }
     })
 

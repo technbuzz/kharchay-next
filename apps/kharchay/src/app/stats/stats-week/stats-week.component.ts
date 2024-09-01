@@ -1,14 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, computed, effect, ElementRef, inject, input, viewChild } from '@angular/core';
 import { BarController, BarElement, CategoryScale, Chart, Tooltip } from 'chart.js';
 import { StatsService } from '../stats.service';
 
-// Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 Chart.register(BarController, BarElement, Tooltip, CategoryScale );
 @Component({
   selector: 'kh-stats-week',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './stats-week.component.html',
   styleUrl: './stats-week.component.scss',
   host: { class: 'block' }
@@ -18,6 +15,7 @@ export class StatsWeekComponent implements AfterViewInit {
 
   protected label = input(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])
 
+  cd = inject(ChangeDetectorRef)
   data = input()
   chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
   #chart!: Chart;
@@ -46,6 +44,8 @@ export class StatsWeekComponent implements AfterViewInit {
         // @ts-ignore
         this.#chart.data.datasets.push(weekStyles)
         this.#chart.update()
+        this.cd.markForCheck()
+        console.log('chart updated')
       }
     })
 
