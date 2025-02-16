@@ -12,7 +12,7 @@ import {
     DocumentData,
     query,
     where
-} from '@firebase/firestore';
+} from 'firebase/firestore';
 import { endOfMonth } from 'date-fns/endOfMonth';
 import { startOfMonth } from 'date-fns/startOfMonth';
 
