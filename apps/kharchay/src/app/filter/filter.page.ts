@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, inject, input } from '@angular/core';
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Firestore, collection, collectionData, deleteDoc, doc, getAggregateFromServer, getDocs, orderBy, sum, updateDoc, where, writeBatch } from '@angular/fire/firestore';
-import { query } from '@firebase/firestore';
+import { query } from 'firebase/firestore';
 import { IonNote } from '@ionic/angular/standalone';
 import { endOfMonth } from 'date-fns/endOfMonth';
 import { isBefore } from 'date-fns/isBefore';

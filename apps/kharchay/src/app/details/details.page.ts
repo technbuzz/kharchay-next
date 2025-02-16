@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ref, Storage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
-import { getDownloadURL } from '@firebase/storage';
+import { getDownloadURL } from 'firebase/storage';
 import { keepUnstableUntilFirst } from '@angular/fire';
 import { startWith, tap } from 'rxjs/operators';
 import { IExpense, mapCategory, mapSubCategory } from '@kh/common/api-interface';
