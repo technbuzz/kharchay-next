@@ -16,8 +16,8 @@
       "@data-access": [
         "libs/data-access/src/public-api.ts"
       ],
-      "env": [
-        "./dist/env"
+      "@env": [
+        "libs/env/src/public-api.ts"
       ]
     },
     "noImplicitReturns": true,

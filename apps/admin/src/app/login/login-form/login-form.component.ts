@@ -3,11 +3,11 @@ import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GeneralService } from '../../shared/general.service';
-import { DatabaseAdapter  } from "@kh/common/data-adapters";
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { DatabaseAdapter } from '@data-access';
 
 @Component({
     selector: 'kha-login-form',

@@ -1,17 +1,18 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { ActivatedRoute, Data, NavigationEnd, Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { SettingsService } from '@kh/admin/settings/data-access';
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-import { GeneralService } from '../../shared/general.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SettingsService } from '@kh/admin/settings/data-access';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { GeneralService } from '../../shared/general.service';
+import { DatabaseAdapter } from '@data-access';
 
 
 @Component({

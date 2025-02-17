@@ -1,18 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
-import { addDoc, updateDoc, collectionData, collection, Firestore, doc, query, where } from '@angular/fire/firestore';
-import { HttpClient } from '@angular/common/http';
+import { collection, collectionData, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+import { limit, orderBy } from 'firebase/firestore';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from "rxjs/operators";
 import { DatabaseAdapter } from './database.adapter';
-import { from, Observable, of } from 'rxjs';
-import { map, mergeMap, toArray, groupBy as rxGroupBy, expand, tap, concatMap, catchError } from "rxjs/operators";
-import { getDocs, limit, orderBy } from 'firebase/firestore';
 // import { collection, Firestore } from 'firebase/firestore';
 import forIn from 'lodash-es/forIn';
 import groupBy from 'lodash-es/groupBy';
 import reduce from 'lodash-es/reduce';
-import sortBy from 'lodash-es/sortBy'
-import take from 'lodash-es/take'
-import { IExpense } from "@kh/common/api-interface";
+import sortBy from 'lodash-es/sortBy';
+import take from 'lodash-es/take';
 
 
 @Injectable({ providedIn: 'root' })

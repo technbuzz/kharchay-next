@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { addDoc, updateDoc, collectionData, Firestore, doc } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
-import { DatabaseAdapter } from '@kh/common/data-adapters';
 import { collection } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { DatabaseAdapter } from '@data-access';
 
 export interface Task {
   id ?: string;
@@ -32,11 +32,11 @@ export class RecurringListComponent implements OnInit {
 
   displayedColumns: string[] = ['note', 'price', 'fixed', 'active', 'edit'];
   dataSource!: Observable<any>;
+  afs = inject(Firestore)
 
   recurringColl = collection(this.afs, 'recurring')
 
   constructor(
-    private afs: Firestore,
     private dbAdapter: DatabaseAdapter,
     public dialog: MatDialog,
     public gs: GeneralService

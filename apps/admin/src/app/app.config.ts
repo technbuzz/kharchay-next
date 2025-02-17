@@ -5,12 +5,12 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideRouter } from "@angular/router";
-import { environment } from "@kh/common/environments";
 import { appRoutes } from "./app.routes";
-import { DatabaseAdapter, FirebaseAdapterService } from "@kh/common/data-adapters";
 import { provideHttpClient } from "@angular/common/http";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { DatabaseAdapter, FirebaseAdapterService } from "@data-access";
+import { environment } from "@env";
 export const appConfig: ApplicationConfig = {
   providers: [
 
