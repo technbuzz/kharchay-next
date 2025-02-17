@@ -1,28 +1,35 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { ActivatedRoute, Data, NavigationEnd, Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { SettingsService } from '@kh/admin/settings/data-access';
-import { DatabaseAdapter } from '@kh/common/data-adapters';
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-import { GeneralService } from '../../shared/general.service';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { GeneralService } from '../../shared/general.service';
+import { DatabaseAdapter } from '@data-access';
+import { SettingsService } from '../../shared/settings.service';
 
 
 @Component({
     selector: 'kha-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
+    styleUrls: ['./dashboard.component.css'],
     standalone: true,
     imports: [MatToolbarModule, MatButtonModule, MatIconModule, NgIf, MatProgressBarModule, MatSidenavModule, MatListModule, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
 export class DashboardComponent implements OnInit, AfterContentInit, AfterViewInit {
+  private dbAdapter = inject(DatabaseAdapter);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  protected settingService = inject(SettingsService);
+  gs = inject(GeneralService);
+  private breakpointObserver = inject(BreakpointObserver);
+
 
   @ViewChild('snav') snav!: MatSidenav;
   @ViewChild('vc', { read: ViewContainerRef }) vc!: ViewContainerRef;
@@ -35,16 +42,6 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
   media$ = this.breakpointObserver.observe([
     Breakpoints.XSmall
   ])
-
-
-  constructor(
-    private dbAdapter: DatabaseAdapter,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected settingService: SettingsService,
-    public gs: GeneralService,
-    private breakpointObserver: BreakpointObserver) {
-  }
 
   ngAfterViewInit(): void {
     // this.router.events.pipe(
@@ -60,11 +57,11 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
   }
 
   ngOnInit() {
-    this.settingService.settings$.pipe(map(v => v.breadcrumbs), take(1)).subscribe(resp => {
-      if (resp) {
-        this.#addDynamicComponent()
-      }
-    })
+    //this.settingService.settings$.pipe(map(v => v.breadcrumbs), take(1)).subscribe(resp => {
+    //  if (resp) {
+    //    this.#addDynamicComponent()
+    //  }
+    //})
   }
 
   async #addDynamicComponent() {

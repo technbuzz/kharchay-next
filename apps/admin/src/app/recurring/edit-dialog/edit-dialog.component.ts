@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,17 +15,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     imports: [MatDialogTitle, MatDialogContent, ReactiveFormsModule, MatFormFieldModule, MatInputModule, SharedCatComponent, MatSlideToggleModule, MatDialogActions, MatButtonModule, MatDialogClose]
 })
 export class EditDialogComponent implements OnInit {
+  private fb = inject(UntypedFormBuilder);
+  dialogRef = inject<MatDialogRef<EditDialogComponent>>(MatDialogRef);
+  data = inject(MAT_DIALOG_DATA);
+
 
   loading = false
   protected test = true
 
   form!: UntypedFormGroup;
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:any
-  ) {}
   
   ngOnInit() {
     const { note, price, fixed, category } = this.data;

@@ -3,10 +3,10 @@ import { EventService } from '../../shared/events.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { MatDialog } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IEventMonth } from "../../shared/eventMonth.interface";
 import { IEvent } from '../../shared/event.interface';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, FormsModule, NgIf, MatButtonModule, MatIconModule, MatTableModule]
 })
 export class EventsDateComponent implements OnInit {
+  es = inject(EventService);
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private router = inject(Router);
+
 
   dataSource!: Observable<any>;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
@@ -38,13 +43,7 @@ export class EventsDateComponent implements OnInit {
   }
   emptyEventMonth!: boolean
   testRef: any;
-  first!: IEventMonth; 
-  
-  constructor(
-    public es: EventService, 
-    public dialog: MatDialog,
-    private afs: Firestore, 
-    private router: Router ) { }
+  first!: IEventMonth;
 
   ngOnInit() {
     // this.fireFunctions.functions.useFunctionsEmulator('http://localhost:5000')
@@ -101,7 +100,7 @@ export class EventsDateComponent implements OnInit {
     //   console.log('resp: ', resp);
     //   if (resp.name) {
     //     const funcRef = this.es.createEventList(this.first, resp.name)
-    //     funcRef.execute.subscribe(resp => {    
+    //     funcRef.execute.subscribe(resp => {
     //       this.es.addSubCollection(funcRef.data.subCollectionRef)
     //     }, error => {
     //         console.log(error)
@@ -114,7 +113,7 @@ export class EventsDateComponent implements OnInit {
   removeEventListHander(event: any) {
     // FIXME: FIX FOR API UPDATE
     // this.es.removeEventList(this.first, event)
-    
+
   }
 
   navigateToEventsListing(item: IEvent) {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 
 import { addDoc, updateDoc, collectionData, Firestore, doc } from '@angular/fire/firestore';
 import { collection, deleteDoc } from 'firebase/firestore';
@@ -29,16 +29,14 @@ export interface Task {
     ],
 })
 export class TaskListComponent implements OnInit {
+  private afs = inject(Firestore);
+  gs = inject(GeneralService);
+
 
   displayedColumns: string[] = ['note', 'price', 'fixed', 'active', 'edit'];
 
   taskColl = collection(this.afs, 'tasks')
   tasks$!: Observable<Task[]>;
-
-  constructor(
-    private afs: Firestore,
-    public gs: GeneralService
-  ) { }
 
   ngOnInit() {
     this.gs.title.next('Recurring');

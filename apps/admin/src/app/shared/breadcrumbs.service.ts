@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router, UrlSegment } from '@angular/router';
 
 interface IBreadcrumb {
@@ -15,9 +15,13 @@ interface IBreadcrumb {
   providedIn: 'root'
 })
 export class BreadcrumbsService {
+  private router = inject(Router);
+
   private breadcrumbs = new BehaviorSubject<IBreadcrumb[]>([]);
 
-  constructor(private router: Router) {
+  constructor() {
+    const router = this.router;
+
     router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       const currentRoot = this.router.routerState.snapshot.root;
       this.resolveCrumbs(currentRoot).subscribe(x => {

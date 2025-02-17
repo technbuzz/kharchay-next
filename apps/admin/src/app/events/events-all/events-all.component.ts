@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
 import { of as observableOf } from 'rxjs';
 import { FlatTreeControl } from '@angular/cdk/tree';
@@ -34,6 +34,8 @@ export interface FlatTreeNode {
     imports: [MatTreeModule, MatButtonModule, MatIconModule]
 })
 export class EventsAllComponent {
+  private router = inject(Router);
+
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: FlatTreeControl<FlatTreeNode>;
@@ -47,7 +49,9 @@ export class EventsAllComponent {
   /** The MatTreeFlatDataSource connects the control and flattener to provide data. */
   dataSource: MatTreeFlatDataSource<FileNode, FlatTreeNode>;
 
-  constructor(es: EventService, private router: Router) {
+  constructor() {
+    const es = inject(EventService);
+
     this.treeFlattener = new MatTreeFlattener(
       this._transformer,
       node => node.level,

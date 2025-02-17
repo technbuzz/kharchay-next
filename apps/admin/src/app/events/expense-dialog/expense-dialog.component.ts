@@ -1,9 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IExpense } from '../../shared/expense.interface';
 
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { MatButtonModule } from '@angular/material/button';
 import { SharedCatComponent } from '../../components/shared-cat/shared-cat.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,16 +17,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     imports: [MatDialogTitle, ReactiveFormsModule, MatDialogContent, MatFormFieldModule, MatInputModule, MatDatepickerModule, SharedCatComponent, MatDialogActions, MatButtonModule]
 })
 export class ExpenseDialogComponent implements OnInit {
+  private fb = inject(UntypedFormBuilder);
+  private dialogRef = inject<MatDialogRef<ExpenseDialogComponent>>(MatDialogRef);
+  data = inject(MAT_DIALOG_DATA);
+
 
   form!: UntypedFormGroup;
   min!: Date;
   max!: Date;
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private dialogRef: MatDialogRef<ExpenseDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:any,
-  ) { }
 
   ngOnInit() {
     const date = new Date(this.data.month.seconds * 1000)
@@ -47,7 +44,7 @@ export class ExpenseDialogComponent implements OnInit {
     })
   }
 
-  
+
 
   upsertEvent({ value }: any){
     const { categoryDetails: {category, subCategory}, ...rest  } = value

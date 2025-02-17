@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,13 +13,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     imports: [MatDialogTitle, ReactiveFormsModule, MatDialogContent, MatFormFieldModule, MatInputModule, MatDialogActions, MatButtonModule]
 })
 export class EventEditDialogComponent implements OnInit {
-  form!: UntypedFormGroup;
+  private fb = inject(UntypedFormBuilder);
+  private dialogRef = inject<MatDialogRef<EventEditDialogComponent>>(MatDialogRef);
+  data = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    private fb: UntypedFormBuilder,
-    private dialogRef: MatDialogRef<EventEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:any
-  ) { }
+  form!: UntypedFormGroup;
 
   ngOnInit() {
     this.form = this.fb.group({

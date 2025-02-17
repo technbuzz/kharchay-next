@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EventService } from '../../shared/events.service';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { MatDialog } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog.component';
 import { TitleResolver } from '../../shared/title.resolver';
@@ -32,6 +32,11 @@ interface IEventMonth {
     imports: [MatGridListModule, MatButtonModule, RouterLink]
 })
 export class EventsMainComponent implements OnInit {
+  es = inject(EventService);
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private router = inject(Router);
+
 
   dataSource!: Observable<any>;
   displayedColumns: string[] = ['title', 'edit', 'delete'];
@@ -44,13 +49,7 @@ export class EventsMainComponent implements OnInit {
   }
   emptyEventMonth!: boolean
   testRef: any;
-  first!: IEventMonth; 
-  
-  constructor(
-    public es: EventService, 
-    public dialog: MatDialog,
-    private afs: Firestore, 
-    private router: Router ) { }
+  first!: IEventMonth;
 
   ngOnInit() {
     // this.fireFunctions.functions.useFunctionsEmulator('http://localhost:5000')
@@ -111,7 +110,7 @@ export class EventsMainComponent implements OnInit {
         // const funcRef = this.es.createEventList(this.first, resp.title)
         // funcRef.execute.subscribe(resp => {
         //   console.log('funcRef: ', funcRef.data)
-    
+
         //   this.es.addSubCollection(funcRef.data.subCollectionRef)
         //   console.log(resp)
         // }, error => {
@@ -126,7 +125,7 @@ export class EventsMainComponent implements OnInit {
   removeEventListHander(event: any) {
 //FIXME: disabled below code of need update to new api
     // this.es.removeEventList(this.first, event)
-    
+
   }
 
   navigateToEventsListing(item: IEventArray) {

@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
-import { IExpense } from '../../shared/expense.interface';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Storage } from "@angular/fire/storage";
-import { Expense } from '../../shared/expense.class';
 import { ActivatedRoute } from "@angular/router";
 
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IEvent } from '../../shared/event.interface';
-import { ICategory } from '@kh/common/api-interface';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { IExpense } from '@models';
 
 @Component({
     selector: 'kha-event-expense-list',
@@ -24,19 +22,17 @@ import { MatTableModule } from '@angular/material/table';
     imports: [MatTableModule, MatButtonModule, MatIconModule, DatePipe]
 })
 export class EventExpenseListComponent implements OnInit {
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private storage = inject(Storage);
+  private route = inject(ActivatedRoute);
+
   displayedColumns: string[] = ['date', 'note', 'price', 'delete'];
   dataSource!: Observable<IExpense[]>;
 
   expCollRef:any;
   selectedFile: any;
   month!: Date;
-
-  constructor(
-    public dialog: MatDialog,
-    private afs: Firestore,
-    private storage: Storage,
-    private route: ActivatedRoute
-  ) { }
 
   ngOnInit() {
     this.route.paramMap.pipe(map(_ => window.history.state))
