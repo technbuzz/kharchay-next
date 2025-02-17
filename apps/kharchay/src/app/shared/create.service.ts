@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IExpense } from '@models';
 import { addDoc, collection, Firestore } from "@angular/fire/firestore";
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
@@ -7,13 +7,13 @@ import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fir
   providedIn: 'root'
 })
 export class CreateService {
+  private firestore = inject(Firestore);
+  private storage = inject(Storage);
 
-  constructor(private firestore: Firestore,
 
-    private storage: Storage,
-  ) {
+  constructor() {
     console.log('Create Service Constructor')
-   }
+  }
 
   add(expense: IExpense) {
     return addDoc(collection(this.firestore, 'expense'), expense);

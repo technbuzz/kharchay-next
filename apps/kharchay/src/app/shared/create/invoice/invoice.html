@@ -1,0 +1,20 @@
+<ion-list>  
+	<ion-item>
+		<ion-label>Invoice</ion-label>
+		<ion-button expand="block" (click)="fileInput.click()">
+			<ion-icon slot="start" name="receipt-outline"></ion-icon>
+			Add Invoice
+		</ion-button>
+	</ion-item>
+
+	<ion-item class="ion-hide">
+		<input type="file" class="ion-sr-only" name="file" accept="image/*" #fileInput (change)="chooseFile($event)">
+		<small slot="end"><= 1mb</small>
+	</ion-item>
+
+	<ion-item *ngIf="imgsrc" >
+		<img #img [src]="imgsrc" height="150">
+	</ion-item>
+</ion-list>
+
+

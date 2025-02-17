@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, LoadingController, ToastController } from '@ionic/angular/standalone';
-import { CreateService } from '@kh/mobile/create/data-access';
-import { NewxComponent } from '@kh/mobile/create/ui';
 import {formatISO} from 'date-fns/formatISO';
+import { CreateService } from '../create.service';
+import { NewxComponent } from './newx/newx.component';
 
 
 @Component({
@@ -15,6 +15,11 @@ import {formatISO} from 'date-fns/formatISO';
     imports: [NewxComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton ],
 })
 export class CreateComponent {
+  private fb = inject(UntypedFormBuilder);
+  private service = inject(CreateService);
+  private loadingCtrl = inject(LoadingController);
+  private router = inject(Router);
+  private toastController = inject(ToastController);
 
   form = this.fb.group({
     price: ['', Validators.required],
@@ -27,14 +32,6 @@ export class CreateComponent {
   })
 
   image!: { dataURL: string, blob: Blob }
-  constructor(
-    private fb: UntypedFormBuilder,
-    private service: CreateService,
-    private loadingCtrl: LoadingController,
-    private router: Router,
-    private toastController: ToastController
-  ) {
-  }
 
   grabImage(event: { dataURL:string, blob: Blob }) {
     this.image = event

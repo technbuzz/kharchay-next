@@ -24,7 +24,7 @@ import { CreateService } from '../shared/create.service';
 @Component({
   selector: 'kh-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.css'],
   standalone: true,
   imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
 })
