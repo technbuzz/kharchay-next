@@ -21,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([logInterceptor])),
     provideRouter(appRoutes, withComponentInputBinding() ),
     ...firebaseProviders,
-    provideIonicAngular(),
+    provideIonicAngular(), provideIonicAngular({}),
   ]
 }
