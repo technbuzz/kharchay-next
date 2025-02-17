@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>New Task Form</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearence="fill">
+      <mat-label>Note</mat-label>
+      <input matInput formControlName="note">
+    </mat-form-field>
+    
+    <mat-form-field appearence="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number">
+    </mat-form-field>
+
+    <shared-cat [parentForm]="$any(form.get('categoryDetails'))"></shared-cat>
+
+    <!-- <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category" [compareWith]="compare" (selectionChange)="populateSubCategory($event)">
+        <mat-option *ngFor="let cat of categories" [value]="cat">
+          {{cat.title | titlecase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="subCategories">
+      <mat-label>Sub Category</mat-label>
+      <mat-select formControlName="subCategory">
+        <mat-option *ngFor="let subCat of subCategories" [value]="subCat">
+          {{subCat | titlecase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <div>
+      
+      <mat-slide-toggle formControlName="fixed">Fixed</mat-slide-toggle>
+    </div>
+    
+    <div>
+      <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+    </div>
+  </form>
+    
+  </div>
+  
+<div mat-dialog-actions>
+  <button type="button" mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" (click)="add()" [disabled]="form.invalid">
+    {{ data.note ? 'Update' : 'Add' }}
+  </button>
+</div>

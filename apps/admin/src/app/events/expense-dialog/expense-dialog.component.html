@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>New Event Form</h1>
+<form (ngSubmit)="upsertEvent(form)" [formGroup]="form">
+  <div mat-dialog-content class="d-flex f-column">
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" type="number">
+    </mat-form-field>
+    <!-- <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput formControlName="date">
+    </mat-form-field> -->
+
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [min]="min" [max]="max" (focus)="picker.open()" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <shared-cat [parentForm]="$any(form.get('categoryDetails'))"></shared-cat>
+    <mat-form-field>
+      <mat-label>Note</mat-label>
+      <input matInput formControlName="note">
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button type="button" mat-button (click)="close()">Close</button>
+    <button mat-raised-button color="primary" [disabled]="form.invalid">
+      Update
+    </button>
+  </div>
+</form>
