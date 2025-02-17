@@ -57,11 +57,11 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
   }
 
   ngOnInit() {
-    this.settingService.settings$.pipe(map(v => v.breadcrumbs), take(1)).subscribe(resp => {
-      if (resp) {
-        this.#addDynamicComponent()
-      }
-    })
+    //this.settingService.settings$.pipe(map(v => v.breadcrumbs), take(1)).subscribe(resp => {
+    //  if (resp) {
+    //    this.#addDynamicComponent()
+    //  }
+    //})
   }
 
   async #addDynamicComponent() {

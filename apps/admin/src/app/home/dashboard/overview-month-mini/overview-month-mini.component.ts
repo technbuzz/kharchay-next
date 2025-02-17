@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArcElement, Chart, DoughnutController, Legend, Tooltip, Colors} from "chart.js";
 import { MatCardModule } from '@angular/material/card';
@@ -22,7 +22,7 @@ Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors)
   styleUrls: ['./overview-month-mini.component.scss'],
   exportAs: 'miniTransaction'
 })
-export class OverviewMonthMiniComponent implements OnInit {
+export class OverviewMonthMiniComponent implements AfterViewInit {
   @ViewChild('wrapper', { static: true }) chartWrapper!: ElementRef
   private chart!: Chart<"doughnut", number[], string>
   protected month = Date.now()
@@ -36,7 +36,7 @@ export class OverviewMonthMiniComponent implements OnInit {
   constructor(private service: FirebaseAdapterService) { }
 
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     const basicStartMonth = startOfMonth(this.month);
     const basicEndMonth = endOfMonth(this.month);
     this.service.summaryByMonth('expense', basicStartMonth, basicEndMonth).pipe(
@@ -51,7 +51,6 @@ export class OverviewMonthMiniComponent implements OnInit {
   private makeArrays(values:Array<{key:string, value: number}>) {
     const chartData: number[] = [];
     const chartLabels: string[] = [];
-
 
 
     this.selMonth = {

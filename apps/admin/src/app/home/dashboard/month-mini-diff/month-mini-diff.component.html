@@ -1,6 +1,9 @@
 
 <p class="text-center pt-2">Compared to Last Month</p>
-<p>from sibling {{ currMonth.date | date }}</p>
+<!--@if(currMonth.date) {-->
+
+<p>from sibling {{ currMonth?.date | date }}</p>
+<!--}-->
 <mat-list>
   <mat-list-item *ngFor="let diff of diffs$ | async">
     <!-- <mat-icon matListItemIcon>folder</mat-icon> -->

@@ -20,7 +20,9 @@ export class MonthMiniDiffComponent {
   diffs$!: Observable<any>
 
   @Input() set currMonth(value: {date: number, topExpenses: any[]}) {
+    console.log(value)
     if(!value) return
+
 
     console.log('date', value.date)
     const prevMonth = subMonths(value.date, 1);
