@@ -8,11 +8,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { SettingsService } from '@kh/admin/settings/data-access';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';
 import { DatabaseAdapter } from '@data-access';
+import { SettingsService } from '../../shared/settings.service';
 
 
 @Component({

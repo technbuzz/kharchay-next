@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { warn } from 'console';
 import { BreadcrumbsService } from '../shared/breadcrumbs.service';
 
 @Component({

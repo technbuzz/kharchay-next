@@ -16,7 +16,7 @@ export const homeRoutes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('@kh/admin/dashboard/feature').then(m => m.adminDashboardFeatureRoutes)
+        loadChildren: () => import('./dashboard/lib.routes').then(m => m.adminDashboardFeatureRoutes)
       },
       {
         path: 'recurring',
@@ -32,7 +32,7 @@ export const homeRoutes: Routes = [
       },
       {
         path: 'settings',
-        loadChildren: () => import('@kh/admin/settings/feature').then(m => m.featureRoutes)
+        //loadChildren: () => import('@kh/admin/settings/feature').then(m => m.featureRoutes)
       }
     ]
   }
