@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UntypedFormGroup, ControlContainer, ReactiveFormsModule } from '@angular/forms';
-import { categories } from '../../shared/categories'
 import { MatOptionModule } from '@angular/material/core';
 import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { } from '@models'
 
 
 @Component({

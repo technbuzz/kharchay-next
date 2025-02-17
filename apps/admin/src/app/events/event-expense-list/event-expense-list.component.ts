@@ -10,7 +10,6 @@ import { ActivatedRoute } from "@angular/router";
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IEvent } from '../../shared/event.interface';
-import { ICategory } from '@kh/common/api-interface';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';

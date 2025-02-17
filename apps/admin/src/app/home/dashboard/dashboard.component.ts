@@ -3,7 +3,6 @@ import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewCont
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { ActivatedRoute, Data, NavigationEnd, Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { SettingsService } from '@kh/admin/settings/data-access';
-import { DatabaseAdapter } from '@kh/common/data-adapters';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { GeneralService } from '../../shared/general.service';

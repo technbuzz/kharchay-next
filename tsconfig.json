@@ -7,9 +7,11 @@
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
+
     "paths": {
-      "models": [
-        "./dist/models"
+      "@kh/admin-settings": ["libs/admin/settings/src/index.ts"],
+      "@models": [
+        "libs/models/src/public-api.ts"
       ]
     },
     "noImplicitReturns": true,
