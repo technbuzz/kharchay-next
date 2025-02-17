@@ -10,6 +10,7 @@ import { appRoutes } from "./app.routes";
 import { DatabaseAdapter, FirebaseAdapterService } from "@kh/common/data-adapters";
 import { provideHttpClient } from "@angular/common/http";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
 
@@ -25,6 +26,6 @@ export const appConfig: ApplicationConfig = {
       provide: DatabaseAdapter,
       useClass: FirebaseAdapterService,
       // useClass: SupabaseAdapterService
-    }
+    }, provideAnimationsAsync()
   ]
 }
