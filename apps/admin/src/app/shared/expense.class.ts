@@ -1,5 +1,4 @@
-import { IExpense } from './expense.interface';
-import { ICategory } from './category.interface';
+import { ICategory, IExpense } from '@models'
 
 export class Expense implements IExpense {
 
@@ -12,7 +11,7 @@ export class Expense implements IExpense {
   // fixed?: boolean
 
   // constructor(price, note, imageName, category, date, subCategory?, fixed? ) {
-  //   this.price = price 
+  //   this.price = price
   //   this.note = note
   //   this.imageName = imageName
   //   this.category = category
@@ -20,9 +19,9 @@ export class Expense implements IExpense {
   //   this.subCategory = subCategory
   //   this.fixed = fixed
   // }
-  constructor(public price: any, public note: string, 
+  constructor(public price: any, public note: string,
     public imageName: string, public category: ICategory, public date:any, public subCategory?: ICategory, public fixed?: boolean ) {
-    this.price = price 
+    this.price = price
     this.note = note
     this.imageName = imageName
     this.category = category

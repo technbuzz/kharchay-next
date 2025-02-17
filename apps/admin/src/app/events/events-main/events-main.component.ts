@@ -4,7 +4,7 @@ import { EventService } from '../../shared/events.service';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { MatDialog } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog.component';
 import { TitleResolver } from '../../shared/title.resolver';
@@ -44,12 +44,12 @@ export class EventsMainComponent implements OnInit {
   }
   emptyEventMonth!: boolean
   testRef: any;
-  first!: IEventMonth; 
-  
+  first!: IEventMonth;
+
   constructor(
-    public es: EventService, 
+    public es: EventService,
     public dialog: MatDialog,
-    private afs: Firestore, 
+    private afs: Firestore,
     private router: Router ) { }
 
   ngOnInit() {
@@ -111,7 +111,7 @@ export class EventsMainComponent implements OnInit {
         // const funcRef = this.es.createEventList(this.first, resp.title)
         // funcRef.execute.subscribe(resp => {
         //   console.log('funcRef: ', funcRef.data)
-    
+
         //   this.es.addSubCollection(funcRef.data.subCollectionRef)
         //   console.log(resp)
         // }, error => {
@@ -126,7 +126,7 @@ export class EventsMainComponent implements OnInit {
   removeEventListHander(event: any) {
 //FIXME: disabled below code of need update to new api
     // this.es.removeEventList(this.first, event)
-    
+
   }
 
   navigateToEventsListing(item: IEventArray) {

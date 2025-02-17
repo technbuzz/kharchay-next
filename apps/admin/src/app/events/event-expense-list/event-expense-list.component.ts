@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
-import { IExpense } from '../../shared/expense.interface';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Storage } from "@angular/fire/storage";
-import { Expense } from '../../shared/expense.class';
 import { ActivatedRoute } from "@angular/router";
 
 import { map, take } from 'rxjs/operators';
@@ -14,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { IExpense } from '@models';
 
 @Component({
     selector: 'kha-event-expense-list',

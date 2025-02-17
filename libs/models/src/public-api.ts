@@ -3,3 +3,4 @@
  */
 export * from './lib/category.interface'
 export * from './lib/categories'
+export * from './lib/expence.model'

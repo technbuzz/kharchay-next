@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IExpense } from '../../shared/expense.interface';
 
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { MatButtonModule } from '@angular/material/button';
 import { SharedCatComponent } from '../../components/shared-cat/shared-cat.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -47,7 +46,7 @@ export class ExpenseDialogComponent implements OnInit {
     })
   }
 
-  
+
 
   upsertEvent({ value }: any){
     const { categoryDetails: {category, subCategory}, ...rest  } = value

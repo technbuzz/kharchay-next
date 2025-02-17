@@ -1,4 +1,4 @@
-import { IExpense } from "./common-api-interface";
+import { IExpense } from "@models";
 
 export interface Category {
   title: string;

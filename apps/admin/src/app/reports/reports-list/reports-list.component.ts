@@ -4,11 +4,11 @@ import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angu
 import groupBy from "lodash-es/groupBy";
 import { map, mergeAll, pluck } from 'rxjs/operators';
 import { IEvent } from '../../shared/event.interface';
-import { IExpense } from '../../shared/expense.interface';
 import { GeneralService } from '../../shared/general.service';
 import { JsonPipe } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { IExpense } from '@models';
 
 
 @Component({
