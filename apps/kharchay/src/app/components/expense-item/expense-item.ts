@@ -1,7 +1,7 @@
 import { DatePipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IExpense, mapCategory, mapSubCategory } from '@kh/common/api-interface';
+import { IExpense, mapCategory, mapSubCategory } from '@models';
 import { TruncatePipe } from './truncate.pipe';
 import { IonItemSliding, IonItem, IonAvatar, IonLabel, IonGrid, IonRow, IonCol, IonIcon, IonBadge, IonNote, IonItemOptions, IonItemOption } from "@ionic/angular/standalone";
 
@@ -27,14 +27,13 @@ import { IonItemSliding, IonItem, IonAvatar, IonLabel, IonGrid, IonRow, IonCol, 
     ]
 })
 export class ExpenseItemComponent implements OnInit {
+    private router = inject(Router);
+
     @Input('expense') item!: IExpense;
 
     @Input() readonly = false;
     @Output('onDelete') delete = new EventEmitter();
     @Output('onUpdate') update = new EventEmitter();
-
-
-    constructor(private router: Router) { }
 
     ngOnInit() {
         this.item = mapCategory(this.item)

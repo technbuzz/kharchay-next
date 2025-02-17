@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core'
-import { IExpense } from '@kh/common/api-interface'
-import { OverlayEventDetail } from '@ionic/core/components';
+import { IExpense } from '@models'
+import { OverlayEventDetail } from '@ionic/core';
 import { FormGroup } from '@angular/forms';
 import { IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent } from "@ionic/angular/standalone";
 

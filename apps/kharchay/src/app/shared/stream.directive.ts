@@ -1,4 +1,4 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { fromEvent, Subscription, asyncScheduler } from 'rxjs';
 import { buffer, throttleTime, map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -8,9 +8,12 @@ import { Router } from '@angular/router';
     standalone: true
 })
 export class StreamDirective {
+  private el = inject(ElementRef);
+  private router = inject(Router);
+
   subscriptions = new Subscription();
 
-  constructor(private el: ElementRef, private router: Router) {
+  constructor() {
     const secretElement = this.el.nativeElement;
 
     const clickStream = fromEvent(secretElement, 'click');

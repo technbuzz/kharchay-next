@@ -14,7 +14,7 @@ import { AsyncPipe, DatePipe, DecimalPipe, NgFor, NgSwitch, NgSwitchCase, TitleC
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonButton, IonContent, IonDatetime, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSegment, IonSegmentButton, IonSelect, IonSelectOption } from "@ionic/angular/standalone";
-import { categories, IExpense } from '@kh/common/api-interface';
+import { categories, IExpense } from '@models';
 import { format } from 'date-fns/format';
 import { addIcons } from "ionicons";
 import { calendar, pieChart } from "ionicons/icons";
@@ -58,6 +58,9 @@ import { Stepper } from '../shared/stepper';
     ],
 })
 export class FilterPage extends Stepper implements OnInit {
+    private router = inject(Router);
+    private afs = inject(Firestore);
+
 
     @ViewChild(IonDatetime, { static: true }) datetime!: IonDatetime;
     month = input<string>(format(new Date(), 'yyyy-MM'));
@@ -79,7 +82,7 @@ export class FilterPage extends Stepper implements OnInit {
     total = 0;
 
 
-    constructor(private router: Router, private afs: Firestore) {
+    constructor() {
         super();
         Object.assign(this.categories, categories);
         addIcons({ calendar, pieChart });

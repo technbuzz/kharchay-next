@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IExpense } from '@kh/common/api-interface';
 import { addDoc, collection, Firestore } from 'firebase/firestore';
 
 @Injectable({providedIn: 'root'})
 export class SharedService {
-  constructor(private firestore: Firestore) { }
+  private firestore = inject(Firestore);
+
   
 
   add(expense: IExpense) {

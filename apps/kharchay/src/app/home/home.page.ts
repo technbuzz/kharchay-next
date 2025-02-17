@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     Firestore,
     collection,
@@ -11,15 +11,15 @@ import {
 } from '@angular/fire/firestore';
 import { RouterLink } from '@angular/router';
 import { AlertController, IonButton, IonContent, IonFab, IonFabButton, IonIcon, IonRouterLink } from '@ionic/angular/standalone';
-import { IExpense } from '@kh/common/api-interface';
-import { CreateService } from '@kh/mobile/create/data-access';
+import { IExpense } from '@models';
 import { addIcons } from "ionicons";
 import { add, funnel, search } from "ionicons/icons";
 import { Observable } from 'rxjs';
 import { concatMap, first, map } from 'rxjs/operators';
-import { RecurringComponent, RecurringEvent } from '../components/recurring/recurring.component';
+import { RecurringEvent } from '../components/recurring/recurring.component';
 import { SettingsService } from '../services/settings.service';
 import { StreamDirective } from '../shared/stream.directive';
+import { CreateService } from '../shared/create.service';
 
 @Component({
   selector: 'kh-home',
@@ -29,6 +29,11 @@ import { StreamDirective } from '../shared/stream.directive';
   imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
 })
 export class HomePage implements OnInit {
+  private alertCtrl = inject(AlertController);
+  private firestore = inject(Firestore);
+  private settingService = inject(SettingsService);
+  private createService = inject(CreateService);
+
   app = getFirestore().app;
   recurringLoading = false;
   dynamicPricing = true;
@@ -41,12 +46,7 @@ export class HomePage implements OnInit {
   recurringExpenses!: Observable<IExpense[]>;
   reccuringExpenseId: string | undefined = undefined;
 
-  constructor(
-    private alertCtrl: AlertController,
-    private firestore: Firestore,
-    private settingService: SettingsService,
-    private createService: CreateService
-  ) {
+  constructor() {
     addIcons({ funnel, search, add });
     addIcons({ funnel, search, add });
   }

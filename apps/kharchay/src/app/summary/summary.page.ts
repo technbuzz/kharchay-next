@@ -1,9 +1,4 @@
-import {
-    AfterViewInit,
-    Component, ElementRef,
-    ViewChild,
-    input
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, input, inject } from '@angular/core';
 import { Firestore, collection } from '@angular/fire/firestore';
 import { Observable, fromEvent, merge } from 'rxjs';
 import { Stepper } from '../shared/stepper';
@@ -54,6 +49,9 @@ function tranformDate(v: string) {
   ],
 })
 export class SummaryPage extends Stepper implements AfterViewInit {
+  private afs = inject(Firestore);
+  private gestureCtrl = inject(GestureController);
+
   @ViewChild('dateItem') dateItem: any;
   @ViewChild('expenseDate', { static: true })
   expenseDate!: ElementRef<HTMLInputElement>;
@@ -68,7 +66,7 @@ export class SummaryPage extends Stepper implements AfterViewInit {
 
   expenses$!: Observable<DocumentData[]>;
   private expensesRef = collection(this.afs, 'expense');
-  constructor(private afs: Firestore, private gestureCtrl: GestureController) {
+  constructor() {
     super();
     addIcons({ listOutline });
   }

@@ -3,12 +3,12 @@ import { computed, inject, Injectable } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore, getAggregateFromServer, sum } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IExpense } from '@kh/common/api-interface';
 import { addMonths, addWeeks, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline } from 'ionicons/icons';
 import { distinctUntilKeyChanged, map, switchMap } from 'rxjs';
 import { getMonthlyQuery, getWeeklyQuery } from './utils';
+import { IExpense } from '@models';
 
 interface Queries {
   period: 'week' | 'month' | 'year',
@@ -17,6 +17,8 @@ interface Queries {
 
 @Injectable({ providedIn: 'root' })
 export class StatsService {
+  private afs = inject(Firestore);
+
   router = inject(Router);
   route = inject(ActivatedRoute);
   http = inject(HttpClient)
@@ -85,7 +87,7 @@ export class StatsService {
 
   $expenses = toSignal(this.expenses$, { initialValue: [] })
 
-  constructor(private afs: Firestore) {
+  constructor() {
     addIcons({
       chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline
     })

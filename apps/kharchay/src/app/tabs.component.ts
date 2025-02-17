@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { filterCircle, home, library, playCircle, radio, search, statsChart } from 'ionicons/icons';
+import { filterCircle, home, library, search, statsChart } from 'ionicons/icons';
 import { StreamDirective } from './shared/stream.directive';
 
 @Component({

@@ -11,7 +11,7 @@ export const appRoutes: Routes = [
       { path: 'filter', loadComponent: () => import('./filter/filter.page').then(m => m.FilterPage) },
     ]
   },
-  { path: 'new', loadComponent: () => import('@kh/mobile/create/feature').then(m => m.CreateComponent) },
+  { path: 'new', loadComponent: () => import('./shared/create/create.component').then(m => m.CreateComponent) },
   { path: 'details', loadComponent: () => import('./details/details.page').then(m => m.DetailsPage) },
   { path: 'search', loadComponent: () => import('./search/search.page').then(m => m.SearchPage) },
   { path: 'filter', loadComponent: () => import('./filter/filter.page').then(m => m.FilterPage) },

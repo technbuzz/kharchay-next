@@ -1,7 +1,7 @@
-import { Component, OnDestroy, Optional, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { traceUntilFirst } from '@angular/fire/performance';
-import { App } from '@capacitor/app';
+//import { App } from '@capacitor/app';
 // import { WebIntent } from '@ionic-native/web-intent/ngx'
 
 import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
@@ -16,16 +16,15 @@ import { map } from 'rxjs/operators';
     template: `<ion-app><ion-router-outlet></ion-router-outlet></ion-app>`,
 })
 export class AppComponent implements OnDestroy {
+    private platform = inject(Platform);
+    private afAuth = inject(Auth);
+
 
     private readonly userDesposible!: Subscription;
     @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
 
 
-    constructor(
-        private platform: Platform,
-        @Optional() private afAuth: Auth,
-        // private webIntent: WebIntent,
-    ) {
+    constructor() {
 
         this.userDesposible = authState(this.afAuth).pipe(
             traceUntilFirst('auth'),
@@ -53,7 +52,10 @@ export class AppComponent implements OnDestroy {
     registerHandleBack() {
         this.platform.backButton.subscribeWithPriority(-1, () => {
             if (!this.routerOutlet?.canGoBack()) {
-                App.exitApp();
+
+
+        // TODO: enable once dep installed
+                //App.exitApp();
             }
         })
 

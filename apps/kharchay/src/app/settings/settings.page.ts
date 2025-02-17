@@ -1,6 +1,5 @@
-import { Component, VERSION, Inject, OnInit, Optional, Renderer2 } from '@angular/core';
+import { Component, VERSION, OnInit, Renderer2, inject } from '@angular/core';
 import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common'
-import { } from "@ionic/core";
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 
@@ -21,6 +20,13 @@ import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent,
     imports: [ReactiveFormsModule, FormsModule, NgIf, AsyncPipe, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonList, IonItem, IonToggle, IonLabel, IonButton]
 })
 export class SettingsPage implements OnInit {
+    private settingsService = inject(SettingsService);
+    private afAuth = inject(Auth);
+    alertController = inject(AlertController);
+    private authService = inject(AuthService);
+    private loadingController = inject(LoadingController);
+    private toastController = inject(ToastController);
+
     version = VERSION.full;
     dynamicPricing = false;
     deleteRights = false;
@@ -28,15 +34,6 @@ export class SettingsPage implements OnInit {
     loggedIn$!: Observable<any>;
     loading: any = null;
     themeToggle = false;
-
-    constructor(
-        private settingsService: SettingsService,
-        @Optional() private afAuth: Auth,
-        public alertController: AlertController,
-        private authService: AuthService,
-        private loadingController: LoadingController,
-        private toastController: ToastController,
-    ) { }
 
     ngOnInit() {
         this.settingsService.getConfig().subscribe(resp => {

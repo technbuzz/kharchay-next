@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ref, Storage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { getDownloadURL } from 'firebase/storage';
-import { keepUnstableUntilFirst } from '@angular/fire';
+//import { keepUnstableUntilFirst } from '@angular/fire';
 import { startWith, tap } from 'rxjs/operators';
-import { IExpense, mapCategory, mapSubCategory } from '@kh/common/api-interface';
+import { IExpense, mapCategory, mapSubCategory } from '@models';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonSpinner, IonCard, IonCardContent, IonCardTitle, IonBadge } from "@ionic/angular/standalone";
 
@@ -35,14 +35,14 @@ const TRANSPARENT_PNG
     ],
 })
 export class DetailsPage implements OnInit {
+    private route = inject(ActivatedRoute);
+    private storage = inject(Storage);
+
 
     expense!: IExpense;
     loaded = false;
 
     imgUrl$!: Observable<any>;
-
-    constructor(private route: ActivatedRoute,
-        private storage: Storage) { }
 
     ngOnInit() {
         let item;
@@ -52,7 +52,7 @@ export class DetailsPage implements OnInit {
             this.expense = mapSubCategory(JSON.parse(item));
             const imgRef = ref(this.storage, `/receipts/${this.expense.imageName}`);
             this.imgUrl$ = from(getDownloadURL(imgRef)).pipe(
-                keepUnstableUntilFirst,
+                //keepUnstableUntilFirst,
                 traceUntilFirst('storage'),
                 // startWith(TRANSPARENT_PNG),
                 startWith("./assets/imgs/placeholder.jpg")
