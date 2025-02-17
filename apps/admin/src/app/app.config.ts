@@ -11,9 +11,11 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DatabaseAdapter, FirebaseAdapterService } from "@data-access";
 import { environment } from "@env";
+import { provideNativeDateAdapter } from "@angular/material/core";
 export const appConfig: ApplicationConfig = {
   providers: [
 
+    provideNativeDateAdapter(),
     provideRouter(appRoutes),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

@@ -12,7 +12,7 @@ import { DatabaseAdapter } from '@data-access';
 @Component({
     selector: 'kha-login-form',
     templateUrl: './login-form.component.html',
-    styleUrls: ['./login-form.component.scss'],
+    styleUrls: ['./login-form.component.css'],
     standalone: true,
     imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })

@@ -30,10 +30,10 @@ export const homeRoutes: Routes = [
         path: 'reports',
         loadChildren: () => import('../reports/reporting.routes').then(m => m.routes)
       },
-      {
-        path: 'settings',
+      //{
+        //path: 'settings',
         //loadChildren: () => import('@kh/admin/settings/feature').then(m => m.featureRoutes)
-      }
+      //}
     ]
   }
 ];

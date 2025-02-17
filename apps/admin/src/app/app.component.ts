@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { Auth, authState } from "@angular/fire/auth";
-import { traceUntilFirst } from '@angular/fire/performance';
-import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 
 @Component({

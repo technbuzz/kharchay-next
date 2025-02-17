@@ -18,7 +18,7 @@ import { SettingsService } from '../../shared/settings.service';
 @Component({
     selector: 'kha-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
+    styleUrls: ['./dashboard.component.css'],
     standalone: true,
     imports: [MatToolbarModule, MatButtonModule, MatIconModule, NgIf, MatProgressBarModule, MatSidenavModule, MatListModule, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
