@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
@@ -22,19 +22,17 @@ import { IExpense } from '@models';
     imports: [MatTableModule, MatButtonModule, MatIconModule, DatePipe]
 })
 export class EventExpenseListComponent implements OnInit {
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private storage = inject(Storage);
+  private route = inject(ActivatedRoute);
+
   displayedColumns: string[] = ['date', 'note', 'price', 'delete'];
   dataSource!: Observable<IExpense[]>;
 
   expCollRef:any;
   selectedFile: any;
   month!: Date;
-
-  constructor(
-    public dialog: MatDialog,
-    private afs: Firestore,
-    private storage: Storage,
-    private route: ActivatedRoute
-  ) { }
 
   ngOnInit() {
     this.route.paramMap.pipe(map(_ => window.history.state))

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,17 +17,20 @@ import { DatabaseAdapter } from '@data-access';
     imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })
 export class LoginFormComponent {
+  private fb = inject(UntypedFormBuilder);
+  private fbAuth = inject(Auth);
+  private router = inject(Router);
+  private dbAdapter = inject(DatabaseAdapter);
+  private general = inject(GeneralService);
+
 
   loading = false
 
   form: UntypedFormGroup;
 
-  constructor(
-    private fb: UntypedFormBuilder,
-    private fbAuth: Auth,
-    private router: Router,
-    private dbAdapter: DatabaseAdapter,
-    private general: GeneralService) {
+  constructor() {
+    const fb = this.fb;
+
     this.form = fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]

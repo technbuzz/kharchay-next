@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { warn } from 'console';
 import { BreadcrumbsService } from '../shared/breadcrumbs.service';
@@ -44,12 +44,9 @@ import { BreadcrumbsService } from '../shared/breadcrumbs.service';
 })
 
 export class BreadcrumbsComponent implements OnInit {
-  crumbs !: any;
-  // @Input() crumbs !:any;
-  constructor(
+  private breadcrumbsService = inject(BreadcrumbsService);
 
-    private breadcrumbsService: BreadcrumbsService,
-  ) { }
+  crumbs !: any;
 
   ngOnInit() {
 

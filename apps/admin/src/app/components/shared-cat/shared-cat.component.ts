@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { UntypedFormGroup, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { NgFor, NgIf, TitleCasePipe } from '@angular/common';
@@ -15,6 +15,8 @@ import { categories } from '@models'
     imports: [ReactiveFormsModule, MatFormFieldModule, MatSelectModule, NgFor, MatOptionModule, NgIf, TitleCasePipe]
 })
 export class SharedCatComponent implements OnInit {
+  controlContainer = inject(ControlContainer);
+
 
   categories:any = [];
   subCategories: any = null;
@@ -23,7 +25,7 @@ export class SharedCatComponent implements OnInit {
 
   @Input() parentForm!: UntypedFormGroup;
 
-  constructor(public controlContainer:ControlContainer) {
+  constructor() {
     Object.assign(this.categories, categories)
 
    }

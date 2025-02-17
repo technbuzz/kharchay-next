@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { Firestore, collection, collectionData, firestoreInstance$, query, where } from '@angular/fire/firestore';
 // import { AngularFireFunctions } from "@angular/fire/functions";
@@ -6,10 +6,8 @@ import { concatMap, first, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class EventService {
+  private afs = inject(Firestore);
 
-  // eventsCollectionRef: AngularFirestoreCollection<any>
-  // constructor(private afs: Firestore, private fireFunctions: AngularFireFunctions) {}
-  constructor(private afs: Firestore) {}
 
   getEvents(): Observable<any[]> {
     return firestoreInstance$.pipe(

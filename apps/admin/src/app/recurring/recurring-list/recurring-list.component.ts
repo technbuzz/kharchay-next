@@ -29,18 +29,16 @@ export interface Task {
     imports: [MatTableModule, MatSlideToggleModule, MatButtonModule, MatIconModule, RouterLink]
 })
 export class RecurringListComponent implements OnInit {
+  private dbAdapter = inject(DatabaseAdapter);
+  dialog = inject(MatDialog);
+  gs = inject(GeneralService);
+
 
   displayedColumns: string[] = ['note', 'price', 'fixed', 'active', 'edit'];
   dataSource!: Observable<any>;
   afs = inject(Firestore)
 
   recurringColl = collection(this.afs, 'recurring')
-
-  constructor(
-    private dbAdapter: DatabaseAdapter,
-    public dialog: MatDialog,
-    public gs: GeneralService
-  ) { }
 
   ngOnInit() {
     this.gs.title.next('Recurring');

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EventService } from '../../shared/events.service';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
@@ -32,6 +32,11 @@ interface IEventMonth {
     imports: [MatGridListModule, MatButtonModule, RouterLink]
 })
 export class EventsMainComponent implements OnInit {
+  es = inject(EventService);
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private router = inject(Router);
+
 
   dataSource!: Observable<any>;
   displayedColumns: string[] = ['title', 'edit', 'delete'];
@@ -45,12 +50,6 @@ export class EventsMainComponent implements OnInit {
   emptyEventMonth!: boolean
   testRef: any;
   first!: IEventMonth;
-
-  constructor(
-    public es: EventService,
-    public dialog: MatDialog,
-    private afs: Firestore,
-    private router: Router ) { }
 
   ngOnInit() {
     // this.fireFunctions.functions.useFunctionsEmulator('http://localhost:5000')

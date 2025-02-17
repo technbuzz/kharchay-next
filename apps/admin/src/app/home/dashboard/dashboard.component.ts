@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -23,6 +23,13 @@ import { DatabaseAdapter } from '@data-access';
     imports: [MatToolbarModule, MatButtonModule, MatIconModule, NgIf, MatProgressBarModule, MatSidenavModule, MatListModule, RouterLinkActive, RouterLink, RouterOutlet, AsyncPipe],
 })
 export class DashboardComponent implements OnInit, AfterContentInit, AfterViewInit {
+  private dbAdapter = inject(DatabaseAdapter);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  protected settingService = inject(SettingsService);
+  gs = inject(GeneralService);
+  private breakpointObserver = inject(BreakpointObserver);
+
 
   @ViewChild('snav') snav!: MatSidenav;
   @ViewChild('vc', { read: ViewContainerRef }) vc!: ViewContainerRef;
@@ -35,16 +42,6 @@ export class DashboardComponent implements OnInit, AfterContentInit, AfterViewIn
   media$ = this.breakpointObserver.observe([
     Breakpoints.XSmall
   ])
-
-
-  constructor(
-    private dbAdapter: DatabaseAdapter,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected settingService: SettingsService,
-    public gs: GeneralService,
-    private breakpointObserver: BreakpointObserver) {
-  }
 
   ngAfterViewInit(): void {
     // this.router.events.pipe(

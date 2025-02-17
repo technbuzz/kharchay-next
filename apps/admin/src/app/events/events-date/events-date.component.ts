@@ -6,7 +6,7 @@ import { collectionData, Firestore } from '@angular/fire/firestore';
 import dayjs from "dayjs";
 import { MatDialog } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '../event-edit-dialog/event-edit-dialog.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IEventMonth } from "../../shared/eventMonth.interface";
 import { IEvent } from '../../shared/event.interface';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, ReactiveFormsModule, FormsModule, NgIf, MatButtonModule, MatIconModule, MatTableModule]
 })
 export class EventsDateComponent implements OnInit {
+  es = inject(EventService);
+  dialog = inject(MatDialog);
+  private afs = inject(Firestore);
+  private router = inject(Router);
+
 
   dataSource!: Observable<any>;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
@@ -39,12 +44,6 @@ export class EventsDateComponent implements OnInit {
   emptyEventMonth!: boolean
   testRef: any;
   first!: IEventMonth;
-
-  constructor(
-    public es: EventService,
-    public dialog: MatDialog,
-    private afs: Firestore,
-    private router: Router ) { }
 
   ngOnInit() {
     // this.fireFunctions.functions.useFunctionsEmulator('http://localhost:5000')

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Firestore, collectionData, collection, query, where } from '@angular/fire/firestore';
 import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import groupBy from "lodash-es/groupBy";
@@ -19,6 +19,9 @@ import { IExpense } from '@models';
     imports: [MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, JsonPipe]
 })
 export class ReportsListComponent implements OnInit {
+  private gs = inject(GeneralService);
+  private afs = inject(Firestore);
+
 
   expenseCollection: any
   // expenseCollection: AngularFirestoreCollection
@@ -28,8 +31,6 @@ export class ReportsListComponent implements OnInit {
     start: new UntypedFormControl(),
     end: new UntypedFormControl()
   });
-
-  constructor(private gs: GeneralService, private afs: Firestore) { }
 
   ngOnInit() {
     this.gs.title.next('Reports');
