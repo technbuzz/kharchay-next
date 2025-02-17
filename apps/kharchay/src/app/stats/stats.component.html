@@ -1,0 +1,46 @@
+<ion-content >
+  <header class="flex ion-padding ion-margin-bottom">
+    <ion-button (click)="backward()" fill="clear" color="medium">
+      <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    @let $diff = service.$diffTotal();
+
+    <div class="flex-1 ion-text-center">
+      <h1 class="ion-no-margin">{{ $any($total()) | currency: 'AED': ''}}</h1>
+      <div class="flex ion-justify-content-center ion-align-items-center gap-x-1">
+        <ion-text color="medium">Total spend this week</ion-text>
+        <ion-icon [name]="$diff.icon" size="medium" [color]="$diff.color"></ion-icon>
+        <ion-text>{{ $diff.pct | number: '1.0-0' }}%</ion-text>
+      </div>
+    </div>
+
+    <ion-button (click)="forward()" fill="clear" color="medium">
+      <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </header>
+
+  @if(this.service.$daysInPeriod() == 7) {
+    <kh-stats-week [data]="service.$expenses()" />
+  } @else {
+  <!-- try using @defer when month is clicked -->
+    <kh-stats-month [data]="service.$expenses()" />
+  }
+
+  <kh-periods />
+  <pre>{{$queries().timestamp | date }}</pre>
+
+
+  <ion-list class="ion-padding-horizontal">
+    <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->
+    @for(item of service.$expenses(); track $index) {
+      <expense-item
+        [expense]="$any(item)"
+        [readonly]="true"
+      ></expense-item>
+    } @empty {
+      <small>Nothing found</small>
+    }
+  </ion-list>
+
+</ion-content>
