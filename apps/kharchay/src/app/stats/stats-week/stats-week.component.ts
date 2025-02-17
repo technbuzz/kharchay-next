@@ -32,7 +32,7 @@ export class StatsWeekComponent implements AfterViewInit {
     effect(() => {
       let data = this.$expensesGroupedByWeek()
 
-      if(data) {
+      if(data && this.#chart?.data) {
         this.#chart.data.datasets = []
         let weekStyles = {
           barThickness: 24,
