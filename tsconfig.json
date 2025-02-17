@@ -12,6 +12,12 @@
       "@kh/admin-settings": ["libs/admin/settings/src/index.ts"],
       "@models": [
         "libs/models/src/public-api.ts"
+      ],
+      "@data-access": [
+        "libs/data-access/src/public-api.ts"
+      ],
+      "env": [
+        "./dist/env"
       ]
     },
     "noImplicitReturns": true,
