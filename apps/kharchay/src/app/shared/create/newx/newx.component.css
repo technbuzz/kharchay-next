@@ -1,3 +1,7 @@
+:root {
+  --ion-grid-padding: 1rem;
+}
+
 .price-col{
   margin-block: 20dvh;
   position: relative;
