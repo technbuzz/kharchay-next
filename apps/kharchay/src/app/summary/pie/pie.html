@@ -1,0 +1,18 @@
+<svg viewBox="0 0 20 20">
+  <g>
+    <circle r="10" cx='10' cy='10' fill="white">
+    </circle>
+    <circle r="5" cx='10' cy='10' fill="transparent" *ngFor="let slice of slices; index as i"
+    [attr.stroke]="slice.color" 
+    stroke-width="3"
+    [attr.stroke-dasharray]="calcSlice(slice)"
+    [attr.transform]="calcStartAngle(slice.startAngle, i)"
+    >
+  </circle>  
+</g>
+</svg>
+<ul>
+  <li *ngFor="let slice of slices" (click)="toggle(slice.label)">
+    <span [ngStyle]="{color: slice.color}">{{ slice.label }}</span>
+  </li>
+</ul>

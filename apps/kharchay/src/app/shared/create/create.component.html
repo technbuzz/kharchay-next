@@ -1,0 +1,30 @@
+
+<ion-header>
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Create
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="saveAndAddMore()" [disabled]="form.invalid">
+        <ion-icon name="duplicate" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <!-- <kh-dynamic-price></kh-dynamic-price> -->
+  <!-- <kh-new [parent]="form"></kh-new> -->
+  <kh-newx [parent]="form" (onSubmit)="add()" />
+  <!-- <kh-invoice (imageRendered)="grabImage($event)"></kh-invoice> -->
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
+  <!--   <ion-fab-button (click)="add()" [disabled]="form.invalid"> -->
+  <!--     <ion-icon name="save"></ion-icon> -->
+  <!--   </ion-fab-button> -->
+  <!-- </ion-fab> -->
+</ion-content>

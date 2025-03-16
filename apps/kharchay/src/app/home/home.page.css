@@ -1,0 +1,25 @@
+header{
+  display: flex;
+  justify-content: space-between;
+
+  background: red;
+
+  h2{
+    margin-top: 0;
+  }
+}
+
+ion-grid{
+  ion-col{
+    padding-top: 0;
+    padding-bottom:0;
+
+    &:first-child{
+      padding-left: 0;
+    }
+
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+}

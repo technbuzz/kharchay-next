@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item>
+      <ion-toggle checked="false" [(ngModel)]="dynamicPricing" (ionChange)="updateTextMode()" justify="space-between"
+      > Dynamic Pricing</ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-toggle checked="false" [(ngModel)]="deleteRights" (ionChange)="updateDeleteRights()" justify="space-between"
+      >Delete Allowed?</ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" justify="space-between"
+        >Dark Mode</ion-toggle >
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Login Status</ion-label>
+      <!-- <ion-button *ngIf="loggedIn; else loggedOut" slot="end" (click)="logout()" -->
+      <ion-button
+        *ngIf="(loggedIn$  | async); else loggedOut"
+        slot="end"
+        (click)="logout()"
+        >Logout</ion-button
+      >
+
+      <ng-template #loggedOut>
+        <ion-button slot="end" (click)="presentLoginAlert()">Login</ion-button>
+      </ng-template>
+    </ion-item>
+  </ion-list>
+
+  <ul>
+    <li>Angular Version: {{ version }} </li>
+  </ul>
+
+</ion-content>

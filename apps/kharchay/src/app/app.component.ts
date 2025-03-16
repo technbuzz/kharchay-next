@@ -1,0 +1,102 @@
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { traceUntilFirst } from '@angular/fire/performance';
+//import { App } from '@capacitor/app';
+// import { WebIntent } from '@ionic-native/web-intent/ngx'
+
+import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular/standalone';
+import { authState } from 'rxfire/auth';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Component({
+    selector: 'kh-root',
+    imports: [IonApp, IonRouterOutlet],
+    standalone: true,
+    template: `<ion-app><ion-router-outlet></ion-router-outlet></ion-app>`,
+})
+export class AppComponent implements OnDestroy {
+    private platform = inject(Platform);
+    private afAuth = inject(Auth);
+
+
+    private readonly userDesposible!: Subscription;
+    @ViewChild(IonRouterOutlet) routerOutlet!: IonRouterOutlet
+
+
+    constructor() {
+
+        this.userDesposible = authState(this.afAuth).pipe(
+            traceUntilFirst('auth'),
+            map(u => !!u)
+        ).subscribe(isLoggedIn => {
+            console.log('isLoggedIn: ', isLoggedIn);
+        });
+        // this.afAuth.authState.subscribe(c => {
+        //   console.log(c);
+        // });
+        this.initializeApp();
+    }
+
+    initializeApp() {
+        this.platform.ready().then(() => {
+            this.registerHandleBack();
+            // this.registerBroadcast()
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.userDesposible.unsubscribe();
+    }
+
+    registerHandleBack() {
+        this.platform.backButton.subscribeWithPriority(-1, () => {
+            if (!this.routerOutlet?.canGoBack()) {
+
+
+        // TODO: enable once dep installed
+                //App.exitApp();
+            }
+        })
+
+    }
+
+    // private registerBroadcast() {
+    //   if (this.platform.is('cordova')) {
+    //     window['plugins'].intentShim.registerBroadcastReceiver({
+    //       filterActions: [
+    //         'com.darryncampbell.cordova.plugin.broadcastIntent.ACTION'
+    //       ]
+    //     },
+    //       function (intent) {
+    //         //  Broadcast received
+    //         console.log('Received Intent: ' + JSON.stringify(intent.extras))
+    //       }
+    //     )
+    //   }
+
+    //   this.handleIntent()
+    // }
+
+    // handleIntent () {
+    //   this.webIntent.onIntent().subscribe(intent => {
+    //     this.utils.image.next(intent.extras)
+    //     console.log(intent)
+    //   }, error => {
+    //     console.log(error)
+    //   })
+    // }
+
+    // registerShortcuts() {
+    //   if (this.platform.is('cordova')) {
+    //     // @ts-ignore
+    //     window.plugins.Shortcuts.supportsDynamic(supported => {
+    //       console.log('supported: Dynamic ', supported);
+    //     }, error => {
+    //       console.log('error: ', error);
+    //     })
+    //   }
+    // }
+}
+
+

@@ -1,0 +1,18 @@
+<ion-content padding-small>
+
+
+
+  <!-- List all the recurring expense -->
+  <section class="ion-padding-horizontal" *ngIf="(recurringExpenses | async) as recurring">
+    <h2>Incoming Expenses</h2>
+    <!-- <kh-recurring [loading]="recurringLoading" (confirmExpense)="addRecurring($event)" [expenses]="recurring"></kh-recurring> -->
+  </section>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/new" size="small">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+<!-- 129 -->

@@ -1,0 +1,56 @@
+:root {
+  --ion-grid-padding: 1rem;
+}
+
+.price-col{
+  margin-block: 20dvh;
+  position: relative;
+}
+
+.price-input {
+  width: 100%;
+  font-size: 3.5rem;
+  field-sizing: content;
+  padding-left: 0.5rem;
+  outline: none;
+}
+
+
+/* Focusing the button with a keyboard will show a dashed black line. */
+/* .price-input:focus-visible { */
+  /* outline: 4px dashed black; */
+/* } */
+
+/* Focusing the button with a mouse, touch, or stylus will show a subtle drop shadow. */
+/* .price-input:focus:not(:focus-visible) { */
+/*   outline: none; */
+/* } */
+
+.price-icon {
+  color: #ccc;
+}
+
+#price:focus{
+  outline: none;
+}
+
+.date-row {
+  position: sticky;
+  bottom: 0;
+}
+
+.custom-date {
+  border: none
+
+
+}
+
+.category {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ion-icon {
+  font-size: 24px;
+}
