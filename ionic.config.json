@@ -1,6 +1,6 @@
 {
   "name": "Kharchay",
-  "app_id": "com.app.kharchayNext",
+  "integrations": {},
   "type": "angular-standalone",
-  "integrations": {}
+  "id": "com.app.kharchayNext"
 }

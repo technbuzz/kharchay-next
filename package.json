@@ -4,8 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --project kharchay",
     "watch": "ng build --watch --configuration development",
+    "build:droid": "pnpm build && pnpm dlx cap sync android && pnpm dlx cap open android",
     "test": "ng test"
   },
   "private": true,
@@ -22,6 +23,9 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@capacitor/android": "^7.1.0",
+    "@capacitor/cli": "^7.1.0",
+    "@capacitor/core": "^7.1.0",
     "@ionic/angular": "8.4.3",
     "@ionic/core": "^8.4.3",
     "@tailwindcss/postcss": "^4.0.14",
