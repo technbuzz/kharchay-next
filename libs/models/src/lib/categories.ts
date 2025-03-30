@@ -1,8 +1,9 @@
 import { IExpense } from "@models";
 
-export interface Category {
+export type Category = {
   title: string;
-  icon: string;
+  icon ?: string
+  img ?: string
   categories?: Category[]
 }
 
@@ -23,22 +24,22 @@ export const categories: Category[] = [
     title: 'food',
     icon: 'restaurant-outline',
     categories: [
-      { title: 'breakfast', icon: '/assets/custom-icons/breakfast.svg' },
-      { title: 'lunch', icon: '/assets/custom-icons/lunch.svg' },
-      { title: 'dinner', icon: '/assets/custom-icons/dinner.svg' }
+      { title: 'breakfast', img: '/assets/custom-icons/breakfast.svg' },
+      { title: 'lunch', img: '/assets/custom-icons/lunch.svg' },
+      { title: 'dinner', img: '/assets/custom-icons/dinner.svg' }
     ]
   },
   {
     title: 'grocery',
     icon: 'cart-outline',
     categories: [
-      { title: 'bread', icon: '/assets/custom-icons/bread.svg' },
-      { title: 'dairy', icon: '/assets/custom-icons/dairy.svg' },
-      { title: 'fruits', icon: '/assets/custom-icons/fruits.svg' },
+      { title: 'bread', img: '/assets/custom-icons/bread.svg' },
+      { title: 'dairy', img: '/assets/custom-icons/dairy.svg' },
+      { title: 'fruits', img: '/assets/custom-icons/fruits.svg' },
       { title: 'general', icon: 'cart-outline' },
-      { title: 'vegetables', icon: '/assets/custom-icons/vegetables.svg' },
+      { title: 'vegetables', img: '/assets/custom-icons/vegetables.svg' },
       { title: 'dry fruits', icon: 'cart-outline' },
-      { title: 'meat', icon: '' },
+      { title: 'meat', img: '/assets/custom-icons/meat.svg' },
       { title: 'other', icon: 'cart-outline' }
     ]
   },
@@ -63,40 +64,15 @@ export const categories: Category[] = [
     icon: 'cut-outline'
   },
   {
+    title: 'household',
+    img: '/assets/custom-icons/household.svg'
+  },
+  {
     title: 'other',
     icon: 'ellipsis-horizontal-outline'
   },
 ]
 
-// export const categories = [
-//   { title: 'bills' },
-//   { title: 'clothes' },
-//   { title: 'entertainment' },
-//   {
-//     title: 'food', subCategory: [
-//       { title: 'breakfast' },
-//       { title: 'lunch' },
-//       { title: 'dinner' },
-//       { title: 'other' }
-//     ]
-//   },
-//   {
-//     title: 'grocery', subCategory: [
-//       { title: 'bread' },
-//       { title: 'dairy' },
-//       { title: 'fruits' },
-//       { title: 'general' },
-//       { title: 'vegetables' },
-//       { title: 'dry fruits' },
-//       { title: 'other' }]
-//   },
-//   { title: 'health' },
-//   { title: 'Education' },
-//   { title: 'snacks' },
-//   { title: 'transport' },
-//   { title: 'toiletry' },
-//   { title: 'other' }
-// ];
 
 export const mapSubCategory = (expense: IExpense): IExpense => {
   if (typeof expense.subCategory === 'object') {

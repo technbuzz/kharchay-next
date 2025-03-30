@@ -179,7 +179,6 @@ export class FilterPage extends Stepper implements OnInit {
         }
 
         const ref = collection(this.afs, 'expense');
-    debugger
         this.expRef = query(ref,
             where('date', '>=', new Date(this.filter.startDate)),
             where('date', '<=', new Date(this.filter.endDate)),

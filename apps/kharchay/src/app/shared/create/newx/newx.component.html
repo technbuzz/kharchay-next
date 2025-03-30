@@ -5,7 +5,7 @@
         <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
       </ion-col>
       <ion-col [size]="fieldSizing">
-        <input inputmode="numeric" formControlName="price"  class="price-input clear-input" placeholder="00" type="text" name="price" #inputEl >
+        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" formControlName="price"  class="price-input clear-input" placeholder="00" type="text" name="price" #inputEl >
       </ion-col>
     </ion-row>
 
@@ -24,13 +24,14 @@
 
     <ion-row class="ion-justify-content-between">
       <ion-col size="auto">
-        <ion-button id="open-modal" fill="clear" size="small"> <ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>
+        <ion-button id="open-modal" fill="clear" size="small">
+          <!--<ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>-->
            {{selectedCategory.title}}
         </ion-button>
 
         @if(selectedSubCategory; as item){
           <ion-button disabled color="dark" fill="clear" size="small">
-            <ion-icon slot="start" [src]="item.icon"></ion-icon>
+            <!--<ion-icon slot="start" [src]="item.icon"></ion-icon>-->
            {{item.title}}
           </ion-button>
         }
@@ -56,7 +57,7 @@
           <ion-row>
             @for (item of categories; track item.title) {
             <ion-col (click)="selecteCategory(item)" class="category" size="3">
-              <ion-icon  [name]="item.icon"></ion-icon>
+            <ng-container *decideIcon="let icon from ionIcon with customIcon for item"></ng-container>
               <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
@@ -68,6 +69,14 @@
   </ion-modal>
 
 
+<ng-template #ionIcon let-category="category">
+  <ion-icon [name]="category.icon"></ion-icon>
+</ng-template>
+
+<ng-template #customIcon let-category="category">
+  <ion-icon [src]="category.img"></ion-icon>
+</ng-template>
+
   <ion-modal #submodal  [initialBreakpoint]="0.5" [breakpoints]="[0, 0.25, 0.5, 0.75]">
     <ng-template>
 
@@ -78,7 +87,7 @@
           <ion-row>
             @for (item of selectedCategory.categories; track item.title) {
             <ion-col (click)="selectSubCategory(item)" class="category" size="3">
-              <ion-icon  [src]="item.icon"></ion-icon>
+              <ng-container *decideIcon="let icon from ionIcon with customIcon for item"></ng-container>
               <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
