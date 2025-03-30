@@ -39,7 +39,7 @@ export const categories: Category[] = [
       { title: 'general', icon: 'cart-outline' },
       { title: 'vegetables', img: '/assets/custom-icons/vegetables.svg' },
       { title: 'dry fruits', icon: 'cart-outline' },
-      { title: 'meat', icon: '' },
+      { title: 'meat', img: '/assets/custom-icons/meat.svg' },
       { title: 'other', icon: 'cart-outline' }
     ]
   },
