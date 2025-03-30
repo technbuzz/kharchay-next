@@ -1,4 +1,4 @@
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { DatePipe, JsonPipe, TitleCasePipe } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRow, IonPopover, IonContent, IonNote, IonDatetime} from '@ionic/angular/standalone';
@@ -6,11 +6,12 @@ import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from '@models';
 import { addIcons } from "ionicons";
 import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
+import { DecideIconDirective } from './decideIconDirective';
 
 @Component({
   selector: 'kh-newx',
   standalone: true,
-  imports: [IonDatetimeButton, IonDatetime, IonButton, IonModal, IonContent, IonNote, IonGrid, IonRow, IonCol, IonIcon, DatePipe, IonPopover, TitleCasePipe, ReactiveFormsModule],
+  imports: [IonDatetimeButton, JsonPipe, IonDatetime, DecideIconDirective, IonButton, IonModal, IonContent, IonNote, IonGrid, IonRow, IonCol, IonIcon, DatePipe, IonPopover, TitleCasePipe, ReactiveFormsModule],
   templateUrl: './newx.component.html',
   styleUrl: './newx.component.css'
 })

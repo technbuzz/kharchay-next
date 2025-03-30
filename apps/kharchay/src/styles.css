@@ -61,3 +61,18 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1
+}
+
+.gap-x-1 {
+  gap: 0.25rem;
+}
+
+.block {
+  display: block
+}
