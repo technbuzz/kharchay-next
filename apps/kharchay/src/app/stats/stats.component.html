@@ -27,9 +27,12 @@
     <kh-stats-month [data]="service.$expenses()" />
   }
 
-  <kh-periods />
-  <pre>{{$queries().timestamp | date }}</pre>
 
+  <kh-periods />
+
+  <p class="m-0 ion-text-center">
+    <ion-text color="medium"><small>{{ $queries() | duration}}</small></ion-text>
+  </p>
 
   <ion-list class="ion-padding-horizontal">
     <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->

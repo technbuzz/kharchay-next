@@ -7,12 +7,13 @@ import { PeriodsComponent } from './periods.component';
 import { StatsMonthComponent } from './stats-month/stats-month.component';
 import { StatsWeekComponent } from './stats-week/stats-week.component';
 import { StatsService } from './stats.service';
+import { DurationDisplayPipe } from '../shared/pipes/durationPipe';
 
 Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 @Component({
   selector: 'kh-stats',
   standalone: true,
-  imports: [IonContent, AsyncPipe, DecimalPipe, JsonPipe, IonIcon, StatsMonthComponent, CurrencyPipe, PeriodsComponent, StatsWeekComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
+  imports: [IonContent, AsyncPipe, DecimalPipe, DurationDisplayPipe, JsonPipe, IonIcon, StatsMonthComponent, CurrencyPipe, PeriodsComponent, StatsWeekComponent, ExpenseItemComponent, DatePipe, IonList, JsonPipe, IonText, IonButton],
   templateUrl: './stats.component.html',
 })
 export class StatsComponent {
@@ -23,9 +24,6 @@ export class StatsComponent {
   $total = computed(() => {
     return this.service.$expenses().reduce((a, b: any) => Number(a) + Number(b.price), 0)
   })
-
-  constructor() {
-  }
 
   forward() {
     let timestamp = Number(this.$queries()?.timestamp)
