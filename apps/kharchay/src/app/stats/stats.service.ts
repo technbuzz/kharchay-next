@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { addMonths, addWeeks, getDaysInMonth, subMonths, subWeeks } from 'date-fns';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline } from 'ionicons/icons';
-import { distinctUntilKeyChanged, map, switchMap } from 'rxjs';
+import { distinctUntilKeyChanged, map, Observable, switchMap } from 'rxjs';
 import { getMonthlyQuery, getWeeklyQuery } from './utils';
 import { IExpense } from '@models';
 
@@ -37,7 +37,7 @@ export class StatsService {
     distinctUntilKeyChanged('timestamp'),
     switchMap(({ period, timestamp}) => {
       const query = this.decideQuery(period, timestamp)
-      return collectionData(query)
+      return collectionData(query) as Observable<IExpense[]>
     }),
   )
 

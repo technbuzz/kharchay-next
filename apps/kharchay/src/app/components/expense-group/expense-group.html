@@ -1,0 +1,64 @@
+<ion-accordion >
+  <!--<ion-item slot="header" color="light">-->
+  <!--  <ion-label>First Accordion</ion-label>-->
+  <!--</ion-item>-->
+  <ion-item slot="header" class="ion-no-padding" >
+
+    <ion-grid class="ion-no-padding">
+      <ion-row class="gap-2">
+
+        <ion-col size="auto">
+          <ng-container *decideIcon="let icon from ionIcon with customIcon for $group()"></ng-container>
+          <!--<ion-avatar slot="start" *ngIf="item.imageName">-->
+          <!--  <!--<img src="./assets/imgs/placeholder.jpg">-->
+          <!--</ion-avatar>-->
+        </ion-col>
+
+        <ion-col size="auto">
+          <ion-row>
+            <ion-col size="auto">
+              <strong class="ion-padding-end">{{ group().key | titlecase }}</strong>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+
+            <ion-col size="auto">
+              <ion-note color="medium">{{ group().value?.length }} entries</ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+
+
+
+
+    </ion-grid>
+
+
+    <div class="metadata-end-wrapper" slot="end">
+      <strong class="ion-padding-end">{{ $total() | currency: 'AED' }}</strong>
+    </div>
+  </ion-item>
+  <div class="ion-padding" slot="content">
+
+    @for(item of group().value; track $index) {
+
+        <expense-item
+          [expense]="$any(item)"
+          [readonly]="true"
+        ></expense-item>
+    }
+
+   </div>
+</ion-accordion>
+
+
+
+<ng-template #ionIcon let-category="category">
+  <ion-icon [name]="category.icon" size="large"></ion-icon>
+</ng-template>
+
+<ng-template #customIcon let-category="category">
+  <ion-icon [src]="category.img" size="large"></ion-icon>
+</ng-template>

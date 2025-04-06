@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "build:droid-old": "pnpm build && pnpm dlx cap sync android && pnpm dlx cap open android",
     "build:droid": "pnpm --package=@capacitor/cli dlx capacitor sync && pnpm --package=@capacitor/cli dlx capacitor open android",
-    "sync":"pnpm --package=@capacitor/cli dlx capacitor sync",
+    "sync": "pnpm --package=@capacitor/cli dlx capacitor sync",
     "test": "ng test"
   },
   "private": true,
@@ -60,5 +60,6 @@
     "postcss": "^8.5.2",
     "tailwindcss": "^4.0.14",
     "typescript": "~5.7.2"
-  }
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }
