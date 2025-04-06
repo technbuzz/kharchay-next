@@ -21,22 +21,25 @@
   </header>
 
   @if(this.service.$daysInPeriod() == 7) {
-    <kh-stats-week [data]="service.$expenses()" />
+    <kh-stats-week [data]="$expenses()" />
   } @else {
   <!-- try using @defer when month is clicked -->
-    <kh-stats-month [data]="service.$expenses()" />
+    <kh-stats-month [data]="$expenses()" />
   }
 
 
-  <kh-periods />
+  <div class="flex items-center justify-between ion-padding-end">
+    <kh-periods />
 
-  <p class="m-0 ion-text-center">
-    <ion-text color="medium"><small>{{ $queries() | duration}}</small></ion-text>
-  </p>
+    <p class="m-0 ion-text-center">
+      <ion-text color="medium"><small>{{ $queries() | duration}}</small></ion-text>
+    </p>
+  </div>
+
 
   <ion-list class="ion-padding-horizontal">
     <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->
-    @for(item of service.$expenses(); track $index) {
+    @for(item of $expenses(); track $index) {
       <expense-item
         [expense]="$any(item)"
         [readonly]="true"
