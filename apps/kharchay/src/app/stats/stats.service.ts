@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, Injector } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { collectionData, Firestore, getAggregateFromServer, sum } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,10 +23,6 @@ export class StatsService {
   route = inject(ActivatedRoute);
   http = inject(HttpClient)
 
-  getUsers$() {
-    return this.http.get('https://jsonplaceholder.typicode.com/users')
-  }
-
   $queries = toSignal(this.route.queryParamMap.pipe(
     map(q =>
     ({
@@ -36,23 +32,20 @@ export class StatsService {
     ),
   ), { initialValue: { period: 'week', timestamp: new Date().getTime() } })
 
-  $daysInPeriod = computed(() => {
-    const { period, timestamp } = this.$queries()
-    return period === 'week' ? 7 : getDaysInMonth(new Date(timestamp))
-  })
 
-  setQueries(params: any) {
-    this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
-  }
-
-
-  expenses$ = toObservable(this.$queries).pipe(
+  expenses$ = (injector: Injector ) => toObservable(this.$queries, { injector}).pipe(
     distinctUntilKeyChanged('timestamp'),
     switchMap(({ period, timestamp}) => {
       const query = this.decideQuery(period, timestamp)
       return collectionData(query)
     }),
   )
+
+
+  $daysInPeriod = computed(() => {
+    const { period, timestamp } = this.$queries()
+    return period === 'week' ? 7 : getDaysInMonth(new Date(timestamp))
+  })
 
 
 
@@ -85,13 +78,22 @@ export class StatsService {
     }
   })
 
-  $expenses = toSignal(this.expenses$, { initialValue: [] })
-
   constructor() {
     addIcons({
       chevronBackOutline, chevronForwardOutline, arrowUpCircleOutline, arrowDownCircleOutline
     })
   }
+
+
+  getUsers$() {
+    return this.http.get('https://jsonplaceholder.typicode.com/users')
+  }
+
+  setQueries(params: any) {
+    this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' })
+  }
+
+
 
   decideQuery(period: string, timestamp: number) {
     return  period === 'week' ? getWeeklyQuery(this.afs, new Date(timestamp)) :
