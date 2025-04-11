@@ -5,7 +5,6 @@
     </ion-avatar>
 
 
-    <ion-label>
       <ion-grid class="ion-no-padding">
         <ion-row>
           <ion-col size="auto">
@@ -17,10 +16,11 @@
             <ion-badge color="light" *ngIf="item?.subCategory">{{item.subCategory?.title}}</ion-badge>
           </ion-col>
         </ion-row>
+        <ion-row>
+      <ion-note color="medium" class="ion-text-wrap" > {{item.note | truncate:item.details}} </ion-note>
+        </ion-row>
       </ion-grid>
 
-      <ion-note color="medium" class="ion-text-wrap" > {{item.note | truncate:item.details}} </ion-note>
-    </ion-label>
 
     <div class="metadata-end-wrapper" slot="end">
       <ion-note color="medium"> {{item.date.toDate() | date:"MMM d"}} </ion-note>
