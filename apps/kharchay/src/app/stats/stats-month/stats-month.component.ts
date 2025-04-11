@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, computed, effect, ElementR
 import { Chart } from 'chart.js';
 import { getDate } from 'date-fns/getDate';
 import { StatsService } from '../stats.service';
+import { IExpense } from '@models';
 
 @Component({
   selector: 'kh-stats-month',
@@ -12,7 +13,7 @@ import { StatsService } from '../stats.service';
 })
 export class StatsMonthComponent implements AfterViewInit {
 
-  data = input()
+  data = input.required<IExpense[]>()
   chartEl = viewChild.required('container', { read: ElementRef<HTMLCanvasElement> })
   #chart!: Chart;
   cd = inject(ChangeDetectorRef)
@@ -22,8 +23,9 @@ export class StatsMonthComponent implements AfterViewInit {
   $expensesGroupedByMonth = computed(() => {
     let expenses = this.data()
     console.log(expenses)
-    // @ts-ignore
     let grouped = Object.groupBy(expenses, expense => getDate(expense.date.toDate()))
+    // FIXME:
+    // @ts-ignore
     return this.service.reduceGrouped(grouped)
   })
 

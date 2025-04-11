@@ -38,15 +38,14 @@
 
 
   <ion-list class="ion-padding-horizontal">
-    <!-- @for(item of $expensesSet()?.ungrouped; track $index) { -->
-    @for(item of $expenses(); track $index) {
-      <expense-item
-        [expense]="$any(item)"
-        [readonly]="true"
-      ></expense-item>
-    } @empty {
-      <small>Nothing found</small>
-    }
+    <ion-accordion-group [multiple]="true">
+      @for(item of $grouped() | keyvalue; track $index) {
+        <expense-group [group]="item"></expense-group>
+      } @empty {
+        <small>Nothing found</small>
+      }
+    </ion-accordion-group>
+
   </ion-list>
 
 </ion-content>

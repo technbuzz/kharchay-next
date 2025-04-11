@@ -25,6 +25,8 @@ export class StatsWeekComponent implements AfterViewInit {
     let expenses = this.data()
     // @ts-ignore
     let grouped = Object.groupBy(expenses, expense => expense.date.toDate().getDay())
+    // FIXME:
+    // @ts-ignore
     return this.service.reduceGrouped(grouped)
   })
 

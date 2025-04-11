@@ -26,6 +26,7 @@ export class DecideIconDirective {
 
   constructor() {
     effect(() => {
+      this.#vcr.clear()
       if(this.config().category?.icon) {
         this.#vcr.createEmbeddedView(this.config().icon, { category: this.config().category })
       } else {
