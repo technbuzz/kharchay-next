@@ -5,7 +5,7 @@ import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRo
 import { DatetimeCustomEvent } from '@ionic/core';
 import { Category, categories } from '@models';
 import { addIcons } from "ionicons";
-import {cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
+import {cutOutline, trainOutline, carSportOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
 import { DecideIconDirective } from './decideIconDirective';
 
 @Component({
@@ -30,7 +30,7 @@ export class NewxComponent {
   fieldSizing = CSS.supports('field-sizing', 'content') ? 'auto' : '4'
 
   constructor() {
-    addIcons({cutOutline, trainOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
+    addIcons({cutOutline, trainOutline, carSportOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  });
   }
 
   ngAfterViewInit() {
