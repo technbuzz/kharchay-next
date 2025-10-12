@@ -1,0 +1,29 @@
+
+{
+  "branches": [
+    "next"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    [
+      "semantic-release/exec",
+      {
+        "prepareCmd": "node update_version.js ${nextRelease.version}"
+      }
+    ]
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogTitle": "# Changelog\n\nAll notable changes to this project will be document in this file. See\n[Conventional Commits](https://conventionalcommits.org) for more information."
+      }
+    ],
+    [
+     "@semantic-release/git",
+     {
+       "message": "chore(release): :wrench: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+     }
+    ],
+    '@semantic-release/github'
+  ]
+}
