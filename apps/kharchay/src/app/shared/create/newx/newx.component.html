@@ -26,13 +26,13 @@
       <ion-col size="auto">
         <ion-button id="open-modal" fill="clear" size="small">
           <!--<ion-icon slot="start"  [name]="selectedCategory.icon"></ion-icon>-->
-           {{selectedCategory.title}}
+           {{selectedCategory.title | titlecase }}
         </ion-button>
 
         @if(selectedSubCategory; as item){
           <ion-button disabled color="dark" fill="clear" size="small">
             <!--<ion-icon slot="start" [src]="item.icon"></ion-icon>-->
-           {{item.title}}
+           {{item.title | titlecase }}
           </ion-button>
         }
 
@@ -58,7 +58,7 @@
             @for (item of categories; track item.title) {
             <ion-col (click)="selecteCategory(item)" class="category" size="3">
             <ng-container *decideIcon="let icon from ionIcon with customIcon for item"></ng-container>
-              <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
+              <p class="ion-text-center"> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
           </ion-row>
@@ -88,7 +88,7 @@
             @for (item of selectedCategory.categories; track item.title) {
             <ion-col (click)="selectSubCategory(item)" class="category" size="3">
               <ng-container *decideIcon="let icon from ionIcon with customIcon for item"></ng-container>
-              <p> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
+              <p class="ion-text-center"> <ion-note>{{ item.title | titlecase }}</ion-note> </p>
             </ion-col>
             }
           </ion-row>

@@ -64,6 +64,21 @@ export const categories: Category[] = [
     icon: 'cut-outline'
   },
   {
+    title: 'Vehicle',
+    icon: 'car-sport-outline',
+    categories: [
+      { title: 'fuel', icon: 'car-sport-outline' },
+      { title: 'maintenance', icon: 'car-sport-outline' },
+      { title: 'repairs & tyres', icon: 'car-sport-outline' },
+      { title: 'mandatory fees', icon: 'car-sport-outline' },
+      { title: 'tolls & parking', icon: 'car-sport-outline' },
+      { title: 'upgrade & accessories', icon: 'car-sport-outline' },
+      { title: 'fines & panalties', icon: 'car-sport-outline' },
+      { title: 'cleaning', icon: 'car-sport-outline' },
+      { title: 'other', icon: 'car-sport-outline' }
+    ]
+  },
+  {
     title: 'household',
     img: '/assets/custom-icons/household.svg'
   },
