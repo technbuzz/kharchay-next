@@ -1,5 +1,5 @@
-import { Component, VERSION, OnInit, Renderer2, inject } from '@angular/core';
-import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common'
+import { Component, VERSION, OnInit, Renderer2, inject, DOCUMENT } from '@angular/core';
+import { NgIf, AsyncPipe } from '@angular/common'
 import { SettingsService } from '../services/settings.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular/standalone';
 
