@@ -11,11 +11,19 @@
 
     <ion-row class="date-row ion-align-items-center">
       <ion-col>
-          <ion-datetime-button datetime="datetime" style="width: max-content"></ion-datetime-button>
+          <ion-datetime-button  datetime="datetime" style="width: max-content"></ion-datetime-button>
 
           <ion-popover [dismissOnSelect]="true" [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime presentation="date" id="datetime" (ionChange)="onSelect($event)"  name="date" formControlName="date"></ion-datetime>
+              <ion-datetime presentation="date"
+              [formatOptions]="{
+                date: {
+                  weekday: 'short',
+                  month: 'short',
+                  day: '2-digit',
+                },
+              }"
+              id="datetime" (ionChange)="onSelect($event)"  name="date" formControlName="date"></ion-datetime>
             </ng-template>
           </ion-popover>
         </ion-col>
