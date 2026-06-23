@@ -1,25 +1,34 @@
-import { Component, inject} from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal, viewChild } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, LoadingController, ToastController } from '@ionic/angular/standalone';
-import {formatISO} from 'date-fns/formatISO';
+import { IonBackButton, IonLoading, IonProgressBar, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, LoadingController, ToastController  } from '@ionic/angular/standalone';
+import { formatISO } from 'date-fns/formatISO';
 import { CreateService } from '../create.service';
 import { NewxComponent } from './newx/newx.component';
 
+import { InvoiceComponent } from '../create/invoice/invoice'
+import { concat, finalize, from, tap } from 'rxjs';
+import { addIcons } from 'ionicons';
+import { checkmarkCircle } from 'ionicons/icons';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'kh-create',
-    templateUrl: './create.component.html',
-    styleUrls: ['./create.component.scss'],
-    standalone: true,
-    imports: [NewxComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton ],
+  selector: 'kh-create',
+  templateUrl: './create.component.html',
+  styleUrls: ['./create.component.scss'],
+  standalone: true,
+  imports: [NewxComponent, IonLoading, IonProgressBar, InvoiceComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton],
 })
 export class CreateComponent {
   private fb = inject(UntypedFormBuilder);
   private service = inject(CreateService);
-  private loadingCtrl = inject(LoadingController);
   private router = inject(Router);
   private toastController = inject(ToastController);
+  #destroyRef = inject(DestroyRef)
+
+  loadingEl = viewChild.required(IonLoading)
+  loaderText = signal('dismiss in 3 sec')
+  loadingProgress = signal(0)
 
   form = this.fb.group({
     price: ['', Validators.required],
@@ -33,30 +42,56 @@ export class CreateComponent {
 
   image!: { dataURL: string, blob: Blob }
 
-  grabImage(event: { dataURL:string, blob: Blob }) {
+  grabImage(event: { dataURL: string, blob: Blob }) {
     this.image = event
+  }
+
+  constructor() {
+    addIcons({checkmarkCircle})
   }
 
   async add() {
     await this.addEntry()
-    this.form.reset();
-    this.router.navigate(['../tabs/home'])
   }
 
+
   async addEntry() {
-    const loader = await this.presentLoading()
+    this.loadingEl().present()
+    let stream$ = []
+    const uniqueKey = `pic${Math.floor(Math.random() * 1000000)}`;
     if (this.image?.dataURL) {
-      loader.message = 'Uploading Image, Please wait...';
-      const { task, imageName } = this.service.uploadFile(this.image.blob);
-      await task;
-      loader.message = 'Adding Expense, Please wait...';
-      await this.addDoc(imageName)
-    } else {
-      loader.message = 'Adding Expense, Please wait...';
-      await this.addDoc()
+      this.loaderText.set('Uploading Image, Please wait...')
+
+      const filePath = `/receipts-next/${uniqueKey}`;
+      // const filePath = uniqueKey;
+
+      const upload$ = this.service.uploadFileStream(this.image.blob, filePath).pipe(
+        tap(resp => {
+          console.log(resp)
+          this.loadingProgress.set(resp.progress)
+        }),
+      )
+
+      stream$.push(upload$)
     }
 
-    return loader.dismiss();
+    stream$.push(from(this.addDoc(uniqueKey)).pipe(tap(() => this.loaderText.set('Adding Expense, Please wait...'))))
+
+    concat(...stream$).pipe(
+      finalize(() => {
+        this.loadingEl().dismiss()
+      }),
+      takeUntilDestroyed(this.#destroyRef)
+    ).subscribe(resp => {
+        console.log(resp)
+      }, error => {
+        console.log('failed creating ', error)
+      }, () => {
+        this.presentToast()
+        this.tearDown()
+        console.log('all done')
+      })
+
   }
 
   async saveAndAddMore() {
@@ -69,20 +104,10 @@ export class CreateComponent {
     const result = {
       ...this.form.value,
       price: Number(price),
-      imageName: imageName,
+      imageName: imageName ? `opt${imageName}` : '',
       date: new Date(date)
     }
     return this.service.add(result)
-  }
-
-  async presentLoading() {
-    const loader = await this.loadingCtrl.create({
-      message: 'Loading, Please wait...',
-      spinner: 'bubbles',
-      cssClass: 'loading-upload-image'
-    });
-    await loader.present();
-    return loader
   }
 
   async presentToast() {
@@ -93,5 +118,11 @@ export class CreateComponent {
     });
 
     await toast.present();
+  }
+
+
+  tearDown() {
+    this.form.reset();
+    this.router.navigate(['../tabs/home'])
   }
 }

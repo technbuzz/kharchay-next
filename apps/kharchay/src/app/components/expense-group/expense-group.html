@@ -34,6 +34,7 @@
 
     @for(item of group().value; track $index) {
         <expense-item
+          (delete)="$any(propagateDelete.emit($event))"
           [expense]="$any(item)"
           [readonly]="true"
         ></expense-item>

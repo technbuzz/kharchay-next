@@ -1,5 +1,5 @@
 import { DatePipe, JsonPipe, TitleCasePipe } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonCol, IonButton, IonDatetimeButton, IonModal, IonGrid, IonIcon, IonRow, IonPopover, IonContent, IonNote, IonDatetime} from '@ionic/angular/standalone';
 import { DatetimeCustomEvent } from '@ionic/core';
@@ -7,6 +7,7 @@ import { Category, categories } from '@models';
 import { addIcons } from "ionicons";
 import {cutOutline, trainOutline, carSportOutline, shirtOutline, bowlingBallOutline, restaurantOutline, receiptOutline, cartOutline, fastFoodOutline, schoolOutline, medkitOutline, ellipsisHorizontalOutline, cashOutline, duplicate  } from "ionicons/icons";
 import { DecideIconDirective } from './decideIconDirective';
+import { Storage, ref } from '@angular/fire/storage';
 
 @Component({
   selector: 'kh-newx',
@@ -37,6 +38,17 @@ export class NewxComponent {
     setTimeout(() => {
       this.inputEl.nativeElement.focus()
     }) ;
+  }
+  storage = inject(Storage)
+  file: undefined | File
+
+  prepareImage(event: Event) {
+    const target = event.target as HTMLInputElement
+    const files = target.files
+    if(files && files.length > 0) {
+      const file = files[0]
+      this.file = file
+    }
   }
 
   categories = categories

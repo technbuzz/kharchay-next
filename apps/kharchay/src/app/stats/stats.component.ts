@@ -11,6 +11,7 @@ import { DurationDisplayPipe } from '../shared/pipes/durationPipe';
 import { ExpenseGroup } from '../components/expense-group/expense-group'
 import { toSignal } from '@angular/core/rxjs-interop';
 import { IExpense } from '@models';
+import { TearDownService } from '../shared/tear';
 
 Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, TimeScale);
 @Component({
@@ -22,6 +23,7 @@ Chart.register(BarController, BarElement, Tooltip, CategoryScale, LinearScale, T
 export class StatsComponent {
 
   protected service = inject(StatsService);
+  tear = inject(TearDownService)
   $queries = this.service.$queries;
 
   injector = inject(Injector)
@@ -51,4 +53,8 @@ export class StatsComponent {
     this.service.setQueries({ timestamp: this.service.subPeriod(timestamp).getTime() })
   }
 
+  deleteItem(event: IExpense) {
+    this.tear.delete(event)
+    console.log(event)
+  }
 }

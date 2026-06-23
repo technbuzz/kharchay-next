@@ -1,5 +1,5 @@
 import { DatePipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, output } from '@angular/core';
 import { Router } from '@angular/router';
 import { IExpense, mapCategory, mapSubCategory } from '@models';
 import { TruncatePipe } from './truncate.pipe';
@@ -32,7 +32,7 @@ export class ExpenseItemComponent implements OnInit {
     @Input('expense') item!: IExpense;
 
     @Input() readonly = false;
-    @Output('onDelete') delete = new EventEmitter();
+    delete = output<IExpense>()
     @Output('onUpdate') update = new EventEmitter();
 
     ngOnInit() {
@@ -60,11 +60,5 @@ export class ExpenseItemComponent implements OnInit {
             item.details = !item.details;
             console.log(item.details)
         }
-    }
-
-    requestDeletion(event: any, more: any) {
-        this.delete.emit(this.item)
-        console.log(more)
-        more.close()
     }
 }

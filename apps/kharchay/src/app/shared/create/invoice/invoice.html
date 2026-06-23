@@ -1,4 +1,4 @@
-<ion-list>  
+<ion-list>
 	<ion-item>
 		<ion-label>Invoice</ion-label>
 		<ion-button expand="block" (click)="fileInput.click()">
@@ -12,9 +12,11 @@
 		<small slot="end"><= 1mb</small>
 	</ion-item>
 
-	<ion-item *ngIf="imgsrc" >
-		<img #img [src]="imgsrc" height="150">
-	</ion-item>
+  @if(imgsrc) {
+    <ion-item>
+      <img #img [src]="imgsrc" height="150">
+    </ion-item>
+  }
 </ion-list>
 
 

@@ -15,6 +15,8 @@ import { TransactionsMiniComponent } from './transactions-mini/transactions-mini
   </div>
 `,
     styles: [`
+
+    @reference "../../../styles.css";
     :host { @apply block h-full p-3 }
 `],
     standalone: true,

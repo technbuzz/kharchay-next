@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, NgModule, Output, ViewChild } from '@angular/core';
-import { AlertController, GestureController, IonicModule, LoadingController } from '@ionic/angular';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AlertController, GestureController, LoadingController } from '@ionic/angular';
+import { IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone'
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'kh-invoice',
+  imports: [IonList, IonItem, IonLabel, IonButton, IonIcon],
   templateUrl: 'invoice.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -19,7 +20,6 @@ export class InvoiceComponent implements AfterViewInit {
     blob: Blob
   }>();
 
-  selectedFiles!: FileList|undefined;
   imgsrc!: any;
   loader!: HTMLIonLoadingElement;
   downloadURL!: Observable<string>;
@@ -52,10 +52,10 @@ export class InvoiceComponent implements AfterViewInit {
     // gesture.enable()
   }
 
-  async chooseFile(event: any) {
-    this.selectedFiles = event.target.files;
-    if (this.selectedFiles?.item(0)) {
-      const blob = this.selectedFiles?.item(0) as File
+  async chooseFile(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (files && files.length) {
+      const blob = files[0]
       const dataURL = await this.renderFile(blob) as string;
       this.imgsrc = dataURL;
       this.imageRendered.emit({ dataURL, blob })
@@ -99,14 +99,3 @@ export class InvoiceComponent implements AfterViewInit {
   }
 
 }
-
-@NgModule({
-  declarations: [InvoiceComponent],
-  imports: [IonicModule.forRoot(), CommonModule],
-  exports: [InvoiceComponent]
-})
-export class InvoiceModule {
-
-}
-
-// 193lines

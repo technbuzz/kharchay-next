@@ -1,4 +1,3 @@
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
     Firestore,
@@ -10,7 +9,7 @@ import {
     getFirestore,
 } from '@angular/fire/firestore';
 import { RouterLink } from '@angular/router';
-import { AlertController, IonButton, IonContent, IonFab, IonFabButton, IonIcon, IonRouterLink } from '@ionic/angular/standalone';
+import { AlertController, IonContent, IonFab, IonFabButton, IonIcon, IonRouterLink } from '@ionic/angular/standalone';
 import { IExpense } from '@models';
 import { addIcons } from "ionicons";
 import { add, funnel, search } from "ionicons/icons";
@@ -18,7 +17,6 @@ import { Observable } from 'rxjs';
 import { concatMap, first, map } from 'rxjs/operators';
 import { RecurringEvent } from '../components/recurring/recurring.component';
 import { SettingsService } from '../services/settings.service';
-import { StreamDirective } from '../shared/stream.directive';
 import { CreateService } from '../shared/create.service';
 
 @Component({
@@ -26,7 +24,7 @@ import { CreateService } from '../shared/create.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.css'],
   standalone: true,
-  imports: [IonIcon, IonContent, IonFab, StreamDirective, RouterLink, NgIf, AsyncPipe, IonRouterLink, IonButton, IonIcon, IonContent, IonFab, IonFabButton],
+  imports: [IonIcon, IonContent, IonFab, RouterLink, IonRouterLink,IonIcon, IonContent, IonFab, IonFabButton],
 })
 export class HomePage implements OnInit {
   private alertCtrl = inject(AlertController);

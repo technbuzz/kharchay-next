@@ -220,7 +220,7 @@
             ],
             "styles": [
               "apps/kharchay/src/styles.css",
-              "apps/kharchay/src/theme/variables.css",
+              "apps/kharchay/src/theme/variables.css"
             ],
             "scripts": []
           },
@@ -230,7 +230,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1.7MB"
+                  "maximumError": "1.75MB"
                 },
                 {
                   "type": "anyComponentStyle",
