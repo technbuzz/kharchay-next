@@ -40,7 +40,7 @@
   <ion-list class="ion-padding-horizontal">
     <ion-accordion-group [multiple]="true">
       @for(item of $grouped() | keyvalue; track $index) {
-        <expense-group [group]="item"></expense-group>
+        <expense-group (propagateDelete)="deleteItem($event)" [group]="item"></expense-group>
       } @empty {
         <small>Nothing found</small>
       }

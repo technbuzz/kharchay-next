@@ -104,3 +104,20 @@
 .block {
   display: block
 }
+
+
+.loading-upload-image {
+  .loading-wrapper {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: var(--percent-uploaded);
+      height: 4px;
+      background: var(--ion-color-primary);
+      border-radius: 0 0 2px 2px;
+    }
+  }
+}
+

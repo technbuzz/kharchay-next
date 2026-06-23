@@ -17,10 +17,11 @@
 
 
 <ion-content>
-  <!-- <kh-dynamic-price></kh-dynamic-price> -->
-  <!-- <kh-new [parent]="form"></kh-new> -->
+  <ion-loading #loading [message]="loaderText()" [style.--percent-uploaded.%]="loadingProgress()" class="loading-upload-image" > </ion-loading>
+
   <kh-newx [parent]="form" (onSubmit)="add()" />
-  <!-- <kh-invoice (imageRendered)="grabImage($event)"></kh-invoice> -->
+
+  <kh-invoice (imageRendered)="grabImage($event)"></kh-invoice>
 
   <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
   <!--   <ion-fab-button (click)="add()" [disabled]="form.invalid"> -->

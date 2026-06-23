@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, OnInit } from '@angular/core';
+import { Component, computed, effect, input, OnInit, output } from '@angular/core';
 import { categories, IExpense } from '@models';
 import { ExpenseItemComponent } from '../expense-item/expense-item';
 import { IonAccordion, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonNote, IonRow } from '@ionic/angular/standalone';
@@ -24,6 +24,8 @@ export class ExpenseGroup {
   $group = computed(() => {
     return categories.find(c => c.title === this.group().key)
   })
+
+  propagateDelete= output<any>()
 
   #iconeffect = effect(() => {
     console.log(this.$group())

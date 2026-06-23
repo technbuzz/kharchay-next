@@ -30,7 +30,7 @@
   </ion-item>
 
   <ion-item-options slide="start" >
-    <ion-item-option color="danger"  (click)="requestDeletion($event, slidingItem)">Delete</ion-item-option>
+    <ion-item-option color="danger" (click)="delete.emit(item); slidingItem.close()">Delete</ion-item-option>
     <ion-item-option color="info" *ngIf="decideIcon(item)" (click)="fixPrice(item, slidingItem)">Fix Price</ion-item-option>
   </ion-item-options>
 </ion-item-sliding>
