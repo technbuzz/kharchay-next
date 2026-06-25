@@ -1,0 +1,54 @@
+
+<ion-content class="ion-padding">
+
+
+  <!-- <form #form="ngForm" (ngSubmit)="getRecipeStream(form)"> -->
+  <form #form="ngForm" (ngSubmit)="getRecipe(form)">
+  <!-- <form #form="ngForm" (ngSubmit)="getStructuredRecipe(form)"> -->
+    <ion-list>
+      <read-img (newIngredients)="ingredients.set($event)" />
+      <ion-item>
+        <ion-textarea name="ingredients" [(ngModel)]="ingredients" label="Ingredients" labelPlacement="floating" ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-select name="cuisine" label="Cuisine" required ngModel="pakistani" labelPlacement="floating" aria-label="Cuisine" interface="action-sheet" >
+          <ion-select-option value="pakistani">Pakistani</ion-select-option>
+          <ion-select-option value="arabic">Arabic</ion-select-option>
+          <ion-select-option value="chinese">Chinese</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select name="language" label="Language" ngModel="en-US" labelPlacement="floating" interface="action-sheet" >
+          <ion-select-option value="en-US">English</ion-select-option>
+          <ion-select-option value="ur-PK">Urdu</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <ion-button type="submit" [disabled]="form.invalid" >Generate</ion-button>
+
+      @if(uttering()) {
+        <ion-button slot="end" aria-label="Stop" (click)="stopUtter()">
+          <ion-icon name="stop-outline" aria-hidden="true"></ion-icon>
+        </ion-button>
+        } @else {
+        <ion-button slot="end" [disabled]="!utterReady()" aria-label="Play" (click)="utterRecipe(recipeEl, form.value.language)">
+          <ion-icon name="play-outline" aria-hidden="true"></ion-icon>
+        </ion-button>
+
+        }
+    </ion-item>
+  </form>
+
+  <!-- <recipe #recipeEl [value]="result()" /> -->
+  <p dir="auto" [innerHTML]="result()" #recipeEl ></p>
+
+  <ion-loading  message="Generating Recipe..." ></ion-loading>
+  <!-- <pre> {{ form.value | json }} </pre> -->
+
+
+
+
+</ion-content>

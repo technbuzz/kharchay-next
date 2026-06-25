@@ -6,6 +6,7 @@ export const appRoutes: Routes = [
     path: 'tabs', loadComponent: () => import('./tabs.component').then(m => m.TabsComponent), children: [
       { path: 'home', loadComponent: () => import('./home/home.page').then(m => m.HomePage) },
       { path: 'stats', loadComponent: () => import('./stats/stats.component').then(m => m.StatsComponent) },
+      { path: 'ailab', loadComponent: () => import('./ailab/ailab').then(c => c.AILab) },
       { path: 'filter', loadComponent: () => import('./filter/filter.page').then(m => m.FilterPage) },
     ]
   },

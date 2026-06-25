@@ -8,10 +8,16 @@
       Create
     </ion-title>
     <ion-buttons slot="primary">
+      <ion-button (click)="readReceipt()">
+        <ion-icon name="camera-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button (click)="saveAndAddMore()" [disabled]="form.invalid">
         <ion-icon name="duplicate" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
+    @if(readingReceipt) {
+      <ion-progress-bar type="indeterminate" color="success"></ion-progress-bar>
+    }
   </ion-toolbar>
 </ion-header>
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { filterCircle, home, library, search, statsChart } from 'ionicons/icons';
+import { filterCircle, home, library, prism, search, statsChart } from 'ionicons/icons';
 import { StreamDirective } from './shared/stream.directive';
 
 @Component({
@@ -18,6 +18,9 @@ import { StreamDirective } from './shared/stream.directive';
         <ion-tab-button tab="stats" [routerLink]="['/tabs/stats']" [queryParams]="{period: 'week'}" >
           <ion-icon name="stats-chart"></ion-icon>
         </ion-tab-button>
+        <ion-tab-button tab="ailab">
+          <ion-icon name="prism"></ion-icon>
+        </ion-tab-button>
         <ion-tab-button tab="filter">
           <ion-icon name="filter-circle"></ion-icon>
         </ion-tab-button>
@@ -29,6 +32,6 @@ import { StreamDirective } from './shared/stream.directive';
 export class TabsComponent {
 
   constructor() {
-    addIcons({ home, statsChart, filterCircle, library, search })
+    addIcons({ home, statsChart, filterCircle, library, prism, search })
   }
 }

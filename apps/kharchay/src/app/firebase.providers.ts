@@ -1,4 +1,5 @@
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAI, GoogleAIBackend, provideAI } from '@angular/fire/ai';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -8,6 +9,7 @@ export const firebaseProviders = [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    provideAI(() => getAI(getApp(), { backend: new GoogleAIBackend() } )),
     provideStorage(() => getStorage()),
 ];
 

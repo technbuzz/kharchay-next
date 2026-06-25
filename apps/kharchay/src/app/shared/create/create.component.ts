@@ -9,7 +9,7 @@ import { NewxComponent } from './newx/newx.component';
 import { InvoiceComponent } from '../create/invoice/invoice'
 import { concat, finalize, from, tap } from 'rxjs';
 import { addIcons } from 'ionicons';
-import { checkmarkCircle } from 'ionicons/icons';
+import { cameraOutline, checkmarkCircle } from 'ionicons/icons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -17,11 +17,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss'],
   standalone: true,
-  imports: [NewxComponent, IonLoading, IonProgressBar, InvoiceComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton],
+  imports: [NewxComponent, IonProgressBar, IonLoading , InvoiceComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton],
 })
 export class CreateComponent {
   private fb = inject(UntypedFormBuilder);
-  private service = inject(CreateService);
+  protected service = inject(CreateService);
   private router = inject(Router);
   private toastController = inject(ToastController);
   #destroyRef = inject(DestroyRef)
@@ -46,8 +46,18 @@ export class CreateComponent {
     this.image = event
   }
 
+
+
   constructor() {
-    addIcons({checkmarkCircle})
+    addIcons({checkmarkCircle, cameraOutline})
+  }
+
+  async readReceipt() {
+    const data = await this.service.takePicture()
+    if(data) {
+      console.log(data.)
+    }
+
   }
 
   async add() {

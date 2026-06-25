@@ -24,7 +24,7 @@ import { CreateService } from '../shared/create.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.css'],
   standalone: true,
-  imports: [IonIcon, IonContent, IonFab, RouterLink, IonRouterLink,IonIcon, IonContent, IonFab, IonFabButton],
+  imports: [IonIcon, IonContent, RouterLink, IonRouterLink,IonIcon, IonContent, IonFab, IonFabButton],
 })
 export class HomePage implements OnInit {
   private alertCtrl = inject(AlertController);
