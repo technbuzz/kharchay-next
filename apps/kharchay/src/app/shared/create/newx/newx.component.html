@@ -5,7 +5,7 @@
         <ion-icon name="cash-outline" class="price-icon" size="large"></ion-icon>
       </ion-col>
       <ion-col [size]="fieldSizing">
-        <input autocomplete="off" inputmode="numeric" pattern="[0-9]*" formControlName="price"  class="price-input clear-input" placeholder="00" type="text" name="price" #inputEl >
+        <input autocomplete="off" inputmode="numeric" pattern="\d+(\.\d+)?" formControlName="price"  class="price-input clear-input" placeholder="00" type="text" name="price" #inputEl >
       </ion-col>
     </ion-row>
 

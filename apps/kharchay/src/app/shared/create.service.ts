@@ -3,6 +3,8 @@ import { IExpense } from '@models';
 import { addDoc, collection, Firestore } from "@angular/fire/firestore";
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { Camera } from '@capacitor/camera';
+import { CreateAIService } from './createAIService';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +12,25 @@ import { Observable } from 'rxjs';
 export class CreateService {
   private firestore = inject(Firestore);
   private storage = inject(Storage);
+  createAIService = inject(CreateAIService)
 
 
-  constructor() {
-    console.log('Create Service Constructor')
+  async takePicture() {
+    const capturedPhoto = await Camera.takePhoto({
+      quality: 90,
+    })
+
+    // this.photo.set(capturedPhoto.webPath)
+    if(!capturedPhoto.webPath) return
+
+    // this.loading.set(true)
+    const response = await fetch(capturedPhoto.webPath)
+    const blob = await response.blob()
+
+    return this.createAIService.getStructuredJsonReceipt(blob)
+
+
+    // this.loading.set(false)
   }
 
   add(expense: IExpense) {

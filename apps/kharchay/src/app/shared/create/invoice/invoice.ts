@@ -1,6 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { AlertController, GestureController, LoadingController } from '@ionic/angular';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, input, model, Output, ViewChild } from '@angular/core';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone'
+import { addIcons } from 'ionicons';
+import { closeOutline } from 'ionicons/icons';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,18 +11,15 @@ import { Observable } from 'rxjs';
   templateUrl: 'invoice.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvoiceComponent implements AfterViewInit {
+export class InvoiceComponent {
+  imgSrc = model<string>()
+
   @ViewChild('fileInput', { static: true })
   fileInput!: ElementRef;
 
   @ViewChild('img') img: any;
+  @Output() imageRendered = new EventEmitter<{ dataURL: string, blob: Blob } | undefined>();
 
-  @Output() imageRendered = new EventEmitter<{
-    dataURL: string,
-    blob: Blob
-  }>();
-
-  imgsrc!: any;
   loader!: HTMLIonLoadingElement;
   downloadURL!: Observable<string>;
 
@@ -28,28 +27,8 @@ export class InvoiceComponent implements AfterViewInit {
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private cdRef: ChangeDetectorRef,
-    private gestureCtrl: GestureController
-  ) {}
-
-  ngAfterViewInit() {
-    console.log('data')
-
-    // FIXME: Doesn't work with ngIf
-    // const gesture = this.gestureCtrl.create({
-    //   el: this.img.el,
-    //   gestureName: 'move',
-    //   onEnd: detail => {
-    //     const type = detail.type;
-    //     const currentX = detail.currentX;
-    //     const deltaX = detail.deltaX;
-    //     const velocityX = detail.velocityX;
-    //     if (deltaX < 0) {
-    //       this.nullify()
-    //     }
-    //   }
-    // })
-
-    // gesture.enable()
+  ) {
+    addIcons({ closeOutline })
   }
 
   async chooseFile(event: Event) {
@@ -57,10 +36,15 @@ export class InvoiceComponent implements AfterViewInit {
     if (files && files.length) {
       const blob = files[0]
       const dataURL = await this.renderFile(blob) as string;
-      this.imgsrc = dataURL;
+      this.imgSrc.set(dataURL)
       this.imageRendered.emit({ dataURL, blob })
       this.cdRef.detectChanges();
     }
+  }
+
+  removeImage() {
+    this.imgSrc.set(undefined)
+    this.imageRendered.emit(undefined)
   }
 
   renderFile(file:any): Promise<string | ArrayBuffer | null> {

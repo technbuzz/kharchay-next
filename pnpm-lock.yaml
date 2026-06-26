@@ -47,6 +47,9 @@ importers:
       '@capacitor/android':
         specifier: ^8.0.2
         version: 8.0.2(@capacitor/core@8.0.2)
+      '@capacitor/camera':
+        specifier: ^8.2.0
+        version: 8.2.0(@capacitor/core@8.0.2)
       '@capacitor/cli':
         specifier: ^8.0.2
         version: 8.0.2
@@ -56,6 +59,9 @@ importers:
       '@capawesome/capacitor-android-edge-to-edge-support':
         specifier: ^8.0.3
         version: 8.0.3(@capacitor/core@8.0.2)
+      '@capgo/capacitor-speech-synthesis':
+        specifier: ^8.0.19
+        version: 8.0.19(@capacitor/core@8.0.2)
       '@ionic/angular':
         specifier: 8.7.17
         version: 8.7.17(dcb1c6c07016cfc5017fa0c6da59f4b8)
@@ -83,6 +89,9 @@ importers:
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
+      marked:
+        specifier: ^18.0.5
+        version: 18.0.5
       rxfire:
         specifier: ^6.1.0
         version: 6.1.0(firebase@11.10.0)(rxjs@7.8.2)
@@ -496,6 +505,11 @@ packages:
     peerDependencies:
       '@capacitor/core': ^8.0.0
 
+  '@capacitor/camera@8.2.0':
+    resolution: {integrity: sha512-hYfrT6xpL936qoEkIpJzSnb0fQCaTkOux1cXzGBfH8QLOGqr6gSLiWZlZz/fqMPmMKJMNRBqlTQkj5fuMhVZog==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
   '@capacitor/cli@8.0.2':
     resolution: {integrity: sha512-/8qLYxhytMyUKTHK8i6YU+DMD3AuFiQgSuJCyMltcg9MN3W9En7zqQZSo/WN4eC7qif/oyZACzm7OkAZKani7g==}
     engines: {node: '>=22.0.0'}
@@ -506,6 +520,11 @@ packages:
 
   '@capawesome/capacitor-android-edge-to-edge-support@8.0.3':
     resolution: {integrity: sha512-b4ZaVQWbweS0SJZ3WTIZ5Q2FAz/qcbOrLMLu8T7KgLJtCYmsLlML4AJWdES7P0VWcU3IGQT7pxZ5nIOQurO9bw==}
+    peerDependencies:
+      '@capacitor/core': '>=8.0.0'
+
+  '@capgo/capacitor-speech-synthesis@8.0.19':
+    resolution: {integrity: sha512-QhKvflNIcPfMT7eS6J8y5tupV2Mfo/lpe9PnctE02Waj4Aln9SldDn9AIVClOJraYDkyemKj6aQVqLVtd1qyNg==}
     peerDependencies:
       '@capacitor/core': '>=8.0.0'
 
@@ -3192,6 +3211,11 @@ packages:
     resolution: {integrity: sha512-iyyEpDty1mwW3dGlYXAJqC/azFn5PPvgKVwXayOGBSmKLxhKZ9fg4qIan2ePpp1vJIwfFiO34LAPZgq9SZW9Aw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
+  marked@18.0.5:
+    resolution: {integrity: sha512-S6GcvALHg6K4ohtu4E7x0a1AqhAjp6cV8KhLSyN9qVapnzJkusVBxZRcIU9AeYsbe6P1hKDusSbEOzGyyuce6w==}
+    engines: {node: '>= 20'}
+    hasBin: true
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -4617,6 +4641,10 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.0.2
 
+  '@capacitor/camera@8.2.0(@capacitor/core@8.0.2)':
+    dependencies:
+      '@capacitor/core': 8.0.2
+
   '@capacitor/cli@8.0.2':
     dependencies:
       '@ionic/cli-framework-output': 2.2.8
@@ -4644,6 +4672,10 @@ snapshots:
       tslib: 2.8.1
 
   '@capawesome/capacitor-android-edge-to-edge-support@8.0.3(@capacitor/core@8.0.2)':
+    dependencies:
+      '@capacitor/core': 8.0.2
+
+  '@capgo/capacitor-speech-synthesis@8.0.19(@capacitor/core@8.0.2)':
     dependencies:
       '@capacitor/core': 8.0.2
 
@@ -7326,6 +7358,8 @@ snapshots:
       ssri: 13.0.0
     transitivePeerDependencies:
       - supports-color
+
+  marked@18.0.5: {}
 
   math-intrinsics@1.1.0: {}
 

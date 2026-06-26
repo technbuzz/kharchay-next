@@ -1,0 +1,18 @@
+
+@if(value(); as recipe) {
+  <h3>{{ recipe.title }}</h3>
+  <p><small>Prep Time: <i>{{ recipe.prepTime }}</i> | Cook Time: <i>{{ recipe.cookTime }}</i> | Servings: <i>{{ recipe.servings }}</i></small></p>
+  <h4>Ingredients</h4>
+  <ul>
+    @for(item of recipe.ingredients; let i = $index; track i) {
+      <li>{{ item }}</li>
+    }
+  </ul>
+  <h4>Instructions</h4>
+
+  <ol>
+    @for(item of recipe.instructions; let i = $index; track i) {
+      <li>{{ item }}</li>
+    }
+  </ol>
+}

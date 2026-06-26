@@ -9,7 +9,7 @@ import { NewxComponent } from './newx/newx.component';
 import { InvoiceComponent } from '../create/invoice/invoice'
 import { concat, finalize, from, tap } from 'rxjs';
 import { addIcons } from 'ionicons';
-import { checkmarkCircle } from 'ionicons/icons';
+import { cameraOutline, checkmarkCircle } from 'ionicons/icons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -17,11 +17,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss'],
   standalone: true,
-  imports: [NewxComponent, IonLoading, IonProgressBar, InvoiceComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton],
+  imports: [NewxComponent, IonProgressBar, IonLoading , InvoiceComponent, IonIcon, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton, IonButton],
 })
 export class CreateComponent {
   private fb = inject(UntypedFormBuilder);
-  private service = inject(CreateService);
+  protected service = inject(CreateService);
   private router = inject(Router);
   private toastController = inject(ToastController);
   #destroyRef = inject(DestroyRef)
@@ -40,14 +40,39 @@ export class CreateComponent {
     fixed: null
   })
 
-  image!: { dataURL: string, blob: Blob }
+  image: { dataURL: string, blob: Blob } | undefined = undefined
 
-  grabImage(event: { dataURL: string, blob: Blob }) {
+  grabImage(event: { dataURL: string, blob: Blob } | undefined) {
     this.image = event
+    console.log({ event })
   }
 
   constructor() {
-    addIcons({checkmarkCircle})
+    addIcons({checkmarkCircle, cameraOutline})
+  }
+
+  readingReceipt = signal(false)
+  async readReceipt() {
+    this.readingReceipt.set(true)
+    const data = await this.service.takePicture()
+
+    if(data) {
+      const output = JSON.parse(data.response.text())
+      this.form.setValue({
+        price: output.price,
+        date: formatISO(new Date(output.date)),
+        category: output.category,
+        subCategory: null,
+        note: output.note,
+        imageName: '',
+        fixed: null
+      })
+      console.log(this.form.value)
+      console.log(output)
+    }
+
+    this.readingReceipt.set(false)
+
   }
 
   async add() {
