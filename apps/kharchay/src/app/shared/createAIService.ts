@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AI, getGenerativeModel, Schema } from '@angular/fire/ai';
+import { categories } from '@models';
 
 @Injectable({providedIn: 'root'})
 export class CreateAIService {
@@ -24,15 +25,19 @@ export class CreateAIService {
   async getStructuredJsonReceipt(file: Blob) {
     const parts = await this.fileToGenerativePart(file)
 
+    const allowedCats = categories.map(c => c.title)
+
     const recipeScheme = Schema.object({
       properties: {
         date: Schema.string({ format: 'date-time' }),
-        totalPrice: Schema.number(),
+        price: Schema.number(),
         note: Schema.string({
           description: `Extract all individual purchased items, capturing the item name, quantity, unit of measurement (such as "G", "kg", or "pieces"), and the individual item price if visible. 3. CRITICAL LANGUAGE RULE: Completely ignore, omit, and do not include any items that are written in the Arabic language. Only extract and list items that are written in English or other Latin-script languages.`
-        })
-        // ingredients: Schema.array({ items: Schema.string() }),
-        // tags: Schema.array({ items: Schema.string() }),
+        }),
+        category: Schema.enumString({
+          enum: allowedCats,
+          description: 'Classify the purchase strictly into one of these predefined categories.'
+        }),
       }
     })
 

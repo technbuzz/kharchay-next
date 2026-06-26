@@ -40,23 +40,38 @@ export class CreateComponent {
     fixed: null
   })
 
-  image!: { dataURL: string, blob: Blob }
+  image: { dataURL: string, blob: Blob } | undefined = undefined
 
-  grabImage(event: { dataURL: string, blob: Blob }) {
+  grabImage(event: { dataURL: string, blob: Blob } | undefined) {
     this.image = event
+    console.log({ event })
   }
-
-
 
   constructor() {
     addIcons({checkmarkCircle, cameraOutline})
   }
 
+  readingReceipt = signal(false)
   async readReceipt() {
+    this.readingReceipt.set(true)
     const data = await this.service.takePicture()
+
     if(data) {
-      console.log(data.)
+      const output = JSON.parse(data.response.text())
+      this.form.setValue({
+        price: output.price,
+        date: formatISO(new Date(output.date)),
+        category: output.category,
+        subCategory: null,
+        note: output.note,
+        imageName: '',
+        fixed: null
+      })
+      console.log(this.form.value)
+      console.log(output)
     }
+
+    this.readingReceipt.set(false)
 
   }
 

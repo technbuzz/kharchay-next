@@ -12,9 +12,12 @@
 		<small slot="end"><= 1mb</small>
 	</ion-item>
 
-  @if(imgsrc) {
+  @if(imgSrc()) {
     <ion-item>
-      <img #img [src]="imgsrc" height="150">
+      <img #img [src]="imgSrc()" height="150">
+      <ion-button size="large" (click)="removeImage()" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
     </ion-item>
   }
 </ion-list>
